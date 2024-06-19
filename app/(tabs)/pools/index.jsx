@@ -1,7 +1,7 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { router } from "expo-router";
-import { Txt } from "../../../components/Txt";
+import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 
 export default function Pools() {
