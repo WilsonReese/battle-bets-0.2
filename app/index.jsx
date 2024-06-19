@@ -1,24 +1,27 @@
-import React from 'react';
-import { View, Text, Button, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
+import { Redirect } from "expo-router";
 
-export default function Home() {
-  const router = useRouter();
+const Index = () => {
+	return <Redirect href="/pools" />;
+};
+export default Index;
 
-  return (
-    <View style={styles.container}>
-      <Text>Pools Screen</Text>
-      <Button title="Go to Pool 1" onPress={() => router.push('/pools/1')} />
-      <Button title="Create a New Pool" onPress={() => router.push('/pools/create')} />
-    </View>
-  );
-}
+// import React from 'react';
+// import { View, Text, Button, StyleSheet } from 'react-native';
+// import { useRouter } from 'expo-router';
+// import Pools from './(tabs)/pools';
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8f8f8',
-  },
-});
+// export default function Home() {
+
+//   return (
+//     <Pools/>
+//   );
+// }
+
+// const styles = StyleSheet.create({
+//   container: {
+//     flex: 1,
+//     justifyContent: 'center',
+//     alignItems: 'center',
+//     backgroundColor: '#f8f8f8',
+//   },
+// });
