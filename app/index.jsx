@@ -1,19 +1,24 @@
-import { StyleSheet, Text, View } from "react-native";
+import React from 'react';
+import { View, Text, Button, StyleSheet } from 'react-native';
+import { useRouter } from 'expo-router';
 
 export default function Home() {
+  const router = useRouter();
+
   return (
-    <>
-      <View style={s.container}>
-        <Text>Home screen</Text>
-      </View>
-    </>
+    <View style={styles.container}>
+      <Text>Pools Screen</Text>
+      <Button title="Go to Pool 1" onPress={() => router.push('/pools/1')} />
+      <Button title="Create a New Pool" onPress={() => router.push('/pools/create')} />
+    </View>
   );
 }
 
-const s = StyleSheet.create({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 8,
-    backgroundColor: "blue",
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#f8f8f8',
   },
 });
