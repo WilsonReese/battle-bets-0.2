@@ -19,6 +19,6 @@ export default function Layout() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: 'green', // Your global background color
+    // backgroundColor: 'blue', // Your global background color
   },
 });
