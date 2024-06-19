@@ -1,9 +1,8 @@
 import React from 'react';
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useRouter } from 'expo-router';
+import { router } from 'expo-router';
 
 export default function Pools() {
-  const router = useRouter();
 
   return (
     <View style={styles.container}>

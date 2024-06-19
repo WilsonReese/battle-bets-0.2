@@ -1,8 +1,7 @@
 import { View, Text, Button, StyleSheet } from 'react-native';
-import { useRouter, useLocalSearchParams } from 'expo-router';
+import { router, useLocalSearchParams } from 'expo-router';
 
 export default function PoolDetails() {
-  const router = useRouter();
   const { id } = useLocalSearchParams();
 
   return (
