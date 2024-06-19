@@ -5,7 +5,7 @@ export default function PoolDetails() {
   const { id } = useLocalSearchParams();
 
   return (
-    <View style={styles.container}>
+    <View style={s.container}>
       <Text>Pool Details Screen - Pool ID: {id}</Text>
       <Button title="View Standings" onPress={() => router.push(`/pools/${id}/standings`)} />
       <Button title="View Picks" onPress={() => router.push(`/pools/${id}/picks`)} />
@@ -13,7 +13,7 @@ export default function PoolDetails() {
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

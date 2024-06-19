@@ -9,7 +9,7 @@ export default function CreatePool() {
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

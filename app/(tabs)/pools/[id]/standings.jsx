@@ -6,13 +6,13 @@ export default function Standings() {
   const { id } = useLocalSearchParams();
   
   return (
-    <View style={styles.container}>
+    <View style={s.container}>
       <Text>Standings Screen for Pool {id}</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

@@ -6,13 +6,13 @@ export default function Picks() {
   const { id } = useLocalSearchParams();
   
   return (
-    <View style={styles.container}>
+    <View style={s.container}>
       <Text>Picks Screen for Pool {id}</Text>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',

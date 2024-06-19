@@ -1,10 +1,13 @@
 import React from "react";
 import { View, Text, Button, StyleSheet } from "react-native";
 import { router } from "expo-router";
+import { Txt } from "../../../components/Txt";
+import { StatusBar } from "expo-status-bar";
 
 export default function Pools() {
   return (
-    <View style={styles.container}>
+    <View style={s.container}>
+      <StatusBar style="dark"/>
       <Text>Pools Screen</Text>
       <Button title="Go to Pool 1" onPress={() => router.push("/pools/1")} />
       <Button
@@ -20,11 +23,12 @@ export default function Pools() {
         title="Create a New Pool"
         onPress={() => router.push("/pools/create")}
       />
+      <Txt>Test</Txt>
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: "center",
