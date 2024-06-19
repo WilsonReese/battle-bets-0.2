@@ -32,7 +32,7 @@ export default function TabLayout() {
       <Tabs
         screenOptions={{
           tabBarStyle: {
-            backgroundColor: "black", // Change the background color of the tab bar
+            backgroundColor: "#061826", // Change the background color of the tab bar
             borderTopColor: "transparent", // Remove the top border
             // height: 90
           },
@@ -40,7 +40,7 @@ export default function TabLayout() {
             fontFamily: "Saira_400Regular",
             fontSize: 14, // Adjust the font size of the tab labels
           },
-          tabBarActiveBackgroundColor: "gray",
+          // tabBarActiveBackgroundColor: "gray",
           tabBarActiveTintColor: "cyan", // Change the color of the active tab icon
           tabBarInactiveTintColor: "gray", // Change the color of the inactive tab icons
         }}

@@ -8,7 +8,6 @@ export default function PoolDetails() {
 
   return (
     <SafeAreaProvider>
-      
       <SafeAreaView style={s.container}>
         <View>
           <Txt>Pool Details Screen - Pool ID: {id}</Txt>
@@ -31,6 +30,6 @@ const s = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "black",
+    backgroundColor: "#061826",
   },
 });
