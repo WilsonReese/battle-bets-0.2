@@ -7,7 +7,7 @@ export default function Picks() {
   
   return (
     <View style={styles.container}>
-      <Text>Picks Screen for {id}</Text>
+      <Text>Picks Screen for Pool {id}</Text>
     </View>
   );
 }

@@ -7,7 +7,7 @@ export default function Standings() {
   
   return (
     <View style={styles.container}>
-      <Text>Standings Screen for {id}</Text>
+      <Text>Standings Screen for Pool {id}</Text>
     </View>
   );
 }
