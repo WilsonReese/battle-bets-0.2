@@ -1,10 +1,13 @@
+import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 export default function Picks() {
+  const { id } = useLocalSearchParams();
+  
   return (
     <View style={styles.container}>
-      <Text>Picks Screen</Text>
+      <Text>Picks Screen for {id}</Text>
     </View>
   );
 }

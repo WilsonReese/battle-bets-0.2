@@ -1,10 +1,13 @@
+import { useLocalSearchParams } from 'expo-router';
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 
 export default function Standings() {
+  const { id } = useLocalSearchParams();
+  
   return (
     <View style={styles.container}>
-      <Text>Standings Screen</Text>
+      <Text>Standings Screen for {id}</Text>
     </View>
   );
 }
