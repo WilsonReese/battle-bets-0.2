@@ -1,39 +1,24 @@
-import { Stack } from 'expo-router/stack';
+import { Stack } from "expo-router/stack";
+import { StyleSheet, View } from "react-native";
 
 export default function Layout() {
   return (
-    <Stack>
-      <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-    </Stack>
+    <View style={s.container} >
+      <Stack screenOptions={{ contentStyle: { backgroundColor: 'transparent' }}}>
+        <Stack.Screen
+          name="(tabs)"
+          options={{
+            headerShown: false,
+          }}
+        />
+      </Stack>
+    </View>
   );
 }
 
-// import { Tabs } from "expo-router";
-
-// export default function TabsLayout() {
-//   return (
-//     <Tabs>
-//       <Tabs.Screen
-//         name="index"
-//         options={{
-//           headerShown: true,
-//           title: "Pools",
-//           headerStyle: {
-//             backgroundColor: "green",
-//           },
-//         }}
-//       />
-//       <Tabs.Screen
-//         name="pools/[id]"
-//         options={{
-//           headerShown: true,
-//           title: "Picks",
-//           headerStyle: {
-//             backgroundColor: "green",
-//           },
-//         }}
-//       />
-//     </Tabs>
-//   );
-// }
-
+const s = StyleSheet.create({
+  container: {
+    flex: 1,
+    backgroundColor: 'green', // Your global background color
+  },
+});
