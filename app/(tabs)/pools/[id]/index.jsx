@@ -3,6 +3,7 @@ import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "../../../../components/general/Txt";
 import { LogoHeader } from "../../../../components/LogoHeader/LogoHeader.jsx";
+import { SpreadAndOUInstructions } from "../../../../components/bet_instructions/SpreadAndOUInstructions/SpreadAndOUInstructions.jsx";
 
 export default function PoolDetails() {
   const { id } = useLocalSearchParams();
@@ -14,8 +15,8 @@ export default function PoolDetails() {
           <LogoHeader/>
         </View>
         <View style={s.body}>
-          <Txt>Instructions</Txt>
-          <Txt>All the games listed here</Txt>
+          <SpreadAndOUInstructions/>
+          <Txt style={{fontFamily: "Saira_700Bold"}}>All the games listed here</Txt>
           <Txt>Pool Details Screen - Pool ID: {id}</Txt>
           <Button
             title="View Standings"
@@ -41,11 +42,12 @@ const s = StyleSheet.create({
     padding: 8,
   },
   logoHeader: {
-    // flex: .7,
+    paddingBottom: 8,
   },
   body : {
     flex: 1,
-    backgroundColor: "blue"
+    // backgroundColor: "blue",
+    paddingHorizontal: 4,
   },
   betSlipPreview: {
     backgroundColor: "red"
