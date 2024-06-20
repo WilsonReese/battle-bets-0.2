@@ -1,4 +1,4 @@
-import { View, Text, Button, StyleSheet, ScrollView } from "react-native";
+import { View, Text, Button, StyleSheet, ScrollView, FlatList } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "../../../../components/general/Txt";

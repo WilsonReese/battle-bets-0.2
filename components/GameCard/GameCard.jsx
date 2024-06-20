@@ -1,5 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
+import { Datetime } from "./datetime/datetime";
 
 export function GameCard({game}) {
   const {
@@ -20,17 +21,13 @@ export function GameCard({game}) {
     // Game Card
     <View style ={s.card}>
       <View style = {s.gameDetails}>
-        <View>
-          <Txt>{game.id}</Txt>
-					<Txt>{date}</Txt>
-          <Txt>{time}</Txt>
-        </View>
+				<Datetime date={date} time={time} />
         <View>
           <Txt>Collapisble Arrow</Txt>
         </View>
       </View>
       <View>
-        <Txt>{homeTeam} vs {awayTeam}</Txt>
+        <Txt>{homeTeam} {homeRecord} vs {awayTeam} {awayRecord}</Txt>
         <View>
           <Txt>{spreadHome} Component</Txt>
 					<Txt>{spreadAway} Component</Txt>
@@ -49,6 +46,7 @@ const s = StyleSheet.create({
 		padding: 8,
 	},
 	gameDetails: {
-		flexDirection: 'row'
-	}
+		flexDirection: 'row',
+		justifyContent: 'space-between'
+	},
 });
