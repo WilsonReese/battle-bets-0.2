@@ -3,7 +3,6 @@ import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "../../../../components/general/Txt";
 import { LogoHeader } from "../../../../components/LogoHeader/LogoHeader.jsx";
-// /workspaces/battle-bets-0.2/components/logoHeader/logoHeader.jsx
 
 export default function PoolDetails() {
   const { id } = useLocalSearchParams();
@@ -15,6 +14,8 @@ export default function PoolDetails() {
           <LogoHeader/>
         </View>
         <View style={s.body}>
+          <Txt>Instructions</Txt>
+          <Txt>All the games listed here</Txt>
           <Txt>Pool Details Screen - Pool ID: {id}</Txt>
           <Button
             title="View Standings"
@@ -25,6 +26,9 @@ export default function PoolDetails() {
             onPress={() => router.push(`/pools/${id}/picks`)}
           />
         </View>
+        <View style={s.betSlipPreview}>
+          <Txt>Bet slip preview</Txt>
+        </View>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -34,13 +38,16 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#061826",
+    padding: 8,
   },
   logoHeader: {
     // flex: .7,
-    backgroundColor: "green"
   },
   body : {
     flex: 1,
     backgroundColor: "blue"
+  },
+  betSlipPreview: {
+    backgroundColor: "red"
   }
 });
