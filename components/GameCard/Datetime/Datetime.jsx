@@ -4,7 +4,7 @@ import { Txt } from "../../general/Txt";
 export function Datetime({ date, time }) {
   return (
     <View style={s.datetime}>
-      <Txt style={s.text}>{date} at {time}</Txt>
+      <Txt style={s.text}>{date}, {time}</Txt>
     </View>
   );
 }
