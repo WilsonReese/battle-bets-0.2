@@ -28,7 +28,7 @@ const s = StyleSheet.create({
     alignItems: 'center'
   },
   icon: {
-    backgroundColor: "#2271FA",
+    backgroundColor: "#5996FF",
     height: 22,
     width: 22,
     borderRadius: 15,
@@ -40,8 +40,8 @@ const s = StyleSheet.create({
     color: "#061826"
   },
   teamRecord: {
-    fontSize: 12,
-    fontFamily: "Saira_600SemiBold",
+    fontSize: 14,
+    fontFamily: "Saira_300Light",
     color: "#061826"
   }
 });

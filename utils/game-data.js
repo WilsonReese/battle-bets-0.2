@@ -6,5 +6,5 @@ export const GAME_DATA = [
     { id: 5, homeTeam: "Ole Miss", awayTeam: "Mississippi St", homeRecord: "0-0", awayRecord: "0-0", date: "9/14", time: "6:00 PM", ou: "35.5", spreadHome: "Ole Miss -6.5", spreadAway: "Mississippi St +6.5", moneyLineHome: "Ole Miss -150", moneyLineAway: "Mississippi St +150" },
     { id: 6, homeTeam: "Missouri", awayTeam: "Arkansas", homeRecord: "0-0", awayRecord: "0-0", date: "9/14", time: "6:00 PM", ou: "35.5", spreadHome: "Missouri -6.5", spreadAway: "Arkansas +6.5", moneyLineHome: "Missouri -150", moneyLineAway: "Arkansas +150" },
     { id: 7, homeTeam: "Florida", awayTeam: "Georgia", homeRecord: "0-0", awayRecord: "0-0", date: "9/14", time: "6:00 PM", ou: "35.5", spreadHome: "Florida -6.5", spreadAway: "Georgia +6.5", moneyLineHome: "Florida -150", moneyLineAway: "Georgia +150" },
-    { id: 8, homeTeam: "S Carolina", awayTeam: "Kentucky", homeRecord: "0-0", awayRecord: "0-0", date: "9/14", time: "6:00 PM", ou: "35.5", spreadHome: "South Carolina -6.5", spreadAway: "Kentucky +6.5", moneyLineHome: "South Carolina -150", moneyLineAway: "Kentucky +150" },
+    { id: 8, homeTeam: "S Carolina", awayTeam: "Kentucky", homeRecord: "0-0", awayRecord: "0-0", date: "9/14", time: "6:00 PM", ou: "35.5", spreadHome: "S Carolina -6.5", spreadAway: "Kentucky +6.5", moneyLineHome: "S Carolina -150", moneyLineAway: "Kentucky +150" },
   ];

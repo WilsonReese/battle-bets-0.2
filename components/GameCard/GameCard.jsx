@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Datetime } from "./Datetime/Datetime";
 import { Matchup } from "./Matchup/Matchup";
+import { BetOptions } from "./BetOptions";
 
 export function GameCard({ game }) {
   const {
@@ -32,11 +33,7 @@ export function GameCard({ game }) {
           awayTeam={awayTeam}
           awayRecord={awayRecord}
         />
-        <View>
-          <Txt>{spreadHome} Component</Txt>
-          <Txt>{spreadAway} Component</Txt>
-          <Txt>Over/Under: {ou}</Txt>
-        </View>
+        <BetOptions spreadHome={spreadHome} spreadAway={spreadAway} ou={ou} />
       </View>
     </View>
   );
