@@ -14,7 +14,7 @@ export function BetSlipPreview({}) {
           <Txt>Budget</Txt>
         </View>
         <View>
-					<Btn btnText={"Press me"}/>
+					<Btn btnText={"Press me"} isEnabled={true}/>
         </View>
       </View>
     </View>

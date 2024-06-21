@@ -1,4 +1,4 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Txt } from "../general/Txt";
 
 export function BetAmount({ payout }) {
