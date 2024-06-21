@@ -1,19 +1,23 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
-import { BetAmount } from "../general/BetAmount";
+import { BetAmount } from "./BetAmount";
 
-export function BetOptions({ spreadHome, spreadAway, ou }) {
+export function BetOptions({
+  spreadHome,
+  spreadAway,
+  ou,
+  spreadPayout,
+  ouPayout,
+}) {
   return (
     <View>
       <View style={s.option}>
-          <Txt style={s.oddsText}>{spreadHome}</Txt>
-          <Txt style={s.payoutText}>x2</Txt>
-        <BetAmount />
+        <Txt style={s.oddsText}>{spreadHome}</Txt>
+        <BetAmount spreadPayout={spreadPayout} />
       </View>
       <View style={s.option}>
-          <Txt style={s.oddsText}>{spreadAway}</Txt>
-          <Txt style={s.payoutText}>x2</Txt>
-        <BetAmount />
+        <Txt style={s.oddsText}>{spreadAway}</Txt>
+        <BetAmount spreadPayout={spreadPayout} />
       </View>
       <Txt>Over/Under: {ou}</Txt>
     </View>
@@ -47,10 +51,6 @@ const s = StyleSheet.create({
   },
   oddsText: {
     fontFamily: "Saira_600SemiBold",
-    color: "#061826",
-  },
-  payoutText: {
-    fontFamily: "Saira_300Light",
     color: "#061826",
   },
 });

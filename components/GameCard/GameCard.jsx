@@ -13,10 +13,14 @@ export function GameCard({ game }) {
     homeRecord,
     awayRecord,
     ou,
+    ouPayout,
     spreadHome,
     spreadAway,
+    spreadPayout,
     moneyLineHome,
+    moneyLineHomePayout,
     moneyLineAway,
+    moneyLineAwayPayout,
   } = game;
 
   return (
@@ -33,7 +37,13 @@ export function GameCard({ game }) {
           awayTeam={awayTeam}
           awayRecord={awayRecord}
         />
-        <BetOptions spreadHome={spreadHome} spreadAway={spreadAway} ou={ou} />
+        <BetOptions
+          spreadHome={spreadHome}
+          spreadAway={spreadAway}
+          ou={ou}
+          spreadPayout={spreadPayout}
+          ouPayout={ouPayout}
+        />
       </View>
     </View>
   );
