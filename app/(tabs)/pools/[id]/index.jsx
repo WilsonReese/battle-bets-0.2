@@ -39,7 +39,7 @@ export default function PoolDetails() {
             {/* This function renders each of the games */}
             {renderGameCards()}
             {/*This is an empty view that allows the scroll to go down to the bottom */}
-            <View style={{height: 70}}></View>
+            <View style={{height: 75}}></View>
 
             {/* <Txt style={{ fontFamily: "Saira_700Bold" }}>
               All the games listed here
