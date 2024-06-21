@@ -36,10 +36,12 @@ export default function PoolDetails() {
         <View style={s.body}>
           <SpreadAndOUInstructions />
           <ScrollView>
-            {/* This is where the scroll view for the games will go*/}
+            {/* This function renders each of the games */}
             {renderGameCards()}
+            {/*This is an empty view that allows the scroll to go down to the bottom */}
+            <View style={{height: 10}}></View>
 
-            <Txt style={{ fontFamily: "Saira_700Bold" }}>
+            {/* <Txt style={{ fontFamily: "Saira_700Bold" }}>
               All the games listed here
             </Txt>
             <Txt>Pool Details Screen - Pool ID: {id}</Txt>
@@ -50,7 +52,7 @@ export default function PoolDetails() {
             <Button
               title="View Picks"
               onPress={() => router.push(`/pools/${id}/picks`)}
-            />
+            /> */}
           </ScrollView>
         </View>
         <View style={s.betSlipPreview}>
@@ -73,8 +75,6 @@ const s = StyleSheet.create({
   body: {
     flex: 1,
     paddingHorizontal: 4,
-  },
-  betSlipPreview: {
-    backgroundColor: "red",
+    marginBottom: 75,
   },
 });
