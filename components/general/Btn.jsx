@@ -23,7 +23,7 @@ const s = StyleSheet.create({
     backgroundColor: "#B8C3CC",
     width: 112,
     height: 48,
-    borderRadius: 4,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -31,16 +31,16 @@ const s = StyleSheet.create({
     backgroundColor: "#2271FA",
     width: 112,
     height: 48,
-    borderRadius: 4,
+    borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
   },
   btnText: {
-    marginBottom: -8,
     fontFamily: "Saira_600SemiBold",
     fontSize: 18,
   },
   btnSecondaryText: {
     fontSize: 14,
+    marginTop: -8,
   },
 });

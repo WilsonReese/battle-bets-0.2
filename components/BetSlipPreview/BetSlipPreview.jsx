@@ -6,7 +6,7 @@ export function BetSlipPreview({}) {
   return (
     <View style={s.container}>
       <View style={s.grabHandle}>
-        <Txt>----</Txt>
+        <Txt style={{margin: -8, color: "black"}}>----</Txt>
       </View>
       <View style={s.detailsContainer}>
         <View>
@@ -31,7 +31,7 @@ const s = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     paddingVertical: 4,
-		paddingHorizontal: 8,
+		paddingHorizontal: 16,
 		
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
