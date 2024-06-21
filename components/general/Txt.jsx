@@ -10,7 +10,7 @@ export function Txt({ children, style, ...restProps }) {
 
 const s = StyleSheet.create({
   txt: {
-    color: "white",
+    color: "#F8F8F8",
     fontSize: 16,
     fontFamily: "Saira_400Regular",
   },

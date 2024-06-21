@@ -3,14 +3,14 @@ import { Txt } from "./Txt";
 
 // need to make it so it can accept a second line
 
-export function Btn({ btnText, btnSecondaryText, btnSize, isEnabled }) {
+export function Btn({ btnText, btnSecondaryText, btnSize, isEnabled, icon }) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
   }
 
   return (
     <Pressable style={checkIfEnabled()}>
-      <Txt style={s.btnText}>{btnText}</Txt>
+      <Txt style={s.btnText}>{btnText} {icon}</Txt>
       {btnSecondaryText && (
         <Txt style={s.btnSecondaryText}>{btnSecondaryText}</Txt>
       )}

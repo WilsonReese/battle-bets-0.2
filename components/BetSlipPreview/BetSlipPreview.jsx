@@ -1,8 +1,12 @@
-import { Button, StyleSheet, TouchableOpacity, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Btn";
+import { FontAwesome6 } from '@expo/vector-icons';
 
 export function BetSlipPreview({}) {
+
+	const arrowIcon = <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
+
   return (
     <View style={s.container}>
       <View style={s.grabHandle}>
@@ -14,7 +18,7 @@ export function BetSlipPreview({}) {
           <Txt>Budget</Txt>
         </View>
         <View>
-					<Btn btnText={"Next"} isEnabled={false} btnSecondaryText={"Money Line"}/>
+					<Btn btnText={"Next"} isEnabled={false} btnSecondaryText={"Money Line"} icon={arrowIcon}/>
         </View>
       </View>
     </View>
