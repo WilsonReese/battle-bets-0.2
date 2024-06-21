@@ -9,8 +9,16 @@ export function Btn({ btnText, btnSecondaryText, btnSize, isEnabled, icon }) {
   }
 
   return (
-    <Pressable style={checkIfEnabled()}>
-      <Txt style={s.btnText}>{btnText} {icon}</Txt>
+    <Pressable
+      style={({ pressed }) => [
+        s.btn,
+        checkIfEnabled(),
+        isEnabled && pressed && { opacity: 0.5 },
+      ]}
+    >
+      <Txt style={s.btnText}>
+        {btnText} {icon}
+      </Txt>
       {btnSecondaryText && (
         <Txt style={s.btnSecondaryText}>{btnSecondaryText}</Txt>
       )}
@@ -19,21 +27,18 @@ export function Btn({ btnText, btnSecondaryText, btnSize, isEnabled, icon }) {
 }
 
 const s = StyleSheet.create({
-  disabled: {
-    backgroundColor: "#B8C3CC",
+  btn: {
     width: 112,
     height: 48,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
   },
+  disabled: {
+    backgroundColor: "#B8C3CC",
+  },
   enabled: {
     backgroundColor: "#2271FA",
-    width: 112,
-    height: 48,
-    borderRadius: 8,
-    alignItems: "center",
-    justifyContent: "center",
   },
   btnText: {
     fontFamily: "Saira_600SemiBold",

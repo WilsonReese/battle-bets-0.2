@@ -21,7 +21,7 @@ export function BetSlipPreview({}) {
 				<View style={s.btn}>
         <Btn
           btnText={"Next"}
-          isEnabled={false}
+          isEnabled={true}
           btnSecondaryText={"Money Line"}
           icon={arrowIcon}
         />
