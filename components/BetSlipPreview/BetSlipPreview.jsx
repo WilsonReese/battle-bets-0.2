@@ -1,5 +1,6 @@
-import { StyleSheet, View } from "react-native";
+import { Button, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Txt } from "../general/Txt";
+import { Btn } from "../general/Btn";
 
 export function BetSlipPreview({}) {
   return (
@@ -13,7 +14,7 @@ export function BetSlipPreview({}) {
           <Txt>Budget</Txt>
         </View>
         <View>
-          <Txt>Button</Txt>
+					<Btn btnText={"Press me"}/>
         </View>
       </View>
     </View>
@@ -29,7 +30,9 @@ const s = StyleSheet.create({
     right: 0,
     flex: 1,
     justifyContent: "center",
-    padding: 4,
+    paddingVertical: 4,
+		paddingHorizontal: 8,
+		
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     backgroundColor: "#F8F8F8",
