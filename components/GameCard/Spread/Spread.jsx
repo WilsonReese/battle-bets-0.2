@@ -1,21 +1,20 @@
 import { StyleSheet, View } from "react-native";
-import { Txt } from "../general/Txt";
-import { BetAmount } from "./BetAmount";
-import { Spread } from "./Spread/Spread";
+import { Txt } from "../../general/Txt";
+import { BetAmount } from "../BetAmount";
+import { BetTypeHeading } from "../BetTypeHeading";
 
-// I will eventually want to change this so that the enum for bet type 
-// passes only what we need
-export function BetOptions({
-  spreadHome,
-  spreadAway,
-  ou,
-  spreadPayout,
-  ouPayout,
-}) {
+export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   return (
     <View style={s.container}>
-      <Spread spreadHome={spreadHome} spreadAway={spreadAway} spreadPayout={spreadPayout}/>
-      <Txt>Over/Under: {ou}</Txt>
+      <BetTypeHeading heading={"SPREAD"} />
+      <View style={s.option}>
+        <Txt style={s.oddsText}>{spreadHome}</Txt>
+        <BetAmount payout={spreadPayout} />
+      </View>
+      <View style={s.option}>
+        <Txt style={s.oddsText}>{spreadAway}</Txt>
+        <BetAmount payout={spreadPayout} />
+      </View>
     </View>
   );
 }
@@ -33,7 +32,7 @@ const s = StyleSheet.create({
     fontFamily: "Saira_300Light",
     letterSpacing: "1%",
     fontSize: 12,
-  }, 
+  },
   option: {
     flexDirection: "row",
     backgroundColor: "#F8F8F8",

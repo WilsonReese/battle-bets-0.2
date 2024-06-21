@@ -1,8 +1,9 @@
 import { StyleSheet, View } from "react-native";
-import { Txt } from "../general/Txt";
 import { Datetime } from "./Datetime/Datetime";
 import { Matchup } from "./Matchup/Matchup";
 import { BetOptions } from "./BetOptions";
+import { Spread } from "./Spread/Spread";
+import { Txt } from "../general/Txt";
 
 export function GameCard({ game }) {
   const {

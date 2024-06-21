@@ -15,6 +15,7 @@ const s = StyleSheet.create({
   },
   text: {
     fontSize: 12,
-    color: "#061826"
+    color: "#061826",
+    fontFamily: "Saira_300Light",
   }
 });
