@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Btn";
 import { FontAwesome6 } from '@expo/vector-icons';
+import { Budget } from "./Budget";
 
 export function BetSlipPreview({}) {
 
@@ -13,10 +14,7 @@ export function BetSlipPreview({}) {
         <Txt style={{margin: -8, color: "black"}}>----</Txt>
       </View>
       <View style={s.detailsContainer}>
-        <View>
-          <Txt>Title</Txt>
-          <Txt>Budget</Txt>
-        </View>
+				<Budget betType={"Spread & Over/Under"}/>
         <View>
 					<Btn btnText={"Next"} isEnabled={false} btnSecondaryText={"Money Line"} icon={arrowIcon}/>
         </View>
