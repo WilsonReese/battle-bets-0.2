@@ -10,14 +10,17 @@ export function BetOptions({
   ouPayout,
 }) {
   return (
-    <View>
+    <View style={s.container}>
+      <View style={s.headingView}>
+      <Txt style={s.headingTxt}>SPREAD</Txt>
+      </View>
       <View style={s.option}>
         <Txt style={s.oddsText}>{spreadHome}</Txt>
-        <BetAmount spreadPayout={spreadPayout} />
+        <BetAmount payout={spreadPayout} />
       </View>
       <View style={s.option}>
         <Txt style={s.oddsText}>{spreadAway}</Txt>
-        <BetAmount spreadPayout={spreadPayout} />
+        <BetAmount payout={spreadPayout} />
       </View>
       <Txt>Over/Under: {ou}</Txt>
     </View>
@@ -25,6 +28,19 @@ export function BetOptions({
 }
 
 const s = StyleSheet.create({
+  container: {
+    // borderWidth: 1,
+    paddingTop: 4,
+  },
+  headingView: {
+    // alignSelf: 'center'
+  },
+  headingTxt: {
+    color: "#061826",
+    fontFamily: "Saira_300Light",
+    letterSpacing: "1%",
+    fontSize: 12,
+  }, 
   option: {
     flexDirection: "row",
     backgroundColor: "#F8F8F8",

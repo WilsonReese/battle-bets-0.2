@@ -1,11 +1,11 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function BetAmount({ spreadPayout }) {
+export function BetAmount({ payout }) {
   return (
     <View style={s.container}>
       <View>
-        <Txt style={s.payoutText}>x{spreadPayout}</Txt>
+        <Txt style={s.payoutText}>x{payout}</Txt>
       </View>
       <View style={s.selector}>
         <TouchableOpacity style={s.activeSign}>
