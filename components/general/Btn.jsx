@@ -3,18 +3,20 @@ import { Txt } from "./Txt";
 
 // need to make it so it can accept a second line
 
-export function Btn({ btnText, btnSize, isEnabled }) {
+export function Btn({ btnText, btnSecondaryText, btnSize, isEnabled }) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
   }
 
   return (
     <Pressable style={checkIfEnabled()}>
-      <Txt>{btnText}</Txt>
+      <Txt style={s.btnText}>{btnText}</Txt>
+      {btnSecondaryText && (
+        <Txt style={s.btnSecondaryText}>{btnSecondaryText}</Txt>
+      )}
     </Pressable>
   );
 }
-
 
 const s = StyleSheet.create({
   disabled: {
@@ -32,5 +34,13 @@ const s = StyleSheet.create({
     borderRadius: 4,
     alignItems: "center",
     justifyContent: "center",
+  },
+  btnText: {
+    marginBottom: -8,
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 18,
+  },
+  btnSecondaryText: {
+    fontSize: 14,
   },
 });
