@@ -8,13 +8,13 @@ export function OverUnder({ ou, ouPayout }) {
     <View style={s.container}>
       <BetTypeHeading heading={"OVER/UNDER"} />
       <View style={s.option}>
-        <Txt style={s.oddsText}>{ou}</Txt>
+        <Txt style={s.oddsText}>Over {ou} Points</Txt>
         <BetAmount payout={ouPayout} />
       </View>
-      {/* <View style={s.option}>
-        <Txt style={s.oddsText}>{spreadAway}</Txt>
-        <BetAmount payout={spreadPayout} />
-      </View> */}
+      <View style={s.option}>
+        <Txt style={s.oddsText}>Under {ou} Points</Txt>
+        <BetAmount payout={ouPayout} />
+      </View>
     </View>
   );
 }
