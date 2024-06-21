@@ -12,9 +12,9 @@ export function BetAmount({ payout }) {
           <Txt>-</Txt>
         </TouchableOpacity>
 
-      {/* THIS IS WHERE I NEED TO WRITE A FUNCTION AND A USE STATE */}
-        <View style={s.amount}> 
-          <Txt style={s.wagerTxt}>${0}</Txt> 
+        {/* THIS IS WHERE I NEED TO WRITE A FUNCTION AND A USE STATE */}
+        <View style={s.amount}>
+          <Txt style={s.wagerTxt}>${0}</Txt>
         </View>
         <TouchableOpacity style={s.activeSign}>
           <Txt>+</Txt>
@@ -27,7 +27,7 @@ export function BetAmount({ payout }) {
 const s = StyleSheet.create({
   container: {
     flexDirection: "row",
-    alignItems: 'center'
+    alignItems: "center",
   },
   payoutText: {
     fontFamily: "Saira_300Light",
@@ -64,5 +64,4 @@ const s = StyleSheet.create({
   wagerTxt: {
     color: "#061826",
   },
-
 });

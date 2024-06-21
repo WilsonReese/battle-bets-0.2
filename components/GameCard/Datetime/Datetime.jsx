@@ -4,7 +4,9 @@ import { Txt } from "../../general/Txt";
 export function Datetime({ date, time }) {
   return (
     <View style={s.datetime}>
-      <Txt style={s.text}>{date}, {time}</Txt>
+      <Txt style={s.text}>
+        {date}, {time}
+      </Txt>
     </View>
   );
 }
@@ -17,5 +19,5 @@ const s = StyleSheet.create({
     fontSize: 12,
     color: "#061826",
     fontFamily: "Saira_300Light",
-  }
+  },
 });
