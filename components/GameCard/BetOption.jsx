@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet, View } from "react-native";
-import { Txt } from "../../general/Txt";
+import { Txt } from "../general/Txt";
 
-export function SpreadOption({ spreadTitle, payout, isSelected }) {
+export function BetOption({ title, payout, isSelected }) {
   function checkIfSelected() {
     return isSelected ? s.isSelected : s.isNotSelected;
   }
@@ -11,7 +11,7 @@ export function SpreadOption({ spreadTitle, payout, isSelected }) {
         s.optionView, 
         checkIfSelected(),
         ]}>
-      <Txt style={s.oddsText}>{spreadTitle}</Txt>
+      <Txt style={s.oddsText}>{title}</Txt>
       <View style={s.payout}>
         <Txt style={s.payoutText}>x{payout}</Txt>
       </View>

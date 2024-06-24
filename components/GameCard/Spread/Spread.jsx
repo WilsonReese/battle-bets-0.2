@@ -1,9 +1,9 @@
 import { StyleSheet, View } from "react-native";
 import { BetTypeHeading } from "../BetTypeHeading";
-import { SpreadOption } from "./SpreadOption";
 import { Txt } from "../../general/Txt";
 import { BetAmount } from "../BetAmount";
 import { BetSelector } from "../BetSelector";
+import { BetOption } from "../BetOption";
 
 export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   {
@@ -14,14 +14,14 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
     <View>
       <BetTypeHeading heading={"SPREAD"} />
       <View style={s.optionsContainer}>
-        <SpreadOption
-          spreadTitle={spreadHome}
+        <BetOption
+          title={spreadHome}
           payout={spreadPayout}
           isSelected={true}
         />
         <View style={{ padding: 4 }}></View>
-        <SpreadOption
-          spreadTitle={spreadAway}
+        <BetOption
+          title={spreadAway}
           payout={spreadPayout}
           isSelected={false}
         />
@@ -36,5 +36,6 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
 const s = StyleSheet.create({
   optionsContainer: {
     flexDirection: "row",
+    // paddingTop: 4,
   },
 });
