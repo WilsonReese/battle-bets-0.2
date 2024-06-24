@@ -55,8 +55,7 @@ const s = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 8,
     paddingHorizontal: 8,
-    paddingTop: 4,
-    paddingBottom: 4,
+    paddingVertical: 4,
   },
   gameDetails: {
     flexDirection: "row",

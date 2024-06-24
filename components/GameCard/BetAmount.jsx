@@ -1,5 +1,6 @@
 import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Txt } from "../general/Txt";
+import { Btn } from "../general/Btn";
 
 export function BetAmount({ payout }) {
   return (

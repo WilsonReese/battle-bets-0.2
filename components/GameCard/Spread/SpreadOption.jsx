@@ -29,7 +29,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#F8F8F8",
-    marginVertical: 4,
+    // marginVertical: 4,
     borderRadius: 8,
     paddingLeft: 8,
   },
@@ -43,9 +43,13 @@ const s = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+    marginBottom: 4,
   },
   isSelected: {
     backgroundColor: "#54D18C",
+    borderBottomRightRadius: 0,
+    borderBottomLeftRadius: 0,
+    paddingBottom: 4,
   },
   oddsText: {
     fontFamily: "Saira_600SemiBold",
