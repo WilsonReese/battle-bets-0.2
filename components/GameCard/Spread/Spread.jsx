@@ -34,7 +34,8 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
         />
       </View>
       <View>
-        <BetSelector />
+      {selection.home && <BetSelector option="home" />}
+      {selection.away && <BetSelector option="away" />}
       </View>
     </View>
   );

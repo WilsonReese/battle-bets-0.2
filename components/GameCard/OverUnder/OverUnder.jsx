@@ -44,7 +44,8 @@ export function OverUnder({ ou, ouPayout }) {
         />
       </View>
       <View>
-        <BetSelector />
+      {selection.optionOne && <BetSelector option="optionOne" />}
+      {selection.optionTwo && <BetSelector option="optionTwo" />}
       </View>
     </View>
   );

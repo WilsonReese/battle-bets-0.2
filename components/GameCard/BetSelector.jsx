@@ -3,7 +3,7 @@ import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
 
-export function BetSelector({ }) {
+export function BetSelector({ option }) {
   const minusSign = <FontAwesome6 name="minus" size={18} color="#F8F8F8" />;
   const plusSign = <FontAwesome6 name="plus" size={18} color="#F8F8F8" />
   const closeIcon = <FontAwesome6 name="circle-xmark" size={24} color="#6E7880" />
