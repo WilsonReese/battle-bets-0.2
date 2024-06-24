@@ -7,7 +7,6 @@ export function Budget({ betType }) {
     <View style={s.container}>
       <View>
         <BetTypeHeading heading={betType} style={{ fontSize: 16 }} />
-        {/* <Txt style={[s.text, s.titleText]}>{betType}</Txt> */}
       </View>
       <View style={s.budgetRow}>
           <Txt style={s.text}>Budget Remaining: </Txt>
