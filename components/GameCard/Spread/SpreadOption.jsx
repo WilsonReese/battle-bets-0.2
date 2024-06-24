@@ -1,14 +1,21 @@
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 
-export function SpreadOption({ spreadTitle, payout }) {
+export function SpreadOption({ spreadTitle, payout, isSelected }) {
+  function checkIfSelected() {
+    return isSelected ? s.isSelected : s.isNotSelected;
+  }
+
   return (
-    <View style={s.optionView}>
+    <Pressable style={[
+        s.optionView, 
+        checkIfSelected(),
+        ]}>
       <Txt style={s.oddsText}>{spreadTitle}</Txt>
       <View style={s.payout}>
         <Txt style={s.payoutText}>x{payout}</Txt>
       </View>
-    </View>
+    </Pressable>
   );
 }
 
@@ -25,6 +32,8 @@ const s = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 8,
     paddingLeft: 8,
+  },
+  isNotSelected: {
     // shadow
     shadowColor: "#000",
     shadowOffset: {
@@ -34,6 +43,9 @@ const s = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  isSelected: {
+    backgroundColor: "#54D18C",
   },
   oddsText: {
     fontFamily: "Saira_600SemiBold",
@@ -45,7 +57,6 @@ const s = StyleSheet.create({
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
     padding: 8,
-    borderColor: "#0C9449",
   },
   payoutText: {
     fontFamily: "Saira_300Light",
