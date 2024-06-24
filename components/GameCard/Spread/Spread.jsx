@@ -2,18 +2,15 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import { BetAmount } from "../BetAmount";
 import { BetTypeHeading } from "../BetTypeHeading";
+import { SpreadOption } from "./SpreadOption";
 
 export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   return (
     <View style={s.container}>
       <BetTypeHeading heading={"SPREAD"} />
       <View style={s.optionsContainer}>
-        <View style={s.optionView}>
-          <Txt>Team 1</Txt>
-        </View>
-        <View style={s.optionView}>
-          <Txt>Team 2</Txt>
-        </View>
+        <SpreadOption spreadTitle={spreadHome} payout={spreadPayout} />
+        <SpreadOption spreadTitle={spreadAway} payout={spreadPayout} />
       </View>
       <View style={s.option}>
         <Txt style={s.oddsText}>{spreadHome}</Txt>
@@ -32,15 +29,6 @@ const s = StyleSheet.create({
     // borderWidth: 1,
     paddingTop: 4,
   },
-  headingView: {
-    // alignSelf: 'center'
-  },
-  headingTxt: {
-    color: "#061826",
-    fontFamily: "Saira_300Light",
-    letterSpacing: "1%",
-    fontSize: 12,
-  },
   option: {
     flexDirection: "row",
     backgroundColor: "#F8F8F8",
@@ -56,7 +44,6 @@ const s = StyleSheet.create({
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
-
     elevation: 5,
   },
   optionDetails: {
@@ -70,10 +57,37 @@ const s = StyleSheet.create({
     color: "#061826",
   },
   optionsContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
   },
   optionView: {
     flex: 1,
-    backgroundColor: 'green'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    backgroundColor: "#F8F8F8",
+    marginVertical: 4,
+    borderRadius: 8,
+    paddingLeft: 8,
+    // shadow
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
+  },
+  payout: {
+    backgroundColor: "#54D18C",
+    borderTopRightRadius: 8,
+    borderBottomRightRadius: 8,
+    padding: 8,
+    borderColor: "#0C9449",
+  },
+  payoutText: {
+    fontFamily: "Saira_300Light",
+    color: "#061826",
+    fontSize: "14",
   },
 });
