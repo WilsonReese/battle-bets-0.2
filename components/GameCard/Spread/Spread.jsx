@@ -10,6 +10,7 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
       <BetTypeHeading heading={"SPREAD"} />
       <View style={s.optionsContainer}>
         <SpreadOption spreadTitle={spreadHome} payout={spreadPayout} />
+        <View style={{padding: 4}}></View>
         <SpreadOption spreadTitle={spreadAway} payout={spreadPayout} />
       </View>
       <View style={s.option}>
@@ -58,36 +59,5 @@ const s = StyleSheet.create({
   },
   optionsContainer: {
     flexDirection: "row",
-  },
-  optionView: {
-    flex: 1,
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    backgroundColor: "#F8F8F8",
-    marginVertical: 4,
-    borderRadius: 8,
-    paddingLeft: 8,
-    // shadow
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.25,
-    shadowRadius: 3.84,
-    elevation: 5,
-  },
-  payout: {
-    backgroundColor: "#54D18C",
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
-    padding: 8,
-    borderColor: "#0C9449",
-  },
-  payoutText: {
-    fontFamily: "Saira_300Light",
-    color: "#061826",
-    fontSize: "14",
   },
 });
