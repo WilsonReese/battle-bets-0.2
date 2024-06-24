@@ -1,16 +1,26 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function BetOption({ title, payout, isSelected }) {
+export function BetOption({ title, payout, isSelected, onPress }) {
   function checkIfSelected() {
     return isSelected ? s.isSelected : s.isNotSelected;
   }
 
+  function updateSelection() {
+    if (isSelected === true) {
+      return false
+    } else if (isSelected === false) {
+      return true
+    }
+  }
+
   return (
-    <Pressable style={[
+    <Pressable style={({ pressed }) => [
         s.optionView, 
         checkIfSelected(),
-        ]}>
+        pressed && { opacity: 0.5 },
+        ]}
+        onPress={onPress}>
       <Txt style={s.oddsText}>{title}</Txt>
       <View style={s.payout}>
         <Txt style={s.payoutText}>x{payout}</Txt>

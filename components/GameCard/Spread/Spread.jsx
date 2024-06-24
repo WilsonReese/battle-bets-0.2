@@ -4,11 +4,14 @@ import { Txt } from "../../general/Txt";
 import { BetAmount } from "../BetAmount";
 import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
+import { useEffect, useState } from "react";
 
 export function Spread({ spreadHome, spreadAway, spreadPayout }) {
-  {
-    /* I need to have a useState for if it is selected or not */
-  }
+  const [selection, setSelection] = useState(false);
+
+  useEffect(() => {
+
+  })
 
   return (
     <View>
@@ -17,13 +20,15 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
         <BetOption
           title={spreadHome}
           payout={spreadPayout}
-          isSelected={true}
+          isSelected={selection}
+          onPress={setSelection}
         />
         <View style={{ padding: 4 }}></View>
         <BetOption
           title={spreadAway}
           payout={spreadPayout}
-          isSelected={false}
+          isSelected={selection}
+          onPress={setSelection}
         />
       </View>
       <View>
