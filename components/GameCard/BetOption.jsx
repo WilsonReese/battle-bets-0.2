@@ -6,14 +6,6 @@ export function BetOption({ title, payout, isSelected, onPress }) {
     return isSelected ? s.isSelected : s.isNotSelected;
   }
 
-  function updateSelection() {
-    if (isSelected === true) {
-      return false
-    } else if (isSelected === false) {
-      return true
-    }
-  }
-
   return (
     <Pressable style={({ pressed }) => [
         s.optionView, 

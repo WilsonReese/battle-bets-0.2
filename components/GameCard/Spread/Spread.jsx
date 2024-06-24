@@ -1,17 +1,18 @@
 import { StyleSheet, View } from "react-native";
 import { BetTypeHeading } from "../BetTypeHeading";
-import { Txt } from "../../general/Txt";
-import { BetAmount } from "../BetAmount";
 import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
 import { useEffect, useState } from "react";
 
 export function Spread({ spreadHome, spreadAway, spreadPayout }) {
-  const [selection, setSelection] = useState(false);
+  const [selection, setSelection] = useState({ home: false, away: false });
 
-  useEffect(() => {
-
-  })
+  const toggleSelection = (type) => {
+    setSelection((prevSelection) => ({
+      ...prevSelection,
+      [type]: !prevSelection[type],
+    }));
+  };
 
   return (
     <View>
@@ -20,15 +21,15 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
         <BetOption
           title={spreadHome}
           payout={spreadPayout}
-          isSelected={selection}
-          onPress={setSelection}
+          isSelected={selection.home}
+          onPress={() => toggleSelection("home")}
         />
         <View style={{ padding: 4 }}></View>
         <BetOption
           title={spreadAway}
           payout={spreadPayout}
-          isSelected={selection}
-          onPress={setSelection}
+          isSelected={selection.away}
+          onPress={() => toggleSelection("away")}
         />
       </View>
       <View>
