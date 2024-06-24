@@ -8,10 +8,11 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   const [selection, setSelection] = useState({ home: false, away: false });
 
   const toggleSelection = (type) => {
-    setSelection((prevSelection) => ({
-      ...prevSelection,
-      [type]: !prevSelection[type],
-    }));
+    setSelection((prevSelection) => {
+      const newSelection = { home: false, away: false };
+      newSelection[type] = !prevSelection[type];
+      return newSelection;
+    });
   };
 
   return (

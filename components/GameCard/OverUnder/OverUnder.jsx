@@ -9,11 +9,19 @@ import { useState } from "react";
 export function OverUnder({ ou, ouPayout }) {
   const [selection, setSelection] = useState({ optionOne: false, optionTwo: false });
   
+  // const toggleSelection = (type) => {
+  //   setSelection((prevSelection) => ({
+  //     ...prevSelection,
+  //     [type]: !prevSelection[type],
+  //   }));
+  // };
+
   const toggleSelection = (type) => {
-    setSelection((prevSelection) => ({
-      ...prevSelection,
-      [type]: !prevSelection[type],
-    }));
+    setSelection((prevSelection) => {
+      const newSelection = { optionOne: false, optionTwo: false };
+      newSelection[type] = !prevSelection[type];
+      return newSelection;
+    });
   };
 
   return (
