@@ -7,6 +7,14 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   return (
     <View style={s.container}>
       <BetTypeHeading heading={"SPREAD"} />
+      <View style={s.optionsContainer}>
+        <View style={s.optionView}>
+          <Txt>Team 1</Txt>
+        </View>
+        <View style={s.optionView}>
+          <Txt>Team 2</Txt>
+        </View>
+      </View>
       <View style={s.option}>
         <Txt style={s.oddsText}>{spreadHome}</Txt>
         <BetAmount payout={spreadPayout} />
@@ -60,5 +68,12 @@ const s = StyleSheet.create({
   oddsText: {
     fontFamily: "Saira_600SemiBold",
     color: "#061826",
+  },
+  optionsContainer: {
+    flexDirection: 'row',
+  },
+  optionView: {
+    flex: 1,
+    backgroundColor: 'green'
   },
 });
