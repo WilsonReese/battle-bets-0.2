@@ -1,6 +1,4 @@
 import { StyleSheet, View } from "react-native";
-import { Txt } from "../../general/Txt";
-import { BetAmount } from "../BetAmount";
 import { BetTypeHeading } from "../BetTypeHeading";
 import { BetOption } from "../BetOption";
 import { BetSelector } from "../BetSelector";
@@ -12,7 +10,7 @@ export function OverUnder({ ou, ouPayout }) {
   const closeSelection = () => {
     setSelection({ home: false, away: false });
   };
-  
+
   const toggleSelection = (type) => {
     setSelection((prevSelection) => {
       const newSelection = { optionOne: false, optionTwo: false };

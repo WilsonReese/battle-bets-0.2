@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet } from "react-native";
 import { Txt } from "../Txt";
 
-export function IncrementBtn({ isEnabled, icon, style }) {
+export function IncrementBtn({ isEnabled, icon, style, onPress }) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
   }
@@ -14,6 +14,7 @@ export function IncrementBtn({ isEnabled, icon, style }) {
         isEnabled && pressed && { opacity: 0.5 },
         style,
       ]}
+      onPress={isEnabled ? onPress : null}
     >
       <Txt>{icon}</Txt>
     </Pressable>
