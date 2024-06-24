@@ -11,13 +11,14 @@ export function OverUnder({ ou, ouPayout }) {
       <BetTypeHeading heading={"OVER/UNDER"} />
       <View style={s.optionsContainer}>
         <BetOption 
-          title={ou} 
+          title={
+            `Over ${ou} Points`} 
           payout={ouPayout} 
           isSelected={false} 
         />
         <View style={{ padding: 4 }}></View>
         <BetOption 
-          title={ou} 
+          title={`Under ${ou} Points`} 
           payout={ouPayout} 
           isSelected={true} 
         />
