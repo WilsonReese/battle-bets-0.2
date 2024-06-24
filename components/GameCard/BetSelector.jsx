@@ -21,7 +21,8 @@ export function BetSelector({ }) {
         <IncrementBtn icon={plusSign} isEnabled={true} />
       </View>
       <View style={s.toWin}>
-        <Txt style={s.text}>To Win: $1200</Txt>
+        <Txt style={[s.text, s.toWinText]}>To Win:</Txt>
+        <Txt style={[s.text,]}>$12000</Txt>
       </View>
     </View>
   );
@@ -35,12 +36,14 @@ const s = StyleSheet.create({
     backgroundColor: "#F8F8F8",
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-    padding: 8,
+    paddingHorizontal: 8,
+    paddingVertical: 4,
     borderWidth: 1,
     borderColor: "#54D18C",
   },
   text: {
     color: "#061826",
+    // fontSize: 14,
   },
   closeIcon: {
     flex: 1,
@@ -50,10 +53,15 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 12,
-    flex: 6
+    flex: 3
+  },
+  toWinText: {
+    fontSize: 14,
+    marginBottom: -4,
+    fontFamily: "Saira_600SemiBold"
   },
   toWin: {
-    flex: 5,
-    alignItems: 'flex-end'
+    flex: 2,
+    alignItems: 'flex-end',
   }
 });
