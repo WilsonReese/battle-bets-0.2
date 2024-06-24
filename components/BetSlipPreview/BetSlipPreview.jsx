@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
-import { Btn } from "../general/Btn";
+import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { Budget } from "./Budget";
 

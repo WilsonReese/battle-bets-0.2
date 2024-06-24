@@ -1,9 +1,14 @@
 import { Pressable, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Txt } from "./Txt";
+import { Txt } from "../Txt";
 
-// need to make it so it can accept a second line
-
-export function Btn({ btnText, btnSecondaryText, btnSize, isEnabled, icon }) {
+export function Btn({
+  btnText,
+  btnSecondaryText,
+  btnSize,
+  isEnabled,
+  icon,
+  style,
+}) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
   }
@@ -14,6 +19,7 @@ export function Btn({ btnText, btnSecondaryText, btnSize, isEnabled, icon }) {
         s.btn,
         checkIfEnabled(),
         isEnabled && pressed && { opacity: 0.5 },
+        style,
       ]}
     >
       <Txt style={s.btnText}>
