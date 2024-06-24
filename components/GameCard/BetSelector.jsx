@@ -1,20 +1,25 @@
-import { StyleSheet, View } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
 
-export function BetSelector({ option }) {
+export function BetSelector({ option, closeSelection }) {
   const minusSign = <FontAwesome6 name="minus" size={18} color="#F8F8F8" />;
-  const plusSign = <FontAwesome6 name="plus" size={18} color="#F8F8F8" />
-  const closeIcon = <FontAwesome6 name="circle-xmark" size={24} color="#6E7880" />
+  const plusSign = <FontAwesome6 name="plus" size={18} color="#F8F8F8" />;
+  const closeIcon = (
+    <FontAwesome6 name="circle-xmark" size={24} color="#6E7880" />
+  );
   return (
     <View style={s.container}>
-      <View style={s.closeIcon}>
+      <Pressable
+        style={({ pressed }) => [s.closeIcon, pressed && { opacity: 0.5 }]}
+        onPress={closeSelection}
+      >
         <Txt style={s.text}>{closeIcon}</Txt>
-      </View>
+      </Pressable>
       {/* Need to make this a pressable to remove a bet */}
       <View icon={minusSign} style={s.betAdjuster}>
-        <IncrementBtn icon={minusSign} isEnabled={false}/>
+        <IncrementBtn icon={minusSign} isEnabled={false} />
         <View>
           <Txt style={s.text}>$2000</Txt>
         </View>
@@ -22,7 +27,7 @@ export function BetSelector({ option }) {
       </View>
       <View style={s.toWin}>
         <Txt style={[s.text, s.toWinText]}>To Win:</Txt>
-        <Txt style={[s.text,]}>$12000</Txt>
+        <Txt style={[s.text]}>$12000</Txt>
       </View>
     </View>
   );
@@ -53,15 +58,15 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 12,
-    flex: 3
+    flex: 3,
   },
   toWinText: {
     fontSize: 14,
     marginBottom: -4,
-    fontFamily: "Saira_600SemiBold"
+    fontFamily: "Saira_600SemiBold",
   },
   toWin: {
-    flex: 2,
-    alignItems: 'flex-end',
-  }
+    flex: 1.5,
+    alignItems: "flex-end",
+  },
 });

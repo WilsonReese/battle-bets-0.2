@@ -7,6 +7,10 @@ import { useEffect, useState } from "react";
 export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   const [selection, setSelection] = useState({ home: false, away: false });
 
+  const closeSelection = () => {
+    setSelection({ home: false, away: false });
+  };
+
   const toggleSelection = (type) => {
     setSelection((prevSelection) => {
       const newSelection = { home: false, away: false };
@@ -34,8 +38,8 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
         />
       </View>
       <View>
-      {selection.home && <BetSelector option="home" />}
-      {selection.away && <BetSelector option="away" />}
+      {selection.home && <BetSelector option="home" closeSelection={closeSelection} />}
+      {selection.away && <BetSelector option="away" closeSelection={closeSelection} />}
       </View>
     </View>
   );

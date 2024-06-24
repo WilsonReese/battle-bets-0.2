@@ -8,14 +8,11 @@ import { useState } from "react";
 
 export function OverUnder({ ou, ouPayout }) {
   const [selection, setSelection] = useState({ optionOne: false, optionTwo: false });
-  
-  // const toggleSelection = (type) => {
-  //   setSelection((prevSelection) => ({
-  //     ...prevSelection,
-  //     [type]: !prevSelection[type],
-  //   }));
-  // };
 
+  const closeSelection = () => {
+    setSelection({ home: false, away: false });
+  };
+  
   const toggleSelection = (type) => {
     setSelection((prevSelection) => {
       const newSelection = { optionOne: false, optionTwo: false };
@@ -44,8 +41,8 @@ export function OverUnder({ ou, ouPayout }) {
         />
       </View>
       <View>
-      {selection.optionOne && <BetSelector option="optionOne" />}
-      {selection.optionTwo && <BetSelector option="optionTwo" />}
+      {selection.optionOne && <BetSelector option="optionOne" closeSelection={closeSelection} />}
+      {selection.optionTwo && <BetSelector option="optionTwo" closeSelection={closeSelection} />}
       </View>
     </View>
   );
