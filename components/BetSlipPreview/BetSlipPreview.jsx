@@ -3,8 +3,9 @@ import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { Budget } from "./Budget";
+import { useState } from "react";
 
-export function BetSlipPreview({}) {
+export function BetSlipPreview({ budget }) {
   const arrowIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
   );
@@ -16,7 +17,7 @@ export function BetSlipPreview({}) {
       </View>
       <View style={s.detailsContainer}>
 				<View style={s.budget}>
-        <Budget  betType={"Spread & Over/Under"} />
+        <Budget  betType={"Spread & Over/Under"} budget={budget} />
 				</View>
 				<View style={s.btn}>
         <Btn
@@ -68,11 +69,9 @@ const s = StyleSheet.create({
   },
 	budget: {
 		flex: 3,
-		// backgroundColor: 'blue',
 	},
 	btn: {
 		flex: 2,
-		// backgroundColor: 'green',
 		alignItems: 'flex-end'
 	}
 });

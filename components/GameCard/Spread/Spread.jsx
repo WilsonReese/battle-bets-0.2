@@ -4,12 +4,16 @@ import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
 import { useEffect, useState } from "react";
 
-export function Spread({ spreadHome, spreadAway, spreadPayout }) {
+export function Spread({ spreadHome, spreadAway, spreadPayout, budget, setBudget }) {
   const [selection, setSelection] = useState({ home: false, away: false });
   const [minBet, maxBet] = [100, 1000];
 
   const closeSelection = () => {
     setSelection({ home: false, away: false });
+  };
+
+  const updateBudget = (amount) => {
+    setBudget((prevBudget) => Math.max(prevBudget - amount, 0));
   };
 
   const toggleSelection = (type) => {
@@ -46,6 +50,8 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
             minBet={minBet}
             maxBet={maxBet}
             payout={spreadPayout}
+            budget={budget}
+            updateBudget={updateBudget}
           />
         )}
         {selection.away && (
@@ -55,6 +61,8 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
             minBet={minBet}
             maxBet={maxBet}
             payout={spreadPayout}
+            budget={budget}
+            updateBudget={updateBudget}
           />
         )}
       </View>

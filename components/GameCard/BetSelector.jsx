@@ -4,18 +4,20 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
 import { useState } from "react";
 
-export function BetSelector({ option, closeSelection, minBet, maxBet, payout }) {
+export function BetSelector({ option, closeSelection, minBet, maxBet, payout, budget, updateBudget }) {
   const [betAmount, setBetAmount] = useState(minBet);
 
   const incrementBet = () => {
     if (betAmount < maxBet) {
       setBetAmount(betAmount + 100);
+      updateBudget(100);
     }
   };
 
   const decrementBet = () => {
     if (betAmount > minBet) {
       setBetAmount(betAmount - 100);
+      updateBudget(-100);
     }
   };
 

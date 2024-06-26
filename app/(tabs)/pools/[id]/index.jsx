@@ -14,15 +14,17 @@ import { SpreadAndOUInstructions } from "../../../../components/bet_instructions
 import { GameCard } from "../../../../components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "../../../../utils/game-data.js";
 import { BetSlipPreview } from "../../../../components/BetSlipPreview/BetSlipPreview.jsx";
+import { useState } from "react";
 
 export default function PoolDetails() {
   const { id } = useLocalSearchParams();
   const gameData = GAME_DATA;
+  const [budget, setBudget] = useState(2000);
 
   function renderGameCards() {
     return GAME_DATA.map((game) => (
       <View key={game.id}>
-        <GameCard game={game} />
+        <GameCard game={game} budget={budget} setBudget={setBudget} />
       </View>
     ));
   }
@@ -56,7 +58,7 @@ export default function PoolDetails() {
           </ScrollView>
         </View>
         <View style={s.betSlipPreview}>
-          <BetSlipPreview />
+          <BetSlipPreview budget={budget} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

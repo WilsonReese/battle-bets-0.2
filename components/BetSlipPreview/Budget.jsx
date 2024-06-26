@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetTypeHeading } from "../GameCard/BetTypeHeading";
 
-export function Budget({ betType }) {
+export function Budget({ betType, budget }) {
   return (
     <View style={s.container}>
       <View>
@@ -10,7 +10,7 @@ export function Budget({ betType }) {
       </View>
       <View style={s.budgetRow}>
           <Txt style={s.text}>Budget Remaining: </Txt>
-          <Txt style={s.budgetText}>$2000</Txt>
+          <Txt style={s.budgetText}>${budget}</Txt>
       </View>
     </View>
   );
