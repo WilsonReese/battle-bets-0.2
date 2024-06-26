@@ -9,8 +9,6 @@ export function Spread({
   spreadHome,
   spreadAway,
   spreadPayout,
-  budget,
-  setBudget,
   totalBet,
   setTotalBet,
 }) {
@@ -36,6 +34,7 @@ export function Spread({
     } else if (selection[type]) {
       deselectBet();
     } else {
+      // switch between the two bet options
       setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
       setSelection({ [type]: true });
       setBetAmount(minBet);
@@ -70,6 +69,9 @@ export function Spread({
             minBet={minBet}
             maxBet={maxBet}
             payout={spreadPayout}
+            betAmount={betAmount}
+            setBetAmount={setBetAmount}
+            setTotalBet={setTotalBet}
           />
         )}
         {selection.away && (
@@ -79,6 +81,9 @@ export function Spread({
             minBet={minBet}
             maxBet={maxBet}
             payout={spreadPayout}
+            betAmount={betAmount}
+            setBetAmount={setBetAmount}
+            setTotalBet={setTotalBet}
           />
         )}
       </View>

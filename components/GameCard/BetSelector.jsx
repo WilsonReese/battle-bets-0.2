@@ -2,22 +2,31 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
-export function BetSelector({ option, closeSelection, minBet, maxBet, payout, budget, updateBudget }) {
-  const [betAmount, setBetAmount] = useState(minBet);
+export function BetSelector({
+  option,
+  closeSelection,
+  minBet,
+  maxBet,
+  payout,
+  betAmount,
+  setBetAmount,
+  setTotalBet,
+}) {
+  const increment = 100;
 
   const incrementBet = () => {
     if (betAmount < maxBet) {
-      setBetAmount(betAmount + 100);
-      updateBudget(100);
+      setBetAmount((prevBetAmount) => prevBetAmount + increment);
+      setTotalBet((prevTotalBet) => prevTotalBet + increment);
     }
   };
 
   const decrementBet = () => {
     if (betAmount > minBet) {
-      setBetAmount(betAmount - 100);
-      updateBudget(-100);
+      setBetAmount((prevBetAmount) => prevBetAmount - increment);
+      setTotalBet((prevTotalBet) => prevTotalBet - increment);
     }
   };
 
@@ -35,12 +44,19 @@ export function BetSelector({ option, closeSelection, minBet, maxBet, payout, bu
         <Txt style={s.text}>{closeIcon}</Txt>
       </Pressable>
       <View icon={minusSign} style={s.betAdjuster}>
-        <IncrementBtn icon={minusSign} isEnabled={betAmount > minBet} onPress={decrementBet} />
+        <IncrementBtn
+          icon={minusSign}
+          isEnabled={betAmount > minBet}
+          onPress={decrementBet}
+        />
         <View>
-          {/* The Bet Amount should update based on the incremement BTN */}
           <Txt style={s.text}>${betAmount}</Txt>
         </View>
-        <IncrementBtn icon={plusSign} isEnabled={betAmount < maxBet} onPress={incrementBet} />
+        <IncrementBtn
+          icon={plusSign}
+          isEnabled={betAmount < maxBet}
+          onPress={incrementBet}
+        />
       </View>
       <View style={s.toWin}>
         <Txt style={[s.text, s.toWinText]}>To Win:</Txt>
