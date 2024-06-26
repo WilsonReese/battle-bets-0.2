@@ -20,11 +20,12 @@ export default function PoolDetails() {
   const { id } = useLocalSearchParams();
   const gameData = GAME_DATA;
   const [budget, setBudget] = useState(2000);
+  const [totalBet, setTotalBet] = useState(0);
 
   function renderGameCards() {
     return GAME_DATA.map((game) => (
       <View key={game.id}>
-        <GameCard game={game} budget={budget} setBudget={setBudget} />
+        <GameCard game={game} budget={budget} setBudget={setBudget} totalBet={totalBet} setTotalBet={setTotalBet} />
       </View>
     ));
   }
@@ -37,11 +38,12 @@ export default function PoolDetails() {
         </View>
         <View style={s.body}>
           <SpreadAndOUInstructions />
+          <Txt>{totalBet}</Txt>
           <ScrollView>
             {/* This function renders each of the games */}
             {renderGameCards()}
             {/*This is an empty view that allows the scroll to go down to the bottom */}
-            <View style={{height: 75}}></View>
+            <View style={{ height: 75 }}></View>
 
             {/* <Txt style={{ fontFamily: "Saira_700Bold" }}>
               All the games listed here

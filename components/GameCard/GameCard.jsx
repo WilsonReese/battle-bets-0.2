@@ -4,7 +4,7 @@ import { Matchup } from "./Matchup/Matchup";
 import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
 
-export function GameCard({ game, budget, setBudget }) {
+export function GameCard({ game, budget, setBudget, totalBet, setTotalBet }) {
   const {
     date,
     time,
@@ -45,6 +45,8 @@ export function GameCard({ game, budget, setBudget }) {
           ouPayout={ouPayout}
           budget={budget}
           setBudget={setBudget}
+          totalBet={totalBet}
+          setTotalBet={setTotalBet}
         />
       </View>
     </View>
