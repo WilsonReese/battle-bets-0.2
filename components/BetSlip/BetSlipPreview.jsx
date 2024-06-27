@@ -5,6 +5,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { Budget } from "./Budget";
 import { useState } from "react";
 import { BetSlipBudget } from "./BetSlipBudget";
+import SwipeUpDown from "react-native-swipe-up-down";
 
 export function BetSlipPreview({ budget, totalBet, poolName }) {
   const arrowIcon = (
@@ -13,48 +14,31 @@ export function BetSlipPreview({ budget, totalBet, poolName }) {
 
   return (
     <View style={s.container}>
-      {/* <View style={s.betSlipHeading}>
-        <View style={s.grabHandle}>
-          <Txt style={{ color: "black" }}>------</Txt>
-        </View>
-        <View style={s.detailsContainer}>
-          <View style={s.budget}>
-            <Budget
-              betType={"Spread & Over/Under"}
-              budget={budget}
-              totalBet={totalBet}
-            />
+      <View style={s.preview}>
+        <View style={s.betSlipHeading}>
+          <View style={s.grabHandleContainer}>
+            <View style={s.grabHandle}></View>
+            {/* <Txt style={{ color: "black" }}>------</Txt> */}
           </View>
-          <View style={s.btn}>
-            <Btn
-              btnText={"Next"}
-              isEnabled={true}
-              btnSecondaryText={"Money Line"}
-              icon={arrowIcon}
-            />
+          <View style={s.detailsContainer}>
+            <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
           </View>
         </View>
-      </View> */}
-      <View style={s.betSlipHeading}>
-        <View style={s.grabHandleContainer}>
-          <View style={s.grabHandle}></View>
-          {/* <Txt style={{ color: "black" }}>------</Txt> */}
-        </View>
-        <View style={s.detailsContainer}>
-          <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
-        </View>
+        <BetSlipBudget
+          betType={"Spread and Over/Under"}
+          budget={budget}
+          totalBet={totalBet}
+        />
       </View>
-      <BetSlipBudget
-        betType={"Spread and Over/Under"}
-        budget={budget}
-        totalBet={totalBet}
-      />
     </View>
   );
 }
 
 const s = StyleSheet.create({
   container: {
+    flex: 1,
+  },
+  preview: {
     // this keeps the betslip preview on the bottom and spanning the width
     position: "absolute",
     bottom: 0,
@@ -85,9 +69,9 @@ const s = StyleSheet.create({
   },
   title: {
     fontSize: 20,
-    color: '#061826',
-    fontFamily: 'Saira_600SemiBold'
-  }, 
+    color: "#061826",
+    fontFamily: "Saira_600SemiBold",
+  },
   grabHandleContainer: {
     alignSelf: "center",
     // margin: -4,
@@ -97,7 +81,7 @@ const s = StyleSheet.create({
   grabHandle: {
     height: 4,
     width: 80,
-    backgroundColor: '#6E7880',
+    backgroundColor: "#6E7880",
     borderRadius: 10,
   },
 
@@ -114,3 +98,29 @@ const s = StyleSheet.create({
     alignItems: "flex-end",
   },
 });
+
+// OLD CODE
+{
+  /* <View style={s.betSlipHeading}>
+        <View style={s.grabHandle}>
+          <Txt style={{ color: "black" }}>------</Txt>
+        </View>
+        <View style={s.detailsContainer}>
+          <View style={s.budget}>
+            <Budget
+              betType={"Spread & Over/Under"}
+              budget={budget}
+              totalBet={totalBet}
+            />
+          </View>
+          <View style={s.btn}>
+            <Btn
+              btnText={"Next"}
+              isEnabled={true}
+              btnSecondaryText={"Money Line"}
+              icon={arrowIcon}
+            />
+          </View>
+        </View>
+      </View> */
+}
