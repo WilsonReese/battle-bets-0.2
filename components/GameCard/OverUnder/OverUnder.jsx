@@ -1,8 +1,8 @@
-import { StyleSheet, View } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import { BetTypeHeading } from "../BetTypeHeading";
 import { BetOption } from "../BetOption";
 import { BetSelector } from "../BetSelector";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Txt } from "../../general/Txt";
 
 export function OverUnder({ ou, ouPayout, setTotalBet }) {
@@ -12,6 +12,24 @@ export function OverUnder({ ou, ouPayout, setTotalBet }) {
   });
   const [betAmount, setBetAmount] = useState(0);
   const [minBet, maxBet] = [100, 1000];
+
+  const animatedHeight = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (selection.optionOne || selection.optionTwo) {
+      Animated.timing(animatedHeight, {
+        toValue: 54, // Target height
+        duration: 150,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(animatedHeight, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [selection]);
 
   const selectBet = (type) => {
     setSelection({ [type]: true });
@@ -57,7 +75,7 @@ export function OverUnder({ ou, ouPayout, setTotalBet }) {
           onPress={() => toggleBet("optionTwo")}
         />
       </View>
-      <View>
+      <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
         {selection.optionOne && (
           <BetSelector
             option="optionOne"
@@ -82,7 +100,7 @@ export function OverUnder({ ou, ouPayout, setTotalBet }) {
             setTotalBet={setTotalBet}
           />
         )}
-      </View>
+      </Animated.View>
     </View>
   );
 }
