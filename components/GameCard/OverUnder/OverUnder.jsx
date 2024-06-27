@@ -43,7 +43,6 @@ export function OverUnder({ ou, ouPayout, setTotalBet }) {
     <View style={s.container}>
       <BetTypeHeading heading={"OVER/UNDER"} />
       <View style={s.optionsContainer}>
-        <Txt>{betAmount}</Txt>
         <BetOption
           title={`Over ${ou} Points`}
           payout={ouPayout}

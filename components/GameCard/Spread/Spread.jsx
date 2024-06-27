@@ -1,8 +1,8 @@
-import { StyleSheet, View } from "react-native";
+import { Animated, StyleSheet, View } from "react-native";
 import { BetTypeHeading } from "../BetTypeHeading";
 import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { Txt } from "../../general/Txt";
 
 export function Spread({
@@ -15,6 +15,25 @@ export function Spread({
   const [selection, setSelection] = useState({ home: false, away: false });
   const [betAmount, setBetAmount] = useState(0);
   const [minBet, maxBet] = [100, 1000];
+
+  const animatedHeight = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    if (selection.home || selection.away) {
+      Animated.timing(animatedHeight, {
+        toValue: 54, // Target height - This can be done 
+        duration: 150,
+        useNativeDriver: false,
+      }).start();
+    } else {
+      Animated.timing(animatedHeight, {
+        toValue: 0,
+        duration: 150,
+        useNativeDriver: false,
+      }).start();
+    }
+  }, [selection]);
+
 
   const selectBet = (type) => {
     setSelection({ [type]: true });
@@ -46,7 +65,6 @@ export function Spread({
     <View>
       <BetTypeHeading heading={"SPREAD"} />
       <View style={s.optionsContainer}>
-        <Txt>{betAmount}</Txt>
         <BetOption
           title={spreadHome}
           payout={spreadPayout}
@@ -61,7 +79,7 @@ export function Spread({
           onPress={() => toggleBet("away")}
         />
       </View>
-      <View>
+      <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
         {selection.home && (
           <BetSelector
             option="home"
@@ -86,7 +104,7 @@ export function Spread({
             setTotalBet={setTotalBet}
           />
         )}
-      </View>
+      </Animated.View>
     </View>
   );
 }

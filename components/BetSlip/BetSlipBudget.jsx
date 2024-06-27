@@ -8,7 +8,7 @@ export function BetSlipBudget({ betType, budget, totalBet }) {
 
   return (
     <View style={s.container}>
-      <Txt style={s.title}>{check} {betType}</Txt>
+      <Txt style={s.title}>{betType}</Txt>
       <View style={s.budget}>
         <Txt style={s.budgetText}>${totalBet}</Txt>
         <Txt style={s.text}> of </Txt>
@@ -24,8 +24,9 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingVertical: 4,
-    borderTopWidth: 1,
-    borderTopColor: '#DAE1E5',
+    // borderTopWidth: 1,
+    // borderTopColor: '#DAE1E5',
+    backgroundColor: '#5996FF',
     paddingHorizontal: 8,
     alignItems: 'baseline'
   },
@@ -39,15 +40,15 @@ const s = StyleSheet.create({
     // // borderWidth: 1,
   },
   title: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: 'Saira_600SemiBold'
   }, 
   text: {
-    color: "#061826",
+    // color: "#061826",
     fontSize: 14,
   },
   budgetText: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 14,
   },

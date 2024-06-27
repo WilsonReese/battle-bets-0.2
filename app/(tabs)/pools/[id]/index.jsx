@@ -8,12 +8,12 @@ import {
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
-import { Txt } from "../../../../components/general/Txt";
-import { LogoHeader } from "../../../../components/LogoHeader/LogoHeader.jsx";
-import { SpreadAndOUInstructions } from "../../../../components/bet_instructions/SpreadAndOUInstructions/SpreadAndOUInstructions.jsx";
-import { GameCard } from "../../../../components/GameCard/GameCard.jsx";
-import { GAME_DATA } from "../../../../utils/game-data.js";
-import { BetSlipPreview } from "../../../../components/BetSlip/BetSlipPreview.jsx";
+import { Txt } from "@/components/general/Txt";
+import { LogoHeader } from "@/components/LogoHeader/LogoHeader.jsx";
+import { SpreadAndOUInstructions } from "@/components/bet_instructions/SpreadAndOUInstructions/SpreadAndOUInstructions.jsx";
+import { GameCard } from "@/components/GameCard/GameCard.jsx";
+import { GAME_DATA } from "@/utils/game-data.js";
+import { BetSlipPreview } from "@/components/BetSlip/BetSlipPreview.jsx";
 import { useState } from "react";
 
 export default function PoolDetails() {
