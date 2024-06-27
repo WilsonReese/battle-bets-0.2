@@ -5,28 +5,37 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { Budget } from "./Budget";
 import { useState } from "react";
 
-export function BetSlipPreview({ budget }) {
+export function BetSlipPreview({ budget, totalBet }) {
   const arrowIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
   );
 
   return (
     <View style={s.container}>
-      <View style={s.grabHandle}>
-        <Txt style={{ color: "black" }}>------</Txt>
+      <View style={s.betSlipHeading}>
+        <View style={s.grabHandle}>
+          <Txt style={{ color: "black" }}>------</Txt>
+        </View>
+        <View style={s.detailsContainer}>
+          <View style={s.budget}>
+            <Budget
+              betType={"Spread & Over/Under"}
+              budget={budget}
+              totalBet={totalBet}
+            />
+          </View>
+          <View style={s.btn}>
+            <Btn
+              btnText={"Next"}
+              isEnabled={true}
+              btnSecondaryText={"Money Line"}
+              icon={arrowIcon}
+            />
+          </View>
+        </View>
       </View>
-      <View style={s.detailsContainer}>
-				<View style={s.budget}>
-        <Budget  betType={"Spread & Over/Under"} budget={budget} />
-				</View>
-				<View style={s.btn}>
-        <Btn
-          btnText={"Next"}
-          isEnabled={true}
-          btnSecondaryText={"Money Line"}
-          icon={arrowIcon}
-        />
-				</View>
+      <View style={s.betType}>
+        <Txt>Test</Txt>
       </View>
     </View>
   );
@@ -41,8 +50,6 @@ const s = StyleSheet.create({
     right: 0,
     flex: 1,
     justifyContent: "center",
-    paddingVertical: 4,
-    paddingHorizontal: 16,
 
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
@@ -59,19 +66,30 @@ const s = StyleSheet.create({
 
     elevation: 5,
   },
+  betSlipHeading: {
+    backgroundColor: 'blue',
+    // paddingVertical: 4,
+    paddingHorizontal: 16,
+  },
+  betType: {
+    backgroundColor: 'green',
+    // paddingVertical: 4,
+    paddingHorizontal: 16,
+  },
   grabHandle: {
     alignSelf: "center",
-		margin: -4,
+    margin: -4,
   },
   detailsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
   },
-	budget: {
-		flex: 3,
-	},
-	btn: {
-		flex: 2,
-		alignItems: 'flex-end'
-	}
+  budget: {
+    flex: 3,
+  },
+  btn: {
+    flex: 2,
+    alignItems: "flex-end",
+  },
+
 });

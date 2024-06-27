@@ -13,7 +13,7 @@ import { LogoHeader } from "../../../../components/LogoHeader/LogoHeader.jsx";
 import { SpreadAndOUInstructions } from "../../../../components/bet_instructions/SpreadAndOUInstructions/SpreadAndOUInstructions.jsx";
 import { GameCard } from "../../../../components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "../../../../utils/game-data.js";
-import { BetSlipPreview } from "../../../../components/BetSlipPreview/BetSlipPreview.jsx";
+import { BetSlipPreview } from "../../../../components/BetSlip/BetSlipPreview.jsx";
 import { useState } from "react";
 
 export default function PoolDetails() {
@@ -60,7 +60,7 @@ export default function PoolDetails() {
           </ScrollView>
         </View>
         <View style={s.betSlipPreview}>
-          <BetSlipPreview budget={budget} />
+          <BetSlipPreview budget={budget} totalBet={totalBet} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
