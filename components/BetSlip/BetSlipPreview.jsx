@@ -36,8 +36,9 @@ export function BetSlipPreview({ budget, totalBet, poolName }) {
         </View>
       </View> */}
       <View style={s.betSlipHeading}>
-        <View style={s.grabHandle}>
-          <Txt style={{ color: "black" }}>------</Txt>
+        <View style={s.grabHandleContainer}>
+          <View style={s.grabHandle}></View>
+          {/* <Txt style={{ color: "black" }}>------</Txt> */}
         </View>
         <View style={s.detailsContainer}>
           <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
@@ -87,9 +88,17 @@ const s = StyleSheet.create({
     color: '#061826',
     fontFamily: 'Saira_600SemiBold'
   }, 
-  grabHandle: {
+  grabHandleContainer: {
     alignSelf: "center",
-    margin: -4,
+    // margin: -4,
+    paddingTop: 8,
+    paddingBottom: 8,
+  },
+  grabHandle: {
+    height: 4,
+    width: 80,
+    backgroundColor: '#6E7880',
+    borderRadius: 10,
   },
 
   // NOT CURRENTLY IN USE
