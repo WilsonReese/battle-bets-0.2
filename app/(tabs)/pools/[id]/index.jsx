@@ -60,7 +60,7 @@ export default function PoolDetails() {
           </ScrollView>
         </View>
         <View style={s.betSlipPreview}>
-          <BetSlipPreview budget={budget} totalBet={totalBet} />
+          <BetSlipPreview budget={budget} totalBet={totalBet} poolName={id} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

@@ -4,15 +4,16 @@ import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { Budget } from "./Budget";
 import { useState } from "react";
+import { BetSlipBudget } from "./BetSlipBudget";
 
-export function BetSlipPreview({ budget, totalBet }) {
+export function BetSlipPreview({ budget, totalBet, poolName }) {
   const arrowIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
   );
 
   return (
     <View style={s.container}>
-      <View style={s.betSlipHeading}>
+      {/* <View style={s.betSlipHeading}>
         <View style={s.grabHandle}>
           <Txt style={{ color: "black" }}>------</Txt>
         </View>
@@ -33,10 +34,20 @@ export function BetSlipPreview({ budget, totalBet }) {
             />
           </View>
         </View>
+      </View> */}
+      <View style={s.betSlipHeading}>
+        <View style={s.grabHandle}>
+          <Txt style={{ color: "black" }}>------</Txt>
+        </View>
+        <View style={s.detailsContainer}>
+          <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
+        </View>
       </View>
-      <View style={s.betType}>
-        <Txt>Test</Txt>
-      </View>
+      <BetSlipBudget
+        betType={"Spread and Over/Under"}
+        budget={budget}
+        totalBet={totalBet}
+      />
     </View>
   );
 }
@@ -67,19 +78,21 @@ const s = StyleSheet.create({
     elevation: 5,
   },
   betSlipHeading: {
-    backgroundColor: 'blue',
+    // backgroundColor: "blue",
     // paddingVertical: 4,
-    paddingHorizontal: 16,
+    paddingHorizontal: 8,
   },
-  betType: {
-    backgroundColor: 'green',
-    // paddingVertical: 4,
-    paddingHorizontal: 16,
-  },
+  title: {
+    fontSize: 20,
+    color: '#061826',
+    fontFamily: 'Saira_600SemiBold'
+  }, 
   grabHandle: {
     alignSelf: "center",
     margin: -4,
   },
+
+  // NOT CURRENTLY IN USE
   detailsContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -91,5 +104,4 @@ const s = StyleSheet.create({
     flex: 2,
     alignItems: "flex-end",
   },
-
 });
