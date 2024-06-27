@@ -1,11 +1,7 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
-import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { Budget } from "./Budget";
-import { useState } from "react";
 import { BetSlipBudget } from "./BetSlipBudget";
-import SwipeUpDown from "react-native-swipe-up-down";
 
 export function BetSlipPreview({ budget, totalBet, poolName }) {
   const arrowIcon = (
