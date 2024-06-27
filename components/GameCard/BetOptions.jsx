@@ -26,7 +26,12 @@ export function BetOptions({
         totalBet={totalBet}
         setTotalBet={setTotalBet}
       />
-      <OverUnder ou={ou} ouPayout={ouPayout} />
+      <OverUnder
+        ou={ou}
+        ouPayout={ouPayout}
+        totalBet={totalBet}
+        setTotalBet={setTotalBet}
+      />
     </View>
   );
 }

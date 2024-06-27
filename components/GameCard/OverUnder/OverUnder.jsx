@@ -3,44 +3,86 @@ import { BetTypeHeading } from "../BetTypeHeading";
 import { BetOption } from "../BetOption";
 import { BetSelector } from "../BetSelector";
 import { useState } from "react";
+import { Txt } from "../../general/Txt";
 
-export function OverUnder({ ou, ouPayout }) {
-  const [selection, setSelection] = useState({ optionOne: false, optionTwo: false });
+export function OverUnder({ ou, ouPayout, setTotalBet }) {
+  const [selection, setSelection] = useState({
+    optionOne: false,
+    optionTwo: false,
+  });
+  const [betAmount, setBetAmount] = useState(0);
+  const [minBet, maxBet] = [100, 1000];
 
-  const closeSelection = () => {
-    setSelection({ home: false, away: false });
+  const selectBet = (type) => {
+    setSelection({ [type]: true });
+    setBetAmount(minBet);
+    setTotalBet((prevTotalBet) => prevTotalBet + minBet);
   };
 
-  const toggleSelection = (type) => {
-    setSelection((prevSelection) => {
-      const newSelection = { optionOne: false, optionTwo: false };
-      newSelection[type] = !prevSelection[type];
-      return newSelection;
-    });
+  const deselectBet = () => {
+    setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
+    setSelection({ optionOne: false, optionTwo: false });
+    setBetAmount(0);
+  };
+
+  const toggleBet = (type) => {
+    if (!selection.optionOne && !selection.optionTwo) {
+      selectBet(type);
+    } else if (selection[type]) {
+      deselectBet();
+    } else {
+      // switch between the two bet options
+      setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
+      setSelection({ [type]: true });
+      setBetAmount(minBet);
+      setTotalBet((prevTotalBet) => prevTotalBet + minBet);
+    }
   };
 
   return (
     <View style={s.container}>
       <BetTypeHeading heading={"OVER/UNDER"} />
       <View style={s.optionsContainer}>
-        <BetOption 
-          title={
-            `Over ${ou} Points`} 
-          payout={ouPayout} 
+        <Txt>{betAmount}</Txt>
+        <BetOption
+          title={`Over ${ou} Points`}
+          payout={ouPayout}
           isSelected={selection.optionOne}
-          onPress={() => toggleSelection("optionOne")}
+          onPress={() => toggleBet("optionOne")}
         />
         <View style={{ padding: 4 }}></View>
-        <BetOption 
-          title={`Under ${ou} Points`} 
-          payout={ouPayout} 
+        <BetOption
+          title={`Under ${ou} Points`}
+          payout={ouPayout}
           isSelected={selection.optionTwo}
-          onPress={() => toggleSelection("optionTwo")}
+          onPress={() => toggleBet("optionTwo")}
         />
       </View>
       <View>
-      {selection.optionOne && <BetSelector option="optionOne" closeSelection={closeSelection} />}
-      {selection.optionTwo && <BetSelector option="optionTwo" closeSelection={closeSelection} />}
+        {selection.optionOne && (
+          <BetSelector
+            option="optionOne"
+            closeSelection={() => toggleBet("optionOne")}
+            minBet={minBet}
+            maxBet={maxBet}
+            payout={ouPayout}
+            betAmount={betAmount}
+            setBetAmount={setBetAmount}
+            setTotalBet={setTotalBet}
+          />
+        )}
+        {selection.optionTwo && (
+          <BetSelector
+            option="optionTwo"
+            closeSelection={() => toggleBet("optionTwo")}
+            minBet={minBet}
+            maxBet={maxBet}
+            payout={ouPayout}
+            betAmount={betAmount}
+            setBetAmount={setBetAmount}
+            setTotalBet={setTotalBet}
+          />
+        )}
       </View>
     </View>
   );
