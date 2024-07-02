@@ -1,20 +1,36 @@
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetSlipBudget } from "./BetSlipBudget";
-import { FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome6 } from "@expo/vector-icons";
 
 export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
+  const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
 
-    const upArrow = <FontAwesome6 name="chevron-up" size={24} color="#6E7880" />
-    const downArrow = <FontAwesome6 name="chevron-down" size={24} color="#6E7880" />
+  useEffect(() => {
+    Animated.timing(rotation, {
+      toValue: isBetSlipShown ? 1 : 0,
+      duration: 150,
+      useNativeDriver: true,
+    }).start();
+  }, [isBetSlipShown]);
+
+  const rotateInterpolate = rotation.interpolate({
+    inputRange: [0, 1],
+    outputRange: ["0deg", "180deg"],
+  });
+
+  const arrowStyle = {
+    transform: [{ rotate: rotateInterpolate }],
+  };
 
   return (
     <View style={s.container}>
-      <View style={s.betSlipTitle}>
-        <View style={s.detailsContainer}>
-          <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
-          <View>{isBetSlipShown ? downArrow : upArrow}</View>
-        </View>
+      <View style={s.detailsContainer}>
+        <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
+        <Animated.View style={arrowStyle}>
+          <FontAwesome6 name="chevron-up" size={24} color="#6E7880" />
+        </Animated.View>
       </View>
       <BetSlipBudget
         betType={"Spread and Over/Under"}
@@ -29,27 +45,17 @@ const s = StyleSheet.create({
   container: {
     height: 85,
   },
-  betSlipTitle: {
-    paddingHorizontal: 8,
-  },
   detailsContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 12,
+    paddingTop: 8,
+    paddingBottom: 4,
   },
   title: {
     fontSize: 20,
     color: "#061826",
     fontFamily: "Saira_600SemiBold",
-  },
-  grabHandleContainer: {
-    alignSelf: "center",
-    paddingTop: 8,
-    paddingBottom: 8,
-  },
-  grabHandle: {
-    height: 4,
-    width: 80,
-    backgroundColor: "#6E7880",
-    borderRadius: 10,
   },
 });
