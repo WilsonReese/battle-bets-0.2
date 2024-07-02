@@ -14,6 +14,7 @@ export function BetSelector({
   betAmount,
   setBetAmount,
   setTotalBet,
+  betId
 }) {
   const increment = 100;
   const { updateBet } = useBetContext();
@@ -23,7 +24,7 @@ export function BetSelector({
       const newBetAmount = betAmount + increment;
       setBetAmount(newBetAmount);
       setTotalBet((prevTotalBet) => prevTotalBet + increment);
-      updateBet(`spread-${option}`, newBetAmount); // Call updateBet
+      updateBet(betId, newBetAmount, payout); // Call updateBet with the unique ID
     }
   };
 
@@ -32,7 +33,7 @@ export function BetSelector({
       const newBetAmount = betAmount - increment;
       setBetAmount(newBetAmount);
       setTotalBet((prevTotalBet) => prevTotalBet - increment);
-      updateBet(`spread-${option}`, newBetAmount); // Call updateBet
+      updateBet(betId, newBetAmount, payout); // Call updateBet with the unique ID
     }
   };
 

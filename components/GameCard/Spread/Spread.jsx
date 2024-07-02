@@ -5,6 +5,7 @@ import { BetOption } from "../BetOption";
 import { useEffect, useRef, useState } from "react";
 import { Txt } from "../../general/Txt";
 import { useBetContext } from "../../contexts/BetContext";
+import uuid from 'react-native-uuid';
 
 export function Spread({
   spreadHome,
@@ -18,6 +19,7 @@ export function Spread({
   const [minBet, maxBet] = [100, 1000];
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const { addBet, removeBet } = useBetContext(); // Use the context
+  const [currentBetId, setCurrentBetId] = useState(null);
 
   useEffect(() => {
     if (selection.home || selection.away) {
@@ -35,21 +37,26 @@ export function Spread({
     }
   }, [selection]);
 
+  const getTitle = (type) => {
+    return type === "home" ? spreadHome : spreadAway;
+  };
+
   const selectBet = (type) => {
-    const betId = `spread-${type}`;
+    const title = getTitle(type);
+    const betId = uuid.v4(); // Generate a unique ID for the new bet
+    setCurrentBetId(betId);
     setSelection({ [type]: true });
     setBetAmount(minBet);
     setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-    addBet({ id: betId, type, betAmount: minBet, payout: spreadPayout });
+    addBet({ title, betAmount: minBet, payout: spreadPayout });
   };
 
   const deselectBet = () => {
-    const type = selection.home ? 'home' : 'away';
-    const betId = `spread-${type}`;
     setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
     setSelection({ home: false, away: false });
     setBetAmount(0);
-    removeBet(betId);
+    removeBet(currentBetId); // Use the unique bet ID
+    setCurrentBetId(null);
   };
 
   const toggleBet = (type) => {
@@ -59,14 +66,15 @@ export function Spread({
       deselectBet();
     } else {
       // switch between the two bet options
-      const prevType = selection.home ? 'home' : 'away';
-      const prevBetId = `spread-${prevType}`;
-      removeBet(prevBetId);
+      removeBet(currentBetId); // Remove the previous bet
       setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
+      const newBetId = uuid.v4(); // Generate a new unique ID for the new bet
+      setCurrentBetId(newBetId);
+      const title = getTitle(type);
       setSelection({ [type]: true });
       setBetAmount(minBet);
       setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-      addBet({ id: `spread-${type}`, type, betAmount: minBet, payout: spreadPayout });
+      addBet({ title, betAmount: minBet, payout: spreadPayout });
     }
   };
 
@@ -99,6 +107,7 @@ export function Spread({
             betAmount={betAmount}
             setBetAmount={setBetAmount}
             setTotalBet={setTotalBet}
+            betId={currentBetId}
           />
         )}
         {selection.away && (
@@ -111,6 +120,7 @@ export function Spread({
             betAmount={betAmount}
             setBetAmount={setBetAmount}
             setTotalBet={setTotalBet}
+            betId={currentBetId}
           />
         )}
       </Animated.View>
