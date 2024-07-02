@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import { BetSlipHeading } from "./BetSlipHeading";
 import { Txt } from "../general/Txt";
+import { BetSlipDetails } from "./BetSlipDetails";
 
 const { height } = Dimensions.get("window");
 const betSlipHeight = height * 3 / 5; // 3/5 of the screen height
@@ -44,7 +45,7 @@ export function BetSlip({
         />
       </TouchableOpacity>
       <View>
-        {/* Add more content here as needed */}
+        <BetSlipDetails />
         <Txt style={{ color: "black" }}>BETS ADDED HERE</Txt>
       </View>
     </Animated.View>
