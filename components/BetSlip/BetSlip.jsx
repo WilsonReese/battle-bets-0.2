@@ -1,25 +1,50 @@
 import React, { useRef, useState } from "react";
-import { StyleSheet, View, Animated, PanResponder, Dimensions } from "react-native";
-import { Txt } from "../general/Txt";
-import { FontAwesome6 } from "@expo/vector-icons";
-import { BetSlipBudget } from "./BetSlipBudget";
+import {
+  StyleSheet,
+  View,
+  Animated,
+  Dimensions,
+  TouchableOpacity,
+} from "react-native";
 import { BetSlipHeading } from "./BetSlipHeading";
+import { Txt } from "../general/Txt";
 
-const { height } = Dimensions.get('window');
+const { height } = Dimensions.get("window");
 const betSlipHeight = height * 3 / 5; // 3/5 of the screen height
-const betSlipHeadingHeight = 85;
+const betSlipHeadingHeight = 85; // Define the height of the BetSlipHeading component
 
-export function BetSlip({ budget, totalBet, poolName }) {
-  const [isShown, setIsShown] = useState(false);
+export function BetSlip({
+  budget,
+  totalBet,
+  poolName,
+  isBetSlipShown,
+  setIsBetSlipShown,
+}) {
+  // const [isShown, setIsShown] = useState(true);
+  const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
 
   const toggleBetSlip = () => {
-    setIsShown(!isShown);
+    Animated.timing(animatedHeight, {
+      toValue: isBetSlipShown ? betSlipHeadingHeight : betSlipHeight,
+      duration: 250,
+      useNativeDriver: false,
+    }).start(() => {
+      setIsBetSlipShown(!isBetSlipShown);
+    });
   };
 
   return (
-    <Animated.View style={[s.container, isShown ? s.shown : s.hidden]}>
-      <View onTouchStart={toggleBetSlip}>
-        <BetSlipHeading poolName={poolName} budget={budget} totalBet={totalBet} />
+    <Animated.View style={[s.container, { height: animatedHeight }]}>
+      <TouchableOpacity onPress={toggleBetSlip}>
+        <BetSlipHeading
+          poolName={poolName}
+          budget={budget}
+          totalBet={totalBet}
+        />
+      </TouchableOpacity>
+      <View>
+        {/* Add more content here as needed */}
+        <Txt style={{ color: "black" }}>BETS ADDED HERE</Txt>
       </View>
     </Animated.View>
   );
@@ -42,12 +67,6 @@ const s = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-  },
-  shown: {
-    height: betSlipHeight,
-  },
-  hidden:{
-    height: betSlipHeadingHeight,
   },
   detailsContainer: {
     flexDirection: "row",

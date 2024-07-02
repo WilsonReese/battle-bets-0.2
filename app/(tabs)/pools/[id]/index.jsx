@@ -1,10 +1,7 @@
 import {
   View,
-  Text,
-  Button,
   StyleSheet,
   ScrollView,
-  FlatList,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -21,6 +18,7 @@ export default function PoolDetails() {
   const gameData = GAME_DATA;
   const [budget, setBudget] = useState(2000);
   const [totalBet, setTotalBet] = useState(0);
+  const [isBetSlipShown, setIsBetSlipShown] = useState(true);
 
   function renderGameCards() {
     return GAME_DATA.map((game) => (
@@ -60,7 +58,7 @@ export default function PoolDetails() {
           </ScrollView>
         </View>
         <View>
-          <BetSlip budget={budget} totalBet={totalBet} poolName={id} />
+          <BetSlip budget={budget} totalBet={totalBet} poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
