@@ -11,7 +11,7 @@ import { Txt } from "../general/Txt";
 
 const { height } = Dimensions.get("window");
 const betSlipHeight = height * 3 / 5; // 3/5 of the screen height
-const betSlipHeadingHeight = 85; // Define the height of the BetSlipHeading component
+const betSlipHeadingHeight = 77; // Define the height of the BetSlipHeading component
 
 export function BetSlip({
   budget,

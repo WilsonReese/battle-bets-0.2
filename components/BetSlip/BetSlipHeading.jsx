@@ -43,7 +43,7 @@ export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
 
 const s = StyleSheet.create({
   container: {
-    height: 85,
+    height: 77,
   },
   detailsContainer: {
     flexDirection: "row",
