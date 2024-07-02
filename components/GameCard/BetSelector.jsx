@@ -3,6 +3,7 @@ import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
 import { useEffect, useState } from "react";
+import { useBetContext } from "../contexts/BetContext";
 
 export function BetSelector({
   option,
@@ -15,19 +16,30 @@ export function BetSelector({
   setTotalBet,
 }) {
   const increment = 100;
+  const { updateBet } = useBetContext();
 
   const incrementBet = () => {
     if (betAmount < maxBet) {
-      setBetAmount((prevBetAmount) => prevBetAmount + increment);
+      const newBetAmount = betAmount + increment;
+      setBetAmount(newBetAmount);
       setTotalBet((prevTotalBet) => prevTotalBet + increment);
+      updateBet(`spread-${option}`, newBetAmount); // Call updateBet
     }
   };
 
   const decrementBet = () => {
     if (betAmount > minBet) {
-      setBetAmount((prevBetAmount) => prevBetAmount - increment);
+      const newBetAmount = betAmount - increment;
+      setBetAmount(newBetAmount);
       setTotalBet((prevTotalBet) => prevTotalBet - increment);
+      updateBet(`spread-${option}`, newBetAmount); // Call updateBet
     }
+  };
+
+  const handleUpdateBetAmount = (newBetAmount) => {
+    const type = selection.home ? 'home' : 'away';
+    const betId = `spread-${type}`;
+    updateBet(betId, newBetAmount);
   };
 
   const minusSign = <FontAwesome6 name="minus" size={18} color="#F8F8F8" />;

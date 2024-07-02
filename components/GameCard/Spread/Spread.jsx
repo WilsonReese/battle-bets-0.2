@@ -4,6 +4,7 @@ import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
 import { useEffect, useRef, useState } from "react";
 import { Txt } from "../../general/Txt";
+import { useBetContext } from "../../contexts/BetContext";
 
 export function Spread({
   spreadHome,
@@ -15,8 +16,8 @@ export function Spread({
   const [selection, setSelection] = useState({ home: false, away: false });
   const [betAmount, setBetAmount] = useState(0);
   const [minBet, maxBet] = [100, 1000];
-
   const animatedHeight = useRef(new Animated.Value(0)).current;
+  const { addBet, removeBet } = useBetContext(); // Use the context
 
   useEffect(() => {
     if (selection.home || selection.away) {
@@ -34,17 +35,21 @@ export function Spread({
     }
   }, [selection]);
 
-
   const selectBet = (type) => {
+    const betId = `spread-${type}`;
     setSelection({ [type]: true });
     setBetAmount(minBet);
     setTotalBet((prevTotalBet) => prevTotalBet + minBet);
+    addBet({ id: betId, type, betAmount: minBet, payout: spreadPayout });
   };
 
   const deselectBet = () => {
+    const type = selection.home ? 'home' : 'away';
+    const betId = `spread-${type}`;
     setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
     setSelection({ home: false, away: false });
     setBetAmount(0);
+    removeBet(betId);
   };
 
   const toggleBet = (type) => {
@@ -54,10 +59,14 @@ export function Spread({
       deselectBet();
     } else {
       // switch between the two bet options
+      const prevType = selection.home ? 'home' : 'away';
+      const prevBetId = `spread-${prevType}`;
+      removeBet(prevBetId);
       setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
       setSelection({ [type]: true });
       setBetAmount(minBet);
       setTotalBet((prevTotalBet) => prevTotalBet + minBet);
+      addBet({ id: `spread-${type}`, type, betAmount: minBet, payout: spreadPayout });
     }
   };
 

@@ -12,6 +12,8 @@ import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "@/utils/game-data.js";
 import { BetSlip } from "@/components/BetSlip/BetSlip.jsx";
 import { useState } from "react";
+import { BetProvider } from "../../../../components/contexts/BetContext";
+
 
 export default function PoolDetails() {
   const { id } = useLocalSearchParams();
@@ -29,6 +31,7 @@ export default function PoolDetails() {
   }
 
   return (
+    <BetProvider>
     <SafeAreaProvider>
       <SafeAreaView style={s.container}>
         <View style={s.logoHeader}>
@@ -62,6 +65,7 @@ export default function PoolDetails() {
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
+    </BetProvider>
   );
 }
 

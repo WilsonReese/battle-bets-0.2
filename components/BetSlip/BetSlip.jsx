@@ -11,7 +11,7 @@ import { Txt } from "../general/Txt";
 import { BetSlipDetails } from "./BetSlipDetails";
 
 const { height } = Dimensions.get("window");
-const betSlipHeight = (height * 3) / 5; // 3/5 of the screen height
+const betSlipHeight = (height * 2) / 5; // 3/5 of the screen height
 const betSlipHeadingHeight = 77; // Define the height of the BetSlipHeading component
 
 export function BetSlip({
@@ -45,6 +45,7 @@ export function BetSlip({
       </TouchableOpacity>
       <View>
         <BetSlipDetails budget={budget} totalBet={totalBet} />
+        <Txt style={{ color: "black" }}>BETS ADDED HERE</Txt>
       </View>
     </Animated.View>
   );
