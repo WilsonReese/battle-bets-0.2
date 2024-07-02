@@ -40,6 +40,7 @@ export function BetSlip({
           poolName={poolName}
           budget={budget}
           totalBet={totalBet}
+          isBetSlipShown={isBetSlipShown}
         />
       </TouchableOpacity>
       <View>
