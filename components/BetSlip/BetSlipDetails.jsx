@@ -19,18 +19,23 @@ export function BetSlipDetails({ budget, totalBet }) {
         <Txt style={s.betDetailsText}>Spread and Over/Unders Here</Txt>
         {renderBets()}
         <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
+        <Txt style={[s.betDetailsText, {alignSelf: 'center'}]}>Add more bets</Txt>
         <BetSlipBudget
           betType={"Money Line"}
           budget={budget}
           totalBet={totalBet}
         />
         <Txt style={s.betDetailsText}>Money Line Here</Txt>
+        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
+        <Txt style={[s.betDetailsText, {alignSelf: 'center'}]}>Add more bets</Txt>
         <BetSlipBudget
           betType={"Prop Bets"}
           budget={budget}
           totalBet={totalBet}
         />
-        <Txt style={s.betDetailsText}>Money Line Here</Txt>
+        <Txt style={s.betDetailsText}>Prop Bets Here</Txt>
+        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
+        <Txt style={[s.betDetailsText, {alignSelf: 'center'}]}>Add more bets</Txt>
       </View>
 
       {/* This creates the space needed for the ScrollView to show everything  */}
