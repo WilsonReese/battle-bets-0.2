@@ -14,7 +14,7 @@ export function BetSelector({
   betAmount,
   setBetAmount,
   setTotalBet,
-  betId
+  betId,
 }) {
   const increment = 100;
   const { updateBet } = useBetContext();
@@ -35,12 +35,6 @@ export function BetSelector({
       setTotalBet((prevTotalBet) => prevTotalBet - increment);
       updateBet(betId, newBetAmount, payout); // Call updateBet with the unique ID
     }
-  };
-
-  const handleUpdateBetAmount = (newBetAmount) => {
-    const type = selection.home ? 'home' : 'away';
-    const betId = `spread-${type}`;
-    updateBet(betId, newBetAmount);
   };
 
   const minusSign = <FontAwesome6 name="minus" size={18} color="#F8F8F8" />;

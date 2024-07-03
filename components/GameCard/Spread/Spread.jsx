@@ -5,7 +5,7 @@ import { BetOption } from "../BetOption";
 import { useEffect, useRef, useState } from "react";
 import { Txt } from "../../general/Txt";
 import { useBetContext } from "../../contexts/BetContext";
-import uuid from 'react-native-uuid';
+import uuid from "react-native-uuid";
 
 export function Spread({
   spreadHome,
@@ -24,7 +24,7 @@ export function Spread({
   useEffect(() => {
     if (selection.home || selection.away) {
       Animated.timing(animatedHeight, {
-        toValue: 54, // Target height - This can be done 
+        toValue: 54, // Target height - This can be done
         duration: 150,
         useNativeDriver: false,
       }).start();
@@ -48,8 +48,13 @@ export function Spread({
     setSelection({ [type]: true });
     setBetAmount(minBet);
     setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-    const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout, betType: "spread" });
-    setCurrentBetId(newBet.id)
+    const newBet = addBet({
+      title: title,
+      betAmount: minBet,
+      payout: spreadPayout,
+      betType: "spread",
+    });
+    setCurrentBetId(newBet.id);
   };
 
   const deselectBet = () => {
@@ -75,8 +80,13 @@ export function Spread({
       setSelection({ [type]: true });
       setBetAmount(minBet);
       setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-      const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout, betType: "spread" });
-      setCurrentBetId(newBet.id)
+      const newBet = addBet({
+        title: title,
+        betAmount: minBet,
+        payout: spreadPayout,
+        betType: "spread",
+      });
+      setCurrentBetId(newBet.id);
     }
   };
 
@@ -98,7 +108,7 @@ export function Spread({
           onPress={() => toggleBet("away")}
         />
       </View>
-      <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
+      <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
         {selection.home && (
           <BetSelector
             option="home"
