@@ -1,7 +1,7 @@
 import { Pressable, StyleSheet } from "react-native";
 import { Txt } from "../Txt";
 
-export function EditBtn({ isEnabled, text, style, onPress }) {
+export function SmallBtn({ isEnabled, text, style, onPress }) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
   }
@@ -23,7 +23,7 @@ export function EditBtn({ isEnabled, text, style, onPress }) {
 
 const s = StyleSheet.create({
   btn: {
-    borderRadius: 50,
+    borderRadius: 4,
     paddingHorizontal: 16,
     alignItems: "center",
     justifyContent: "center",

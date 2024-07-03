@@ -1,6 +1,6 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
-import { EditBtn } from "../general/Buttons/EditBtn";
+import { SmallBtn } from "../general/Buttons/SmallBtn";
 
 export function Bet({ bet }) {
   return (
@@ -11,7 +11,7 @@ export function Bet({ bet }) {
           ${bet.betAmount} to win ${bet.toWinAmount}
         </Txt>
       </View>
-      <EditBtn isEnabled={true} text={"Edit"} />
+      <SmallBtn isEnabled={true} text={"Edit"} />
     </View>
   );
 }

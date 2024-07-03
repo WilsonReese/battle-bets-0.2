@@ -4,6 +4,7 @@ import { BetSlipBudget } from "./BetSlipBudget";
 import { useBetContext } from "../contexts/BetContext";
 import { Bet } from "./Bet";
 import { PayoutByType } from "./PayoutByType";
+import { SmallBtn } from "../general/Buttons/SmallBtn";
 
 export function BetSlipDetails({ budget, totalBet }) {
   const { bets } = useBetContext();
@@ -32,15 +33,14 @@ export function BetSlipDetails({ budget, totalBet }) {
           budget={budget}
           totalBet={totalBet}
         />
-        <Txt style={s.betDetailsText}>Spread and Over/Unders Here</Txt>
         {renderBets("spread")}
         {/* <View style={s.payoutByType}>
           <Txt style={[s.betDetailsText, {alignSelf: 'flex-end', borderWidth: 1}]}>Payout: ${calculatePayoutByType('spread')}</Txt>
         </View> */}
         <PayoutByType calculatePayout={calculatePayoutByType} />
-        <Txt style={[s.betDetailsText, { alignSelf: "center" }]}>
-          Add more bets
-        </Txt>
+        <View style={s.btnContainer}>
+          <SmallBtn isEnabled={true} text={"See Betting Options"} />
+        </View>
         <BetSlipBudget
           betType={"Money Line"}
           budget={budget}
@@ -85,24 +85,28 @@ const s = StyleSheet.create({
     color: "#061826",
   },
   payoutContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 4,
     borderTopWidth: 1,
-    borderColor: '#B8C3CC',
+    borderColor: "#B8C3CC",
     marginHorizontal: 8,
   },
   payoutHeading: {
     color: "#061826",
-    textTransform: 'uppercase',
-    fontFamily: 'Saira_600SemiBold',
+    textTransform: "uppercase",
+    fontFamily: "Saira_600SemiBold",
     // fontSize: 14
   },
   payoutText: {
     color: "#061826",
-    fontFamily: 'Saira_600SemiBold',
-    fontSize: 18
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 18,
+  },
+  btnContainer: {
+    alignItems: 'center',
+    paddingVertical: 4,
   }
 });
