@@ -43,12 +43,13 @@ export function Spread({
 
   const selectBet = (type) => {
     const title = getTitle(type);
-    const betId = uuid.v4(); // Generate a unique ID for the new bet
-    setCurrentBetId(betId);
+    // const betId = uuid.v4(); // Generate a unique ID for the new bet
+    // setCurrentBetId(betId);
     setSelection({ [type]: true });
     setBetAmount(minBet);
     setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-    addBet({ title: title, betAmount: minBet, payout: spreadPayout });
+    const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout });
+    setCurrentBetId(newBet.id)
   };
 
   const deselectBet = () => {
@@ -68,13 +69,14 @@ export function Spread({
       // switch between the two bet options
       removeBet(currentBetId); // Remove the previous bet
       setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
-      const newBetId = uuid.v4(); // Generate a new unique ID for the new bet
-      setCurrentBetId(newBetId);
+      // const newBetId = uuid.v4(); // Generate a new unique ID for the new bet
+      // setCurrentBetId(newBetId);
       const title = getTitle(type);
       setSelection({ [type]: true });
       setBetAmount(minBet);
       setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-      addBet({ title: title, betAmount: minBet, payout: spreadPayout });
+      const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout });
+      setCurrentBetId(newBet.id)
     }
   };
 

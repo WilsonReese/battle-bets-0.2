@@ -16,6 +16,7 @@ export const BetProvider = ({ children }) => {
       toWinAmount: betAmount * payout,
     };
     setBets((prevBets) => [...prevBets, newBet]);
+    return newBet;
   };
 
   const removeBet = (id) => {
