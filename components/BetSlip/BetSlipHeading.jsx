@@ -32,18 +32,18 @@ export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
           <FontAwesome6 name="chevron-up" size={24} color="#6E7880" />
         </Animated.View>
       </View>
-      <BetSlipBudget
+      {/* <BetSlipBudget
         betType={"Spread and Over/Under"}
         budget={budget}
         totalBet={totalBet}
-      />
+      /> */}
     </View>
   );
 }
 
 const s = StyleSheet.create({
   container: {
-    height: 77, // This controls how tall the heading is (pushes down the BetSlipDetails, should be equal to betSlipHeadingHeight on the BetSlip
+    // height: 40, // This controls how tall the heading is (pushes down the BetSlipDetails, should be equal to betSlipHeadingHeight on the BetSlip
   },
   detailsContainer: {
     flexDirection: "row",

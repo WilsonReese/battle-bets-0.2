@@ -18,6 +18,11 @@ export function BetSlipDetails({ budget, totalBet }) {
   return (
     <ScrollView>
       <View style={s.container}>
+      <BetSlipBudget
+          betType={"Spread and Over/Under"}
+          budget={budget}
+          totalBet={totalBet}
+        />
         <Txt style={s.betDetailsText}>Spread and Over/Unders Here</Txt>
         {renderBets('spread')}
         <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
@@ -41,7 +46,7 @@ export function BetSlipDetails({ budget, totalBet }) {
       </View>
 
       {/* This creates the space needed for the ScrollView to show everything  */}
-      <View style={{height: 90}}></View> 
+      <View style={{height: 50}}></View> 
     </ScrollView>
   );
 }
