@@ -2,29 +2,28 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
-import { useEffect, useState } from "react";
 import { useBetContext } from "../contexts/BetContext";
+import { useState, useEffect } from "react";
 
-export function BetSelector({
-  option,
-  closeSelection,
-  minBet,
-  maxBet,
-  payout,
-  betAmount,
-  setBetAmount,
-  setTotalBet,
-  betId,
-}) {
+export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
+  const { bets, updateBet } = useBetContext();
+  const bet = bets.find((b) => b.id === betId);
+
+  const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
+
+  useEffect(() => {
+    if (bet) {
+      setBetAmount(bet.betAmount);
+    }
+  }, [bet]);
+
   const increment = 100;
-  const { updateBet } = useBetContext();
 
   const incrementBet = () => {
     if (betAmount < maxBet) {
       const newBetAmount = betAmount + increment;
       setBetAmount(newBetAmount);
-      setTotalBet((prevTotalBet) => prevTotalBet + increment);
-      updateBet(betId, newBetAmount, payout); // Call updateBet with the unique ID
+      updateBet(betId, newBetAmount, payout);
     }
   };
 
@@ -32,8 +31,7 @@ export function BetSelector({
     if (betAmount > minBet) {
       const newBetAmount = betAmount - increment;
       setBetAmount(newBetAmount);
-      setTotalBet((prevTotalBet) => prevTotalBet - increment);
-      updateBet(betId, newBetAmount, payout); // Call updateBet with the unique ID
+      updateBet(betId, newBetAmount, payout);
     }
   };
 
@@ -42,6 +40,7 @@ export function BetSelector({
   const closeIcon = (
     <FontAwesome6 name="circle-xmark" size={24} color="#6E7880" />
   );
+
   return (
     <View style={s.container}>
       <Pressable
@@ -88,7 +87,6 @@ const s = StyleSheet.create({
   },
   text: {
     color: "#061826",
-    // fontSize: 14,
   },
   closeIcon: {
     flex: 1,

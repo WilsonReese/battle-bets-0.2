@@ -3,8 +3,10 @@ import { Txt } from "../general/Txt";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
+import { useState } from "react";
 
 export function Bet({ bet }) {
+  const [isSelectorVisible, setIsSelectorVisible] = useState(false);
   const { minBet, maxBet } = BETTING_RULES.spread;
 
   return (
@@ -18,14 +20,13 @@ export function Bet({ bet }) {
         </View>
         <SmallBtn isEnabled={true} text={"Edit"} />
       </View>
-      <BetSelector
-        closeSelection={""}
-        minBet={minBet}
-        maxBet={maxBet}
-        payout={bet.toWinAmount / bet.betAmount}
-        betAmount={bet.betAmount}
-        
-      />
+        <BetSelector
+          betId={bet.id}
+          closeSelection={() => setIsSelectorVisible(false)}
+          minBet={minBet}
+          maxBet={maxBet}
+          payout={bet.toWinAmount/bet.betAmount}
+        />
     </View>
   );
 }
