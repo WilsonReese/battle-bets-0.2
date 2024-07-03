@@ -8,12 +8,13 @@ export const useBetContext = () => useContext(BetContext);
 export const BetProvider = ({ children }) => {
   const [bets, setBets] = useState([]);
 
-  const addBet = ({ title, betAmount, payout }) => {
+  const addBet = ({ title, betAmount, payout, betType }) => {
     const newBet = {
       id: uuid.v4(),
       name: title,
       betAmount,
       toWinAmount: betAmount * payout,
+      betType: betType,
     };
     setBets((prevBets) => [...prevBets, newBet]);
     return newBet;

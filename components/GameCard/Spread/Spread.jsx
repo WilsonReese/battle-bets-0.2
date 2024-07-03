@@ -48,7 +48,7 @@ export function Spread({
     setSelection({ [type]: true });
     setBetAmount(minBet);
     setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-    const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout });
+    const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout, betType: "spread" });
     setCurrentBetId(newBet.id)
   };
 
@@ -75,7 +75,7 @@ export function Spread({
       setSelection({ [type]: true });
       setBetAmount(minBet);
       setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-      const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout });
+      const newBet = addBet({ title: title, betAmount: minBet, payout: spreadPayout, betType: "spread" });
       setCurrentBetId(newBet.id)
     }
   };
