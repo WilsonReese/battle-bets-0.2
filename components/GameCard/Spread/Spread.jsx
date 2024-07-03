@@ -48,15 +48,15 @@ export function Spread({
     setSelection({ [type]: true });
     setBetAmount(minBet);
     setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-    addBet({ title, betAmount: minBet, payout: spreadPayout });
+    addBet({ title: title, betAmount: minBet, payout: spreadPayout });
   };
 
   const deselectBet = () => {
+    removeBet(currentBetId); // Use the unique bet ID
+    setCurrentBetId(null);
     setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
     setSelection({ home: false, away: false });
     setBetAmount(0);
-    removeBet(currentBetId); // Use the unique bet ID
-    setCurrentBetId(null);
   };
 
   const toggleBet = (type) => {
@@ -74,7 +74,7 @@ export function Spread({
       setSelection({ [type]: true });
       setBetAmount(minBet);
       setTotalBet((prevTotalBet) => prevTotalBet + minBet);
-      addBet({ title, betAmount: minBet, payout: spreadPayout });
+      addBet({ title: title, betAmount: minBet, payout: spreadPayout });
     }
   };
 

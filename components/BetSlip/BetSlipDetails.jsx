@@ -8,7 +8,7 @@ export function BetSlipDetails({ budget, totalBet }) {
 
     const renderItem = ({ item }) => (
         <View style={s.betItem}>
-          <Txt style={s.betText}>{item.type} - ${item.betAmount} - Payout: {item.payout}</Txt>
+          <Txt style={s.betText}>{item.name} - ${item.betAmount} - To Win: {item.toWinAmount} - ID: {item.id}</Txt>
         </View>
       );
   
