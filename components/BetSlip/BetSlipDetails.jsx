@@ -44,6 +44,9 @@ export function BetSlipDetails({ budget, totalBet }) {
         />
         <Txt style={s.betDetailsText}>Money Line Here</Txt>
       </View>
+
+      {/* This creates the space needed for the ScrollView to show everything  */}
+      <View style={{height: 90}}></View> 
     </ScrollView>
   );
 }
