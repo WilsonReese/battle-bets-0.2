@@ -1,28 +1,15 @@
-import { FlatList, ScrollView, StyleSheet, View } from "react-native";
+import { ScrollView, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetSlipBudget } from "./BetSlipBudget";
 import { useBetContext } from "../contexts/BetContext";
+import { Bet } from "./Bet";
 
 export function BetSlipDetails({ budget, totalBet }) {
   const { bets } = useBetContext();
 
-  const renderItem = ({ item }) => (
-    <View style={s.betItem}>
-      <Txt style={s.betText}>
-        {item.name} - ${item.betAmount} - To Win: {item.toWinAmount} - ID:{" "}
-        {item.id} - Type: {item.betType}
-      </Txt>
-    </View>
-  );
-
   function renderBets() {
     return bets.map((bet) => (
-      <View key={bet.id} style={s.betItem}>
-        <Txt style={s.betText}>
-          {bet.name} - ${bet.betAmount} - To Win: {bet.toWinAmount} - ID:{" "}
-          {bet.id} - Type: {bet.betType}
-        </Txt>
-      </View>
+      <Bet key={bet.id} bet={bet} />
     ));
   }
 
@@ -31,6 +18,7 @@ export function BetSlipDetails({ budget, totalBet }) {
       <View style={s.container}>
         <Txt style={s.betDetailsText}>Spread and Over/Unders Here</Txt>
         {renderBets()}
+        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
         <BetSlipBudget
           betType={"Money Line"}
           budget={budget}
@@ -57,14 +45,5 @@ const s = StyleSheet.create({
   },
   betDetailsText: {
     color: "#061826",
-  },
-  betItem: {
-    padding: 8,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
-  },
-  betText: {
-    fontSize: 16,
-    color: "black",
   },
 });
