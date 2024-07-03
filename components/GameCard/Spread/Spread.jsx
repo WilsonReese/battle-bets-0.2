@@ -6,6 +6,7 @@ import { useEffect, useRef, useState } from "react";
 import { Txt } from "../../general/Txt";
 import { useBetContext } from "../../contexts/BetContext";
 import uuid from "react-native-uuid";
+import { BETTING_RULES } from "../../../utils/betting-rules";
 
 export function Spread({
   spreadHome,
@@ -16,7 +17,8 @@ export function Spread({
 }) {
   const [selection, setSelection] = useState({ home: false, away: false });
   const [betAmount, setBetAmount] = useState(0);
-  const [minBet, maxBet] = [100, 1000];
+  const { minBet, maxBet } = BETTING_RULES.spread;
+  // const [minBet, maxBet] = [100, 1000];
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const { addBet, removeBet } = useBetContext(); // Use the context
   const [currentBetId, setCurrentBetId] = useState(null);

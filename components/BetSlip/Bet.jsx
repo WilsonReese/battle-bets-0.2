@@ -2,8 +2,11 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { BetSelector } from "../GameCard/BetSelector";
+import { BETTING_RULES } from "../../utils/betting-rules";
 
 export function Bet({ bet }) {
+  const { minBet, maxBet } = BETTING_RULES.spread;
+
   return (
     <View style={s.container}>
       <View style={s.betItem}>
@@ -15,7 +18,14 @@ export function Bet({ bet }) {
         </View>
         <SmallBtn isEnabled={true} text={"Edit"} />
       </View>
-      <BetSelector minBet={100} maxBet={1000} />
+      <BetSelector
+        closeSelection={""}
+        minBet={minBet}
+        maxBet={maxBet}
+        payout={bet.toWinAmount / bet.betAmount}
+        betAmount={bet.betAmount}
+        
+      />
     </View>
   );
 }
@@ -29,7 +39,6 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-
   },
   betDetailsContainer: {
     flexDirection: "row",
