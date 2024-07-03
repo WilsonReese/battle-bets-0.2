@@ -1,6 +1,5 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
-import { Btn } from "../general/Buttons/Btn";
 import { EditBtn } from "../general/Buttons/EditBtn";
 
 export function Bet({ bet }) {
@@ -12,14 +11,7 @@ export function Bet({ bet }) {
           ${bet.betAmount} to win ${bet.toWinAmount}
         </Txt>
       </View>
-        <EditBtn isEnabled={true} text={'Edit'}/>
-      {/* <Txt style={s.betText}>EDIT</Txt> 
-      btnText,
-  btnSecondaryText,
-  btnSize,
-  isEnabled,
-  icon,
-  style*/}
+      <EditBtn isEnabled={true} text={"Edit"} />
     </View>
   );
 }
@@ -28,7 +20,7 @@ const s = StyleSheet.create({
   betItem: {
     flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: 'center',
+    alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 4,
   },

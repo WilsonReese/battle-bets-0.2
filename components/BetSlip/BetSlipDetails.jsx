@@ -3,6 +3,7 @@ import { Txt } from "../general/Txt";
 import { BetSlipBudget } from "./BetSlipBudget";
 import { useBetContext } from "../contexts/BetContext";
 import { Bet } from "./Bet";
+import { PayoutByType } from "./PayoutByType";
 
 export function BetSlipDetails({ budget, totalBet }) {
   const { bets } = useBetContext();
@@ -15,6 +16,13 @@ export function BetSlipDetails({ budget, totalBet }) {
       ));
   }
 
+  function calculatePayoutByType(betType) {
+    return bets
+      .filter(bet => bet.betType === betType)
+      .reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
+  }
+
+
   return (
     <ScrollView>
       <View style={s.container}>
@@ -25,7 +33,10 @@ export function BetSlipDetails({ budget, totalBet }) {
         />
         <Txt style={s.betDetailsText}>Spread and Over/Unders Here</Txt>
         {renderBets('spread')}
-        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
+        {/* <View style={s.payoutByType}>
+          <Txt style={[s.betDetailsText, {alignSelf: 'flex-end', borderWidth: 1}]}>Payout: ${calculatePayoutByType('spread')}</Txt>
+        </View> */}
+        <PayoutByType calculatePayoutByType={calculatePayoutByType}/>
         <Txt style={[s.betDetailsText, {alignSelf: 'center'}]}>Add more bets</Txt>
         <BetSlipBudget
           betType={"Money Line"}
@@ -33,7 +44,7 @@ export function BetSlipDetails({ budget, totalBet }) {
           totalBet={totalBet}
         />
         <Txt style={s.betDetailsText}>Money Line Here</Txt>
-        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
+        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Payout: $$$$</Txt>
         <Txt style={[s.betDetailsText, {alignSelf: 'center'}]}>Add more bets</Txt>
         <BetSlipBudget
           betType={"Prop Bets"}
@@ -41,9 +52,10 @@ export function BetSlipDetails({ budget, totalBet }) {
           totalBet={totalBet}
         />
         <Txt style={s.betDetailsText}>Prop Bets Here</Txt>
-        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
+        <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Payout: $$$$</Txt>
         <Txt style={[s.betDetailsText, {alignSelf: 'center'}]}>Add more bets</Txt>
       </View>
+      <Txt style={s.betDetailsText}>Total Payout</Txt>
 
       {/* This creates the space needed for the ScrollView to show everything  */}
       <View style={{height: 50}}></View> 
@@ -58,4 +70,7 @@ const s = StyleSheet.create({
   betDetailsText: {
     color: "#061826",
   },
+  payoutByType: {
+    backgroundColor: 'green'
+  }
 });
