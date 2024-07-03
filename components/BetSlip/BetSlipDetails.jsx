@@ -7,17 +7,19 @@ import { Bet } from "./Bet";
 export function BetSlipDetails({ budget, totalBet }) {
   const { bets } = useBetContext();
 
-  function renderBets() {
-    return bets.map((bet) => (
-      <Bet key={bet.id} bet={bet} />
-    ));
+  function renderBets(betType) {
+    return bets
+      .filter(bet => bet.betType === betType)
+      .map((bet) => (
+        <Bet key={bet.id} bet={bet} />
+      ));
   }
 
   return (
     <ScrollView>
       <View style={s.container}>
         <Txt style={s.betDetailsText}>Spread and Over/Unders Here</Txt>
-        {renderBets()}
+        {renderBets('spread')}
         <Txt style={[s.betDetailsText, {alignSelf: 'flex-end'}]}>Total Payout: $$$$</Txt>
         <Txt style={[s.betDetailsText, {alignSelf: 'center'}]}>Add more bets</Txt>
         <BetSlipBudget
