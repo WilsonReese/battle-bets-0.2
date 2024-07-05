@@ -29,7 +29,7 @@ export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
       <View style={s.detailsContainer}>
         <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
         <Animated.View style={arrowStyle}>
-          <FontAwesome6 name="chevron-up" size={24} color="#6E7880" />
+          <FontAwesome6 name="chevron-up" size={24} color="#F8F8F8" />
         </Animated.View>
       </View>
       {/* <BetSlipBudget
@@ -52,10 +52,13 @@ const s = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 8,
     paddingBottom: 4,
+    backgroundColor: '#184EAD',
+    borderTopLeftRadius: 15,
+    borderTopRightRadius: 15,
   },
   title: {
     fontSize: 20,
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_600SemiBold",
   },
 });

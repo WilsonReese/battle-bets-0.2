@@ -12,7 +12,7 @@ import { BetSlipDetails } from "./BetSlipDetails";
 
 const { height } = Dimensions.get("window");
 const betSlipHeight = (height * 2.5) / 5; // 3/5 of the screen height
-const betSlipHeadingHeight = 77; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
+const betSlipHeadingHeight = 69; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
 
 export function BetSlip({
   budget,
@@ -57,15 +57,13 @@ const s = StyleSheet.create({
     bottom: 0,
     left: 0,
     right: 0,
-    borderColor: '#B8C3CC',
-    borderWidth: 1,
     backgroundColor: "#F8F8F8",
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
-      height: -2,
+      height: -3,
     },
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
