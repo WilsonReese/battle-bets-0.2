@@ -5,7 +5,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { useBetContext } from "../contexts/BetContext";
 
 export function BetSlipBudget({ betType }) {
-  const check = <FontAwesome6 name="check" size={16} color="#0C9449" />
+  const check = <View style={{paddingRight: 4}}><FontAwesome6 name="check" size={12} color="#0C9449"/></View>
   const { budget, totalBet } = useBetContext(); // Use the context
 
   const [isBudgetUsed, setIsBudgetUsed] = useState(totalBet === budget);
@@ -14,10 +14,12 @@ export function BetSlipBudget({ betType }) {
     setIsBudgetUsed(totalBet === budget);
   }, [totalBet, budget]);
 
+
+
   return (
     <View style={s.container}>
       <View style={s.titleContainer}>
-        <Txt>{check}</Txt>
+        {isBudgetUsed ? check : null}
         <Txt style={s.titleText}>{betType}</Txt>
       </View>
       <View style={s.budget}>
@@ -37,22 +39,23 @@ const s = StyleSheet.create({
     // paddingVertical: 4,
     borderTopWidth: 1,
     borderTopColor: '#DAE1E5',
-    // backgroundColor: '#184EAD',
+    // backgroundColor: 'yellow',
     paddingHorizontal: 8,
-    alignItems: 'baseline',
+    alignItems: 'center',
   },
   budget: {
     flexDirection: "row",
     alignItems: "center",
+    // backgroundColor: 'red'
   },
   titleContainer: {
     flexDirection: 'row',
     alignItems: 'center',
+    // backgroundColor: 'orange'
   },
   titleText: {
     color: "#061826",
     fontFamily: 'Saira_600SemiBold',
-    paddingLeft: 4,
   }, 
   text: {
     color: "#061826",
