@@ -8,9 +8,18 @@ export function BetSlipBudget({ betType }) {
   const check = <FontAwesome6 name="check" size={16} color="#0C9449" />
   const { budget, totalBet } = useBetContext(); // Use the context
 
+  const [isBudgetUsed, setIsBudgetUsed] = useState(totalBet === budget);
+
+  useEffect(() => {
+    setIsBudgetUsed(totalBet === budget);
+  }, [totalBet, budget]);
+
   return (
     <View style={s.container}>
-      <Txt style={s.title}>{betType}</Txt>
+      <View style={s.titleContainer}>
+        <Txt>{check}</Txt>
+        <Txt style={s.titleText}>{betType}</Txt>
+      </View>
       <View style={s.budget}>
         <Txt style={s.budgetText}>${totalBet}</Txt>
         <Txt style={s.text}> of </Txt>
@@ -25,32 +34,32 @@ const s = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 4,
-    // borderTopWidth: 1,
-    // borderTopColor: '#DAE1E5',
-    backgroundColor: '#5996FF',
+    // paddingVertical: 4,
+    borderTopWidth: 1,
+    borderTopColor: '#DAE1E5',
+    // backgroundColor: '#184EAD',
     paddingHorizontal: 8,
-    alignItems: 'baseline'
+    alignItems: 'baseline',
   },
   budget: {
     flexDirection: "row",
-    // backgroundColor: 'green',
     alignItems: "center",
-    // paddingVertical: 4,
-    // paddingHorizontal: 12,
-    // // borderRadius: 20,
-    // // borderWidth: 1,
   },
-  title: {
-    // color: "#061826",
-    fontFamily: 'Saira_600SemiBold'
+  titleContainer: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  titleText: {
+    color: "#061826",
+    fontFamily: 'Saira_600SemiBold',
+    paddingLeft: 4,
   }, 
   text: {
-    // color: "#061826",
+    color: "#061826",
     fontSize: 14,
   },
   budgetText: {
-    // color: "#061826",
+    color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 14,
   },
