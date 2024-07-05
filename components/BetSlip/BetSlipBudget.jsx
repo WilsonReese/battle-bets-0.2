@@ -2,9 +2,11 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { useEffect, useState } from "react";
 import { FontAwesome6 } from '@expo/vector-icons';
+import { useBetContext } from "../contexts/BetContext";
 
-export function BetSlipBudget({ betType, budget, totalBet }) {
+export function BetSlipBudget({ betType }) {
   const check = <FontAwesome6 name="check" size={16} color="#0C9449" />
+  const { budget, totalBet } = useBetContext(); // Use the context
 
   return (
     <View style={s.container}>
