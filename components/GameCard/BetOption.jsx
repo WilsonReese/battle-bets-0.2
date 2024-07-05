@@ -15,9 +15,9 @@ export function BetOption({ title, payout, isSelected, onPress, isEnabled }) {
       ]}
       onPress={isEnabled || isSelected ? onPress : null} // Disable onPress if not enabled and not selected
     >
-      <Txt style={[ isEnabled || isSelected ? s.oddsText : s.disabledOddsText]}>{title}</Txt>
-      <View style={[isEnabled || isSelected ? s.payout: s.disabledPayout]}>
-        <Txt style={[ isEnabled || isSelected ? s.payoutText : s.disabledPayoutText]}>x{payout}</Txt>
+      <Txt style={[s.oddsText, isEnabled || isSelected ? null : s.disabledText]}>{title}</Txt>
+      <View style={[s.payout, isEnabled || isSelected ? null : s.disabledOption]}>
+        <Txt style={[s.payoutText, isEnabled || isSelected ? null : s.disabledText]}>x{payout}</Txt>
       </View>
     </Pressable>
   );
@@ -55,27 +55,13 @@ const s = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  disabledOption: {
-    backgroundColor: "#B8C3CC", 
-  },
   oddsText: {
     fontFamily: "Saira_600SemiBold",
     color: "#061826",
     fontSize: 14,
   },
-  disabledOddsText: {
-    fontFamily: "Saira_600SemiBold",
-    color: "#6E7880",
-    fontSize: 14,
-  },
   payout: {
     backgroundColor: "#54D18C",
-    borderTopRightRadius: 8,
-    borderBottomRightRadius: 8,
-    padding: 8,
-  },
-  disabledPayout: {
-    backgroundColor: "#B8C3CC",
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
     padding: 8,
@@ -85,9 +71,10 @@ const s = StyleSheet.create({
     color: "#061826",
     fontSize: 14,
   },
-  disabledPayoutText: {
-    fontFamily: "Saira_300Light",
+  disabledOption: {
+    backgroundColor: "#B8C3CC", 
+  },
+  disabledText: {
     color: "#6E7880",
-    fontSize: 14,
   },
 });
