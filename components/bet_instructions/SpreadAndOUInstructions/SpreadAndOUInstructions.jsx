@@ -8,10 +8,10 @@ export function SpreadAndOUInstructions({}) {
         <Txt>Title</Txt>
         <Txt>Instructions Toggle</Txt>
       </View>
-      <View>
+      {/* <View>
         <Txt>Betting definition</Txt>
         <Txt>Betting examples</Txt>
-      </View>
+      </View> */}
     </View>
   );
 }
