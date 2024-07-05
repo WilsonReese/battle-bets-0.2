@@ -1,18 +1,21 @@
 import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function BetOption({ title, payout, isSelected, onPress }) {
+export function BetOption({ title, payout, isSelected, isEnabled, onPress }) {
   function checkIfSelected() {
-    return isSelected ? s.isSelected : s.isNotSelected;
+    return isSelected ? s.isSelected : [s.isNotSelected, s.shadow];
   }
 
   return (
-    <Pressable style={({ pressed }) => [
-        s.optionView, 
+    <Pressable
+      style={({ pressed }) => [
+        s.optionView,
         checkIfSelected(),
-        pressed && { opacity: 0.5 },
-        ]}
-        onPress={onPress}>
+        pressed && isEnabled && { opacity: 0.5 },
+        !isEnabled && !isSelected && s.disabledOption, // Apply disabled style if not selected
+      ]}
+      onPress={isEnabled || isSelected ? onPress : null} // Disable onPress if not enabled and not selected
+    >
       <Txt style={s.oddsText}>{title}</Txt>
       <View style={s.payout}>
         <Txt style={s.payoutText}>x{payout}</Txt>
@@ -31,12 +34,14 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     backgroundColor: "#F8F8F8",
-    // marginVertical: 4,
     borderRadius: 8,
     paddingLeft: 8,
   },
   isNotSelected: {
+    marginBottom: 4,
     // shadow
+  },
+  shadow: {
     shadowColor: "#000",
     shadowOffset: {
       width: 0,
@@ -45,13 +50,15 @@ const s = StyleSheet.create({
     shadowOpacity: 0.25,
     shadowRadius: 3.84,
     elevation: 5,
-    marginBottom: 4,
   },
   isSelected: {
     backgroundColor: "#54D18C",
     borderBottomRightRadius: 0,
     borderBottomLeftRadius: 0,
     paddingBottom: 4,
+  },
+  disabledOption: {
+    backgroundColor: "#ddd", // Style for disabled state
   },
   oddsText: {
     fontFamily: "Saira_600SemiBold",

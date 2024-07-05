@@ -13,11 +13,11 @@ export function Spread({
   spreadAway,
   spreadPayout,
 }) {
+  const { addBet, removeBet, totalBet, budget } = useBetContext(); // Use the context
   const [selection, setSelection] = useState({ home: false, away: false });
-  const [betAmount, setBetAmount] = useState(0);
+  const [isEnabled, setIsEnabled] = useState(totalBet < budget);
   const { minBet, maxBet } = BETTING_RULES.spread;
   const animatedHeight = useRef(new Animated.Value(0)).current;
-  const { addBet, removeBet } = useBetContext(); // Use the context
   const [currentBetId, setCurrentBetId] = useState(null);
 
   // this animates the selection of each bet
@@ -37,6 +37,10 @@ export function Spread({
     }
   }, [selection]);
 
+  useEffect(() => {
+    setIsEnabled(totalBet < budget);
+  }, [totalBet, budget]);
+
   const getTitle = (type) => {
     return type === "home" ? spreadHome : spreadAway;
   };
@@ -44,7 +48,6 @@ export function Spread({
   const selectBet = (type) => {
     const title = getTitle(type);
     setSelection({ [type]: true });
-    setBetAmount(minBet);
     const newBet = addBet({
       title: title,
       betAmount: minBet,
@@ -58,7 +61,6 @@ export function Spread({
     removeBet(currentBetId); // Use the unique bet ID
     setCurrentBetId(null);
     setSelection({ home: false, away: false });
-    setBetAmount(0);
   };
 
   const toggleBet = (type) => {
@@ -71,7 +73,6 @@ export function Spread({
       removeBet(currentBetId); // Remove the previous bet
       const title = getTitle(type);
       setSelection({ [type]: true });
-      setBetAmount(minBet);
       const newBet = addBet({
         title: title,
         betAmount: minBet,
@@ -90,6 +91,7 @@ export function Spread({
           title={spreadHome}
           payout={spreadPayout}
           isSelected={selection.home}
+          isEnabled={isEnabled}
           onPress={() => toggleBet("home")}
         />
         <View style={{ padding: 4 }}></View>
@@ -97,6 +99,7 @@ export function Spread({
           title={spreadAway}
           payout={spreadPayout}
           isSelected={selection.away}
+          isEnabled={isEnabled}
           onPress={() => toggleBet("away")}
         />
       </View>
