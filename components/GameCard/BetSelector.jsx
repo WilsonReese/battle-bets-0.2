@@ -6,7 +6,7 @@ import { useBetContext } from "../contexts/BetContext";
 import { useState, useEffect } from "react";
 
 export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
-  const { bets, updateBet } = useBetContext();
+  const { bets, updateBet, totalBet, budget } = useBetContext();
   const bet = bets.find((b) => b.id === betId);
 
   const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
@@ -20,7 +20,7 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
   const increment = 100;
 
   const incrementBet = () => {
-    if (betAmount < maxBet) {
+    if (betAmount < maxBet && totalBet + increment <= budget) {
       const newBetAmount = betAmount + increment;
       setBetAmount(newBetAmount);
       updateBet(betId, newBetAmount, payout);
@@ -60,7 +60,7 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
         </View>
         <IncrementBtn
           icon={plusSign}
-          isEnabled={betAmount < maxBet}
+          isEnabled={betAmount < maxBet && totalBet + increment <= budget}
           onPress={incrementBet}
         />
       </View>
