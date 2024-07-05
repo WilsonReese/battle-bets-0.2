@@ -12,15 +12,12 @@ export function Spread({
   spreadHome,
   spreadAway,
   spreadPayout,
-  totalBet,
-  // setTotalBet,
 }) {
   const [selection, setSelection] = useState({ home: false, away: false });
   const [betAmount, setBetAmount] = useState(0);
   const { minBet, maxBet } = BETTING_RULES.spread;
-  // const [minBet, maxBet] = [100, 1000];
   const animatedHeight = useRef(new Animated.Value(0)).current;
-  const { addBet, removeBet, setTotalBet } = useBetContext(); // Use the context
+  const { addBet, removeBet } = useBetContext(); // Use the context
   const [currentBetId, setCurrentBetId] = useState(null);
 
   // this animates the selection of each bet
@@ -48,7 +45,6 @@ export function Spread({
     const title = getTitle(type);
     setSelection({ [type]: true });
     setBetAmount(minBet);
-    // setTotalBet((prevTotalBet) => prevTotalBet + minBet);
     const newBet = addBet({
       title: title,
       betAmount: minBet,
@@ -61,7 +57,6 @@ export function Spread({
   const deselectBet = () => {
     removeBet(currentBetId); // Use the unique bet ID
     setCurrentBetId(null);
-    // setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
     setSelection({ home: false, away: false });
     setBetAmount(0);
   };
@@ -74,11 +69,9 @@ export function Spread({
     } else {
       // switch between the two bet options
       removeBet(currentBetId); // Remove the previous bet
-      // setTotalBet((prevTotalBet) => prevTotalBet - betAmount);
       const title = getTitle(type);
       setSelection({ [type]: true });
       setBetAmount(minBet);
-      // setTotalBet((prevTotalBet) => prevTotalBet + minBet);
       const newBet = addBet({
         title: title,
         betAmount: minBet,
@@ -115,9 +108,6 @@ export function Spread({
             minBet={minBet}
             maxBet={maxBet}
             payout={spreadPayout}
-            // betAmount={betAmount}
-            // setBetAmount={setBetAmount}
-            // setTotalBet={setTotalBet}
             betId={currentBetId}
           />
         )}
@@ -128,9 +118,6 @@ export function Spread({
             minBet={minBet}
             maxBet={maxBet}
             payout={spreadPayout}
-            // betAmount={betAmount}
-            // setBetAmount={setBetAmount}
-            // setTotalBet={setTotalBet}
             betId={currentBetId}
           />
         )}

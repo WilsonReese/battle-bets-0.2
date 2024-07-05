@@ -10,10 +10,6 @@ export function BetOptions({
   ou,
   spreadPayout,
   ouPayout,
-  budget,
-  setBudget,
-  totalBet,
-  setTotalBet,
 }) {
   return (
     <View style={s.container}>
@@ -21,16 +17,10 @@ export function BetOptions({
         spreadHome={spreadHome}
         spreadAway={spreadAway}
         spreadPayout={spreadPayout}
-        budget={budget}
-        setBudget={setBudget}
-        totalBet={totalBet}
-        setTotalBet={setTotalBet}
       />
       <OverUnder
         ou={ou}
         ouPayout={ouPayout}
-        totalBet={totalBet}
-        setTotalBet={setTotalBet}
       />
     </View>
   );

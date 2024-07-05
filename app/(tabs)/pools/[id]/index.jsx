@@ -19,13 +19,12 @@ export default function PoolDetails() {
   const { id } = useLocalSearchParams();
   const gameData = GAME_DATA;
   const [budget, setBudget] = useState(2000);
-  const [totalBet, setTotalBet] = useState(0);
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
 
   function renderGameCards() {
     return GAME_DATA.map((game) => (
       <View key={game.id}>
-        <GameCard game={game} budget={budget} setBudget={setBudget} totalBet={totalBet} setTotalBet={setTotalBet} />
+        <GameCard game={game} />
       </View>
     ));
   }
@@ -39,7 +38,6 @@ export default function PoolDetails() {
         </View>
         <View style={s.body}>
           <SpreadAndOUInstructions />
-          <Txt>{totalBet}</Txt>
           <ScrollView>
             {/* This function renders each of the games */}
             {renderGameCards()}
@@ -61,7 +59,7 @@ export default function PoolDetails() {
           </ScrollView>
         </View>
         <View>
-          <BetSlip budget={budget} totalBet={totalBet} poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} />
+          <BetSlip budget={budget} poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
