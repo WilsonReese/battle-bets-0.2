@@ -5,16 +5,19 @@ import { useBetContext } from "../contexts/BetContext";
 import { Bet } from "./Bet";
 import { PayoutByType } from "./PayoutByType";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 export function BetSlipDetails({ budget, totalBet }) {
   const { bets } = useBetContext();
   const [isSelectorVisible, setIsSelectorVisible] = useState(false);
+  const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
 
   function renderBets(betType) {
     return bets
       .filter((bet) => bet.betType === betType)
-      .map((bet) => <Bet key={bet.id} bet={bet} isSelectorVisible={isSelectorVisible} />);
+      .map((bet) => (
+        <Bet key={bet.id} bet={bet} isSelectorVisible={isSelectorVisible} />
+      ));
   }
 
   function calculatePayoutByType(betType) {
@@ -26,6 +29,10 @@ export function BetSlipDetails({ budget, totalBet }) {
   function calculateTotalPayout() {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
   }
+  
+  useEffect(() => {
+    setBetAmountBtnAction(isSelectorVisible ? "Save" : "Edit");
+  }, [isSelectorVisible]);
 
   return (
     <ScrollView>
@@ -38,8 +45,17 @@ export function BetSlipDetails({ budget, totalBet }) {
         {renderBets("spread")}
         <PayoutByType calculatePayout={calculatePayoutByType} />
         <View style={s.btnContainer}>
-          <SmallBtn isEnabled={true} text={"Edit Bet Amounts"} style={s.btns} onPress={() => setIsSelectorVisible(!isSelectorVisible)} />
-          <SmallBtn isEnabled={true} text={"See Betting Options"} style={s.btns} />
+          <SmallBtn
+            isEnabled={true}
+            text={`${betAmountBtnAction} Bets`}
+            style={s.btns}
+            onPress={() => setIsSelectorVisible(!isSelectorVisible)}
+          />
+          <SmallBtn
+            isEnabled={true}
+            text={"Show Options"}
+            style={s.btns}
+          />
         </View>
         <BetSlipBudget
           betType={"Money Line"}

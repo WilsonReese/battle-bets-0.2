@@ -11,7 +11,7 @@ export function Bet({ bet, isSelectorVisible }) {
   useEffect(() => {
     Animated.timing(animatedHeight, {
       toValue: isSelectorVisible ? 54 : 0, // Adjust the height as needed
-      duration: 300,
+      duration: 200,
       useNativeDriver: false,
     }).start();
   }, [isSelectorVisible]);
