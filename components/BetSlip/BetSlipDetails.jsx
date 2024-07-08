@@ -4,9 +4,12 @@ import { BetSlipBudget } from "./BetSlipBudget";
 import { useBetContext } from "../contexts/BetContext";
 import { BetTypeSection } from "./BetTypeSection";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
+import { Btn } from "../general/Buttons/Btn";
+import { FontAwesome6 } from '@expo/vector-icons';
 
 export function BetSlipDetails({}) {
   const { bets } = useBetContext();
+  const arrowIcon = <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
 
   function calculateTotalPayout() {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
@@ -24,44 +27,49 @@ export function BetSlipDetails({}) {
   }
 
   return (
-    <ScrollView>
-      <View style={s.container}>
-        <BetSlipBudget betType={"Spread and Over/Under"} />
-        {hasBetsOfType("spread") ? (
-          <BetTypeSection betType={"spread"} />
-        ) : (
-          <View style={s.emptySectionContainer}>
-            <Txt style={s.text}>No bets selected yet.</Txt>
-            <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
-          </View>
-        )}
-        <BetSlipBudget betType={"Money Line"} />
-        {hasBetsOfType("money line") ? (
-          <BetTypeSection betType={"money line"} />
-        ) : (
-          <View style={s.emptySectionContainer}>
-            <Txt style={s.text}>No bets selected yet.</Txt>
-            <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
-          </View>
-        )}
-        <BetSlipBudget betType={"Prop Bets"} />
-        {hasBetsOfType("prop") ? (
-          <BetTypeSection betType={"props"} />
-        ) : (
-          <View style={s.emptySectionContainer}>
-            <Txt style={s.text}>No bets selected yet.</Txt>
-            <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
-          </View>
-        )}
-      </View>
-      <View style={s.payoutContainer}>
-        <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
-        <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
-      </View>
+    <View>
+      <ScrollView>
+        <View style={s.container}>
+          <BetSlipBudget betType={"Spread and Over/Under"} />
+          {hasBetsOfType("spread") ? (
+            <BetTypeSection betType={"spread"} />
+          ) : (
+            <View style={s.emptySectionContainer}>
+              <Txt style={s.text}>No bets selected yet.</Txt>
+              <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+            </View>
+          )}
+          <BetSlipBudget betType={"Money Line"} />
+          {hasBetsOfType("money line") ? (
+            <BetTypeSection betType={"money line"} />
+          ) : (
+            <View style={s.emptySectionContainer}>
+              <Txt style={s.text}>No bets selected yet.</Txt>
+              <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+            </View>
+          )}
+          <BetSlipBudget betType={"Prop Bets"} />
+          {hasBetsOfType("prop") ? (
+            <BetTypeSection betType={"props"} />
+          ) : (
+            <View style={s.emptySectionContainer}>
+              <Txt style={s.text}>No bets selected yet.</Txt>
+              <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+            </View>
+          )}
+        </View>
+        <View style={s.payoutContainer}>
+          <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
+          <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
+        </View>
 
-      {/* This creates the space needed for the ScrollView to show everything  */}
-      <View style={{ height: 50 }}></View>
-    </ScrollView>
+        {/* This creates the space needed for the ScrollView to show everything  */}
+        <View style={s.submitBtnContainer}>
+          <Btn btnText={"Submit Picks"} style={{height: 56}} icon={arrowIcon}/>
+        </View>
+        <View style={{ height: 50 }}></View>
+      </ScrollView>
+    </View>
   );
 }
 
@@ -104,4 +112,8 @@ const s = StyleSheet.create({
   emptySectionContainer: {
     paddingHorizontal: 16,
   },
+  submitBtnContainer: {
+    paddingHorizontal: 16,
+    paddingVertical: 4,
+  }
 });

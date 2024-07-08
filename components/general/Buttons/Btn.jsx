@@ -34,8 +34,8 @@ export function Btn({
 
 const s = StyleSheet.create({
   btn: {
-    width: 112,
-    height: 48,
+    // width: 112,
+    // height: 48,
     borderRadius: 8,
     alignItems: "center",
     justifyContent: "center",
