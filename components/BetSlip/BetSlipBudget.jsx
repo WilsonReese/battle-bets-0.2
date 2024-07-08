@@ -4,7 +4,7 @@ import { useEffect, useState } from "react";
 import { FontAwesome6 } from '@expo/vector-icons';
 import { useBetContext } from "../contexts/BetContext";
 
-export function BetSlipBudget({ betType }) {
+export function BetSlipBudget({ betSectionTitle }) {
   const check = <View style={{paddingRight: 4}}><FontAwesome6 name="check" size={12} color="#0C9449"/></View>
   const { budget, totalBet } = useBetContext(); // Use the context
 
@@ -20,7 +20,7 @@ export function BetSlipBudget({ betType }) {
     <View style={s.container}>
       <View style={s.titleContainer}>
         {isBudgetUsed ? check : null}
-        <Txt style={s.titleText}>{betType}</Txt>
+        <Txt style={s.titleText}>{betSectionTitle}</Txt>
       </View>
       <View style={s.budget}>
         <Txt style={s.budgetText}>${totalBet}</Txt>
