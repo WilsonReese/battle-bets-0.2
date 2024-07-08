@@ -19,12 +19,6 @@ export function BetSlipDetails({}) {
     return bets.some((bet) => bet.betType === betType);
   }
 
-  function emptySection(destination) {
-    <View style={s.emptySectionContainer}>
-      <Txt style={s.text}>Placeholder</Txt>
-      <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
-    </View>;
-  }
 
   return (
     <View>
@@ -39,7 +33,7 @@ export function BetSlipDetails({}) {
               <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
             </View>
           )}
-          <BetSlipBudget betType={"Money Line"} />
+          <BetSlipBudget betSectionTitle={"Money Line"} />
           {hasBetsOfType("money line") ? (
             <BetTypeSection betType={"money line"} />
           ) : (
@@ -48,7 +42,7 @@ export function BetSlipDetails({}) {
               <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
             </View>
           )}
-          <BetSlipBudget betType={"Prop Bets"} />
+          <BetSlipBudget betSectionTitle={"Prop Bets"} />
           {hasBetsOfType("prop") ? (
             <BetTypeSection betType={"props"} />
           ) : (
