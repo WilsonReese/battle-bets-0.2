@@ -5,8 +5,7 @@ import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
 import { useState } from "react";
 
-export function Bet({ bet }) {
-  const [isSelectorVisible, setIsSelectorVisible] = useState(false);
+export function Bet({ bet, isSelectorVisible }) {
   const { minBet, maxBet } = BETTING_RULES.spread;
 
   return (
@@ -23,7 +22,7 @@ export function Bet({ bet }) {
       {isSelectorVisible ? 
         <BetSelector
           betId={bet.id}
-          closeSelection={() => setIsSelectorVisible(false)}
+          closeSelection={() => {}}
           minBet={minBet}
           maxBet={maxBet}
           payout={bet.toWinAmount/bet.betAmount}
