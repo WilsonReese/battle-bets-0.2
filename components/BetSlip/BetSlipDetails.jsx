@@ -34,12 +34,10 @@ export function BetSlipDetails({ budget, totalBet }) {
           totalBet={totalBet}
         />
         {renderBets("spread")}
-        {/* <View style={s.payoutByType}>
-          <Txt style={[s.betDetailsText, {alignSelf: 'flex-end', borderWidth: 1}]}>Payout: ${calculatePayoutByType('spread')}</Txt>
-        </View> */}
         <PayoutByType calculatePayout={calculatePayoutByType} />
         <View style={s.btnContainer}>
-          <SmallBtn isEnabled={true} text={"See Betting Options"} />
+          <SmallBtn isEnabled={true} text={"Edit Bet Amounts"} style={s.btns} />
+          <SmallBtn isEnabled={true} text={"See Betting Options"} style={s.btns} />
         </View>
         <BetSlipBudget
           betType={"Money Line"}
@@ -105,8 +103,15 @@ const s = StyleSheet.create({
     fontFamily: "Saira_600SemiBold",
     fontSize: 18,
   },
+  btns: {
+    height: 30,
+    width: 165,
+    marginHorizontal: 4,
+  },
   btnContainer: {
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     paddingVertical: 4,
-  }
+  },
 });

@@ -45,7 +45,6 @@ export function BetSlip({
       </TouchableOpacity>
       <View>
         <BetSlipDetails budget={budget} totalBet={totalBet} />
-        <Txt style={{ color: "black" }}>BETS ADDED HERE</Txt>
       </View>
     </Animated.View>
   );

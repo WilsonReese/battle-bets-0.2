@@ -18,7 +18,7 @@ export function Bet({ bet }) {
             ${bet.betAmount} to win ${bet.toWinAmount}
           </Txt>
         </View>
-        <SmallBtn isEnabled={true} text={"Edit"} />
+        {/* <SmallBtn isEnabled={true} text={"Edit"} /> */}
       </View>
         <BetSelector
           betId={bet.id}
