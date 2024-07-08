@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Spread } from "./Spread/Spread";
 import { OverUnder } from "./OverUnder/OverUnder";
 import { useBetContext } from "../contexts/BetContext";
+import { Txt } from "../general/Txt";
 
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
@@ -35,6 +36,11 @@ export function BetOptions({ game }) {
       {betOptionType === "moneyLine" && (
         <View>
           <Txt>Money Line Bets</Txt>
+        </View>
+      )}
+      {betOptionType === "prop" && (
+        <View>
+          <Txt>Prop Bets</Txt>
         </View>
       )}
     </View>

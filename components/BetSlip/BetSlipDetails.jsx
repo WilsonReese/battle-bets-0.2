@@ -5,11 +5,13 @@ import { useBetContext } from "../contexts/BetContext";
 import { BetTypeSection } from "./BetTypeSection";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
-import { FontAwesome6 } from '@expo/vector-icons';
+import { FontAwesome6 } from "@expo/vector-icons";
 
 export function BetSlipDetails({}) {
-  const { bets } = useBetContext();
-  const arrowIcon = <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
+  const { bets, setBetOptionType } = useBetContext();
+  const arrowIcon = (
+    <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
+  );
 
   function calculateTotalPayout() {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
@@ -18,7 +20,6 @@ export function BetSlipDetails({}) {
   function hasBetsOfType(betType) {
     return bets.some((bet) => bet.betType === betType);
   }
-
 
   return (
     <View>
@@ -30,7 +31,12 @@ export function BetSlipDetails({}) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+              <SmallBtn
+                isEnabled={true}
+                text={"Show Options"}
+                style={s.btns}
+                onPress={() => setBetOptionType("spreadOU")}
+              />
             </View>
           )}
           <BetSlipBudget betSectionTitle={"Money Line"} />
@@ -39,7 +45,12 @@ export function BetSlipDetails({}) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+              <SmallBtn
+                isEnabled={true}
+                text={"Show Options"}
+                style={s.btns}
+                onPress={() => setBetOptionType("moneyLine")}
+              />
             </View>
           )}
           <BetSlipBudget betSectionTitle={"Prop Bets"} />
@@ -48,7 +59,12 @@ export function BetSlipDetails({}) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+              <SmallBtn
+                isEnabled={true}
+                text={"Show Options"}
+                style={s.btns}
+                onPress={() => setBetOptionType("prop")}
+              />
             </View>
           )}
         </View>
@@ -59,7 +75,11 @@ export function BetSlipDetails({}) {
 
         {/* This creates the space needed for the ScrollView to show everything  */}
         <View style={s.submitBtnContainer}>
-          <Btn btnText={"Submit Picks"} style={{height: 56}} icon={arrowIcon}/>
+          <Btn
+            btnText={"Submit Picks"}
+            style={{ height: 56 }}
+            icon={arrowIcon}
+          />
         </View>
         <View style={{ height: 50 }}></View>
       </ScrollView>
@@ -109,5 +129,5 @@ const s = StyleSheet.create({
   submitBtnContainer: {
     paddingHorizontal: 16,
     paddingVertical: 4,
-  }
+  },
 });

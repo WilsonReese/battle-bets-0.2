@@ -3,23 +3,8 @@ import { Datetime } from "./Datetime/Datetime";
 import { Matchup } from "./Matchup/Matchup";
 import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
-import { useState } from "react";
-import { useBetContext } from "../contexts/BetContext";
 
 export function GameCard({ game }) {
-  const {
-    ou,
-    ouPayout,
-    spreadHome,
-    spreadAway,
-    spreadPayout,
-    moneyLineHome,
-    moneyLineHomePayout,
-    moneyLineAway,
-    moneyLineAwayPayout,
-  } = game;
-
-  // const { betType } = useBetContext(); // Use the context
 
   return (
     // Game Card
