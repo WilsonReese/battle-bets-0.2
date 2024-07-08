@@ -4,13 +4,20 @@ import { OverUnder } from "./OverUnder/OverUnder";
 
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
-export function BetOptions({
-  spreadHome,
-  spreadAway,
-  ou,
-  spreadPayout,
-  ouPayout,
-}) {
+export function BetOptions({betType, game}) {
+  
+  const {
+    spreadHome,
+    spreadAway,
+    spreadPayout,
+    ou,
+    ouPayout,
+    moneyLineHome,
+    moneyLineHomePayout,
+    moneyLineAway,
+    moneyLineAwayPayout,
+  } = game;
+
   return (
     <View style={s.container}>
       <Spread

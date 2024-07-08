@@ -17,8 +17,6 @@ import { BetProvider } from "../../../../components/contexts/BetContext";
 
 export default function PoolDetails() {
   const { id } = useLocalSearchParams();
-  const gameData = GAME_DATA;
-  const [budget, setBudget] = useState(2000);
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
 
   function renderGameCards() {
@@ -38,7 +36,7 @@ export default function PoolDetails() {
         </View>
         <View style={s.body}>
           <SpreadAndOUInstructions />
-          <ScrollView>
+          <ScrollView style={s.scrollView}>
             {/* This function renders each of the games */}
             {renderGameCards()}
             {/*This is an empty view that allows the scroll to go down to the bottom */}
@@ -71,8 +69,11 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#061826",
-    paddingHorizontal: 8,
+    paddingHorizontal: 4,
     paddingTop: 8,
+  },
+  scrollView: {
+    padding: 4,
   },
   logoHeader: {
     paddingBottom: 8,

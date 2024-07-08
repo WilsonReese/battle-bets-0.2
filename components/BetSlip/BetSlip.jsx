@@ -63,8 +63,4 @@ const s = StyleSheet.create({
     shadowRadius: 3.84,
     elevation: 5,
   },
-  detailsContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-  },
 });

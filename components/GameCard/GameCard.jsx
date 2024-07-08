@@ -3,15 +3,10 @@ import { Datetime } from "./Datetime/Datetime";
 import { Matchup } from "./Matchup/Matchup";
 import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
+import { useState } from "react";
 
 export function GameCard({ game }) {
   const {
-    date,
-    time,
-    homeTeam,
-    awayTeam,
-    homeRecord,
-    awayRecord,
     ou,
     ouPayout,
     spreadHome,
@@ -23,26 +18,24 @@ export function GameCard({ game }) {
     moneyLineAwayPayout,
   } = game;
 
+  const [betType, setBetType] = useState('spread')
+
   return (
     // Game Card
     <View style={s.card}>
       <View style={s.gameDetails}>
-        <Datetime date={date} time={time} />
+        <Datetime date={game.date} time={game.time} />
         <Txt style={{ fontSize: 12, color: "black" }}>Collapisble Arrow</Txt>
       </View>
       <View>
         <Matchup
-          homeTeam={homeTeam}
-          homeRecord={homeRecord}
-          awayTeam={awayTeam}
-          awayRecord={awayRecord}
+          homeTeam={game.homeTeam}
+          homeRecord={game.homeRecord}
+          awayTeam={game.awayTeam}
+          awayRecord={game.awayRecord}
         />
         <BetOptions
-          spreadHome={spreadHome}
-          spreadAway={spreadAway}
-          ou={ou}
-          spreadPayout={spreadPayout}
-          ouPayout={ouPayout}
+          betType={betType} game={game}
         />
       </View>
     </View>
