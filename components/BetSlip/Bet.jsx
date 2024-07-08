@@ -20,6 +20,7 @@ export function Bet({ bet }) {
         </View>
         {/* <SmallBtn isEnabled={true} text={"Edit"} /> */}
       </View>
+      {isSelectorVisible ? 
         <BetSelector
           betId={bet.id}
           closeSelection={() => setIsSelectorVisible(false)}
@@ -27,6 +28,7 @@ export function Bet({ bet }) {
           maxBet={maxBet}
           payout={bet.toWinAmount/bet.betAmount}
         />
+      : null}
     </View>
   );
 }
@@ -34,7 +36,7 @@ export function Bet({ bet }) {
 const s = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingVertical: 2,
   },
   betItem: {
     flexDirection: "row",

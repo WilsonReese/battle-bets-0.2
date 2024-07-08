@@ -4,7 +4,7 @@ import { Txt } from "../general/Txt";
 export function PayoutByType({ calculatePayout }) {
   return (
     <View style={s.container}>
-      <Txt style={s.text}>Payout: </Txt>
+      <Txt style={s.text}>Potential Payout: </Txt>
       <Txt style={s.amountText}>${calculatePayout("spread")}</Txt>
     </View>
   );
