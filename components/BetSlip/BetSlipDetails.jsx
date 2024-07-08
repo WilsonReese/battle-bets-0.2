@@ -16,27 +16,42 @@ export function BetSlipDetails({}) {
     return bets.some((bet) => bet.betType === betType);
   }
 
+  function emptySection(destination) {
+    <View style={s.emptySectionContainer}>
+      <Txt style={s.text}>Placeholder</Txt>
+      <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+    </View>;
+  }
+
   return (
     <ScrollView>
       <View style={s.container}>
-        <Txt style={s.text}>Test</Txt>
         <BetSlipBudget betType={"Spread and Over/Under"} />
         {hasBetsOfType("spread") ? (
           <BetTypeSection betType={"spread"} />
         ) : (
-          <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+          <View style={s.emptySectionContainer}>
+            <Txt style={s.text}>No bets selected yet.</Txt>
+            <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+          </View>
         )}
         <BetSlipBudget betType={"Money Line"} />
         {hasBetsOfType("money line") ? (
           <BetTypeSection betType={"money line"} />
         ) : (
-          <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+          <View style={s.emptySectionContainer}>
+            <Txt style={s.text}>No bets selected yet.</Txt>
+            <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+          </View>
         )}
         <BetSlipBudget betType={"Prop Bets"} />
         {hasBetsOfType("prop") ? (
           <BetTypeSection betType={"props"} />
         ) : (
-          <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+          <View style={s.emptySectionContainer}>
+            <Txt style={s.text}>No bets selected yet.</Txt>
+            <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+          </View>
         )}
       </View>
       <View style={s.payoutContainer}>
@@ -77,13 +92,16 @@ const s = StyleSheet.create({
   },
   text: {
     color: "#061826",
-    fontFamily: 'Saira_400Regular_Italic'
+    fontFamily: "Saira_400Regular_Italic",
   },
   btns: {
     height: 30,
     width: 165,
     marginHorizontal: 4,
-    alignSelf: 'center',
+    alignSelf: "center",
     margin: 8,
+  },
+  emptySectionContainer: {
+    paddingHorizontal: 16,
   },
 });
