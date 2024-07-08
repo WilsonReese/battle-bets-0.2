@@ -18,11 +18,11 @@ export function BetOptions({ game }) {
     moneyLineAwayPayout,
   } = game;
 
-  const { betType } = useBetContext(); // Use the context
+  const { betOptionType } = useBetContext(); // Use the context
 
   return (
     <View style={s.container}>
-      {betType === "spreadOU" && (
+      {betOptionType === "spreadOU" && (
         <View>
           <Spread
             spreadHome={spreadHome}
@@ -32,7 +32,7 @@ export function BetOptions({ game }) {
           <OverUnder ou={ou} ouPayout={ouPayout} />
         </View>
       )}
-      {betType === "moneyLine" && (
+      {betOptionType === "moneyLine" && (
         <View>
           <Txt>Money Line Bets</Txt>
         </View>

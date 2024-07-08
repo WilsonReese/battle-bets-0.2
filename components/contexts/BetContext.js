@@ -9,7 +9,7 @@ export const BetProvider = ({ children }) => {
   const [bets, setBets] = useState([]);
   const [budget, setBudget] = useState(2000); // Initial budget
   const [totalBet, setTotalBet] = useState(0);
-  const [betType, setBetType] = useState('spreadOU')
+  const [betOptionType, setBetOptionType] = useState('spreadOU')
 
   const addBet = ({ title, betAmount, payout, betType }) => {
     const newBet = {
@@ -62,8 +62,8 @@ export const BetProvider = ({ children }) => {
         setBudget,
         totalBet,
         setTotalBet,
-        betType,
-        setBetType
+        betOptionType,
+        setBetOptionType
       }}
     >
       {children}
