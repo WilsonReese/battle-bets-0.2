@@ -3,16 +3,10 @@ import { BetTypeHeading } from "../BetTypeHeading";
 import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
 import { useEffect, useRef, useState } from "react";
-import { Txt } from "../../general/Txt";
 import { useBetContext } from "../../contexts/BetContext";
-import uuid from "react-native-uuid";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function Spread({
-  spreadHome,
-  spreadAway,
-  spreadPayout,
-}) {
+export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   const { bets, addBet, removeBet, totalBet, budget } = useBetContext(); // Use the context
   const [selection, setSelection] = useState({ home: false, away: false });
   const [isEnabled, setIsEnabled] = useState(totalBet < budget);
@@ -43,7 +37,7 @@ export function Spread({
 
   // this listens for if the bet is removed and changes the selection
   useEffect(() => {
-    if (!bets.find(bet => bet.id === currentBetId)) {
+    if (!bets.find((bet) => bet.id === currentBetId)) {
       setSelection({ home: false, away: false });
     }
   }, [bets]);
