@@ -2,52 +2,28 @@ import { ScrollView, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetSlipBudget } from "./BetSlipBudget";
 import { useBetContext } from "../contexts/BetContext";
-import { Bet } from "./Bet";
-import { PayoutByType } from "./PayoutByType";
-import { SmallBtn } from "../general/Buttons/SmallBtn";
-import { useEffect, useState } from "react";
 import { BetTypeSection } from "./BetTypeSection";
 
 export function BetSlipDetails({}) {
-  const { bets, budget, totalBet } = useBetContext();
-  const [isSelectorVisible, setIsSelectorVisible] = useState(false);
-  const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
+  const { bets } = useBetContext();
 
   function calculateTotalPayout() {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
   }
-  
-  useEffect(() => {
-    setBetAmountBtnAction(isSelectorVisible ? "Save" : "Edit");
-  }, [isSelectorVisible]);
 
   return (
     <ScrollView>
       <View style={s.container}>
         <BetSlipBudget
           betType={"Spread and Over/Under"}
-          budget={budget}
-          totalBet={totalBet}
         />
         <BetTypeSection betType={'spread'} />
         <BetSlipBudget
           betType={"Money Line"}
-          budget={budget}
-          totalBet={totalBet}
         />
-        <Txt style={s.betDetailsText}>Money Line Here</Txt>
-        <Txt style={[s.betDetailsText, { alignSelf: "flex-end" }]}>
-          Payout: $$$$
-        </Txt>
-        <Txt style={[s.betDetailsText, { alignSelf: "center" }]}>
-          Add more bets
-        </Txt>
         <BetSlipBudget
           betType={"Prop Bets"}
-          budget={budget}
-          totalBet={totalBet}
-        />
-        
+        /> 
       </View>
       <View style={s.payoutContainer}>
         <Txt style={s.payoutHeading}>Total Payout: </Txt>
@@ -63,9 +39,6 @@ export function BetSlipDetails({}) {
 const s = StyleSheet.create({
   container: {
     // paddingHorizontal: 8,
-  },
-  betDetailsText: {
-    color: "#061826",
   },
   payoutContainer: {
     flexDirection: "row",
@@ -87,16 +60,5 @@ const s = StyleSheet.create({
     color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 18,
-  },
-  btns: {
-    height: 30,
-    width: 165,
-    marginHorizontal: 4,
-  },
-  btnContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 4,
   },
 });
