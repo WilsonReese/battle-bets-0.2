@@ -13,7 +13,7 @@ export function Spread({
   spreadAway,
   spreadPayout,
 }) {
-  const { addBet, removeBet, totalBet, budget } = useBetContext(); // Use the context
+  const { bets, addBet, removeBet, totalBet, budget } = useBetContext(); // Use the context
   const [selection, setSelection] = useState({ home: false, away: false });
   const [isEnabled, setIsEnabled] = useState(totalBet < budget);
   const { minBet, maxBet } = BETTING_RULES.spread;
@@ -40,6 +40,13 @@ export function Spread({
   useEffect(() => {
     setIsEnabled(totalBet < budget);
   }, [totalBet, budget]);
+
+  // this listens for if the bet is removed and changes the selection
+  useEffect(() => {
+    if (!bets.find(bet => bet.id === currentBetId)) {
+      setSelection({ home: false, away: false });
+    }
+  }, [bets]);
 
   const getTitle = (type) => {
     return type === "home" ? spreadHome : spreadAway;
