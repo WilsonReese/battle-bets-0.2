@@ -71,7 +71,8 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#061826",
-    padding: 8,
+    paddingHorizontal: 8,
+    paddingTop: 8,
   },
   logoHeader: {
     paddingBottom: 8,
