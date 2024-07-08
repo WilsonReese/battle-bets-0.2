@@ -51,6 +51,16 @@ export const BetProvider = ({ children }) => {
     );
   };
 
+  const getBetOptionType = (betType) => {
+    const betTypeToOptionType = {
+      spread: "spreadOU",
+      ou: "spreadOU",
+      moneyLine: "moneyLine",
+      prop: "prop",
+    };
+    return betTypeToOptionType[betType] || "spreadOU"; // Default to "spreadOU" if not found
+  };
+
   return (
     <BetContext.Provider
       value={{
@@ -63,7 +73,8 @@ export const BetProvider = ({ children }) => {
         totalBet,
         setTotalBet,
         betOptionType,
-        setBetOptionType
+        setBetOptionType, 
+        getBetOptionType,
       }}
     >
       {children}

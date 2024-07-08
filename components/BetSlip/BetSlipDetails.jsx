@@ -26,7 +26,7 @@ export function BetSlipDetails({}) {
       <ScrollView>
         <View style={s.container}>
           <BetSlipBudget betSectionTitle={"Spread and Over/Under"} />
-          {hasBetsOfType("spread") ? (
+          {hasBetsOfType("spread") || hasBetsOfType("ou") ? (
             <BetTypeSection betType={"spread"} />
           ) : (
             <View style={s.emptySectionContainer}>
@@ -40,8 +40,8 @@ export function BetSlipDetails({}) {
             </View>
           )}
           <BetSlipBudget betSectionTitle={"Money Line"} />
-          {hasBetsOfType("money line") ? (
-            <BetTypeSection betType={"money line"} />
+          {hasBetsOfType("moneyLine") ? (
+            <BetTypeSection betType={"moneyLine"} />
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>

@@ -6,7 +6,7 @@ import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { useEffect, useState } from "react";
 
 export function BetTypeSection({ betType }) {
-  const { bets } = useBetContext();
+  const { bets, setBetOptionType, getBetOptionType } = useBetContext();
   const [isSelectorVisible, setIsSelectorVisible] = useState(false);
   const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
 
@@ -39,7 +39,12 @@ export function BetTypeSection({ betType }) {
           style={s.btns}
           onPress={() => setIsSelectorVisible(!isSelectorVisible)}
         />
-        <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+        <SmallBtn
+          isEnabled={true}
+          text={"Show Options"}
+          style={s.btns}
+          onPress={() => setBetOptionType(getBetOptionType(betType))}
+        />
       </View>
     </View>
   );
