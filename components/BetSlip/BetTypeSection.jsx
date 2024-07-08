@@ -6,57 +6,44 @@ import { Bet } from "./Bet";
 import { PayoutByType } from "./PayoutByType";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { useEffect, useState } from "react";
-import { BetTypeSection } from "./BetTypeSection";
 
-export function BetSlipDetails({}) {
-  const { bets, budget, totalBet } = useBetContext();
+export function BetTypeSection({ betType }) {
+  const { bets } = useBetContext();
   const [isSelectorVisible, setIsSelectorVisible] = useState(false);
   const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
 
-  function calculateTotalPayout() {
-    return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
+  function renderBets(betType) {
+    return bets
+      .filter((bet) => bet.betType === betType)
+      .map((bet) => (
+        <Bet key={bet.id} bet={bet} isSelectorVisible={isSelectorVisible} />
+      ));
   }
-  
+
+  function calculatePayoutByType(betType) {
+    return bets
+      .filter((bet) => bet.betType === betType)
+      .reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
+  }
+
   useEffect(() => {
     setBetAmountBtnAction(isSelectorVisible ? "Save" : "Edit");
   }, [isSelectorVisible]);
 
   return (
-    <ScrollView>
-      <View style={s.container}>
-        <BetSlipBudget
-          betType={"Spread and Over/Under"}
-          budget={budget}
-          totalBet={totalBet}
+    <View style={s.container}>
+      {renderBets(betType)}
+      <PayoutByType calculatePayout={calculatePayoutByType} />
+      <View style={s.btnContainer}>
+        <SmallBtn
+          isEnabled={true}
+          text={`${betAmountBtnAction} Bets`}
+          style={s.btns}
+          onPress={() => setIsSelectorVisible(!isSelectorVisible)}
         />
-        <BetTypeSection betType={'spread'} />
-        <BetSlipBudget
-          betType={"Money Line"}
-          budget={budget}
-          totalBet={totalBet}
-        />
-        <Txt style={s.betDetailsText}>Money Line Here</Txt>
-        <Txt style={[s.betDetailsText, { alignSelf: "flex-end" }]}>
-          Payout: $$$$
-        </Txt>
-        <Txt style={[s.betDetailsText, { alignSelf: "center" }]}>
-          Add more bets
-        </Txt>
-        <BetSlipBudget
-          betType={"Prop Bets"}
-          budget={budget}
-          totalBet={totalBet}
-        />
-        
+        <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
       </View>
-      <View style={s.payoutContainer}>
-        <Txt style={s.payoutHeading}>Total Payout: </Txt>
-        <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
-      </View>
-
-      {/* This creates the space needed for the ScrollView to show everything  */}
-      <View style={{ height: 50 }}></View>
-    </ScrollView>
+    </View>
   );
 }
 

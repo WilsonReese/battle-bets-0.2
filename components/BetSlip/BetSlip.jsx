@@ -9,14 +9,13 @@ import {
 import { BetSlipHeading } from "./BetSlipHeading";
 import { Txt } from "../general/Txt";
 import { BetSlipDetails } from "./BetSlipDetails";
+import { useBetContext } from "../contexts/BetContext";
 
 const { height } = Dimensions.get("window");
-const betSlipHeight = (height * 3.2) / 5; // 3/5 of the screen height
+const betSlipHeight = (height * 2.5) / 5; // 3/5 of the screen height
 const betSlipHeadingHeight = 69; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
 
 export function BetSlip({
-  budget,
-  totalBet,
   poolName,
   isBetSlipShown,
   setIsBetSlipShown,
@@ -38,14 +37,10 @@ export function BetSlip({
       <TouchableOpacity onPress={toggleBetSlip}>
         <BetSlipHeading
           poolName={poolName}
-          budget={budget}
-          totalBet={totalBet}
           isBetSlipShown={isBetSlipShown}
         />
       </TouchableOpacity>
-      <View>
-        <BetSlipDetails budget={budget} totalBet={totalBet} />
-      </View>
+      <BetSlipDetails/>
     </Animated.View>
   );
 }
