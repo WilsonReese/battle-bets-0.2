@@ -1,12 +1,20 @@
-import { StyleSheet, View } from "react-native";
+import React, { useEffect, useRef } from "react";
+import { StyleSheet, View, Animated } from "react-native";
 import { Txt } from "../general/Txt";
-import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
-import { useState } from "react";
 
 export function Bet({ bet, isSelectorVisible }) {
   const { minBet, maxBet } = BETTING_RULES.spread;
+  const animatedHeight = useRef(new Animated.Value(0)).current;
+
+  useEffect(() => {
+    Animated.timing(animatedHeight, {
+      toValue: isSelectorVisible ? 54 : 0, // Adjust the height as needed
+      duration: 300,
+      useNativeDriver: false,
+    }).start();
+  }, [isSelectorVisible]);
 
   return (
     <View style={s.container}>
@@ -17,17 +25,18 @@ export function Bet({ bet, isSelectorVisible }) {
             ${bet.betAmount} to win ${bet.toWinAmount}
           </Txt>
         </View>
-        {/* <SmallBtn isEnabled={true} text={"Edit"} /> */}
       </View>
-      {isSelectorVisible ? 
-        <BetSelector
-          betId={bet.id}
-          closeSelection={() => {}}
-          minBet={minBet}
-          maxBet={maxBet}
-          payout={bet.toWinAmount/bet.betAmount}
-        />
-      : null}
+      <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
+        {isSelectorVisible ?
+          <BetSelector
+            betId={bet.id}
+            closeSelection={() => {}}
+            minBet={minBet}
+            maxBet={maxBet}
+            payout={bet.toWinAmount / bet.betAmount}
+          />
+        : null}
+      </Animated.View>
     </View>
   );
 }
