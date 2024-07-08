@@ -19,9 +19,11 @@ export function BetSlipDetails({}) {
     <ScrollView>
       <View style={s.container}>
         <BetSlipBudget betType={"Spread and Over/Under"} />
-        {hasBetsOfType('spread') ? <BetTypeSection betType={"spread"} /> : <Txt style={s.payoutText}>Placeholder</Txt>}
+        {hasBetsOfType('spread') ? <BetTypeSection betType={"spread"} /> : <Txt style={s.text}>Placeholder</Txt>}
         <BetSlipBudget betType={"Money Line"} />
+        {hasBetsOfType('money line') ? <BetTypeSection betType={"money line"} /> : <Txt style={s.text}>Placeholder</Txt>}
         <BetSlipBudget betType={"Prop Bets"} />
+        {hasBetsOfType('prop') ? <BetTypeSection betType={"props"} /> : <Txt style={s.text}>Placeholder</Txt>}
       </View>
       <View style={s.payoutContainer}>
         <Txt style={s.payoutHeading}>Total Payout: </Txt>
@@ -59,4 +61,7 @@ const s = StyleSheet.create({
     fontFamily: "Saira_600SemiBold",
     fontSize: 18,
   },
+  text: {
+    color: "#061826",
+  }
 });

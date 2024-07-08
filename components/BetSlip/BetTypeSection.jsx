@@ -48,6 +48,7 @@ export function BetTypeSection({ betType }) {
 const s = StyleSheet.create({
   container: {
     // paddingHorizontal: 8,
+    paddingVertical: 4,
   },
   btns: {
     height: 30,

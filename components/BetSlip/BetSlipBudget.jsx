@@ -42,7 +42,6 @@ const s = StyleSheet.create({
     // backgroundColor: 'yellow',
     paddingHorizontal: 8,
     alignItems: 'center',
-    paddingBottom: 4,
   },
   budget: {
     flexDirection: "row",
