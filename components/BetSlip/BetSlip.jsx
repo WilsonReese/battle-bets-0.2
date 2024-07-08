@@ -12,7 +12,7 @@ import { BetSlipDetails } from "./BetSlipDetails";
 import { useBetContext } from "../contexts/BetContext";
 
 const { height } = Dimensions.get("window");
-const betSlipHeight = (height * 2.5) / 5; // 3/5 of the screen height
+const betSlipHeight = (height * 3) / 5; // 3/5 of the screen height
 const betSlipHeadingHeight = 69; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
 
 export function BetSlip({

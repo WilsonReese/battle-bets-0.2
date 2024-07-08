@@ -59,7 +59,7 @@ export default function PoolDetails() {
           </ScrollView>
         </View>
         <View>
-          <BetSlip budget={budget} poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} />
+          <BetSlip poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>
