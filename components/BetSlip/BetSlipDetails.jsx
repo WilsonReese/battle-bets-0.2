@@ -3,6 +3,7 @@ import { Txt } from "../general/Txt";
 import { BetSlipBudget } from "./BetSlipBudget";
 import { useBetContext } from "../contexts/BetContext";
 import { BetTypeSection } from "./BetTypeSection";
+import { SmallBtn } from "../general/Buttons/SmallBtn";
 
 export function BetSlipDetails({}) {
   const { bets } = useBetContext();
@@ -18,12 +19,25 @@ export function BetSlipDetails({}) {
   return (
     <ScrollView>
       <View style={s.container}>
+        <Txt style={s.text}>Test</Txt>
         <BetSlipBudget betType={"Spread and Over/Under"} />
-        {hasBetsOfType('spread') ? <BetTypeSection betType={"spread"} /> : <Txt style={s.text}>Placeholder</Txt>}
+        {hasBetsOfType("spread") ? (
+          <BetTypeSection betType={"spread"} />
+        ) : (
+          <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+        )}
         <BetSlipBudget betType={"Money Line"} />
-        {hasBetsOfType('money line') ? <BetTypeSection betType={"money line"} /> : <Txt style={s.text}>Placeholder</Txt>}
+        {hasBetsOfType("money line") ? (
+          <BetTypeSection betType={"money line"} />
+        ) : (
+          <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+        )}
         <BetSlipBudget betType={"Prop Bets"} />
-        {hasBetsOfType('prop') ? <BetTypeSection betType={"props"} /> : <Txt style={s.text}>Placeholder</Txt>}
+        {hasBetsOfType("prop") ? (
+          <BetTypeSection betType={"props"} />
+        ) : (
+          <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+        )}
       </View>
       <View style={s.payoutContainer}>
         <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
@@ -63,5 +77,13 @@ const s = StyleSheet.create({
   },
   text: {
     color: "#061826",
-  }
+    fontFamily: 'Saira_400Regular_Italic'
+  },
+  btns: {
+    height: 30,
+    width: 165,
+    marginHorizontal: 4,
+    alignSelf: 'center',
+    margin: 8,
+  },
 });
