@@ -11,19 +11,17 @@ export function BetSlipDetails({}) {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
   }
 
+  function hasBetsOfType(betType) {
+    return bets.some((bet) => bet.betType === betType);
+  }
+
   return (
     <ScrollView>
       <View style={s.container}>
-        <BetSlipBudget
-          betType={"Spread and Over/Under"}
-        />
-        <BetTypeSection betType={'spread'} />
-        <BetSlipBudget
-          betType={"Money Line"}
-        />
-        <BetSlipBudget
-          betType={"Prop Bets"}
-        /> 
+        <BetSlipBudget betType={"Spread and Over/Under"} />
+        {hasBetsOfType('spread') ? <BetTypeSection betType={"spread"} /> : <Txt style={s.payoutText}>Placeholder</Txt>}
+        <BetSlipBudget betType={"Money Line"} />
+        <BetSlipBudget betType={"Prop Bets"} />
       </View>
       <View style={s.payoutContainer}>
         <Txt style={s.payoutHeading}>Total Payout: </Txt>

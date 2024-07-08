@@ -1,6 +1,4 @@
-import { ScrollView, StyleSheet, View } from "react-native";
-import { Txt } from "../general/Txt";
-import { BetSlipBudget } from "./BetSlipBudget";
+import { StyleSheet, View } from "react-native";
 import { useBetContext } from "../contexts/BetContext";
 import { Bet } from "./Bet";
 import { PayoutByType } from "./PayoutByType";
@@ -50,30 +48,6 @@ export function BetTypeSection({ betType }) {
 const s = StyleSheet.create({
   container: {
     // paddingHorizontal: 8,
-  },
-  betDetailsText: {
-    color: "#061826",
-  },
-  payoutContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    borderTopWidth: 1,
-    borderColor: "#B8C3CC",
-    marginHorizontal: 8,
-  },
-  payoutHeading: {
-    color: "#061826",
-    textTransform: "uppercase",
-    fontFamily: "Saira_600SemiBold",
-    // fontSize: 14
-  },
-  payoutText: {
-    color: "#061826",
-    fontFamily: "Saira_600SemiBold",
-    fontSize: 18,
   },
   btns: {
     height: 30,
