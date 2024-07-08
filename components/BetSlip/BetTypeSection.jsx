@@ -39,7 +39,7 @@ export function BetTypeSection({ betType }) {
           style={s.btns}
           onPress={() => setIsSelectorVisible(!isSelectorVisible)}
         />
-        <SmallBtn isEnabled={true} text={"Show Options"} style={s.btns} />
+        <SmallBtn isEnabled={true} text={"Go To Bets??"} style={s.btns} />
       </View>
     </View>
   );

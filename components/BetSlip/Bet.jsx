@@ -3,9 +3,11 @@ import { StyleSheet, View, Animated } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
+import { useBetContext } from "../contexts/BetContext";
 
 export function Bet({ bet, isSelectorVisible }) {
   const { minBet, maxBet } = BETTING_RULES.spread;
+  const { removeBet } = useBetContext();
   const animatedHeight = useRef(new Animated.Value(0)).current;
 
   useEffect(() => {
@@ -33,7 +35,7 @@ export function Bet({ bet, isSelectorVisible }) {
         {isSelectorVisible ?
           <BetSelector
             betId={bet.id}
-            closeSelection={() => {}}
+            closeSelection={() => {removeBet(bet.id)}}
             minBet={minBet}
             maxBet={maxBet}
             payout={bet.toWinAmount / bet.betAmount}

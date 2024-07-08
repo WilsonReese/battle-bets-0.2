@@ -11,6 +11,7 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
 
   const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
 
+  // update bet amount
   useEffect(() => {
     if (bet) {
       setBetAmount(bet.betAmount);
