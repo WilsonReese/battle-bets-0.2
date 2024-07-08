@@ -18,7 +18,10 @@ export function Bet({ bet, isSelectorVisible }) {
 
   return (
     <View style={s.container}>
-      <View style={s.betItem}>
+      <View style={[
+        s.betItem,
+        isSelectorVisible && s.betItemEditMode
+        ]}>
         <View style={s.betDetailsContainer}>
           <Txt style={s.betName}>{bet.name}: </Txt>
           <Txt style={s.betText}>
@@ -47,12 +50,18 @@ const s = StyleSheet.create({
     paddingVertical: 2,
   },
   betItem: {
-    flexDirection: "row",
     justifyContent: "space-between",
-    alignItems: "center",
+    paddingHorizontal: 8,
+    paddingVertical: 2,
+  },
+  betItemEditMode: {
+    borderTopLeftRadius: 8,
+    borderTopRightRadius: 8,
+    backgroundColor: "#54D18C"
   },
   betDetailsContainer: {
     flexDirection: "row",
+    justifyContent: 'space-between'
   },
   betName: {
     fontSize: 14,

@@ -26,7 +26,7 @@ export function BetSlipDetails({}) {
         {hasBetsOfType('prop') ? <BetTypeSection betType={"props"} /> : <Txt style={s.text}>Placeholder</Txt>}
       </View>
       <View style={s.payoutContainer}>
-        <Txt style={s.payoutHeading}>Total Payout: </Txt>
+        <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
         <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
       </View>
 
