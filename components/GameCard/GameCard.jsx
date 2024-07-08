@@ -4,6 +4,7 @@ import { Matchup } from "./Matchup/Matchup";
 import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
 import { useState } from "react";
+import { useBetContext } from "../contexts/BetContext";
 
 export function GameCard({ game }) {
   const {
@@ -18,7 +19,7 @@ export function GameCard({ game }) {
     moneyLineAwayPayout,
   } = game;
 
-  const [betType, setBetType] = useState('spread')
+  // const { betType } = useBetContext(); // Use the context
 
   return (
     // Game Card
@@ -35,7 +36,7 @@ export function GameCard({ game }) {
           awayRecord={game.awayRecord}
         />
         <BetOptions
-          betType={betType} game={game}
+          game={game}
         />
       </View>
     </View>

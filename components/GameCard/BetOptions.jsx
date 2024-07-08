@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import { Spread } from "./Spread/Spread";
 import { OverUnder } from "./OverUnder/OverUnder";
+import { useBetContext } from "../contexts/BetContext";
 
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
-export function BetOptions({betType, game}) {
-  
+export function BetOptions({ game }) {
   const {
     spreadHome,
     spreadAway,
@@ -18,17 +18,25 @@ export function BetOptions({betType, game}) {
     moneyLineAwayPayout,
   } = game;
 
+  const { betType } = useBetContext(); // Use the context
+
   return (
     <View style={s.container}>
-      <Spread
-        spreadHome={spreadHome}
-        spreadAway={spreadAway}
-        spreadPayout={spreadPayout}
-      />
-      <OverUnder
-        ou={ou}
-        ouPayout={ouPayout}
-      />
+      {betType === "spreadOU" && (
+        <View>
+          <Spread
+            spreadHome={spreadHome}
+            spreadAway={spreadAway}
+            spreadPayout={spreadPayout}
+          />
+          <OverUnder ou={ou} ouPayout={ouPayout} />
+        </View>
+      )}
+      {betType === "moneyLine" && (
+        <View>
+          <Txt>Money Line Bets</Txt>
+        </View>
+      )}
     </View>
   );
 }
