@@ -7,7 +7,7 @@ export const useBetContext = () => useContext(BetContext);
 
 export const BetProvider = ({ children }) => {
   const [bets, setBets] = useState([]);
-  const [budget, setBudget] = useState(2000); // Initial budget
+  const [spreadOUBudget, setSpreadOUBudget] = useState(2000); // Initial budget
   const [totalBet, setTotalBet] = useState(0);
   const [betOptionType, setBetOptionType] = useState('spreadOU')
 
@@ -68,8 +68,8 @@ export const BetProvider = ({ children }) => {
         addBet,
         removeBet,
         updateBet,
-        budget,
-        setBudget,
+        spreadOUBudget,
+        setSpreadOUBudget,
         totalBet,
         setTotalBet,
         betOptionType,

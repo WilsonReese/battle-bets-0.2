@@ -4,9 +4,9 @@ import { useEffect, useState } from "react";
 import { FontAwesome6 } from '@expo/vector-icons';
 import { useBetContext } from "../contexts/BetContext";
 
-export function BetSlipBudget({ betSectionTitle }) {
-  const check = <View style={{paddingRight: 4}}><FontAwesome6 name="check" size={12} color="#0C9449"/></View>
-  const { budget, totalBet } = useBetContext(); // Use the context
+export function BetSlipBudget({ betSectionTitle, budget }) {
+  const checkmark = <View style={{paddingRight: 4}}><FontAwesome6 name="check" size={12} color="#0C9449"/></View>
+  const { totalBet } = useBetContext(); // Use the context
 
   const [isBudgetUsed, setIsBudgetUsed] = useState(totalBet === budget);
 
@@ -14,12 +14,10 @@ export function BetSlipBudget({ betSectionTitle }) {
     setIsBudgetUsed(totalBet === budget);
   }, [totalBet, budget]);
 
-
-
   return (
     <View style={s.container}>
       <View style={s.titleContainer}>
-        {isBudgetUsed ? check : null}
+        {isBudgetUsed ? checkmark : null}
         <Txt style={s.titleText}>{betSectionTitle}</Txt>
       </View>
       <View style={s.budget}>

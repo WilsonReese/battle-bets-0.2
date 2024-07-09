@@ -7,9 +7,9 @@ import { useBetContext } from "../../contexts/BetContext";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
 export function Spread({ spreadHome, spreadAway, spreadPayout }) {
-  const { bets, addBet, removeBet, totalBet, budget } = useBetContext(); // Use the context
+  const { bets, addBet, removeBet, totalBet, spreadOUBudget } = useBetContext(); // Use the context
   const [selection, setSelection] = useState({ home: false, away: false });
-  const [isEnabled, setIsEnabled] = useState(totalBet < budget);
+  const [isEnabled, setIsEnabled] = useState(totalBet < spreadOUBudget);
   const { minBet, maxBet } = BETTING_RULES.spread;
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const [currentBetId, setCurrentBetId] = useState(null);
@@ -32,8 +32,8 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
   }, [selection]);
 
   useEffect(() => {
-    setIsEnabled(totalBet < budget);
-  }, [totalBet, budget]);
+    setIsEnabled(totalBet < spreadOUBudget);
+  }, [totalBet, spreadOUBudget]);
 
   // this listens for if the bet is removed and changes the selection
   useEffect(() => {

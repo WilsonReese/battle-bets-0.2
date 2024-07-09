@@ -8,7 +8,7 @@ import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
 
 export function BetSlipDetails({toggleBetSlip}) {
-  const { bets, setBetOptionType } = useBetContext();
+  const { bets, setBetOptionType, spreadOUBudget } = useBetContext();
   const arrowIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
   );
@@ -25,7 +25,7 @@ export function BetSlipDetails({toggleBetSlip}) {
     <View>
       <ScrollView>
         <View style={s.container}>
-          <BetSlipBudget betSectionTitle={"Spread and Over/Under"} />
+          <BetSlipBudget betSectionTitle={"Spread and Over/Under"} budget={spreadOUBudget} />
           {hasBetsOfType("spread") || hasBetsOfType("ou") ? (
             <BetTypeSection betType={"spread"} toggleBetSlip={toggleBetSlip}/>
           ) : (
