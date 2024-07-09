@@ -7,7 +7,7 @@ import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
 
-export function BetSlipDetails({}) {
+export function BetSlipDetails({toggleBetSlip}) {
   const { bets, setBetOptionType } = useBetContext();
   const arrowIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
@@ -27,7 +27,7 @@ export function BetSlipDetails({}) {
         <View style={s.container}>
           <BetSlipBudget betSectionTitle={"Spread and Over/Under"} />
           {hasBetsOfType("spread") || hasBetsOfType("ou") ? (
-            <BetTypeSection betType={"spread"} />
+            <BetTypeSection betType={"spread"} toggleBetSlip={toggleBetSlip}/>
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
@@ -35,13 +35,16 @@ export function BetSlipDetails({}) {
                 isEnabled={true}
                 text={"Show Options"}
                 style={s.btns}
-                onPress={() => setBetOptionType("spreadOU")}
+                onPress={() => {
+                  setBetOptionType("spreadOU");
+                  toggleBetSlip();
+                }}
               />
             </View>
           )}
           <BetSlipBudget betSectionTitle={"Money Line"} />
           {hasBetsOfType("moneyLine") ? (
-            <BetTypeSection betType={"moneyLine"} />
+            <BetTypeSection betType={"moneyLine"} toggleBetSlip={toggleBetSlip}/>
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
@@ -49,13 +52,16 @@ export function BetSlipDetails({}) {
                 isEnabled={true}
                 text={"Show Options"}
                 style={s.btns}
-                onPress={() => setBetOptionType("moneyLine")}
+                onPress={() => {
+                  setBetOptionType("moneyLine");
+                  toggleBetSlip();
+                }}
               />
             </View>
           )}
           <BetSlipBudget betSectionTitle={"Prop Bets"} />
           {hasBetsOfType("prop") ? (
-            <BetTypeSection betType={"props"} />
+            <BetTypeSection betType={"props"} toggleBetSlip={toggleBetSlip}/>
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
@@ -63,7 +69,10 @@ export function BetSlipDetails({}) {
                 isEnabled={true}
                 text={"Show Options"}
                 style={s.btns}
-                onPress={() => setBetOptionType("prop")}
+                onPress={() => {
+                  setBetOptionType("prop");
+                  toggleBetSlip();
+                }}
               />
             </View>
           )}

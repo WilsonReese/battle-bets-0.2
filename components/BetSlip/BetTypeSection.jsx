@@ -5,7 +5,7 @@ import { PayoutByType } from "./PayoutByType";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { useEffect, useState } from "react";
 
-export function BetTypeSection({ betType }) {
+export function BetTypeSection({ betType, toggleBetSlip }) {
   const { bets, setBetOptionType, getBetOptionType } = useBetContext();
   const [isSelectorVisible, setIsSelectorVisible] = useState(false);
   const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
@@ -43,7 +43,10 @@ export function BetTypeSection({ betType }) {
           isEnabled={true}
           text={"Show Options"}
           style={s.btns}
-          onPress={() => setBetOptionType(getBetOptionType(betType))}
+          onPress={() => {
+            setBetOptionType(getBetOptionType(betType));
+            toggleBetSlip();
+          }}
         />
       </View>
     </View>
