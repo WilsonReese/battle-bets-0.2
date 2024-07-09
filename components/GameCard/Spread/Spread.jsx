@@ -37,10 +37,16 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
 
   // this listens for if the bet is removed and changes the selection
   useEffect(() => {
-    if (!bets.find((bet) => bet.id === currentBetId)) {
+    const selectedBet = bets.find((bet) => bet.id === currentBetId);
+    if (selectedBet) {
+      setSelection({
+        home: selectedBet.name === spreadHome,
+        away: selectedBet.name === spreadAway,
+      });
+    } else {
       setSelection({ home: false, away: false });
     }
-  }, [bets]);
+  }, [bets, currentBetId, spreadHome, spreadAway]);
 
   const getTitle = (type) => {
     return type === "home" ? spreadHome : spreadAway;
@@ -48,7 +54,14 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
 
   const selectBet = (type) => {
     const title = getTitle(type);
-    setSelection({ [type]: true });
+    const existingBet = bets.find((bet) => bet.name === title && bet.betType === "spread");
+
+    if (existingBet) {
+      setCurrentBetId(existingBet.id);
+      setSelection({ [type]: true });
+      return;
+    }
+
     const newBet = addBet({
       title: title,
       betAmount: minBet,
@@ -56,6 +69,7 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
       betType: "spread",
     });
     setCurrentBetId(newBet.id);
+    setSelection({ [type]: true });
   };
 
   const deselectBet = () => {
@@ -70,10 +84,8 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
     } else if (selection[type]) {
       deselectBet();
     } else {
-      // switch between the two bet options
       removeBet(currentBetId); // Remove the previous bet
       const title = getTitle(type);
-      setSelection({ [type]: true });
       const newBet = addBet({
         title: title,
         betAmount: minBet,
@@ -81,6 +93,7 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
         betType: "spread",
       });
       setCurrentBetId(newBet.id);
+      setSelection({ [type]: true });
     }
   };
 
