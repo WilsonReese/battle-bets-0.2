@@ -3,6 +3,7 @@ import { Spread } from "./Spread/Spread";
 import { OverUnder } from "./OverUnder/OverUnder";
 import { useBetContext } from "../contexts/BetContext";
 import { Txt } from "../general/Txt";
+import { MoneyLine } from "./MoneyLine";
 
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
@@ -23,7 +24,12 @@ export function BetOptions({ game }) {
       )}
       {betOptionType === "moneyLine" && (
         <View>
-          <Txt>Money Line Bets</Txt>
+          <MoneyLine
+            moneyLineHome={game.moneyLineHome}
+            moneyLineHomePayout={game.moneyLineHomePayout}
+            moneyLineAway={game.moneyLineAway}
+            moneyLineAwayPayout={game.moneyLineAwayPayout}
+          />
         </View>
       )}
       {betOptionType === "prop" && (
@@ -41,7 +47,6 @@ const s = StyleSheet.create({
     paddingTop: 4,
   },
 });
-
 
 // import { StyleSheet, View } from "react-native";
 // import { Spread } from "./Spread/Spread";
