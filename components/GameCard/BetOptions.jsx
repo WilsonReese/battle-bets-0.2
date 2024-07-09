@@ -7,18 +7,6 @@ import { Txt } from "../general/Txt";
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
 export function BetOptions({ game }) {
-  const {
-    spreadHome,
-    spreadAway,
-    spreadPayout,
-    ou,
-    ouPayout,
-    moneyLineHome,
-    moneyLineHomePayout,
-    moneyLineAway,
-    moneyLineAwayPayout,
-  } = game;
-
   const { betOptionType } = useBetContext(); // Use the context
 
   return (
@@ -26,11 +14,11 @@ export function BetOptions({ game }) {
       {betOptionType === "spreadOU" && (
         <View>
           <Spread
-            spreadHome={spreadHome}
-            spreadAway={spreadAway}
-            spreadPayout={spreadPayout}
+            spreadHome={game.spreadHome}
+            spreadAway={game.spreadAway}
+            spreadPayout={game.spreadPayout}
           />
-          <OverUnder ou={ou} ouPayout={ouPayout} />
+          <OverUnder ou={game.ou} ouPayout={game.ouPayout} />
         </View>
       )}
       {betOptionType === "moneyLine" && (
@@ -53,3 +41,53 @@ const s = StyleSheet.create({
     paddingTop: 4,
   },
 });
+
+
+// import { StyleSheet, View } from "react-native";
+// import { Spread } from "./Spread/Spread";
+// import { OverUnder } from "./OverUnder/OverUnder";
+// import { MoneyLine } from "./MoneyLine/MoneyLine";
+// import { PropBets } from "./PropBets/PropBets";
+// import { useBetContext } from "../contexts/BetContext";
+// import { Txt } from "../general/Txt";
+
+// export function BetOptions({ game }) {
+//   const { betOptionType } = useBetContext(); // Use the context
+
+//   const renderBetOptions = () => {
+//     switch (betOptionType) {
+//       case "spreadOU":
+//         return (
+//           <View>
+//             <Spread
+//               spreadHome={game.spreadHome}
+//               spreadAway={game.spreadAway}
+//               spreadPayout={game.spreadPayout}
+//             />
+//             <OverUnder ou={game.ou} ouPayout={game.ouPayout} />
+//           </View>
+//         );
+//       case "moneyLine":
+//         return (
+//           <MoneyLine
+//             moneyLineHome={game.moneyLineHome}
+//             moneyLineHomePayout={game.moneyLineHomePayout}
+//             moneyLineAway={game.moneyLineAway}
+//             moneyLineAwayPayout={game.moneyLineAwayPayout}
+//           />
+//         );
+//       case "prop":
+//         return <PropBets propBets={game.propBets} />;
+//       default:
+//         return null;
+//     }
+//   };
+
+//   return <View style={s.container}>{renderBetOptions()}</View>;
+// }
+
+// const s = StyleSheet.create({
+//   container: {
+//     paddingTop: 4,
+//   },
+// });

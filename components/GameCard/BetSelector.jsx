@@ -9,7 +9,10 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
   const { bets, updateBet, totalBet, getBetOptionType, getBudget } = useBetContext();
   const bet = bets.find((b) => b.id === betId);
 
-  const budget = getBudget(getBetOptionType(bet.betType))
+  
+  const budget = bet ? getBudget(getBetOptionType(bet.betType)) : 0;
+  
+  console.log(budget)
 
   const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
 
