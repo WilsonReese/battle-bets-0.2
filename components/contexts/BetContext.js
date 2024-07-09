@@ -7,9 +7,11 @@ export const useBetContext = () => useContext(BetContext);
 
 export const BetProvider = ({ children }) => {
   const [bets, setBets] = useState([]);
-  const [spreadOUBudget, setSpreadOUBudget] = useState(2000); // Initial budget
+  const [spreadOUBudget, setSpreadOUBudget] = useState(2000); // Initial budget for spread and OU
+  const [moneyLineBudget, setMoneyLineBudget] = useState(1000); // Initial budget for money line
+  const [propBetBudget, setPropBetBudget] = useState(500); // Initial budget for prop bets
   const [totalBet, setTotalBet] = useState(0);
-  const [betOptionType, setBetOptionType] = useState('spreadOU')
+  const [betOptionType, setBetOptionType] = useState('spreadOU');
 
   const addBet = ({ title, betAmount, payout, betType }) => {
     const newBet = {
@@ -61,6 +63,15 @@ export const BetProvider = ({ children }) => {
     return betTypeToOptionType[betType] || "spreadOU"; // Default to "spreadOU" if not found
   };
 
+  const getBudget = (betOptionType) => {
+    const budgetByBetOptionType = {
+      spreadOU: spreadOUBudget,
+      moneyLine: moneyLineBudget,
+      prop: propBetBudget,
+    };
+    return budgetByBetOptionType[betOptionType];
+  };
+
   return (
     <BetContext.Provider
       value={{
@@ -70,11 +81,16 @@ export const BetProvider = ({ children }) => {
         updateBet,
         spreadOUBudget,
         setSpreadOUBudget,
+        moneyLineBudget,
+        setMoneyLineBudget,
+        propBetBudget,
+        setPropBetBudget,
         totalBet,
         setTotalBet,
         betOptionType,
         setBetOptionType, 
         getBetOptionType,
+        getBudget,
       }}
     >
       {children}

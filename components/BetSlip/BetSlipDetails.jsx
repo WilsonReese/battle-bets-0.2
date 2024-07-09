@@ -42,7 +42,7 @@ export function BetSlipDetails({toggleBetSlip}) {
               />
             </View>
           )}
-          <BetSlipBudget betSectionTitle={"Money Line"} />
+          <BetSlipBudget betSectionTitle={"Money Line"} budget={''} />
           {hasBetsOfType("moneyLine") ? (
             <BetTypeSection betType={"moneyLine"} toggleBetSlip={toggleBetSlip}/>
           ) : (
@@ -59,7 +59,7 @@ export function BetSlipDetails({toggleBetSlip}) {
               />
             </View>
           )}
-          <BetSlipBudget betSectionTitle={"Prop Bets"} />
+          <BetSlipBudget betSectionTitle={"Prop Bets"} budget={''} />
           {hasBetsOfType("prop") ? (
             <BetTypeSection betType={"props"} toggleBetSlip={toggleBetSlip}/>
           ) : (
