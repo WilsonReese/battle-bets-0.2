@@ -5,22 +5,22 @@ import { PayoutByType } from "./PayoutByType";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { useEffect, useState } from "react";
 
-export function BetTypeSection({ betType, toggleBetSlip }) {
+export function BetTypeSection({ betTypes, toggleBetSlip }) {
   const { bets, setBetOptionType, getBetOptionType } = useBetContext();
   const [isSelectorVisible, setIsSelectorVisible] = useState(false);
   const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
 
-  function renderBets(betType) {
+  function renderBets(betTypes) {
     return bets
-      .filter((bet) => bet.betType === betType)
+      .filter((bet) => betTypes.includes(bet.betType))
       .map((bet) => (
         <Bet key={bet.id} bet={bet} isSelectorVisible={isSelectorVisible} />
       ));
   }
 
-  function calculatePayoutByType(betType) {
+  function calculatePayoutByType(betTypes) {
     return bets
-      .filter((bet) => bet.betType === betType)
+      .filter((bet) => betTypes.includes(bet.betType))
       .reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
   }
 
@@ -30,8 +30,8 @@ export function BetTypeSection({ betType, toggleBetSlip }) {
 
   return (
     <View style={s.container}>
-      {renderBets(betType)}
-      <PayoutByType calculatePayout={calculatePayoutByType} betType={betType} />
+      {renderBets(betTypes)}
+      <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
       <View style={s.btnContainer}>
         <SmallBtn
           isEnabled={true}
@@ -44,7 +44,7 @@ export function BetTypeSection({ betType, toggleBetSlip }) {
           text={"Show Options"}
           style={s.btns}
           onPress={() => {
-            setBetOptionType(getBetOptionType(betType));
+            setBetOptionType(getBetOptionType(betTypes[0]));
             toggleBetSlip();
           }}
         />
@@ -55,7 +55,6 @@ export function BetTypeSection({ betType, toggleBetSlip }) {
 
 const s = StyleSheet.create({
   container: {
-    // paddingHorizontal: 8,
     paddingVertical: 4,
   },
   btns: {
