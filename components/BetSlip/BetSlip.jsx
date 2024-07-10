@@ -4,6 +4,7 @@ import {
   Animated,
   Dimensions,
   TouchableOpacity,
+  View,
 } from "react-native";
 import { BetSlipHeading } from "./BetSlipHeading";
 import { BetSlipDetails } from "./BetSlipDetails";
@@ -31,12 +32,13 @@ export function BetSlip({
 
   return (
     <Animated.View style={[s.container, { height: animatedHeight }]}>
-      <TouchableOpacity onPress={toggleBetSlip}>
+      <View>
         <BetSlipHeading
           poolName={poolName}
           isBetSlipShown={isBetSlipShown}
+          toggleBetSlip={toggleBetSlip}
         />
-      </TouchableOpacity>
+      </View>
       <BetSlipDetails toggleBetSlip={toggleBetSlip} />
     </Animated.View>
   );

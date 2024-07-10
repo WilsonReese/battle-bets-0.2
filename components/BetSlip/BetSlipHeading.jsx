@@ -1,10 +1,10 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, View, Animated } from "react-native";
+import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 
-export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
+export function BetSlipHeading({ poolName, isBetSlipShown, toggleBetSlip }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
   const { bets } = useBetContext();
 
@@ -31,14 +31,14 @@ export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
 
   return (
     <View style={s.container}>
-      <View style={s.headingContainer}>
+      <TouchableOpacity style={s.headingContainer} onPress={toggleBetSlip}>
         <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
         <Animated.View style={arrowStyle}>
           <FontAwesome6 name="chevron-up" size={24} color="#F8F8F8" />
         </Animated.View>
-      </View>
+      </TouchableOpacity>
       <View style={s.progressContainer}>
-        <Txt>Spread</Txt>
+        <Txt>Spread and Over/Under</Txt>
         <Txt>Money Line</Txt>
         <Txt>Prop</Txt>
       </View>
