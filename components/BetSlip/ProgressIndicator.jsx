@@ -1,21 +1,24 @@
-import React, { useEffect, useRef } from "react";
+import React from "react";
 import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 
-export function ProgressIndicator({ betOptionType, toggleBetSlip, isBetSlipShown}) {
-  const { getBetOptionLongTitle, getTotalBetAmount, getBudget, setBetOptionType } =
+export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipShown}) {
+  const { getBetOptionLongTitle, getTotalBetAmount, getBudget, setBetOptionType, betOptionType } =
     useBetContext();
-  const title = getBetOptionLongTitle(betOptionType);
-  const totalBetAmount = getTotalBetAmount(betOptionType);
-  const budget = getBudget(betOptionType);
+  const title = getBetOptionLongTitle(betOptionTypeProp);
+  const totalBetAmount = getTotalBetAmount(betOptionTypeProp);
+  const budget = getBudget(betOptionTypeProp);
+
 
   return (
     <TouchableOpacity
-      style={s.container}
+      style={[s.container, 
+        (betOptionType === betOptionTypeProp) && s.selectedIndicator
+      ]}
       onPress={() => {
-        setBetOptionType(betOptionType);
+        setBetOptionType(betOptionTypeProp);
         {if (isBetSlipShown) {toggleBetSlip();}}
       }}
     >
@@ -37,6 +40,11 @@ const s = StyleSheet.create({
     paddingVertical: 2,
     paddingHorizontal: 4,
     alignItems: "center",
+    borderBottomWidth: 2,
+    borderColor: 'transparent', // Default border color
+  },
+  selectedIndicator: {
+    borderColor: 'red'
   },
   title: {
     fontFamily: "Saira_600SemiBold",
