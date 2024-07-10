@@ -41,9 +41,9 @@ export function BetSlipHeading({ poolName, isBetSlipShown, toggleBetSlip }) {
       </TouchableOpacity>
       <View style={s.progressContainer}>
 
-        <ProgressIndicator betOptionType={"spreadOU"}/>
-        <ProgressIndicator betOptionType={"moneyLine"}/>
-        <ProgressIndicator betOptionType={"prop"}/>
+        <ProgressIndicator betOptionType={"spreadOU"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown} />
+        <ProgressIndicator betOptionType={"moneyLine"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown}/>
+        <ProgressIndicator betOptionType={"prop"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown}/>
 
       </View>
       <View style={s.payoutContainer}>
@@ -75,7 +75,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 4,
-    // backgroundColor: "green",
+    backgroundColor: "#0C9449",
     // borderTopWidth: 1,
     // borderColor: "#B8C3CC",
     // marginHorizontal: 8,

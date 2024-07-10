@@ -4,21 +4,26 @@ import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 
-export function ProgressIndicator({ betOptionType }) {
-    const { getBetOptionLongTitle, getTotalBetAmount, getBudget } = useBetContext();
-    const title = getBetOptionLongTitle(betOptionType)
-    const totalBetAmount = getTotalBetAmount(betOptionType)
-    const budget = getBudget(betOptionType)
+export function ProgressIndicator({ betOptionType, toggleBetSlip, isBetSlipShown}) {
+  const { getBetOptionLongTitle, getTotalBetAmount, getBudget, setBetOptionType } =
+    useBetContext();
+  const title = getBetOptionLongTitle(betOptionType);
+  const totalBetAmount = getTotalBetAmount(betOptionType);
+  const budget = getBudget(betOptionType);
 
-
-  
-    return (
-    <View style={s.container}>
+  return (
+    <TouchableOpacity
+      style={s.container}
+      onPress={() => {
+        setBetOptionType(betOptionType);
+        {if (isBetSlipShown) {toggleBetSlip();}}
+      }}
+    >
       <View style={s.progressIndicator}>
         <Txt style={s.title}>{title}</Txt>
         <Txt style={s.amount}>{`$${budget - totalBetAmount} left`}</Txt>
       </View>
-    </View>
+    </TouchableOpacity>
   );
 }
 
@@ -34,11 +39,12 @@ const s = StyleSheet.create({
     alignItems: "center",
   },
   title: {
-   fontFamily: 'Saira_600SemiBold',
-   color: '#061826'
+    fontFamily: "Saira_600SemiBold",
+    color: "#061826",
+    fontSize: 14,
   },
   amount: {
-    color: '#061826',
-    fontSize: 14,
-  }
+    color: "#061826",
+    // fontSize: 14,
+  },
 });
