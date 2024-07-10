@@ -82,5 +82,6 @@ const s = StyleSheet.create({
     borderTopWidth: 1,
     borderColor: '#B8C3CC',
     paddingHorizontal: 8,
+    marginTop: 4,
   },
 });

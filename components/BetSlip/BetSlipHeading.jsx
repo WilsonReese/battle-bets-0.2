@@ -1,11 +1,12 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Animated } from "react-native";
 import { Txt } from "../general/Txt";
-import { BetSlipBudget } from "./BetSlipBudget";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useBetContext } from "../contexts/BetContext";
 
 export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
+  const { bets } = useBetContext();
 
   useEffect(() => {
     Animated.timing(rotation, {
@@ -24,6 +25,10 @@ export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
     transform: [{ rotate: rotateInterpolate }],
   };
 
+  function calculateTotalPayout() {
+    return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
+  }
+
   return (
     <View style={s.container}>
       <View style={s.headingContainer}>
@@ -32,9 +37,14 @@ export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
           <FontAwesome6 name="chevron-up" size={24} color="#F8F8F8" />
         </Animated.View>
       </View>
+      <View style={s.progressContainer}>
+        <Txt>Spread</Txt>
+        <Txt>Money Line</Txt>
+        <Txt>Prop</Txt>
+      </View>
       <View style={s.payoutContainer}>
-        <Txt>Total Payout?</Txt>
-        <Txt>Progress?</Txt>
+        <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
+        <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
       </View>
     </View>
   );
@@ -51,12 +61,35 @@ const s = StyleSheet.create({
     paddingHorizontal: 12,
     paddingTop: 8,
     paddingBottom: 4,
-    backgroundColor: '#184EAD',
+    backgroundColor: "#184EAD",
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
   payoutContainer: {
-    backgroundColor: 'green'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingHorizontal: 8,
+    paddingVertical: 4,
+    // backgroundColor: "green",
+    // borderTopWidth: 1,
+    // borderColor: "#B8C3CC",
+    // marginHorizontal: 8,
+  },
+  payoutHeading: {
+    color: "#061826",
+    textTransform: "uppercase",
+    fontFamily: "Saira_600SemiBold",
+    // fontSize: 14
+  },
+  payoutText: {
+    color: "#061826",
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 18,
+  },
+  progressContainer: {
+    backgroundColor: 'blue',
+    flexDirection: 'row',
   },
   title: {
     fontSize: 20,

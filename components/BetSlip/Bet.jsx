@@ -52,12 +52,12 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
 const s = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
-    paddingVertical: 2,
   },
   betItem: {
     justifyContent: "space-between",
     paddingHorizontal: 8,
     paddingVertical: 2,
+    // borderWidth: 1,
   },
   betItemEditMode: {
     borderTopLeftRadius: 8,
