@@ -3,10 +3,12 @@ import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
+import { ProgressIndicator } from "./ProgressIndicator";
 
 export function BetSlipHeading({ poolName, isBetSlipShown, toggleBetSlip }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
   const { bets } = useBetContext();
+
 
   useEffect(() => {
     Animated.timing(rotation, {
@@ -38,9 +40,11 @@ export function BetSlipHeading({ poolName, isBetSlipShown, toggleBetSlip }) {
         </Animated.View>
       </TouchableOpacity>
       <View style={s.progressContainer}>
-        <Txt>Spread and Over/Under</Txt>
-        <Txt>Money Line</Txt>
-        <Txt>Prop</Txt>
+
+        <ProgressIndicator betOptionType={"spreadOU"}/>
+        <ProgressIndicator betOptionType={"moneyLine"}/>
+        <ProgressIndicator betOptionType={"prop"}/>
+
       </View>
       <View style={s.payoutContainer}>
         <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
@@ -88,12 +92,22 @@ const s = StyleSheet.create({
     fontSize: 18,
   },
   progressContainer: {
-    backgroundColor: 'blue',
+    // backgroundColor: 'blue',
     flexDirection: 'row',
+    paddingVertical: 2,
+    paddingHorizontal: 8,
+    justifyContent: "space-between"
   },
   title: {
     fontSize: 20,
     // color: "#061826",
     fontFamily: "Saira_600SemiBold",
   },
+  progressIndicator: {
+    // borderRightWidth: 1,
+    // borderLeftWidth: 1,
+    paddingVertical: 2,
+    paddingHorizontal: 4,
+    alignItems: 'center',
+  }
 });

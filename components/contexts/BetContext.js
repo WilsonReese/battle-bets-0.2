@@ -107,6 +107,15 @@ export const BetProvider = ({ children }) => {
     return totalBetAmountByBetOptionType[betOptionType] || 0;
   };
 
+  const getBetOptionLongTitle = (betOptionType) => {
+    const betOptionLongTitleByType = {
+      spreadOU: 'Spread and Over/Under',
+      moneyLine: 'Money Line',
+      prop: 'Prop Bets',
+    };
+    return betOptionLongTitleByType[betOptionType]
+  }
+
   return (
     <BetContext.Provider
       value={{
@@ -130,6 +139,7 @@ export const BetProvider = ({ children }) => {
         getBetOptionType,
         getBudget,
         getTotalBetAmount,
+        getBetOptionLongTitle
       }}
     >
       {children}
