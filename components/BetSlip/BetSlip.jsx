@@ -1,18 +1,15 @@
-import React, { useRef, useState } from "react";
+import React, { useRef } from "react";
 import {
   StyleSheet,
-  View,
   Animated,
   Dimensions,
   TouchableOpacity,
 } from "react-native";
 import { BetSlipHeading } from "./BetSlipHeading";
-import { Txt } from "../general/Txt";
 import { BetSlipDetails } from "./BetSlipDetails";
-import { useBetContext } from "../contexts/BetContext";
 
 const { height } = Dimensions.get("window");
-const betSlipHeight = (height * 2.7) / 5; 
+const betSlipHeight = (height * 3.2) / 5; 
 const betSlipHeadingHeight = 69; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
 
 export function BetSlip({

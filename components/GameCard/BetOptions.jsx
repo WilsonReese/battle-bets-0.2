@@ -4,6 +4,7 @@ import { OverUnder } from "./OverUnder/OverUnder";
 import { useBetContext } from "../contexts/BetContext";
 import { Txt } from "../general/Txt";
 import { MoneyLine } from "./MoneyLine";
+import { PropBets } from "./PropBets";
 
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
@@ -33,9 +34,7 @@ export function BetOptions({ game }) {
         </View>
       )}
       {betOptionType === "prop" && (
-        <View>
-          <Txt>Prop Bets</Txt>
-        </View>
+        <PropBets betOptions={game.propBets}/>
       )}
     </View>
   );
