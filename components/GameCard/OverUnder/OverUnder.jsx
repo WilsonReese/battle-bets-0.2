@@ -5,9 +5,11 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function OverUnder({ ou, ouPayout }) {
-  const overTitle = `Over ${ou} Points`;
-  const underTitle = `Under ${ou} Points`;
+export function OverUnder({ ou, ouPayout, homeTeam, awayTeam }) {
+  const overShortTitle = `Over ${ou} Points`;
+  const underShortTitle = `Under ${ou} Points`;
+  const overTitle = `${homeTeam} v ${awayTeam}: ${overShortTitle}`
+  const underTitle = `${homeTeam} v ${awayTeam}: ${underShortTitle}`
   const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overTitle, underTitle, ouPayout);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
@@ -16,7 +18,7 @@ export function OverUnder({ ou, ouPayout }) {
       <BetTypeHeading heading={"Over/Under"} />
       <View style={s.optionsContainer}>
         <BetOption
-          title={overTitle}
+          title={overShortTitle}
           payout={ouPayout}
           isSelected={selection.optionOne}
           isEnabled={isEnabled}
@@ -24,7 +26,7 @@ export function OverUnder({ ou, ouPayout }) {
         />
         <View style={{ padding: 4 }}></View>
         <BetOption
-          title={underTitle}
+          title={underShortTitle}
           payout={ouPayout}
           isSelected={selection.optionTwo}
           isEnabled={isEnabled}

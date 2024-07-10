@@ -19,7 +19,7 @@ export function BetOptions({ game }) {
             spreadAway={game.spreadAway}
             spreadPayout={game.spreadPayout}
           />
-          <OverUnder ou={game.ou} ouPayout={game.ouPayout} />
+          <OverUnder ou={game.ou} ouPayout={game.ouPayout} homeTeam={game.homeTeam} awayTeam={game.awayTeam}/>
         </View>
       )}
       {betOptionType === "moneyLine" && (
