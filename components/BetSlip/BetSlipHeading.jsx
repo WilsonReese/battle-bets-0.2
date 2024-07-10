@@ -26,17 +26,16 @@ export function BetSlipHeading({ poolName, budget, totalBet, isBetSlipShown }) {
 
   return (
     <View style={s.container}>
-      <View style={s.detailsContainer}>
+      <View style={s.headingContainer}>
         <Txt style={s.title}>Bet Slip - Pool {poolName}</Txt>
         <Animated.View style={arrowStyle}>
           <FontAwesome6 name="chevron-up" size={24} color="#F8F8F8" />
         </Animated.View>
       </View>
-      {/* <BetSlipBudget
-        betType={"Spread and Over/Under"}
-        budget={budget}
-        totalBet={totalBet}
-      /> */}
+      <View style={s.payoutContainer}>
+        <Txt>Total Payout?</Txt>
+        <Txt>Progress?</Txt>
+      </View>
     </View>
   );
 }
@@ -45,7 +44,7 @@ const s = StyleSheet.create({
   container: {
     // height: 40, // This controls how tall the heading is (pushes down the BetSlipDetails, should be equal to betSlipHeadingHeight on the BetSlip
   },
-  detailsContainer: {
+  headingContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -55,6 +54,9 @@ const s = StyleSheet.create({
     backgroundColor: '#184EAD',
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
+  },
+  payoutContainer: {
+    backgroundColor: 'green'
   },
   title: {
     fontSize: 20,
