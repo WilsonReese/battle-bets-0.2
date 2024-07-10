@@ -4,15 +4,17 @@ import { useEffect, useState } from "react";
 import { FontAwesome6 } from '@expo/vector-icons';
 import { useBetContext } from "../contexts/BetContext";
 
-export function BetSlipBudget({ betSectionTitle, budget }) {
+export function BetSlipBudget({ betSectionTitle, budget, betOptionType }) {
   const checkmark = <View style={{paddingRight: 4}}><FontAwesome6 name="check" size={12} color="#0C9449"/></View>
-  const { totalBet } = useBetContext(); // Use the context
+  const { getTotalBetAmount } = useBetContext(); // Use the context
+  const totalBetAmount = getTotalBetAmount(betOptionType)
 
-  const [isBudgetUsed, setIsBudgetUsed] = useState(totalBet === budget);
+
+  const [isBudgetUsed, setIsBudgetUsed] = useState(totalBetAmount === budget);
 
   useEffect(() => {
-    setIsBudgetUsed(totalBet === budget);
-  }, [totalBet, budget]);
+    setIsBudgetUsed(totalBetAmount === budget);
+  }, [totalBetAmount, budget]);
 
   return (
     <View style={s.container}>
@@ -21,7 +23,7 @@ export function BetSlipBudget({ betSectionTitle, budget }) {
         <Txt style={s.titleText}>{betSectionTitle}</Txt>
       </View>
       <View style={s.budget}>
-        <Txt style={s.budgetText}>${totalBet}</Txt>
+        <Txt style={s.budgetText}>${totalBetAmount}</Txt>
         <Txt style={s.text}> of </Txt>
         <Txt style={s.budgetText}>${budget}</Txt>
         <Txt style={s.text}> spent</Txt>

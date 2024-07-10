@@ -5,7 +5,7 @@ import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
 
 export function GameCard({ game }) {
-
+  
   return (
     // Game Card
     <View style={s.card}>

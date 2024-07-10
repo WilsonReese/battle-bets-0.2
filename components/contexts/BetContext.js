@@ -13,8 +13,32 @@ export const BetProvider = ({ children }) => {
   const [totalSpreadOUBet, setTotalSpreadOUBet] = useState(0);
   const [totalMoneyLineBet, setTotalMoneyLineBet] = useState(0);
   const [totalPropBet, setTotalPropBet] = useState(0);
-  const [totalBet, setTotalBet] = useState(0);
-  const [betOptionType, setBetOptionType] = useState('spreadOU');
+  // const [totalBet, setTotalBet] = useState(0);
+  const [betOptionType, setBetOptionType] = useState('spreadOU'); // sets SpreadOU as initial bet option type state
+
+  const updateTotalBetState = (betOptionType, amount, operation) => {
+    const stateSetters = {
+      spreadOU: setTotalSpreadOUBet,
+      moneyLine: setTotalMoneyLineBet,
+      prop: setTotalPropBet,
+    };
+    const setter = stateSetters[betOptionType];
+
+    if (setter) {
+      setter((prevTotal) => {
+        switch (operation) {
+          case "add":
+            return prevTotal + amount;
+          case "remove":
+            return prevTotal - amount;
+          case "update":
+            return prevTotal + amount; // Assuming update means incrementing by the amount
+          default:
+            return prevTotal;
+        }
+      });
+    }
+  };
 
   const addBet = ({ title, betAmount, payout, betType }) => {
     const newBet = {
@@ -25,21 +49,22 @@ export const BetProvider = ({ children }) => {
       betType: betType,
     };
     setBets((prevBets) => [...prevBets, newBet]);
-    setTotalBet((prevTotalBet) => prevTotalBet + betAmount);
+    updateTotalBetState(getBetOptionType(betType), betAmount, "add");
     return newBet;
   };
 
   const removeBet = (id) => {
     const betToRemove = bets.find((bet) => bet.id === id);
     if (betToRemove) {
-      setTotalBet((prevTotalBet) => prevTotalBet - betToRemove.betAmount);
+      setBets((prevBets) => prevBets.filter((bet) => bet.id !== id));
+      updateTotalBetState(getBetOptionType(betToRemove.betType), betToRemove.betAmount, "remove");
     }
-    setBets((prevBets) => prevBets.filter((bet) => bet.id !== id));
   };
 
   const updateBet = (id, newBetAmount, payout) => {
     const previousBet = bets.find((bet) => bet.id === id);
     const previousBetAmount = previousBet ? previousBet.betAmount : 0;
+
     const updatedBets = bets.map((bet) =>
       bet.id === id
         ? {
@@ -51,9 +76,7 @@ export const BetProvider = ({ children }) => {
     );
 
     setBets(updatedBets);
-    setTotalBet(
-      (prevTotalBet) => prevTotalBet - previousBetAmount + newBetAmount
-    );
+    updateTotalBetState(getBetOptionType(previousBet.betType), newBetAmount - previousBetAmount, "update");
   };
 
   const getBetOptionType = (betType) => {
@@ -75,6 +98,15 @@ export const BetProvider = ({ children }) => {
     return budgetByBetOptionType[betOptionType];
   };
 
+  const getTotalBetAmount = (betOptionType) => {
+    const totalBetAmountByBetOptionType = {
+      spreadOU: totalSpreadOUBet,
+      moneyLine: totalMoneyLineBet,
+      prop: totalPropBet,
+    };
+    return totalBetAmountByBetOptionType[betOptionType] || 0;
+  };
+
   return (
     <BetContext.Provider
       value={{
@@ -88,12 +120,16 @@ export const BetProvider = ({ children }) => {
         setMoneyLineBudget,
         propBetBudget,
         setPropBetBudget,
-        totalBet,
-        setTotalBet,
+        totalSpreadOUBet,
+        totalMoneyLineBet,
+        totalPropBet,
+        // totalBet,
+        // setTotalBet,
         betOptionType,
         setBetOptionType, 
         getBetOptionType,
         getBudget,
+        getTotalBetAmount,
       }}
     >
       {children}

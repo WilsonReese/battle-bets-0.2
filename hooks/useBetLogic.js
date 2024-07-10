@@ -5,12 +5,13 @@ import { useBetContext } from "../components/contexts/BetContext";
 import { BETTING_RULES } from "../utils/betting-rules";
 
 export const useBetLogic = (betType, optionOne, optionTwo, payout) => {
-  const { bets, addBet, removeBet, totalBet, getBetOptionType, getBudget } = useBetContext();
+  const { bets, addBet, removeBet, getBetOptionType, getBudget, getTotalBetAmount } = useBetContext();
   const [selection, setSelection] = useState({ optionOne: false, optionTwo: false });
   const animatedHeight = useRef(new Animated.Value(0)).current;
   const [currentBetId, setCurrentBetId] = useState(null);
   const budget = getBudget(getBetOptionType(betType));
-  const isEnabled = totalBet < budget;
+  const totalBetAmount = getTotalBetAmount(getBetOptionType(betType))
+  const isEnabled = totalBetAmount < budget;
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   // animates opening the bet selector

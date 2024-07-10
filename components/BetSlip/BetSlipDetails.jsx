@@ -25,7 +25,7 @@ export function BetSlipDetails({toggleBetSlip}) {
     <View>
       <ScrollView>
         <View style={s.container}>
-          <BetSlipBudget betSectionTitle={"Spread and Over/Under"} budget={spreadOUBudget} />
+          <BetSlipBudget betSectionTitle={"Spread and Over/Under"} budget={spreadOUBudget} betOptionType={'spreadOU'} />
           {hasBetsOfType("spread") || hasBetsOfType("ou") ? (
             <BetTypeSection betType={"spread"} toggleBetSlip={toggleBetSlip}/>
           ) : (
@@ -42,7 +42,7 @@ export function BetSlipDetails({toggleBetSlip}) {
               />
             </View>
           )}
-          <BetSlipBudget betSectionTitle={"Money Line"} budget={moneyLineBudget} />
+          <BetSlipBudget betSectionTitle={"Money Line"} budget={moneyLineBudget} betOptionType={'moneyLine'} />
           {hasBetsOfType("moneyLine") ? (
             <BetTypeSection betType={"moneyLine"} toggleBetSlip={toggleBetSlip}/>
           ) : (
@@ -59,9 +59,9 @@ export function BetSlipDetails({toggleBetSlip}) {
               />
             </View>
           )}
-          <BetSlipBudget betSectionTitle={"Prop Bets"} budget={propBetBudget} />
+          <BetSlipBudget betSectionTitle={"Prop Bets"} budget={propBetBudget} betOptionType={'prop'} />
           {hasBetsOfType("prop") ? (
-            <BetTypeSection betType={"props"} toggleBetSlip={toggleBetSlip}/>
+            <BetTypeSection betType={"prop"} toggleBetSlip={toggleBetSlip}/>
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
