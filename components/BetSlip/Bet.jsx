@@ -20,27 +20,30 @@ export function Bet({ bet, isSelectorVisible }) {
 
   return (
     <View style={s.container}>
-      <View style={[
-        s.betItem,
-        isSelectorVisible && s.betItemEditMode
-        ]}>
+      <View style={[s.betItem, isSelectorVisible && s.betItemEditMode]}>
         <View style={s.betDetailsContainer}>
-          <Txt style={s.betName}>{bet.name}: </Txt>
-          <Txt style={s.betText}>
-            ${bet.betAmount} to win ${bet.toWinAmount}
-          </Txt>
+          <View style={s.betNameContainer}>
+            <Txt style={s.betNameText}>{bet.name}: </Txt>
+          </View>
+          <View style={s.betAmountContainer}>
+            <Txt style={s.betAmountText}>
+              ${bet.betAmount} to win ${bet.toWinAmount}
+            </Txt>
+          </View>
         </View>
       </View>
-      <Animated.View style={{ height: animatedHeight, overflow: 'hidden' }}>
-        {isSelectorVisible ?
+      <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
+        {isSelectorVisible ? (
           <BetSelector
             betId={bet.id}
-            closeSelection={() => {removeBet(bet.id)}}
+            closeSelection={() => {
+              removeBet(bet.id);
+            }}
             minBet={minBet}
             maxBet={maxBet}
             payout={bet.toWinAmount / bet.betAmount}
           />
-        : null}
+        ) : null}
       </Animated.View>
     </View>
   );
@@ -59,18 +62,26 @@ const s = StyleSheet.create({
   betItemEditMode: {
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    backgroundColor: "#54D18C"
+    backgroundColor: "#54D18C",
   },
   betDetailsContainer: {
     flexDirection: "row",
-    justifyContent: 'space-between'
+    justifyContent: "space-between",
   },
-  betName: {
+  betNameContainer: {
+    flex: 3,
+    backgroundColor: 'green'
+  },
+  betNameText: {
     fontSize: 14,
     fontFamily: "Saira_600SemiBold",
     color: "#061826",
   },
-  betText: {
+  betAmountContainer: {
+    flex: 2,
+    backgroundColor: 'blue'
+  },
+  betAmountText: {
     fontSize: 14,
     color: "#061826",
   },
