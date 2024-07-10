@@ -5,7 +5,7 @@ import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
 import { useBetContext } from "../contexts/BetContext";
 
-export function Bet({ bet, isSelectorVisible }) {
+export function Bet({ bet, isSelectorVisible, backgroundColor }) {
   const { minBet, maxBet } = BETTING_RULES.spread;
   const { removeBet } = useBetContext();
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -19,8 +19,8 @@ export function Bet({ bet, isSelectorVisible }) {
   }, [isSelectorVisible]);
 
   return (
-    <View style={s.container}>
-      <View style={[s.betItem, isSelectorVisible && s.betItemEditMode]}>
+    <View style={[s.container]}>
+      <View style={[s.betItem, {backgroundColor}, isSelectorVisible && s.betItemEditMode]}>
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
             <Txt style={s.betNameText}>{bet.name}: </Txt>
@@ -66,11 +66,11 @@ const s = StyleSheet.create({
   },
   betDetailsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
   },
   betNameContainer: {
     flex: 3,
-    backgroundColor: 'green'
+    // backgroundColor: 'green'
   },
   betNameText: {
     fontSize: 14,
@@ -79,7 +79,8 @@ const s = StyleSheet.create({
   },
   betAmountContainer: {
     flex: 2,
-    backgroundColor: 'blue'
+    alignItems: 'flex-end'
+    // backgroundColor: 'blue'
   },
   betAmountText: {
     fontSize: 14,

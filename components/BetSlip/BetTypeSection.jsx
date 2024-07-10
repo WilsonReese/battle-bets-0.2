@@ -13,8 +13,13 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
   function renderBets(betTypes) {
     return bets
       .filter((bet) => betTypes.includes(bet.betType))
-      .map((bet) => (
-        <Bet key={bet.id} bet={bet} isSelectorVisible={isSelectorVisible} />
+      .map((bet, index) => (
+        <Bet 
+          key={bet.id} 
+          bet={bet} 
+          isSelectorVisible={isSelectorVisible} 
+          backgroundColor={index % 2 === 0 ? "#DAE1E5" : "#F8F8F8"} 
+        />
       ));
   }
 
