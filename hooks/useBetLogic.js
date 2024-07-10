@@ -13,6 +13,7 @@ export const useBetLogic = (betType, optionOne, optionTwo, payout) => {
   const isEnabled = totalBet < budget;
   const { minBet, maxBet } = BETTING_RULES[betType];
 
+  // animates opening the bet selector
   useEffect(() => {
     if (selection.optionOne || selection.optionTwo) {
       Animated.timing(animatedHeight, {
@@ -29,6 +30,7 @@ export const useBetLogic = (betType, optionOne, optionTwo, payout) => {
     }
   }, [selection]);
 
+  // listens for changes in the bets and sets the selection to option one or two
   useEffect(() => {
     const selectedBet = bets.find((bet) => bet.id === currentBetId);
     if (selectedBet) {
@@ -41,6 +43,7 @@ export const useBetLogic = (betType, optionOne, optionTwo, payout) => {
     }
   }, [bets, currentBetId, optionOne, optionTwo]);
 
+  // listens for opening option one or option two
   useEffect(() => {
     const betOptionOne = bets.find((bet) => bet.name === optionOne && bet.betType === betType);
     const betOptionTwo = bets.find((bet) => bet.name === optionTwo && bet.betType === betType);
@@ -54,6 +57,7 @@ export const useBetLogic = (betType, optionOne, optionTwo, payout) => {
     }
   }, [optionOne, optionTwo, bets]);
 
+  // gets title for bet ex: 'Vanderbilt -6.5'
   const getTitle = (type) => {
     return type === "optionOne" ? optionOne : optionTwo;
   };

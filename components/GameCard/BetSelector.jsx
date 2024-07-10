@@ -10,8 +10,6 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
   const bet = bets.find((b) => b.id === betId);
 
   const budget = bet ? getBudget(getBetOptionType(bet.betType)) : 0;
-  
-  console.log(budget)
 
   const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
 
