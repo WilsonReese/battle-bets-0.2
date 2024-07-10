@@ -10,6 +10,9 @@ export const BetProvider = ({ children }) => {
   const [spreadOUBudget, setSpreadOUBudget] = useState(2000); // Initial budget for spread and OU
   const [moneyLineBudget, setMoneyLineBudget] = useState(1000); // Initial budget for money line
   const [propBetBudget, setPropBetBudget] = useState(500); // Initial budget for prop bets
+  const [totalSpreadOUBet, setTotalSpreadOUBet] = useState(0);
+  const [totalMoneyLineBet, setTotalMoneyLineBet] = useState(0);
+  const [totalPropBet, setTotalPropBet] = useState(0);
   const [totalBet, setTotalBet] = useState(0);
   const [betOptionType, setBetOptionType] = useState('spreadOU');
 
