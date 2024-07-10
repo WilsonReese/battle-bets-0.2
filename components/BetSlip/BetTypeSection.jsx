@@ -36,14 +36,16 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
   return (
     <View style={s.container}>
       {renderBets(betTypes)}
-      <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
-      <View style={s.btnContainer}>
+      <View style={s.payoutContainer}>
         <SmallBtn
           isEnabled={true}
           text={`${betAmountBtnAction} Bets`}
           style={s.btns}
           onPress={() => setIsSelectorVisible(!isSelectorVisible)}
         />
+      <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
+        </View>
+      <View style={s.btnContainer}>
         <SmallBtn
           isEnabled={true}
           text={"Show Options"}
@@ -63,8 +65,8 @@ const s = StyleSheet.create({
     paddingVertical: 4,
   },
   btns: {
-    height: 30,
-    width: 165,
+    height: 24,
+    width: 100,
     marginHorizontal: 4,
   },
   btnContainer: {
@@ -72,5 +74,13 @@ const s = StyleSheet.create({
     justifyContent: "center",
     alignItems: "center",
     paddingVertical: 4,
+  },
+  payoutContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    borderTopWidth: 1,
+    borderColor: '#B8C3CC',
+    paddingHorizontal: 8,
   },
 });
