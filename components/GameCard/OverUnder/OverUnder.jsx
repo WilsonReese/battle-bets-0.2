@@ -5,10 +5,9 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-
 export function OverUnder({ ou, ouPayout }) {
-  const overTitle = `Over ${ou} Points`
-  const underTitle = `Under ${ou} Points`
+  const overTitle = `Over ${ou} Points`;
+  const underTitle = `Under ${ou} Points`;
   const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overTitle, underTitle, ouPayout);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
