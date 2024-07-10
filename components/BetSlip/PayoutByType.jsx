@@ -1,11 +1,11 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function PayoutByType({ calculatePayout }) {
+export function PayoutByType({ calculatePayout, betType}) {
   return (
     <View style={s.container}>
       <Txt style={s.text}>Potential Payout: </Txt>
-      <Txt style={s.amountText}>${calculatePayout("spread")}</Txt>
+      <Txt style={s.amountText}>${calculatePayout(betType)}</Txt>
     </View>
   );
 }

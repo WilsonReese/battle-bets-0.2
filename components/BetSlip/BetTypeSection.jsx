@@ -31,7 +31,7 @@ export function BetTypeSection({ betType, toggleBetSlip }) {
   return (
     <View style={s.container}>
       {renderBets(betType)}
-      <PayoutByType calculatePayout={calculatePayoutByType} />
+      <PayoutByType calculatePayout={calculatePayoutByType} betType={betType} />
       <View style={s.btnContainer}>
         <SmallBtn
           isEnabled={true}
