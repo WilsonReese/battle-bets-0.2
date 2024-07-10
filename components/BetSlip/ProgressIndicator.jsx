@@ -45,6 +45,7 @@ const s = StyleSheet.create({
   },
   amount: {
     color: "#061826",
-    // fontSize: 14,
+    // fontFamily: "Saira_400Regular_Italic",
+    fontSize: 14,
   },
 });
