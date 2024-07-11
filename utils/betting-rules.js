@@ -9,11 +9,11 @@ export const BETTING_RULES = {
     },
     moneyLine: {
       minBet: 100,
-      maxBet: 1000
+      maxBet: 500
     },
     prop: {
       minBet: 100,
-      maxBet: 1000
+      maxBet: 500
     },
     // Add other bet types here
   };
