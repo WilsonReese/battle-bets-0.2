@@ -8,6 +8,7 @@ export function Btn({
   isEnabled,
   icon,
   style,
+  onPress
 }) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
@@ -21,6 +22,7 @@ export function Btn({
         isEnabled && pressed && { opacity: 0.5 },
         style,
       ]}
+      onPress={isEnabled ? onPress : null}
     >
       <Txt style={s.btnText}>
         {btnText} {icon}

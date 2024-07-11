@@ -14,8 +14,10 @@ export function BetSlipHeading({
   scrollViewRef,
 }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
-  const { bets } = useBetContext();
-  const arrowSubmitIcon = <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
+  const { bets, areAllBetsComplete } = useBetContext();
+  const arrowSubmitIcon = (
+    <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
+  );
 
   useEffect(() => {
     Animated.timing(rotation, {
@@ -47,9 +49,13 @@ export function BetSlipHeading({
             <FontAwesome6 name="chevron-up" size={16} color="#F8F8F8" />
           </Animated.View>
         </TouchableOpacity>
-        {/* <Txt>Button</Txt> */}
         <View style={s.btnContainer}>
-          <Btn btnText={'Submit Bets'} icon={arrowSubmitIcon} style={s.btn} isEnabled={true}/>
+          <Btn
+            btnText={"Submit Bets"}
+            icon={arrowSubmitIcon}
+            style={s.btn}
+            isEnabled={areAllBetsComplete()}
+          />
         </View>
       </View>
 

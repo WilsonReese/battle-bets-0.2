@@ -13,7 +13,6 @@ export const BetProvider = ({ children }) => {
   const [totalSpreadOUBet, setTotalSpreadOUBet] = useState(0);
   const [totalMoneyLineBet, setTotalMoneyLineBet] = useState(0);
   const [totalPropBet, setTotalPropBet] = useState(0);
-  // const [totalBet, setTotalBet] = useState(0);
   const [betOptionType, setBetOptionType] = useState('spreadOU'); // sets SpreadOU as initial bet option type state
 
   const updateTotalBetState = (betOptionType, amount, operation) => {
@@ -116,6 +115,14 @@ export const BetProvider = ({ children }) => {
     return betOptionLongTitleByType[betOptionType]
   }
 
+  const areAllBetsComplete = () => {
+    return (
+      totalSpreadOUBet === spreadOUBudget &&
+      totalMoneyLineBet === moneyLineBudget &&
+      totalPropBet === propBetBudget
+    );
+  };
+
   return (
     <BetContext.Provider
       value={{
@@ -125,21 +132,20 @@ export const BetProvider = ({ children }) => {
         updateBet,
         spreadOUBudget,
         setSpreadOUBudget,
+        totalSpreadOUBet,
         moneyLineBudget,
         setMoneyLineBudget,
+        totalMoneyLineBet,
         propBetBudget,
         setPropBetBudget,
-        totalSpreadOUBet,
-        totalMoneyLineBet,
         totalPropBet,
-        // totalBet,
-        // setTotalBet,
         betOptionType,
         setBetOptionType, 
         getBetOptionType,
         getBudget,
         getTotalBetAmount,
-        getBetOptionLongTitle
+        getBetOptionLongTitle, 
+        areAllBetsComplete,
       }}
     >
       {children}
