@@ -45,17 +45,6 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
         />
         <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
       </View>
-      {/* <View style={s.btnContainer}>
-        <SmallBtn
-          isEnabled={true}
-          text={"Show Options"}
-          style={s.btns}
-          onPress={() => {
-            setBetOptionType(getBetOptionType(betTypes[0]));
-            toggleBetSlip();
-          }}
-        />
-      </View> */}
     </View>
   );
 }
@@ -70,7 +59,7 @@ const s = StyleSheet.create({
     marginHorizontal: 4,
     backgroundColor: "#F8F8F8",
     borderWidth: 1,
-    borderColor: "#2271FA",
+    borderColor: "#184EAD",
   },
   // btnContainer: {
   //   flexDirection: "row",
@@ -82,10 +71,8 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    // borderTopWidth: 1,
     borderColor: "#B8C3CC",
     paddingHorizontal: 8,
     paddingVertical: 12,
-    // marginVertical: 4,
   },
 });

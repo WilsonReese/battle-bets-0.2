@@ -5,7 +5,7 @@ import { FontAwesome6 } from '@expo/vector-icons';
 import { useBetContext } from "../contexts/BetContext";
 
 export function BetSlipBudget({ betSectionTitle, budget, betOptionType }) {
-  const checkmark = <View style={{paddingRight: 4}}><FontAwesome6 name="check" size={12} color="#0C9449"/></View>
+  const checkmark = <View style={{paddingRight: 8}}><FontAwesome6 name="check" size={16} color="#54D18C"/></View>
   const { getTotalBetAmount } = useBetContext(); // Use the context
   const totalBetAmount = getTotalBetAmount(betOptionType)
 

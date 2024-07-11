@@ -44,11 +44,11 @@ const s = StyleSheet.create({
     backgroundColor: "#B8C3CC",
   },
   enabled: {
-    backgroundColor: "#2271FA",
+    backgroundColor: "#54D18C",
   },
   btnText: {
     fontFamily: "Saira_600SemiBold",
-    fontSize: 18,
+    fontSize: 16,
   },
   btnSecondaryText: {
     fontSize: 14,

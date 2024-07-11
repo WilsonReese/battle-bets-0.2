@@ -33,7 +33,7 @@ const s = StyleSheet.create({
     backgroundColor: "#B8C3CC",
   },
   enabled: {
-    backgroundColor: "#2271FA",
+    backgroundColor: "#184EAD",
     //shadow
     shadowColor: "#000",
     shadowOffset: {
