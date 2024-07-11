@@ -45,7 +45,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
         />
       <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
         </View>
-      <View style={s.btnContainer}>
+      {/* <View style={s.btnContainer}>
         <SmallBtn
           isEnabled={true}
           text={"Show Options"}
@@ -55,7 +55,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
             toggleBetSlip();
           }}
         />
-      </View>
+      </View> */}
     </View>
   );
 }

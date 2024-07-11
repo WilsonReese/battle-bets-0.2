@@ -45,7 +45,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              <SmallBtn
+              {/* <SmallBtn
                 isEnabled={true}
                 text={"Show Options"}
                 style={s.btns}
@@ -53,7 +53,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
                   setBetOptionType("spreadOU");
                   toggleBetSlip();
                 }}
-              />
+              /> */}
             </View>
           )}
           <BetSlipBudget
@@ -69,7 +69,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              <SmallBtn
+              {/* <SmallBtn
                 isEnabled={true}
                 text={"Show Options"}
                 style={s.btns}
@@ -77,7 +77,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
                   setBetOptionType("moneyLine");
                   toggleBetSlip();
                 }}
-              />
+              /> */}
             </View>
           )}
           <BetSlipBudget
@@ -90,7 +90,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              <SmallBtn
+              {/* <SmallBtn
                 isEnabled={true}
                 text={"Show Options"}
                 style={s.btns}
@@ -98,7 +98,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
                   setBetOptionType("prop");
                   toggleBetSlip();
                 }}
-              />
+              /> */}
             </View>
           )}
         </View>
@@ -107,14 +107,14 @@ export function BetSlipDetails({ toggleBetSlip }) {
           <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
         </View>
 
-        {/* This creates the space needed for the ScrollView to show everything  */}
         <View style={s.submitBtnContainer}>
           <Btn
             btnText={"Submit Picks"}
             style={{ height: 56 }}
             icon={arrowIcon}
-          />
+            />
         </View>
+            {/* This creates the space needed for the ScrollView to show everything  */}
         <View style={{ height: 50 }}></View>
       </ScrollView>
     </View>
