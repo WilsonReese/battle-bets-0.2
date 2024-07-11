@@ -19,7 +19,7 @@ export const GAME_DATA = [
     propBets: [
       { name: "Vanderbilt QB passes for over 250 yards", payout: 4 },
       { name: "Tennesee RB rushes for under 250 yards", payout: 3 },
-      { name: "Vanderbilt scores first touchdown but let's see what happens when the text is super long and super long and super long", payout: 2 },
+      { name: "Vanderbilt scores first touchdown", payout: 2 },
     ],
   },
   {
