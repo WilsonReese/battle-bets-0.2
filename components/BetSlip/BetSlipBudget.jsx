@@ -39,7 +39,7 @@ const s = StyleSheet.create({
     paddingVertical: 4,
     // borderTopWidth: 1,
     // borderTopColor: '#DAE1E5',
-    backgroundColor: '#DAE1E5',
+    backgroundColor: '#184EAD',
     paddingHorizontal: 8,
     alignItems: 'center',
   },
@@ -54,16 +54,16 @@ const s = StyleSheet.create({
     // backgroundColor: 'orange'
   },
   titleText: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: 'Saira_600SemiBold',
     fontSize: 14,
   }, 
   text: {
-    color: "#061826",
+    // color: "#061826",
     fontSize: 14,
   },
   budgetText: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 14,
   },

@@ -14,11 +14,11 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
     return bets
       .filter((bet) => betTypes.includes(bet.betType))
       .map((bet, index) => (
-        <Bet 
-          key={bet.id} 
-          bet={bet} 
-          isSelectorVisible={isSelectorVisible} 
-          backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"} 
+        <Bet
+          key={bet.id}
+          bet={bet}
+          isSelectorVisible={isSelectorVisible}
+          backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"}
         />
       ));
   }
@@ -43,8 +43,8 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
           style={s.btns}
           onPress={() => setIsSelectorVisible(!isSelectorVisible)}
         />
-      <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
-        </View>
+        <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
+      </View>
       {/* <View style={s.btnContainer}>
         <SmallBtn
           isEnabled={true}
@@ -68,23 +68,24 @@ const s = StyleSheet.create({
     height: 24,
     width: 100,
     marginHorizontal: 4,
-    backgroundColor: '#F8F8F8',
+    backgroundColor: "#F8F8F8",
     borderWidth: 1,
-    borderColor: '#2271FA',
+    borderColor: "#2271FA",
   },
-  btnContainer: {
-    flexDirection: "row",
-    justifyContent: "center",
-    alignItems: "center",
-    paddingVertical: 4,
-  },
+  // btnContainer: {
+  //   flexDirection: "row",
+  //   justifyContent: "center",
+  //   alignItems: "center",
+  //   paddingVertical: 4,
+  // },
   payoutContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-    borderTopWidth: 1,
-    borderColor: '#B8C3CC',
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    // borderTopWidth: 1,
+    borderColor: "#B8C3CC",
     paddingHorizontal: 8,
-    marginTop: 4,
+    paddingVertical: 12,
+    // marginVertical: 4,
   },
 });

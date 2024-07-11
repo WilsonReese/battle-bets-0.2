@@ -87,16 +87,16 @@ const s = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 4,
-    backgroundColor: "#0C9449",
+    // backgroundColor: "#0C9449",
   },
   payoutHeading: {
-    // color: "#061826",
+    color: "#061826",
     textTransform: "uppercase",
     fontFamily: "Saira_600SemiBold",
     // fontSize: 14
   },
   payoutText: {
-    // color: "#061826",
+    color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 18,
   },

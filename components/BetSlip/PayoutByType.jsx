@@ -18,7 +18,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: 'center',
     // paddingHorizontal: 8,
-    paddingVertical: 4,
+    // paddingVertical: 4,
     marginHorizontal: 8,
     // borderTopWidth: 1,
     borderColor: '#B8C3CC',
