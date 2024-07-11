@@ -102,20 +102,20 @@ export function BetSlipDetails({ toggleBetSlip }) {
             </View>
           )}
         </View>
-        <View style={s.payoutContainer}>
+        {/* <View style={s.payoutContainer}>
           <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
           <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
-        </View>
+        </View> */}
 
-        <View style={s.submitBtnContainer}>
+        {/* <View style={s.submitBtnContainer}>
           <Btn
             btnText={"Submit Picks"}
             style={{ height: 56 }}
             icon={arrowIcon}
             />
-        </View>
+        </View> */}
             {/* This creates the space needed for the ScrollView to show everything  */}
-        <View style={{ height: 50 }}></View>
+        <View style={{ height: 150 }}></View>
       </ScrollView>
     </View>
   );
@@ -160,6 +160,7 @@ const s = StyleSheet.create({
   },
   emptySectionContainer: {
     paddingHorizontal: 16,
+    paddingVertical: 4,
   },
   submitBtnContainer: {
     paddingHorizontal: 16,
