@@ -17,6 +17,7 @@ export function BetSlip({
   poolName,
   isBetSlipShown,
   setIsBetSlipShown,
+  scrollViewRef
 }) {
   const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
 
@@ -37,6 +38,7 @@ export function BetSlip({
           poolName={poolName}
           isBetSlipShown={isBetSlipShown}
           toggleBetSlip={toggleBetSlip}
+          scrollViewRef={scrollViewRef}
         />
       </View>
       <BetSlipDetails toggleBetSlip={toggleBetSlip} />

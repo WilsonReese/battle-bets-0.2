@@ -11,13 +11,14 @@ import { SpreadAndOUInstructions } from "@/components/bet_instructions/SpreadAnd
 import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "@/utils/game-data.js";
 import { BetSlip } from "@/components/BetSlip/BetSlip.jsx";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { BetProvider } from "../../../../components/contexts/BetContext";
 
 
 export default function PoolDetails() {
   const { id } = useLocalSearchParams();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
+  const scrollViewRef = useRef(null); // Add this line
 
   function renderGameCards() {
     return GAME_DATA.map((game) => (
@@ -36,7 +37,7 @@ export default function PoolDetails() {
         </View>
         <View style={s.body}>
           <SpreadAndOUInstructions />
-          <ScrollView style={s.scrollView}>
+          <ScrollView ref={scrollViewRef} style={s.scrollView}>
             {/* This function renders each of the games */}
             {renderGameCards()}
             {/*This is an empty view that allows the scroll to go down to the bottom */}
@@ -57,7 +58,7 @@ export default function PoolDetails() {
           </ScrollView>
         </View>
         <View>
-          <BetSlip poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} />
+          <BetSlip poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} scrollViewRef={scrollViewRef} />
         </View>
       </SafeAreaView>
     </SafeAreaProvider>

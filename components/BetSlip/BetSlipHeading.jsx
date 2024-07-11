@@ -5,7 +5,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 import { ProgressIndicator } from "./ProgressIndicator";
 
-export function BetSlipHeading({ poolName, isBetSlipShown, toggleBetSlip }) {
+export function BetSlipHeading({ poolName, isBetSlipShown, toggleBetSlip, scrollViewRef }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
   const { bets } = useBetContext();
 
@@ -41,9 +41,9 @@ export function BetSlipHeading({ poolName, isBetSlipShown, toggleBetSlip }) {
       </TouchableOpacity>
       <View style={s.progressContainer}>
 
-        <ProgressIndicator betOptionTypeProp={"spreadOU"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown} />
-        <ProgressIndicator betOptionTypeProp={"moneyLine"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown}/>
-        <ProgressIndicator betOptionTypeProp={"prop"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown}/>
+        <ProgressIndicator betOptionTypeProp={"spreadOU"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown} scrollViewRef={scrollViewRef} />
+        <ProgressIndicator betOptionTypeProp={"moneyLine"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown} scrollViewRef={scrollViewRef}/>
+        <ProgressIndicator betOptionTypeProp={"prop"} toggleBetSlip={toggleBetSlip} isBetSlipShown={isBetSlipShown} scrollViewRef={scrollViewRef}/>
 
       </View>
       <View style={s.payoutContainer}>

@@ -4,7 +4,7 @@ import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 
-export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipShown}) {
+export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipShown, scrollViewRef}) {
   const { getBetOptionLongTitle, getTotalBetAmount, getBudget, setBetOptionType, betOptionType } =
     useBetContext();
   const title = getBetOptionLongTitle(betOptionTypeProp);
@@ -12,16 +12,19 @@ export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipS
   const budget = getBudget(betOptionTypeProp);
   const isSelected = betOptionType === betOptionTypeProp;
 
+  const handlePress = () => {
+    setBetOptionType(betOptionTypeProp);
+    if (isBetSlipShown) {
+      toggleBetSlip();
+    }
+    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+  };
+
 
   return (
     <TouchableOpacity
     style={[s.container, isSelected && s.selectedIndicator]}
-    onPress={() => {
-      setBetOptionType(betOptionTypeProp);
-      if (isBetSlipShown) {
-        toggleBetSlip();
-      }
-    }}
+    onPress={handlePress}
     >
       <View style={s.progressIndicator}>
         <Txt style={[s.title, isSelected && s.selectedText]}>{title}</Txt>
