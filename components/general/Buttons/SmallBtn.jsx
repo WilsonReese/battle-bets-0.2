@@ -30,6 +30,7 @@ const s = StyleSheet.create({
   },
   text: {
     fontSize: 14,
+    color: '#2271FA'
   },
   disabled: {
     backgroundColor: "#B8C3CC",

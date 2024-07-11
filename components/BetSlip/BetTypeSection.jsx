@@ -18,7 +18,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
           key={bet.id} 
           bet={bet} 
           isSelectorVisible={isSelectorVisible} 
-          backgroundColor={index % 2 === 0 ? "#DAE1E5" : "#F8F8F8"} 
+          backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"} 
         />
       ));
   }
@@ -62,12 +62,15 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
 
 const s = StyleSheet.create({
   container: {
-    paddingVertical: 4,
+    // paddingVertical: 4,
   },
   btns: {
     height: 24,
     width: 100,
     marginHorizontal: 4,
+    backgroundColor: '#F8F8F8',
+    borderWidth: 1,
+    borderColor: '#2271FA',
   },
   btnContainer: {
     flexDirection: "row",

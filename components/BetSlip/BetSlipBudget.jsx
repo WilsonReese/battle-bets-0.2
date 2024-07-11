@@ -36,10 +36,10 @@ const s = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
-    // paddingVertical: 4,
+    paddingVertical: 4,
     // borderTopWidth: 1,
     // borderTopColor: '#DAE1E5',
-    // backgroundColor: '#54D18C',
+    backgroundColor: '#DAE1E5',
     paddingHorizontal: 8,
     alignItems: 'center',
   },
@@ -56,6 +56,7 @@ const s = StyleSheet.create({
   titleText: {
     color: "#061826",
     fontFamily: 'Saira_600SemiBold',
+    fontSize: 14,
   }, 
   text: {
     color: "#061826",

@@ -124,6 +124,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
 const s = StyleSheet.create({
   container: {
     // paddingHorizontal: 8,
+    // paddingVertical: 4,
   },
   payoutContainer: {
     flexDirection: "row",

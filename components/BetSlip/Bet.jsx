@@ -74,7 +74,7 @@ const s = StyleSheet.create({
   },
   betNameText: {
     fontSize: 14,
-    fontFamily: "Saira_600SemiBold",
+    // fontFamily: "Saira_600SemiBold",
     color: "#061826",
   },
   betAmountContainer: {
@@ -84,6 +84,7 @@ const s = StyleSheet.create({
   },
   betAmountText: {
     fontSize: 14,
+    // fontFamily: "Saira_600SemiBold",
     color: "#061826",
   },
 });
