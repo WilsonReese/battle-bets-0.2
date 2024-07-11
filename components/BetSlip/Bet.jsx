@@ -6,7 +6,7 @@ import { BETTING_RULES } from "../../utils/betting-rules";
 import { useBetContext } from "../contexts/BetContext";
 
 export function Bet({ bet, isSelectorVisible, backgroundColor }) {
-  const { minBet, maxBet } = BETTING_RULES.spread;
+  const { minBet, maxBet } = BETTING_RULES[bet.betType];
   const { removeBet } = useBetContext();
   const animatedHeight = useRef(new Animated.Value(0)).current;
 
