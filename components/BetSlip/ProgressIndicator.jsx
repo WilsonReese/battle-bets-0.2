@@ -24,8 +24,8 @@ export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipS
     }}
     >
       <View style={s.progressIndicator}>
-        <Txt style={s.title}>{title}</Txt>
-        <Txt style={s.amount}>{`$${budget - totalBetAmount} left`}</Txt>
+        <Txt style={[s.title, isSelected && s.selectedText]}>{title}</Txt>
+        <Txt style={[s.amount, isSelected && s.selectedText]}>{`$${budget - totalBetAmount} left`}</Txt>
       </View>
     </TouchableOpacity>
   );
@@ -35,25 +35,30 @@ const s = StyleSheet.create({
   container: {
     paddingVertical: 2,
     paddingHorizontal: 12,
+    // flex: 1,
+    // backgroundColor: 'green'
   },
   progressIndicator: {
     alignItems: "center",
-    borderBottomWidth: 3,
+    borderBottomWidth: 4,
     borderColor: 'transparent', // Default border color
   },
   selectedIndicator: {
-    borderBottomWidth: 3,
+    borderBottomWidth: 4,
     borderColor: '#54D18C', // Highlight color for the selected state
     // backgroundColor: '#DAE1E5',
-    borderRadius: 4,
   },
   title: {
-    fontFamily: "Saira_600SemiBold",
-    color: "#061826",
+    // fontFamily: "Saira_600SemiBold",
+    color: "#DAE1E5",
     fontSize: 14,
   },
   amount: {
-    color: "#061826",
+    color: "#DAE1E5",
     fontSize: 14,
   },
+  selectedText: {
+    color: '#F8F8F8',
+    fontFamily: "Saira_600SemiBold",
+  }
 });

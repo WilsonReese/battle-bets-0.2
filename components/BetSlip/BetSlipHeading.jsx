@@ -75,11 +75,11 @@ const s = StyleSheet.create({
     fontFamily: "Saira_600SemiBold",
   },
   progressContainer: {
-    // backgroundColor: 'blue',
+    backgroundColor: '#184EAD',
     flexDirection: 'row',
-    paddingVertical: 4,
-    paddingHorizontal: 8,
-    justifyContent: "space-between"
+    // paddingVertical: 4,
+    // paddingHorizontal: 8,
+    justifyContent: 'space-between',
   },
   payoutContainer: {
     flexDirection: "row",
