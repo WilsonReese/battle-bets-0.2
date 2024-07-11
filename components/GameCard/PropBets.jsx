@@ -20,7 +20,7 @@ export function PropBets({ betOptions }) {
               isEnabled={isEnabled}
               onPress={() => toggleBet("optionOne")}
             />
-            <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
+            <Animated.View style={[s.betSelectorContainer, { height: animatedHeight, overflow: "hidden" }]}>
               {selection.optionOne && (
                 <BetSelector
                   option="optionOne"
@@ -48,5 +48,8 @@ export function PropBets({ betOptions }) {
 const s = StyleSheet.create({
   optionsContainer: {
     flexDirection: "row",
+  },
+  betSelectorContainer: {
+    marginBottom: 4,
   },
 });

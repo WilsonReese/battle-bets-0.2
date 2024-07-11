@@ -32,7 +32,7 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
           </View>
         </View>
       </View>
-      <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
+      <Animated.View style={[s.betSelectorContainer, { height: animatedHeight, overflow: "hidden" }]}>
         {isSelectorVisible ? (
           <BetSelector
             betId={bet.id}
@@ -86,5 +86,8 @@ const s = StyleSheet.create({
     fontSize: 14,
     // fontFamily: "Saira_600SemiBold",
     color: "#061826",
+  },
+  betSelectorContainer: {
+    marginBottom: 4,
   },
 });

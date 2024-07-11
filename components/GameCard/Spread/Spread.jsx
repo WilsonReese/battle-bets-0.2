@@ -30,7 +30,7 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
           onPress={() => toggleBet("optionTwo")}
         />
       </View>
-      <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
+      <Animated.View style={[s.betSelectorContainer, { height: animatedHeight, overflow: "hidden" }]}>
         {selection.optionOne && (
           <BetSelector
             option="optionOne"
@@ -59,5 +59,8 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
 const s = StyleSheet.create({
   optionsContainer: {
     flexDirection: "row",
+  },
+  betSelectorContainer: {
+    marginBottom: 4,
   },
 });

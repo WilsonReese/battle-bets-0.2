@@ -6,11 +6,14 @@ import { useBetContext } from "../contexts/BetContext";
 import { useState, useEffect } from "react";
 
 export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
-  const { bets, updateBet, getBetOptionType, getBudget, getTotalBetAmount } = useBetContext();
+  const { bets, updateBet, getBetOptionType, getBudget, getTotalBetAmount } =
+    useBetContext();
   const bet = bets.find((b) => b.id === betId);
 
   const budget = bet ? getBudget(getBetOptionType(bet.betType)) : 0;
-  const totalBetAmount = bet ? getTotalBetAmount(getBetOptionType(bet.betType)) : 0;
+  const totalBetAmount = bet
+    ? getTotalBetAmount(getBetOptionType(bet.betType))
+    : 0;
 
   const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
 
@@ -86,6 +89,7 @@ const s = StyleSheet.create({
     borderBottomRightRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 4,
+    // marginBottom: 4,
     borderWidth: 1,
     borderColor: "#54D18C",
   },

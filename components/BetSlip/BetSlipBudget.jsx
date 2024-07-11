@@ -42,6 +42,7 @@ const s = StyleSheet.create({
     backgroundColor: '#184EAD',
     paddingHorizontal: 8,
     alignItems: 'center',
+    marginBottom: 4,
   },
   budget: {
     flexDirection: "row",
