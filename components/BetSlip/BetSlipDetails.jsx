@@ -160,7 +160,7 @@ const s = StyleSheet.create({
   },
   emptySectionContainer: {
     paddingHorizontal: 16,
-    paddingVertical: 4,
+    paddingBottom: 4,
   },
   submitBtnContainer: {
     paddingHorizontal: 16,
