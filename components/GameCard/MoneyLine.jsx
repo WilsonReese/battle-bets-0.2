@@ -5,9 +5,12 @@ import { BetOption } from "./BetOption";
 import { useBetLogic } from "../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../utils/betting-rules";
 
-
 export function MoneyLine({ moneyLineHome, moneyLineHomePayout, moneyLineAway, moneyLineAwayPayout }) {
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", moneyLineHome, moneyLineAway, moneyLineHomePayout, moneyLineAwayPayout);
+  const payouts = {
+    optionOne: moneyLineHomePayout,
+    optionTwo: moneyLineAwayPayout,
+  };
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", moneyLineHome, moneyLineAway, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
@@ -33,7 +36,6 @@ export function MoneyLine({ moneyLineHome, moneyLineHomePayout, moneyLineAway, m
       <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
         {selection.optionOne && (
           <BetSelector
-            option="optionOne"
             closeSelection={() => toggleBet("optionOne")}
             minBet={minBet}
             maxBet={maxBet}
@@ -43,7 +45,6 @@ export function MoneyLine({ moneyLineHome, moneyLineHomePayout, moneyLineAway, m
         )}
         {selection.optionTwo && (
           <BetSelector
-            option="optionTwo"
             closeSelection={() => toggleBet("optionTwo")}
             minBet={minBet}
             maxBet={maxBet}

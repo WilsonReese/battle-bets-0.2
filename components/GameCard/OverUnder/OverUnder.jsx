@@ -8,9 +8,13 @@ import { BETTING_RULES } from "../../../utils/betting-rules";
 export function OverUnder({ ou, ouPayout, homeTeam, awayTeam }) {
   const overShortTitle = `Over ${ou} Points`;
   const underShortTitle = `Under ${ou} Points`;
-  const overTitle = `${homeTeam} v ${awayTeam}: ${overShortTitle}`
-  const underTitle = `${homeTeam} v ${awayTeam}: ${underShortTitle}`
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overTitle, underTitle, ouPayout);
+  const overTitle = `${homeTeam} v ${awayTeam}: ${overShortTitle}`;
+  const underTitle = `${homeTeam} v ${awayTeam}: ${underShortTitle}`;
+  const payouts = {
+    optionOne: ouPayout,
+    optionTwo: ouPayout,
+  };
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overTitle, underTitle, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (

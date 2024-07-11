@@ -5,9 +5,12 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-
 export function Spread({ spreadHome, spreadAway, spreadPayout }) {
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", spreadHome, spreadAway, spreadPayout);
+  const payouts = {
+    optionOne: spreadPayout,
+    optionTwo: spreadPayout,
+  };
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", spreadHome, spreadAway, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
@@ -30,7 +33,7 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
           onPress={() => toggleBet("optionTwo")}
         />
       </View>
-      <Animated.View style={[s.betSelectorContainer, { height: animatedHeight, overflow: "hidden" }]}>
+      <Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
         {selection.optionOne && (
           <BetSelector
             option="optionOne"
@@ -59,8 +62,5 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
 const s = StyleSheet.create({
   optionsContainer: {
     flexDirection: "row",
-  },
-  betSelectorContainer: {
-    marginBottom: 4,
   },
 });
