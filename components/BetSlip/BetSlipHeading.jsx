@@ -69,6 +69,18 @@ const s = StyleSheet.create({
     borderTopLeftRadius: 15,
     borderTopRightRadius: 15,
   },
+  title: {
+    fontSize: 20,
+    // color: "#061826",
+    fontFamily: "Saira_600SemiBold",
+  },
+  progressContainer: {
+    // backgroundColor: 'blue',
+    flexDirection: 'row',
+    paddingVertical: 4,
+    paddingHorizontal: 8,
+    justifyContent: "space-between"
+  },
   payoutContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -76,38 +88,16 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
     paddingVertical: 4,
     backgroundColor: "#0C9449",
-    // borderTopWidth: 1,
-    // borderColor: "#B8C3CC",
-    // marginHorizontal: 8,
   },
   payoutHeading: {
-    color: "#061826",
+    // color: "#061826",
     textTransform: "uppercase",
     fontFamily: "Saira_600SemiBold",
     // fontSize: 14
   },
   payoutText: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 18,
   },
-  progressContainer: {
-    // backgroundColor: 'blue',
-    flexDirection: 'row',
-    paddingVertical: 2,
-    paddingHorizontal: 8,
-    justifyContent: "space-between"
-  },
-  title: {
-    fontSize: 20,
-    // color: "#061826",
-    fontFamily: "Saira_600SemiBold",
-  },
-  progressIndicator: {
-    // borderRightWidth: 1,
-    // borderLeftWidth: 1,
-    paddingVertical: 2,
-    paddingHorizontal: 4,
-    alignItems: 'center',
-  }
 });

@@ -11,7 +11,7 @@ import { BetSlipDetails } from "./BetSlipDetails";
 
 const { height } = Dimensions.get("window");
 const betSlipHeight = (height * 3.2) / 5; 
-const betSlipHeadingHeight = 135; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
+const betSlipHeadingHeight = 142; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
 
 export function BetSlip({
   poolName,

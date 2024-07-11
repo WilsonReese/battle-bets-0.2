@@ -10,17 +10,18 @@ export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipS
   const title = getBetOptionLongTitle(betOptionTypeProp);
   const totalBetAmount = getTotalBetAmount(betOptionTypeProp);
   const budget = getBudget(betOptionTypeProp);
+  const isSelected = betOptionType === betOptionTypeProp;
 
 
   return (
     <TouchableOpacity
-      style={[s.container, 
-        (betOptionType === betOptionTypeProp) && s.selectedIndicator
-      ]}
-      onPress={() => {
-        setBetOptionType(betOptionTypeProp);
-        {if (isBetSlipShown) {toggleBetSlip();}}
-      }}
+    style={[s.container, isSelected && s.selectedIndicator]}
+    onPress={() => {
+      setBetOptionType(betOptionTypeProp);
+      if (isBetSlipShown) {
+        toggleBetSlip();
+      }
+    }}
     >
       <View style={s.progressIndicator}>
         <Txt style={s.title}>{title}</Txt>
@@ -32,19 +33,19 @@ export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipS
 
 const s = StyleSheet.create({
   container: {
-    // height: 40, // This controls how tall the heading is (pushes down the BetSlipDetails, should be equal to betSlipHeadingHeight on the BetSlip
+    paddingVertical: 2,
+    paddingHorizontal: 12,
   },
   progressIndicator: {
-    // borderRightWidth: 1,
-    // borderLeftWidth: 1,
-    paddingVertical: 2,
-    paddingHorizontal: 4,
     alignItems: "center",
-    borderBottomWidth: 2,
+    borderBottomWidth: 3,
     borderColor: 'transparent', // Default border color
   },
   selectedIndicator: {
-    borderColor: 'red'
+    borderBottomWidth: 3,
+    borderColor: '#54D18C', // Highlight color for the selected state
+    // backgroundColor: '#DAE1E5',
+    borderRadius: 4,
   },
   title: {
     fontFamily: "Saira_600SemiBold",
@@ -53,7 +54,6 @@ const s = StyleSheet.create({
   },
   amount: {
     color: "#061826",
-    // fontFamily: "Saira_400Regular_Italic",
     fontSize: 14,
   },
 });
