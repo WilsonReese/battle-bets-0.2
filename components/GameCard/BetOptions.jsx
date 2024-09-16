@@ -15,17 +15,23 @@ export function BetOptions({ game }) {
     (option) => option.category === "spread"
   );
 
+  const ouOptions = game.bet_options.filter(
+    (option) => option.category === "ou"
+  );
+
   return (
     <View style={s.container}>
       {betOptionType === "spreadOU" && (
         <View>
           <Spread
             spreadOptions={spreadOptions}
-            spreadHome={game.spreadHome}
-            spreadAway={game.spreadAway}
-            spreadPayout={game.spreadPayout}
+            homeTeam={game.home_team.name}
+            awayTeam={game.away_team.name}
+            // spreadHome={game.spreadHome}
+            // spreadAway={game.spreadAway}
+            // spreadPayout={game.spreadPayout}
           />
-          <OverUnder ou={game.ou} ouPayout={game.ouPayout} homeTeam={game.homeTeam} awayTeam={game.awayTeam}/>
+          <OverUnder ouOptions={ouOptions} ou={game.ou} ouPayout={game.ouPayout} homeTeam={game.home_team.name} awayTeam={game.away_team.name}/>
         </View>
       )}
       {betOptionType === "moneyLine" && (

@@ -5,14 +5,21 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function OverUnder({ ou, ouPayout, homeTeam, awayTeam }) {
-  const overShortTitle = `Over ${ou} Points`;
-  const underShortTitle = `Under ${ou} Points`;
-  const overTitle = `${homeTeam} v ${awayTeam}: ${overShortTitle}`;
-  const underTitle = `${homeTeam} v ${awayTeam}: ${underShortTitle}`;
+export function OverUnder({ ouOptions, ou, ouPayout, homeTeam, awayTeam }) {
+  if (!ouOptions || ouOptions.length < 2) {
+    return null; // Ensure there are at least two options (home and away)
+  }
+  
+  const over = ouOptions[0];
+  const under = ouOptions[1];
+  
+  // const overShortTitle = `Over ${ou} Points`;
+  // const underShortTitle = `Under ${ou} Points`;
+  const overTitle = `${homeTeam} v ${awayTeam}: ${over.title}`;
+  const underTitle = `${homeTeam} v ${awayTeam}: ${under.title}`;
   const payouts = {
-    optionOne: ouPayout,
-    optionTwo: ouPayout,
+    optionOne: over.payout,
+    optionTwo: under.payout,
   };
   const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overTitle, underTitle, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
@@ -22,16 +29,16 @@ export function OverUnder({ ou, ouPayout, homeTeam, awayTeam }) {
       <BetTypeHeading heading={"Over/Under"} />
       <View style={s.optionsContainer}>
         <BetOption
-          title={overShortTitle}
-          payout={ouPayout}
+          title={over.title}
+          payout={over.payout}
           isSelected={selection.optionOne}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionOne")}
         />
         <View style={{ padding: 4 }}></View>
         <BetOption
-          title={underShortTitle}
-          payout={ouPayout}
+          title={under.title}
+          payout={under.payout}
           isSelected={selection.optionTwo}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionTwo")}
@@ -44,7 +51,7 @@ export function OverUnder({ ou, ouPayout, homeTeam, awayTeam }) {
             closeSelection={() => toggleBet("optionOne")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={ouPayout}
+            payout={over.payout}
             betId={currentBetId}
           />
         )}
@@ -54,7 +61,7 @@ export function OverUnder({ ou, ouPayout, homeTeam, awayTeam }) {
             closeSelection={() => toggleBet("optionTwo")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={ouPayout}
+            payout={under.payout}
             betId={currentBetId}
           />
         )}

@@ -5,19 +5,21 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout }) {
+export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, homeTeam, awayTeam }) {
   if (!spreadOptions || spreadOptions.length < 2) {
     return null; // Ensure there are at least two options (home and away)
   }
   
   const homeSpread = spreadOptions[0]; // Assuming the first option is for the home team
   const awaySpread = spreadOptions[1]; // Assuming the second option is for the away team
+  const homeSpreadLongTitle = `${homeTeam} v ${awayTeam}: ${homeSpread.title}`;
+  const awaySpreadLongTitle = `${homeTeam} v ${awayTeam}: ${awaySpread.title}`;
   
   const payouts = {
     optionOne: homeSpread.payout,
     optionTwo: awaySpread.payout,
   };
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", homeSpread.title, awaySpread.title, payouts);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", homeSpreadLongTitle, awaySpreadLongTitle, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (

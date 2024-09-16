@@ -66,7 +66,7 @@ const s = StyleSheet.create({
   oddsText: {
     fontFamily: "Saira_600SemiBold",
     color: "#061826",
-    fontSize: 14,
+    fontSize: 12,
   },
   payout: {
     backgroundColor: "#54D18C",
