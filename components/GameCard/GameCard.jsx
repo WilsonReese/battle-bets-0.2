@@ -10,14 +10,14 @@ export function GameCard({ game }) {
     // Game Card
     <View style={s.card}>
       <View style={s.gameDetails}>
-        <Datetime date={game.date} time={game.time} />
+        <Datetime date={game.start_time} time={game.time} />
         <Txt style={{ fontSize: 12, color: "black" }}>Collapisble Arrow</Txt>
       </View>
       <View>
         <Matchup
-          homeTeam={game.homeTeam}
+          homeTeam={game.home_team.name}
           homeRecord={game.homeRecord}
-          awayTeam={game.awayTeam}
+          awayTeam={game.away_team.name}
           awayRecord={game.awayRecord}
         />
         <BetOptions

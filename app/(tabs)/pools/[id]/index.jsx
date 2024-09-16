@@ -2,6 +2,7 @@ import {
   View,
   StyleSheet,
   ScrollView,
+  ActivityIndicator,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
@@ -11,21 +12,45 @@ import { SpreadAndOUInstructions } from "@/components/bet_instructions/SpreadAnd
 import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "@/utils/game-data.js";
 import { BetSlip } from "@/components/BetSlip/BetSlip.jsx";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { BetProvider } from "../../../../components/contexts/BetContext";
+import axios from 'axios';
 
 
 export default function PoolDetails() {
   const { id } = useLocalSearchParams();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
+  const [games, setGames] = useState([]);
+  const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef(null); // Add this line
 
+  useEffect(() => {
+    const fetchGames = async () => {
+      try {
+        const response = await axios.get(`https://refactored-lamp-xx7r46x4jw6c947-3000.app.github.dev/games`, {
+          params: { battle_id: 2 },  // assuming id corresponds to battle_id
+        });
+        setGames(response.data);
+      } catch (error) {
+        console.error("Error fetching games:", error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchGames();
+  }, []);
+
   function renderGameCards() {
-    return GAME_DATA.map((game) => (
+    return games.map((game) => (
       <View key={game.id}>
         <GameCard game={game} />
       </View>
     ));
+  }
+
+  if (loading) {
+    return <ActivityIndicator size="large" color="#0000ff" />;
   }
 
   return (
@@ -42,19 +67,6 @@ export default function PoolDetails() {
             {renderGameCards()}
             {/*This is an empty view that allows the scroll to go down to the bottom */}
             <View style={{ height: 152 }}></View>
-
-            {/* <Txt style={{ fontFamily: "Saira_700Bold" }}>
-              All the games listed here
-            </Txt>
-            <Txt>Pool Details Screen - Pool ID: {id}</Txt>
-            <Button
-              title="View Standings"
-              onPress={() => router.push(`/pools/${id}/standings`)}
-            />
-            <Button
-              title="View Picks"
-              onPress={() => router.push(`/pools/${id}/picks`)}
-            /> */}
           </ScrollView>
         </View>
         <View>
