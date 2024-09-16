@@ -31,7 +31,13 @@ export function BetOptions({ game }) {
             // spreadAway={game.spreadAway}
             // spreadPayout={game.spreadPayout}
           />
-          <OverUnder ouOptions={ouOptions} ou={game.ou} ouPayout={game.ouPayout} homeTeam={game.home_team.name} awayTeam={game.away_team.name}/>
+          <OverUnder
+            ouOptions={ouOptions}
+            ou={game.ou}
+            ouPayout={game.ouPayout}
+            homeTeam={game.home_team.name}
+            awayTeam={game.away_team.name}
+          />
         </View>
       )}
       {betOptionType === "moneyLine" && (
@@ -44,9 +50,7 @@ export function BetOptions({ game }) {
           />
         </View>
       )}
-      {betOptionType === "prop" && (
-        <PropBets betOptions={game.props}/>
-      )}
+      {betOptionType === "prop" && <PropBets betOptions={game.props} />}
     </View>
   );
 }
