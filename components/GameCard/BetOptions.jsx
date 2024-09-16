@@ -61,7 +61,13 @@ export function BetOptions({ game }) {
           />
         </View>
       )}
-      {betOptionType === "prop" && <PropBets betOptions={propBetOptions} />}
+      {betOptionType === "prop" && (
+        <PropBets
+          betOptions={propBetOptions}
+          homeTeam={game.home_team.name}
+          awayTeam={game.away_team.name}
+        />
+      )}
     </View>
   );
 }

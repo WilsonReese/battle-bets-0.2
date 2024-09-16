@@ -5,13 +5,14 @@ import { BetOption } from "./BetOption";
 import { useBetLogic } from "../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../utils/betting-rules";
 
-export function PropBets({ betOptions }) {
+export function PropBets({ betOptions, homeTeam, awayTeam }) {
   const renderPropOptions = (betOptions) => {
     return betOptions.map((option) => {
       const payouts = {
         optionOne: option.payout,
-        optionTwo: option.payout,
+        optionTwo: option.payout, // we include this because BetLogic expects it to be there
       };
+      const optionLongTitle = `${homeTeam} v ${awayTeam}: ${option.title}`;
       const {
         selection,
         isEnabled,
@@ -19,13 +20,13 @@ export function PropBets({ betOptions }) {
         toggleBet,
         betType,
         currentBetId,
-      } = useBetLogic("prop", option.name, option.name, payouts);
+      } = useBetLogic("prop", optionLongTitle, optionLongTitle, payouts);
       const { minBet, maxBet } = BETTING_RULES[betType];
 
       return (
-        <View key={option.name}>
+        <View key={option.title}>
           <BetOption
-            title={option.name}
+            title={option.title}
             payout={option.payout}
             isSelected={selection.optionOne}
             isEnabled={isEnabled}
