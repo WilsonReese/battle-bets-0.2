@@ -5,12 +5,19 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function Spread({ spreadHome, spreadAway, spreadPayout }) {
+export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout }) {
+  if (!spreadOptions || spreadOptions.length < 2) {
+    return null; // Ensure there are at least two options (home and away)
+  }
+  
+  const homeSpread = spreadOptions[0]; // Assuming the first option is for the home team
+  const awaySpread = spreadOptions[1]; // Assuming the second option is for the away team
+  
   const payouts = {
-    optionOne: spreadPayout,
-    optionTwo: spreadPayout,
+    optionOne: homeSpread.payout,
+    optionTwo: awaySpread.payout,
   };
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", spreadHome, spreadAway, payouts);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", homeSpread.title, awaySpread.title, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
@@ -18,16 +25,16 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
       <BetTypeHeading heading={"SPREAD"} />
       <View style={s.optionsContainer}>
         <BetOption
-          title={spreadHome}
-          payout={spreadPayout}
+          title={homeSpread.title}
+          payout={homeSpread.payout}
           isSelected={selection.optionOne}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionOne")}
         />
         <View style={{ padding: 4 }}></View>
         <BetOption
-          title={spreadAway}
-          payout={spreadPayout}
+          title={awaySpread.title}
+          payout={awaySpread.payout}
           isSelected={selection.optionTwo}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionTwo")}
@@ -40,7 +47,7 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
             closeSelection={() => toggleBet("optionOne")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={spreadPayout}
+            payout={homeSpread.payout}
             betId={currentBetId}
           />
         )}
@@ -50,7 +57,7 @@ export function Spread({ spreadHome, spreadAway, spreadPayout }) {
             closeSelection={() => toggleBet("optionTwo")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={spreadPayout}
+            payout={awaySpread.payout}
             betId={currentBetId}
           />
         )}
