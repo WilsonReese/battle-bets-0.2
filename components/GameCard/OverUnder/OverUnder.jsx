@@ -15,13 +15,13 @@ export function OverUnder({ ouOptions, ou, ouPayout, homeTeam, awayTeam }) {
   
   // const overShortTitle = `Over ${ou} Points`;
   // const underShortTitle = `Under ${ou} Points`;
-  const overTitle = `${homeTeam} v ${awayTeam}: ${over.title}`;
-  const underTitle = `${homeTeam} v ${awayTeam}: ${under.title}`;
+  const overLongTitle = `${homeTeam} v ${awayTeam}: ${over.title}`;
+  const underLongTitle = `${homeTeam} v ${awayTeam}: ${under.title}`;
   const payouts = {
     optionOne: over.payout,
     optionTwo: under.payout,
   };
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overTitle, underTitle, payouts);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overLongTitle, underLongTitle, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
