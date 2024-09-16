@@ -19,6 +19,14 @@ export function BetOptions({ game }) {
     (option) => option.category === "ou"
   );
 
+  const moneyLineOptions = game.bet_options.filter(
+    (option) => option.category === "money_line"
+  );
+
+  const propBetOptions = game.bet_options.filter(
+    (option) => option.category === "prop"
+  );
+
   return (
     <View style={s.container}>
       {betOptionType === "spreadOU" && (
@@ -33,8 +41,8 @@ export function BetOptions({ game }) {
           />
           <OverUnder
             ouOptions={ouOptions}
-            ou={game.ou}
-            ouPayout={game.ouPayout}
+            // ou={game.ou}
+            // ouPayout={game.ouPayout}
             homeTeam={game.home_team.name}
             awayTeam={game.away_team.name}
           />
@@ -43,6 +51,9 @@ export function BetOptions({ game }) {
       {betOptionType === "moneyLine" && (
         <View>
           <MoneyLine
+            moneyLineOptions={moneyLineOptions}
+            homeTeam={game.home_team.name}
+            awayTeam={game.away_team.name}
             moneyLineHome={game.moneyLineHome}
             moneyLineHomePayout={game.moneyLineHomePayout}
             moneyLineAway={game.moneyLineAway}
@@ -50,7 +61,7 @@ export function BetOptions({ game }) {
           />
         </View>
       )}
-      {betOptionType === "prop" && <PropBets betOptions={game.props} />}
+      {betOptionType === "prop" && <PropBets betOptions={propBetOptions} />}
     </View>
   );
 }
