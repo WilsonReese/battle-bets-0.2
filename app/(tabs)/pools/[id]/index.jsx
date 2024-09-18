@@ -12,13 +12,13 @@ export default function PoolDetails() {
       <StatusBar style="dark"/>
       <Txt style={{color: 'black', fontSize: 24}}>Pool {id} - All Details</Txt>
       <Txt style={{color: 'black'}}>This screen will show the details of the pool - current battle, previous battles, number of users, leaderboards</Txt>
-      <Button title="Go to Battle 1" onPress={() => router.push(`/pools/${id}/battles/1/index`)} />
+      <Button title="Make Picks for Battle 1" onPress={() => router.push(`/pools/${id}/battles/1/`)} />
       <Button
-        title="Go to Battle 2"
+        title="Make Picks for Battle 2"
         onPress={() =>
           router.push({
-            pathname: "/battles/[id]",
-            params: { id: 2 },
+            pathname: `/pools/${id}/battles/[battleId]`,
+            params: { battleId: 2 },
           })
         }
       />

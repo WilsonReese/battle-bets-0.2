@@ -4,10 +4,13 @@ import { StyleSheet, View } from "react-native";
 export default function BattlesLayout() {
   return (
     <View style={s.container}>
-    <Stack>
-      <Stack.Screen name="index" options={{ title: 'Battles' }} />
-      <Stack.Screen name="[battleId]/index" options={{ title: 'Battle Details' }} />
-    </Stack>
+      <Stack>
+        {/* List of battles for the pool */}
+        <Stack.Screen name="index" options={{ title: 'Battle List' }} />
+        
+        {/* Dynamic battle details */}
+        <Stack.Screen name="[battleId]/index" options={{ title: 'Battle Details' }} />
+      </Stack>
     </View>
   );
 }
