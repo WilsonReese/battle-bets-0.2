@@ -3,7 +3,7 @@ import { View, Text, StyleSheet } from 'react-native';
 
 export default function CreatePool() {
   return (
-    <View style={styles.container}>
+    <View style={s.container}>
       <Text>Create Pool Screen</Text>
     </View>
   );
