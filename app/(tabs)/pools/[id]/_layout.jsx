@@ -13,7 +13,7 @@ export default function PoolDetailsLayout() {
         <Stack.Screen name="standings" options={{ title: 'Standings' }} />
 
         {/* Battles section */}
-        <Stack.Screen name="battles" options={{ title: 'Battles' }} />
+        <Stack.Screen name="battles" options={{ title: 'Battles', headerShown: false} } />
         
         {/* Dynamic battle detail page */}
         {/* <Stack.Screen name="battles/[battleId]" options={{ title: 'Battle Details' }} /> */}

@@ -9,7 +9,7 @@ export default function BattlesLayout() {
         <Stack.Screen name="index" options={{ title: 'Battle List' }} />
         
         {/* Dynamic battle details */}
-        <Stack.Screen name="[battleId]/index" options={{ title: 'Battle Details' }} />
+        <Stack.Screen name="[battleId]/index" options={{ title: 'Battle Details', headerShown: false}} />
       </Stack>
     </View>
   );
