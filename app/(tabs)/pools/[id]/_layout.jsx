@@ -6,7 +6,7 @@ export default function PoolDetailsLayout() {
     <View style={s.container}>
       <Stack>
         {/* Pool overview page */}
-        <Stack.Screen name="index" options={{ title: 'Pool Overview' }} />
+        <Stack.Screen name="index" options={{ title: 'Pool Overview', headerShown: false }} />
         
         {/* Specific pool picks and standings */}
         <Stack.Screen name="picks" options={{ title: 'Picks' }} />

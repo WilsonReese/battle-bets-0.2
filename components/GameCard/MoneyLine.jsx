@@ -10,7 +10,7 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
     return null; // Ensure there are at least two options (home and away)
   }
 
-  const homeMoneyLine = moneyLineOptions[0]; // Assuming the first option is for the home team
+  const homeMoneyLine = moneyLineOptions[0]; // Assuming the first option is for the home team -- this will be changed in the future
   const awayMoneyLine = moneyLineOptions[1]; // Assuming the second option is for the away team
   const homeMoneyLineLongTitle = `${homeTeam} v ${awayTeam}: ${homeMoneyLine.title}`;
   const awayMoneyLineLongTitle = `${homeTeam} v ${awayTeam}: ${awayMoneyLine.title}`;
