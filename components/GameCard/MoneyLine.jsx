@@ -10,16 +10,16 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
     return null; // Ensure there are at least two options (home and away)
   }
 
-  const homeMoneyLine = moneyLineOptions[0]; // Assuming the first option is for the home team -- this will be changed in the future
-  const awayMoneyLine = moneyLineOptions[1]; // Assuming the second option is for the away team
-  const homeMoneyLineLongTitle = `${homeTeam} v ${awayTeam}: ${homeMoneyLine.title}`;
-  const awayMoneyLineLongTitle = `${homeTeam} v ${awayTeam}: ${awayMoneyLine.title}`;
+  const awayMoneyLine = moneyLineOptions[0]; // Assuming the first option is for the away team
+  const homeMoneyLine = moneyLineOptions[1]; // Assuming the second option is for the home team
+  const awayMoneyLineLongTitle = `${awayTeam} at ${homeTeam}: ${awayMoneyLine.title}`;
+  const homeMoneyLineLongTitle = `${awayTeam} at ${homeTeam}: ${homeMoneyLine.title}`;
   
   const payouts = {
-    optionOne: homeMoneyLine.payout,
-    optionTwo: awayMoneyLine.payout,
+    optionOne: awayMoneyLine.payout,
+    optionTwo: homeMoneyLine.payout,
   };
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", homeMoneyLineLongTitle, awayMoneyLineLongTitle, payouts);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", awayMoneyLineLongTitle, homeMoneyLineLongTitle, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
@@ -27,16 +27,16 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
       <BetTypeHeading heading={"Money Line"} />
       <View style={s.optionsContainer}>
         <BetOption
-          title={homeMoneyLine.title}
-          payout={homeMoneyLine.payout}
+          title={awayMoneyLine.title}
+          payout={awayMoneyLine.payout}
           isSelected={selection.optionOne}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionOne")}
         />
         <View style={{ padding: 4 }}></View>
         <BetOption
-          title={awayMoneyLine.title}
-          payout={awayMoneyLine.payout}
+          title={homeMoneyLine.title}
+          payout={homeMoneyLine.payout}
           isSelected={selection.optionTwo}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionTwo")}
@@ -48,7 +48,7 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
             closeSelection={() => toggleBet("optionOne")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={homeMoneyLine.payout}
+            payout={awayMoneyLine.payout}
             betId={currentBetId}
           />
         )}
@@ -57,7 +57,7 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
             closeSelection={() => toggleBet("optionTwo")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={awayMoneyLine.payout}
+            payout={homeMoneyLine.payout}
             betId={currentBetId}
           />
         )}
