@@ -6,13 +6,13 @@ export function Matchup({ homeTeam, homeRecord, awayTeam, awayRecord }) {
     <View style={s.matchup}>
       <View style={s.team}>
         <View style={s.icon}></View>
-        <Txt style={s.teamName}>{homeTeam}</Txt>
-        <Txt style={s.teamRecord}>({homeRecord})</Txt>
+        <Txt style={s.teamName}>{awayTeam}</Txt>
+        <Txt style={s.teamRecord}>({awayRecord})</Txt>
       </View>
       <View style={s.team}>
         <View style={s.icon}></View>
-        <Txt style={s.teamName}>{awayTeam}</Txt>
-        <Txt style={s.teamRecord}>({awayRecord})</Txt>
+        <Txt style={s.teamName}>{homeTeam}</Txt>
+        <Txt style={s.teamRecord}>({homeRecord})</Txt>
       </View>
     </View>
   );
