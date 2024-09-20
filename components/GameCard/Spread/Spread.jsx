@@ -10,16 +10,16 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
     return null; // Ensure there are at least two options (home and away)
   }
   
-  const homeSpread = spreadOptions[0]; // Assuming the first option is for the home team
-  const awaySpread = spreadOptions[1]; // Assuming the second option is for the away team
-  const homeSpreadLongTitle = `${homeTeam} v ${awayTeam}: ${homeSpread.title}`;
-  const awaySpreadLongTitle = `${homeTeam} v ${awayTeam}: ${awaySpread.title}`;
+  const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
+  const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
+  const awaySpreadLongTitle = `${awayTeam} at ${homeTeam}: ${awaySpread.title}`;
+  const homeSpreadLongTitle = `${awayTeam} at ${homeTeam}: ${homeSpread.title}`;
   
   const payouts = {
-    optionOne: homeSpread.payout,
-    optionTwo: awaySpread.payout,
+    optionOne: awaySpread.payout,
+    optionTwo: homeSpread.payout,
   };
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", homeSpreadLongTitle, awaySpreadLongTitle, payouts);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
@@ -27,16 +27,16 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
       <BetTypeHeading heading={"SPREAD"} />
       <View style={s.optionsContainer}>
         <BetOption
-          title={homeSpread.title}
-          payout={homeSpread.payout}
+          title={awaySpread.title}
+          payout={awaySpread.payout}
           isSelected={selection.optionOne}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionOne")}
         />
         <View style={{ padding: 4 }}></View>
         <BetOption
-          title={awaySpread.title}
-          payout={awaySpread.payout}
+          title={homeSpread.title}
+          payout={homeSpread.payout}
           isSelected={selection.optionTwo}
           isEnabled={isEnabled}
           onPress={() => toggleBet("optionTwo")}
@@ -49,7 +49,7 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
             closeSelection={() => toggleBet("optionOne")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={homeSpread.payout}
+            payout={awaySpread.payout}
             betId={currentBetId}
           />
         )}
@@ -59,7 +59,7 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
             closeSelection={() => toggleBet("optionTwo")}
             minBet={minBet}
             maxBet={maxBet}
-            payout={awaySpread.payout}
+            payout={homeSpread.payout}
             betId={currentBetId}
           />
         )}

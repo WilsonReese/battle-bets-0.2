@@ -28,7 +28,7 @@ import {
       const fetchGames = async () => {
         try {
           const response = await axios.get(`https://refactored-lamp-xx7r46x4jw6c947-3000.app.github.dev/games`, {
-            params: { battle_id: 2 },  // assuming id corresponds to battle_id
+            params: { battle_id: 4 },  // assuming id corresponds to battle_id
           });
           setGames(response.data);
         } catch (error) {
