@@ -62,6 +62,7 @@ import { API_BASE_URL } from "../../../../../../utils/api";
             <LogoHeader />
           </View>
           <View style={s.body}>
+            <Txt>Test</Txt>
             <SpreadAndOUInstructions />
             <ScrollView ref={scrollViewRef} style={s.scrollView}>
               {/* This function renders each of the games */}

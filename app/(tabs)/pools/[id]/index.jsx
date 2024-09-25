@@ -1,21 +1,64 @@
-import React from "react";
-import { View, Text, Button, StyleSheet, SafeAreaView } from "react-native";
+import React, { useEffect, useState } from "react";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  SafeAreaView,
+  ActivityIndicator,
+} from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../../components/general/Txt.jsx";
 import { StatusBar } from "expo-status-bar";
 import { Btn } from "../../../../components/general/Buttons/Btn.jsx";
 import { SafeAreaProvider } from "react-native-safe-area-context";
+import axios from "axios";
+import { API_BASE_URL } from "../../../../utils/api.js";
 
 export default function PoolDetails() {
-  const { id } = useLocalSearchParams();
+  const { id: poolId } = useLocalSearchParams();
+  const [battles, setBattles] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch battles when the component mounts
+  useEffect(() => {
+    const fetchBattles = async () => {
+      try {
+        const response = await axios.get(
+          `${API_BASE_URL}/pools/${poolId}/battles`
+        );
+        setBattles(response.data); // Store battle data in state
+        setLoading(false); // Stop loading spinner
+      } catch (error) {
+        console.error("Error fetching battles:", error);
+        setLoading(false); // Stop loading spinner even in case of error
+      }
+    };
+
+    fetchBattles(); // Call the function to fetch battles
+  }, [poolId]);
+
+  // Render loading spinner while data is being fetched
+  if (loading) {
+    return (
+      <View style={s.container}>
+        <ActivityIndicator size="large" color="#0000ff" />
+        <Txt style={{ color: "black" }}>Loading battles...</Txt>
+      </View>
+    );
+  }
 
   return (
     <SafeAreaProvider>
       <SafeAreaView style={s.container}>
         <StatusBar style="dark" />
         <Txt style={{ color: "black", fontSize: 24 }}>
-          Pool {id} - All Battles
+          Pool {poolId} - All Battles
         </Txt>
+        <Txt style={s.txt}>List of all battles</Txt>
+        {battles.map((battle) => (
+          <Txt key={battle.id} style={s.txt}>{battle.id}</Txt>
+        ))}
         <View style={s.currentBattleContainer}>
           <Txt style={s.txt}>Current Battle</Txt>
           <Txt style={s.txt}># Players</Txt>
@@ -24,13 +67,13 @@ export default function PoolDetails() {
               btnText={"Make Bets"}
               style={s.btn}
               isEnabled={true}
-              onPress={() => router.push(`/pools/${id}/battles/2/`)}
+              onPress={() => router.push(`/pools/${poolId}/battles/10/`)}
             />
             <Btn
               btnText={"Edit Bets"}
               style={s.btn}
               isEnabled={false}
-              onPress={() => router.push(`/pools/${id}/battles/2/`)}
+              onPress={() => router.push(`/pools/${id}/battles/4/`)}
             />
           </View>
         </View>
@@ -63,7 +106,7 @@ const s = StyleSheet.create({
     flex: 1,
     // justifyContent: "center",
     alignItems: "center",
-    margin: 8
+    margin: 8,
     // backgroundColor: "#f8f8f8",
   },
   currentBattleContainer: {
