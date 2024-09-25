@@ -19,7 +19,7 @@ import { API_BASE_URL } from "../../../../../../utils/api";
   
   
   export default function BattleDetails() {
-    const { id } = useLocalSearchParams();
+    const { id: poolId, battle_id: battleId } = useLocalSearchParams();
     const [isBetSlipShown, setIsBetSlipShown] = useState(true);
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
@@ -29,7 +29,7 @@ import { API_BASE_URL } from "../../../../../../utils/api";
       const fetchGames = async () => {
         try {
           const response = await axios.get(`${API_BASE_URL}/games`, {
-            params: { battle_id: 4 },  // assuming id corresponds to battle_id
+            params: { battle_id: battleId },  // assuming id corresponds to battle_id
           });
           setGames(response.data);
         } catch (error) {
@@ -40,7 +40,7 @@ import { API_BASE_URL } from "../../../../../../utils/api";
       };
   
       fetchGames();
-    }, []);
+    }, [battleId]);
   
     function renderGameCards() {
       return games.map((game) => (
@@ -72,7 +72,7 @@ import { API_BASE_URL } from "../../../../../../utils/api";
             </ScrollView>
           </View>
           <View>
-            <BetSlip poolName={id} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} scrollViewRef={scrollViewRef} />
+            <BetSlip poolName={poolId} isBetSlipShown={isBetSlipShown} setIsBetSlipShown={setIsBetSlipShown} scrollViewRef={scrollViewRef} />
           </View>
         </SafeAreaView>
       </SafeAreaProvider>

@@ -19,24 +19,33 @@ export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
   const [battles, setBattles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [latestBattleId, setLatestBattleId] = useState(null);
 
-  // Fetch battles when the component mounts
+  // Function to fetch battles and determine the latest one
+  const fetchBattles = async () => {
+    try {
+      const response = await axios.get(`${API_BASE_URL}/pools/${poolId}/battles`);
+      const fetchedBattles = response.data;
+      
+      // Find the battle with the latest start_date
+      const latestBattle = fetchedBattles.reduce((latest, current) => {
+        return new Date(current.start_date) > new Date(latest.start_date) ? current : latest;
+      }, fetchedBattles[0]);
+
+      setBattles(fetchedBattles);
+      setLatestBattleId(latestBattle.id); // Set the latest battle's ID
+      setLoading(false);
+    } catch (error) {
+      console.error("Error fetching battles:", error);
+      setLoading(false); // Stop loading if there's an error
+      Alert.alert("Error", "Failed to fetch battles.");
+    }
+  };
+
+  // useEffect to fetch battles when the component mounts
   useEffect(() => {
-    const fetchBattles = async () => {
-      try {
-        const response = await axios.get(
-          `${API_BASE_URL}/pools/${poolId}/battles`
-        );
-        setBattles(response.data); // Store battle data in state
-        setLoading(false); // Stop loading spinner
-      } catch (error) {
-        console.error("Error fetching battles:", error);
-        setLoading(false); // Stop loading spinner even in case of error
-      }
-    };
-
-    fetchBattles(); // Call the function to fetch battles
-  }, [poolId]);
+    fetchBattles();
+  }, []);
 
   // Render loading spinner while data is being fetched
   if (loading) {
@@ -67,7 +76,7 @@ export default function PoolDetails() {
               btnText={"Make Bets"}
               style={s.btn}
               isEnabled={true}
-              onPress={() => router.push(`/pools/${poolId}/battles/10/`)}
+              onPress={() => router.push(`/pools/${poolId}/battles/${latestBattleId}/`)}
             />
             <Btn
               btnText={"Edit Bets"}
