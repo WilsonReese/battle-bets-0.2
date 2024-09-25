@@ -4,6 +4,7 @@ import { router } from "expo-router";
 import axios from "axios";  // Import axios
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
+import { API_BASE_URL } from "../../../utils/api";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
@@ -14,7 +15,7 @@ export default function Pools() {
     const fetchPools = async () => {
       try {
         const response = await axios.get(
-          "https://refactored-lamp-xx7r46x4jw6c947-3000.app.github.dev/pools"
+          `${API_BASE_URL}/pools`
         );
         setPools(response.data);
         setLoading(false);

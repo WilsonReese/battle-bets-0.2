@@ -15,6 +15,7 @@ import {
   import { useEffect, useRef, useState } from "react";
   import { BetProvider } from "../../../../../../components/contexts/BetContext";
   import axios from 'axios';
+import { API_BASE_URL } from "../../../../../../utils/api";
   
   
   export default function BattleDetails() {
@@ -27,7 +28,7 @@ import {
     useEffect(() => {
       const fetchGames = async () => {
         try {
-          const response = await axios.get(`https://refactored-lamp-xx7r46x4jw6c947-3000.app.github.dev/games`, {
+          const response = await axios.get(`${API_BASE_URL}/games`, {
             params: { battle_id: 4 },  // assuming id corresponds to battle_id
           });
           setGames(response.data);
