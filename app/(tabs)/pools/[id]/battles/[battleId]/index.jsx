@@ -21,18 +21,12 @@ export default function BattleDetails() {
   const scrollViewRef = useRef(null); // Add this line
 
   useEffect(() => {
-    console.log("Battle ID:", battleId); // Log the battleId to ensure it is received correctly
-  }, [battleId]);
-
-  useEffect(() => {
     const fetchGames = async () => {
       try {
         if (!battleId) {
           console.error("No battleId provided");
           return;
         }
-
-        console.log("Fetching games for battleId:", battleId); // Log the battleId to ensure it's correct
 
         const response = await axios.get(`${API_BASE_URL}/games`, {
           params: { battle_id: battleId }, // assuming id corresponds to battle_id

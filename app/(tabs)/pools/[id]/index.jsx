@@ -6,6 +6,7 @@ import {
   StyleSheet,
   SafeAreaView,
   ActivityIndicator,
+  Alert,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../../components/general/Txt.jsx";
@@ -52,7 +53,6 @@ export default function PoolDetails() {
     } else {
       Alert.alert("No battles", "There is no upcoming battle to make bets on.");
     }
-    console.log("Routing to battle:", latestBattle.id);
   };
 
   // Render loading spinner while data is being fetched
