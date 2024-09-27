@@ -47,11 +47,34 @@ export default function PoolDetails() {
 
   const latestBattle = battles[0];
 
-  const handleMakeBets = () => {
-    if (latestBattle) {
-      router.push(`pools/${poolId}/battles/${latestBattle.id}/`);
-    } else {
-      Alert.alert("No battles", "There is no upcoming battle to make bets on.");
+  // const handleMakeBets = () => {
+  //   if (latestBattle) {
+  //     router.push(`pools/${poolId}/battles/${latestBattle.id}/`);
+  //   } else {
+  //     Alert.alert("No battles", "There is no upcoming battle to make bets on.");
+  //   }
+  // };
+
+  const handleMakeBets = async (battleId, poolId) => {
+    try {
+      // Creating a betslip for the current user (user_id = 1) and the selected battle
+      const response = await axios.post(`${API_BASE_URL}/pools/${poolId}/battles/${battleId}/betslips`, {
+        battle_id: battleId,
+        user_id: 1,    // Hardcoding user ID to 1 for now
+        name: null,    // Setting name to null
+      });
+  
+      // Get the created betslip's ID from the response
+      const betslipId = response.data.id;
+  
+      // After betslip is created, navigate to the betslip or battle page
+      router.push({
+        pathname: `pools/${poolId}/battles/${latestBattle.id}/`,
+        params: { betslipId },  // Pass the betslipId as a query parameter
+      });
+    } catch (error) {
+      console.error("Error creating betslip:", error.response.data);
+      Alert.alert("Error", "Failed to create betslip. Please try again.");
     }
   };
 
@@ -89,7 +112,7 @@ export default function PoolDetails() {
               btnText={"Make Bets"}
               style={s.btn}
               isEnabled={true}
-              onPress={handleMakeBets} // Call the handler function
+              onPress={() => handleMakeBets(latestBattle.id, poolId)} // Pass battleId and poolId to the function
             />
             <Btn
               btnText={"Edit Bets"}

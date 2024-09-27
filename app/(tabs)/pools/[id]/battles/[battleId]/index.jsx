@@ -14,7 +14,7 @@ import { API_BASE_URL } from "../../../../../../utils/api";
 import { LoadingIndicator } from "../../../../../../components/general/LoadingIndicator";
 
 export default function BattleDetails() {
-  const { id: poolId, battleId } = useLocalSearchParams();
+  const { id: poolId, battleId, betslipId } = useLocalSearchParams();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -68,6 +68,7 @@ export default function BattleDetails() {
             <>
               <View style={s.body}>
                 <Txt>Pool:{poolId}</Txt>
+                <Txt>Betlslip:{betslipId}</Txt>
                 <SpreadAndOUInstructions />
                 <ScrollView ref={scrollViewRef} style={s.scrollView}>
                   {/* This function renders each of the games */}
