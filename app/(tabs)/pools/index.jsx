@@ -1,10 +1,17 @@
 import React, { useEffect, useState } from "react";
-import { View, Text, Button, StyleSheet, ActivityIndicator } from "react-native";
+import {
+  View,
+  Text,
+  Button,
+  StyleSheet,
+  ActivityIndicator,
+} from "react-native";
 import { router } from "expo-router";
-import axios from "axios";  // Import axios
+import axios from "axios"; // Import axios
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { API_BASE_URL } from "../../../utils/api";
+import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
@@ -14,9 +21,7 @@ export default function Pools() {
   useEffect(() => {
     const fetchPools = async () => {
       try {
-        const response = await axios.get(
-          `${API_BASE_URL}/pools`
-        );
+        const response = await axios.get(`${API_BASE_URL}/pools`);
         setPools(response.data);
         setLoading(false);
       } catch (error) {
@@ -32,16 +37,15 @@ export default function Pools() {
   if (loading) {
     return (
       <View style={s.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Txt style={{ color: "black" }}>Loading pools...</Txt>
+        <LoadingIndicator color="dark" contentToLoad="pools" />
       </View>
     );
   }
-  
+
   return (
     <View style={s.container}>
-      <StatusBar style="dark"/>
-      <Txt style={{color: 'black'}}>Pools Screen</Txt>
+      <StatusBar style="dark" />
+      <Txt style={{ color: "black" }}>Pools Screen</Txt>
       {pools.map((pool) => (
         <Button
           key={pool.id}
@@ -53,7 +57,7 @@ export default function Pools() {
         title="Create a New Pool"
         onPress={() => router.push("/pools/create")}
       />
-      <Txt style={{color: 'black'}}>Test</Txt>
+      <Txt style={{ color: "black" }}>Test</Txt>
     </View>
   );
 }

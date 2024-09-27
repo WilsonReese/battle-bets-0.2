@@ -14,6 +14,7 @@ import { Btn } from "../../../../components/general/Buttons/Btn.jsx";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import axios from "axios";
 import { API_BASE_URL } from "../../../../utils/api.js";
+import { LoadingIndicator } from "../../../../components/general/LoadingIndicator.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -24,7 +25,9 @@ export default function PoolDetails() {
   // Function to fetch battles and determine the latest one
   const fetchBattles = async () => {
     try {
-      const response = await axios.get(`${API_BASE_URL}/pools/${poolId}/battles`);
+      const response = await axios.get(
+        `${API_BASE_URL}/pools/${poolId}/battles`
+      );
       const fetchedBattles = response.data;
 
       setBattles(fetchedBattles);
@@ -58,8 +61,7 @@ export default function PoolDetails() {
       <SafeAreaProvider>
         <SafeAreaView style={s.container}>
           <View style={s.container}>
-            <ActivityIndicator size="large" color="#0000ff" />
-            <Txt style={{ color: "black" }}>Loading battles...</Txt>
+            <LoadingIndicator color="dark" contentToLoad="battles" />
           </View>
         </SafeAreaView>
       </SafeAreaProvider>
