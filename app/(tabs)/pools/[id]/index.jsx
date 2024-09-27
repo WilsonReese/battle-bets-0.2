@@ -26,14 +26,8 @@ export default function PoolDetails() {
     try {
       const response = await axios.get(`${API_BASE_URL}/pools/${poolId}/battles`);
       const fetchedBattles = response.data;
-      
-      // Find the battle with the latest start_date
-      const latestBattle = fetchedBattles.reduce((latest, current) => {
-        return new Date(current.start_date) > new Date(latest.start_date) ? current : latest;
-      }, fetchedBattles[0]);
 
       setBattles(fetchedBattles);
-      setLatestBattleId(latestBattle.id); // Set the latest battle's ID
       setLoading(false);
     } catch (error) {
       console.error("Error fetching battles:", error);
@@ -47,13 +41,28 @@ export default function PoolDetails() {
     fetchBattles();
   }, []);
 
+  const latestBattle = battles[0];
+
+  const handleMakeBets = () => {
+    if (latestBattle) {
+      router.push(`pools/${poolId}/battles/${latestBattle.id}/`);
+    } else {
+      Alert.alert("No battles", "There is no upcoming battle to make bets on.");
+    }
+    console.log("Routing to battle:", latestBattle.id);
+  };
+
   // Render loading spinner while data is being fetched
   if (loading) {
     return (
-      <View style={s.container}>
-        <ActivityIndicator size="large" color="#0000ff" />
-        <Txt style={{ color: "black" }}>Loading battles...</Txt>
-      </View>
+      <SafeAreaProvider>
+        <SafeAreaView style={s.container}>
+          <View style={s.container}>
+            <ActivityIndicator size="large" color="#0000ff" />
+            <Txt style={{ color: "black" }}>Loading battles...</Txt>
+          </View>
+        </SafeAreaView>
+      </SafeAreaProvider>
     );
   }
 
@@ -66,7 +75,9 @@ export default function PoolDetails() {
         </Txt>
         <Txt style={s.txt}>List of all battles</Txt>
         {battles.map((battle) => (
-          <Txt key={battle.id} style={s.txt}>{battle.id}</Txt>
+          <Txt key={battle.id} style={s.txt}>
+            {battle.id}
+          </Txt>
         ))}
         <View style={s.currentBattleContainer}>
           <Txt style={s.txt}>Current Battle</Txt>
@@ -76,7 +87,7 @@ export default function PoolDetails() {
               btnText={"Make Bets"}
               style={s.btn}
               isEnabled={true}
-              onPress={() => router.push(`/pools/${poolId}/battles/${latestBattleId}/`)}
+              onPress={handleMakeBets} // Call the handler function
             />
             <Btn
               btnText={"Edit Bets"}

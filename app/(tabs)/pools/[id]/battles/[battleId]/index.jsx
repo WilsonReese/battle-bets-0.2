@@ -19,15 +19,26 @@ import { API_BASE_URL } from "../../../../../../utils/api";
   
   
   export default function BattleDetails() {
-    const { id: poolId, battle_id: battleId } = useLocalSearchParams();
+    const { id: poolId, battleId } = useLocalSearchParams();
     const [isBetSlipShown, setIsBetSlipShown] = useState(true);
     const [games, setGames] = useState([]);
     const [loading, setLoading] = useState(true);
     const scrollViewRef = useRef(null); // Add this line
   
     useEffect(() => {
+      console.log("Battle ID:", battleId); // Log the battleId to ensure it is received correctly
+    }, [battleId]);
+
+    useEffect(() => {
       const fetchGames = async () => {
         try {
+          if (!battleId) {
+            console.error("No battleId provided");
+            return;
+          }
+
+          console.log("Fetching games for battleId:", battleId); // Log the battleId to ensure it's correct
+
           const response = await axios.get(`${API_BASE_URL}/games`, {
             params: { battle_id: battleId },  // assuming id corresponds to battle_id
           });
@@ -62,7 +73,7 @@ import { API_BASE_URL } from "../../../../../../utils/api";
             <LogoHeader />
           </View>
           <View style={s.body}>
-            <Txt>Test</Txt>
+            <Txt>Pool: {poolId}</Txt>
             <SpreadAndOUInstructions />
             <ScrollView ref={scrollViewRef} style={s.scrollView}>
               {/* This function renders each of the games */}
