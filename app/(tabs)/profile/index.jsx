@@ -1,16 +1,18 @@
-import React from 'react';
+import React, { useContext } from 'react';
 import { View, Text, StyleSheet, Button, Alert } from 'react-native';
 import * as SecureStore from 'expo-secure-store';
 import { useRouter } from 'expo-router';
 import { API_BASE_URL } from '../../../utils/api';
+import { AuthContext } from '../../../components/contexts/AuthContext';
 
 export default function Profile() {
+  const { logout, token } = useContext(AuthContext); // Get logout function and token
   const router = useRouter();
 
   const handleLogout = async () => {
     try {
-      // Get the token from secure storage
-      const token = await SecureStore.getItemAsync('jwt_token');
+      // Get the token from secure storage XXX --- This is now coming from the AuthContext
+      // const token = await SecureStore.getItemAsync('jwt_token');
 
       if (token) {
         // Make the API request to log out
@@ -24,7 +26,7 @@ export default function Profile() {
 
         if (response.ok) {
           // If logout is successful, clear the token from SecureStore
-          await SecureStore.deleteItemAsync('jwt_token');
+          await logout();
           Alert.alert('Logged out successfully!');
           
           // Redirect to the login screen

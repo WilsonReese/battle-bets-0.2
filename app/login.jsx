@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   TextInput,
@@ -13,10 +13,12 @@ import { API_BASE_URL } from "../utils/api"; // Your API base URL
 import { Btn } from "../components/general/Buttons/Btn";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "../components/general/Txt";
+import { AuthContext, AuthProvider } from "../components/contexts/AuthContext";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const { login } = useContext(AuthContext); // Get the login function from context
   const router = useRouter();
 
   const handleLogin = async () => {
@@ -42,7 +44,7 @@ export default function Login() {
 
         if (data.token) {
           // Store JWT token if it exists
-          await SecureStore.setItemAsync("jwt_token", data.token);
+          await login(data.token); // Set the token globally and in SecureStore
           Alert.alert("Login successful!");
           router.replace("/pools"); // Redirect to pools page after login
         } else {

@@ -1,10 +1,8 @@
 import React, { useEffect, useState } from "react";
 import {
   View,
-  Text,
   Button,
   StyleSheet,
-  ActivityIndicator,
 } from "react-native";
 import { router } from "expo-router";
 import axios from "axios"; // Import axios
