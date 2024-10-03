@@ -8,7 +8,7 @@ import {
   Keyboard,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
-import { useNavigation, useRouter } from "expo-router";
+import { useRouter } from "expo-router";
 import { API_BASE_URL } from "../utils/api"; // Your API base URL
 import { Btn } from "../components/general/Buttons/Btn";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";

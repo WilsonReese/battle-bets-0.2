@@ -1,10 +1,12 @@
 import axios from 'axios';
 import { useContext, useEffect } from 'react';
-import { AuthContext } from '../context/AuthContext'; // Import your Auth context
+// import { AuthContext } from '../context/AuthContext'; // Import your Auth context
+import { API_BASE_URL } from './api';
+import { AuthContext } from '../components/contexts/AuthContext';
 
 // Create an Axios instance -- I am not sure how this work????
 const api = axios.create({
-  baseURL: process.env.API_BASE_URL || 'YOUR_API_BASE_URL', // Add your API base URL here
+    baseURL: API_BASE_URL
 });
 
 // Axios request interceptor to automatically add JWT token to requests
@@ -15,9 +17,11 @@ export const useAxiosWithAuth = () => {
     // Add request interceptor
     const requestInterceptor = api.interceptors.request.use(
       (config) => {
+        console.log("Token:", token); // Log the token
         if (token) {
           config.headers.Authorization = `Bearer ${token}`; // Attach token to Authorization header
         }
+        console.log("Request headers:", config.headers); // Log the headers
         return config;
       },
       (error) => {

@@ -10,16 +10,18 @@ import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { API_BASE_URL } from "../../../utils/api";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
+import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with Auth
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
   const [loading, setLoading] = useState(true);
+  const api = useAxiosWithAuth(); // Use the custom Axios instance
 
   // Fetch pools from the backend API
   useEffect(() => {
     const fetchPools = async () => {
       try {
-        const response = await axios.get(`${API_BASE_URL}/pools`);
+        const response = await api.get("/pools");
         setPools(response.data);
         setLoading(false);
       } catch (error) {
@@ -29,7 +31,7 @@ export default function Pools() {
     };
 
     fetchPools();
-  }, []);
+  }, [api]);
 
   // Render loading state or pool list
   if (loading) {
