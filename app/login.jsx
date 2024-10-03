@@ -1,10 +1,18 @@
 import React, { useState } from "react";
-import { View, TextInput, Button, Alert, StyleSheet } from "react-native";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as SecureStore from 'expo-secure-store';
-import { useRouter } from "expo-router";
+import {
+  View,
+  TextInput,
+  Alert,
+  StyleSheet,
+  TouchableWithoutFeedback,
+  Keyboard,
+} from "react-native";
+import * as SecureStore from "expo-secure-store";
+import { useNavigation, useRouter } from "expo-router";
 import { API_BASE_URL } from "../utils/api"; // Your API base URL
 import { Btn } from "../components/general/Buttons/Btn";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { Txt } from "../components/general/Txt";
 
 export default function Login() {
   const [email, setEmail] = useState("");
@@ -25,16 +33,16 @@ export default function Login() {
           },
         }),
       });
-  
+
       const responseText = await response.text(); // Get raw text response
       console.log("Response text:", responseText); // Log response to inspect it
-  
+
       if (response.ok) {
         const data = JSON.parse(responseText); // Try parsing it as JSON
-  
+
         if (data.token) {
           // Store JWT token if it exists
-          await SecureStore.setItemAsync('jwt_token', data.token);
+          await SecureStore.setItemAsync("jwt_token", data.token);
           Alert.alert("Login successful!");
           router.replace("/pools"); // Redirect to pools page after login
         } else {
@@ -51,43 +59,82 @@ export default function Login() {
   };
 
   return (
-    <View>
-      <TextInput
-        placeholder="Email"
-        value={email}
-        onChangeText={setEmail}
-        keyboardType="email-address"
-        autoCapitalize="none"
-      />
-      <TextInput
-        placeholder="Password"
-        value={password}
-        onChangeText={setPassword}
-        secureTextEntry
-        autoCapitalize="none"
-      />
-      <Btn
-        btnText={"Login"}
-        isEnabled={true}
-        onPress={handleLogin} // Pass battleId and poolId to the function
-      />
-    </View>
+    <SafeAreaProvider>
+      <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+        <SafeAreaView style={s.container}>
+          <View style={s.logoPlaceholder}>
+            <Txt>Logo Placeholder</Txt>
+          </View>
+          <View style={s.loginContainer}>
+            <View style={s.textInputContainer}>
+              <TextInput
+                style={s.inputText}
+                placeholder="Email"
+                placeholderTextColor="#B8C3CC"
+                value={email}
+                onChangeText={setEmail}
+                keyboardType="email-address"
+                autoCapitalize="none"
+              />
+            </View>
+            <View style={s.textInputContainer}>
+              <TextInput
+                placeholder="Password"
+                style={s.inputText}
+                placeholderTextColor="#B8C3CC"
+                value={password}
+                onChangeText={setPassword}
+                secureTextEntry
+                autoCapitalize="none"
+              />
+            </View>
+            <Btn
+              btnText={"Login"}
+              isEnabled={true}
+              onPress={handleLogin} // Pass battleId and poolId to the function
+              style={s.loginButton}
+            />
+          </View>
+        </SafeAreaView>
+      </TouchableWithoutFeedback>
+    </SafeAreaProvider>
   );
 }
 
 const s = StyleSheet.create({
   container: {
-
-  },  
-  card: {
-    backgroundColor: "#DAE1E5",
-    marginVertical: 4,
-    borderRadius: 8,
-    paddingHorizontal: 8,
+    flex: 1,
+    justifyContent: "center",
+    padding: 8,
+    backgroundColor: "#061826",
+  },
+  logoPlaceholder: {
+    flex: 1.5,
+    height: 100,
+    width: 100,
+    backgroundColor: "blue",
+    alignItems: "center",
+    justifyContent: "center",
+    alignSelf: "center",
+  },
+  loginContainer: {
+    flex: 3,
+  },
+  textInputContainer: {
     paddingVertical: 4,
   },
-  gameDetails: {
-    flexDirection: "row",
-    justifyContent: "space-between",
+  inputText: {
+    fontFamily: "Saira_600SemiBold",
+    borderColor: "#3A454D",
+    borderWidth: 1,
+    borderRadius: 8,
+    height: 48,
+    paddingHorizontal: 8,
+    fontSize: 14,
+    color: "#F8F8F8",
+  },
+  loginButton: {
+    height: 48,
+    marginVertical: 4,
   },
 });

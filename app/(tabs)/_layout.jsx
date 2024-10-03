@@ -45,6 +45,7 @@ export default function TabLayout() {
           // tabBarActiveBackgroundColor: "gray",
           tabBarActiveTintColor: "cyan", // Change the color of the active tab icon
           tabBarInactiveTintColor: "gray", // Change the color of the inactive tab icons
+          headerShown: false,
         }}
       >
         <Tabs.Screen

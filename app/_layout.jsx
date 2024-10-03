@@ -4,7 +4,7 @@ import { StyleSheet, View } from "react-native";
 export default function Layout() {
   return (
     <View style={s.container} >
-      <Stack screenOptions={{ contentStyle: { backgroundColor: 'transparent' }}}>
+      <Stack screenOptions={{ contentStyle: { backgroundColor: 'transparent' }, headerShown: false}}>
         <Stack.Screen
           name="(tabs)"
           options={{
