@@ -37,7 +37,6 @@ export default function Login() {
       });
 
       const responseText = await response.text(); // Get raw text response
-      console.log("Response text:", responseText); // Log response to inspect it
 
       if (response.ok) {
         const data = JSON.parse(responseText); // Try parsing it as JSON
@@ -48,7 +47,6 @@ export default function Login() {
           Alert.alert("Login successful!");
           router.replace("/pools"); // Redirect to pools page after login
         } else {
-          console.error("No token in response:", data); // Log the response for debugging
           Alert.alert("Login failed. Token missing in response.");
         }
       } else {

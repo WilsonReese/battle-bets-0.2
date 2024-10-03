@@ -17,11 +17,9 @@ export const useAxiosWithAuth = () => {
     // Add request interceptor
     const requestInterceptor = api.interceptors.request.use(
       (config) => {
-        console.log("Token:", token); // Log the token
         if (token) {
           config.headers.Authorization = `Bearer ${token}`; // Attach token to Authorization header
         }
-        console.log("Request headers:", config.headers); // Log the headers
         return config;
       },
       (error) => {
