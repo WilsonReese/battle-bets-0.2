@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -16,12 +16,12 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import axios from "axios";
 import { API_BASE_URL } from "../../../../utils/api.js";
 import { LoadingIndicator } from "../../../../components/general/LoadingIndicator.jsx";
+import api from "../../../../utils/axiosConfig.js";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
   const [battles, setBattles] = useState([]);
   const [loading, setLoading] = useState(true);
-  const [latestBattleId, setLatestBattleId] = useState(null);
 
   // Function to fetch battles and determine the latest one
   const fetchBattles = async () => {
@@ -47,21 +47,13 @@ export default function PoolDetails() {
 
   const latestBattle = battles[0];
 
-  // const handleMakeBets = () => {
-  //   if (latestBattle) {
-  //     router.push(`pools/${poolId}/battles/${latestBattle.id}/`);
-  //   } else {
-  //     Alert.alert("No battles", "There is no upcoming battle to make bets on.");
-  //   }
-  // };
-
   const handleMakeBets = async (battleId, poolId) => {
     try {
-      // Creating a betslip for the current user (user_id = 1) and the selected battle
-      const response = await axios.post(`${API_BASE_URL}/pools/${poolId}/battles/${battleId}/betslips`, {
-        battle_id: battleId,
-        user_id: 1,    // Hardcoding user ID to 1 for now
-        name: null,    // Setting name to null
+      const response = await api.post(`/pools/${poolId}/battles/${battleId}/betslips`, {
+        betslip: {
+          name: null, // Name can be null or set to a default value
+          status: "created",
+        },
       });
   
       // Get the created betslip's ID from the response
@@ -126,21 +118,6 @@ export default function PoolDetails() {
           This screen will show the details of the pool - current battle,
           previous battles, number of users, leaderboards
         </Txt>
-        {/* <Button title="Make Picks for Battle 1" onPress={() => router.push(`/pools/${id}/battles/1/`)} /> */}
-        {/* <Button
-        title="Make Picks for Battle 2"
-        onPress={() =>
-          router.push({
-            pathname: `/pools/${id}/battles/[battleId]`,
-            params: { battleId: 2 },
-          })
-        }
-      />
-      <Button
-        title="Create a New Battle"
-        onPress={() => router.push("/battles/create")}
-      />
-      <Txt style={{color: 'black'}}>Test</Txt> */}
       </SafeAreaView>
     </SafeAreaProvider>
   );
