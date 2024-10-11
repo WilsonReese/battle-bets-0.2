@@ -11,10 +11,7 @@ import { StatusBar } from "expo-status-bar";
 import { Btn } from "../../../../components/general/Buttons/Btn.jsx";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LoadingIndicator } from "../../../../components/general/LoadingIndicator.jsx";
-// import axios from "axios";
-// import { API_BASE_URL } from "../../../../utils/api.js";
 import api from "../../../../utils/axiosConfig.js";
-import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();

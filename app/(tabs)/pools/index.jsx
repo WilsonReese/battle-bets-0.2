@@ -5,10 +5,8 @@ import {
   StyleSheet,
 } from "react-native";
 import { router } from "expo-router";
-import axios from "axios"; // Import axios
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
-import { API_BASE_URL } from "../../../utils/api";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with Auth
 

@@ -9,9 +9,8 @@ import { GAME_DATA } from "@/utils/game-data.js";
 import { BetSlip } from "@/components/BetSlip/BetSlip.jsx";
 import { useEffect, useRef, useState } from "react";
 import { BetProvider } from "../../../../../../components/contexts/BetContext";
-import axios from "axios";
-import { API_BASE_URL } from "../../../../../../utils/api";
 import { LoadingIndicator } from "../../../../../../components/general/LoadingIndicator";
+import api from "../../../../../../utils/axiosConfig";
 
 export default function BattleDetails() {
   const { id: poolId, battleId, betslipId } = useLocalSearchParams();
@@ -28,7 +27,7 @@ export default function BattleDetails() {
           return;
         }
 
-        const response = await axios.get(`${API_BASE_URL}/games`, {
+        const response = await api.get(`/games`, {
           params: { battle_id: battleId }, // assuming id corresponds to battle_id
         });
         setGames(response.data);
