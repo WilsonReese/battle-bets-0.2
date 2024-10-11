@@ -1,5 +1,6 @@
-import React, { createContext, useState, useContext } from "react";
+import React, { createContext, useState, useContext, useEffect } from "react";
 import uuid from "react-native-uuid";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const BetContext = createContext();
 
@@ -14,6 +15,34 @@ export const BetProvider = ({ children }) => {
   const [totalMoneyLineBet, setTotalMoneyLineBet] = useState(0);
   const [totalPropBet, setTotalPropBet] = useState(0);
   const [betOptionType, setBetOptionType] = useState('spreadOU'); // sets SpreadOU as initial bet option type state
+
+  useEffect(() => {
+    const loadStoredBets = async () => {
+      try {
+        const storedBets = await AsyncStorage.getItem('bets');
+        if (storedBets) {
+          const parsedBets = JSON.parse(storedBets);
+          setBets(parsedBets);
+          // Optionally recalculate total bet amounts if needed
+          recalculateTotals(parsedBets);
+        }
+      } catch (error) {
+        console.error("Failed to load stored bets:", error);
+      }
+    };
+    loadStoredBets();
+  }, []);
+
+  useEffect(() => {
+    const storeBets = async () => {
+      try {
+        await AsyncStorage.setItem('bets', JSON.stringify(bets));
+      } catch (error) {
+        console.error("Failed to save bets:", error);
+      }
+    };
+    storeBets();
+  }, [bets]);
 
   const updateTotalBetState = (betOptionType, amount, operation) => {
     const stateSetters = {
@@ -37,6 +66,34 @@ export const BetProvider = ({ children }) => {
         }
       });
     }
+  };
+
+  const recalculateTotals = (bets) => {
+    // Helper function to recalculate totals when loading from storage
+    let totalSpreadOUBet = 0;
+    let totalMoneyLineBet = 0;
+    let totalPropBet = 0;
+
+    bets.forEach((bet) => {
+      const betOptionType = getBetOptionType(bet.betType);
+      switch (betOptionType) {
+        case "spreadOU":
+          totalSpreadOUBet += bet.betAmount;
+          break;
+        case "moneyLine":
+          totalMoneyLineBet += bet.betAmount;
+          break;
+        case "prop":
+          totalPropBet += bet.betAmount;
+          break;
+        default:
+          break;
+      }
+    });
+
+    setTotalSpreadOUBet(totalSpreadOUBet);
+    setTotalMoneyLineBet(totalMoneyLineBet);
+    setTotalPropBet(totalPropBet);
   };
 
   const addBet = ({ title, betAmount, payout, betType }) => {
