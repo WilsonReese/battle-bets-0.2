@@ -1,5 +1,6 @@
 import React, { createContext, useState, useEffect } from "react";
 import * as SecureStore from "expo-secure-store";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Create a context
 export const AuthContext = createContext();
@@ -25,6 +26,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   const logout = async () => {
+    await AsyncStorage.clear();
     await SecureStore.deleteItemAsync('jwt_token');
     setToken(null);
   };
