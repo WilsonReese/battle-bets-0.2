@@ -180,6 +180,18 @@ export const BetProvider = ({ children }) => {
     );
   };
 
+  // const submitBets = async () => {
+  //   try {
+  //     // Make the API call to submit the bets
+  //     await api.post('/bets', { bets });
+  //     // Clear bets after successful submission
+  //     setBets([]);
+  //     await AsyncStorage.removeItem('bets');
+  //   } catch (error) {
+  //     console.error("Failed to submit bets:", error);
+  //   }
+  // };
+
   return (
     <BetContext.Provider
       value={{
@@ -203,6 +215,7 @@ export const BetProvider = ({ children }) => {
         getTotalBetAmount,
         getBetOptionLongTitle, 
         areAllBetsComplete,
+        // submitBets,
       }}
     >
       {children}
