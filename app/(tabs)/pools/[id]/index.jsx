@@ -1,11 +1,8 @@
 import React, { useContext, useEffect, useState } from "react";
 import {
   View,
-  Text,
-  Button,
   StyleSheet,
   SafeAreaView,
-  ActivityIndicator,
   Alert,
 } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
@@ -13,28 +10,42 @@ import { Txt } from "../../../../components/general/Txt.jsx";
 import { StatusBar } from "expo-status-bar";
 import { Btn } from "../../../../components/general/Buttons/Btn.jsx";
 import { SafeAreaProvider } from "react-native-safe-area-context";
-import axios from "axios";
-import { API_BASE_URL } from "../../../../utils/api.js";
 import { LoadingIndicator } from "../../../../components/general/LoadingIndicator.jsx";
+// import axios from "axios";
+// import { API_BASE_URL } from "../../../../utils/api.js";
 import api from "../../../../utils/axiosConfig.js";
+import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
   const [battles, setBattles] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userBetslip, setUserBetslip] = useState(null);
 
   // Function to fetch battles and determine the latest one
   const fetchBattles = async () => {
     try {
-      const response = await axios.get(
-        `${API_BASE_URL}/pools/${poolId}/battles`
-      );
-      const fetchedBattles = response.data;
-
+      const battlesResponse = await api.get(`/pools/${poolId}/battles`);
+      const fetchedBattles = battlesResponse.data;
+      
+      // this portion can be deleted once I set up functionality that handles automatically creating battles
+      if (fetchedBattles.length === 0) {
+        console.error("No battles found for this pool.");
+        Alert.alert("No battles", "There are no battles available for this pool.");
+        setLoading(false);
+        return; // Exit the function if there are no battles
+      }
+      
       setBattles(fetchedBattles);
+
+      const latestBattle = fetchedBattles[0];
+      const betslipsResponse = await api.get(`/pools/${poolId}/battles/${latestBattle.id}/betslips?user_only=true`);
+      const foundUserBetslip = betslipsResponse.data
+
+      setUserBetslip(foundUserBetslip); // Update the state with the found betslip
       setLoading(false);
     } catch (error) {
-      console.error("Error fetching battles:", error);
+      console.error("Error fetching battles:", error.response || error)
       setLoading(false); // Stop loading if there's an error
       Alert.alert("Error", "Failed to fetch battles.");
     }
@@ -100,18 +111,23 @@ export default function PoolDetails() {
           <Txt style={s.txt}>Current Battle</Txt>
           <Txt style={s.txt}># Players</Txt>
           <View style={s.btnContainer}>
-            <Btn
-              btnText={"Make Bets"}
-              style={s.btn}
-              isEnabled={true}
-              onPress={() => handleMakeBets(latestBattle.id, poolId)} // Pass battleId and poolId to the function
-            />
-            <Btn
-              btnText={"Edit Bets"}
-              style={s.btn}
-              isEnabled={false}
-              onPress={() => router.push(`/pools/${id}/battles/4/`)}
-            />
+            {userBetslip ? (
+              // Show "Edit Bets" button if betslip exists
+              <Btn
+                btnText={"Edit Bets"}
+                style={s.btn}
+                isEnabled={true}
+                onPress={() => router.push(`/pools/${poolId}/battles/${latestBattle.id}/?betslipId=${userBetslip.id}`)}
+              />
+            ) : (
+              // Show "Make Bets" button if no betslip exists
+              <Btn
+                btnText={"Make Bets"}
+                style={s.btn}
+                isEnabled={true}
+                onPress={() => handleMakeBets(latestBattle.id, poolId)}
+              />
+            )}
           </View>
         </View>
         <Txt style={{ color: "black" }}>
