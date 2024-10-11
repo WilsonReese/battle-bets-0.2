@@ -11,7 +11,7 @@ export const AuthProvider = ({ children }) => {
   // On component mount, check if there's a token stored
   useEffect(() => {
     const loadToken = async () => {
-      const storedToken = await SecureStore.getItemAsync('jwt_token');
+      const storedToken = await SecureStore.getItemAsync("jwt_token");
       if (storedToken) {
         setToken(storedToken);
       }
@@ -21,13 +21,18 @@ export const AuthProvider = ({ children }) => {
   }, []);
 
   const login = async (newToken) => {
-    await SecureStore.setItemAsync('jwt_token', newToken);
+    await SecureStore.setItemAsync("jwt_token", newToken);
     setToken(newToken);
+    // Check if there are any keys in AsyncStorage before clearing
+    const keys = await AsyncStorage.getAllKeys();
+
+    if (keys.length > 0) {
+      await AsyncStorage.clear(); // Only clear if there are stored items
+    }
   };
 
   const logout = async () => {
-    await AsyncStorage.clear();
-    await SecureStore.deleteItemAsync('jwt_token');
+    await SecureStore.deleteItemAsync("jwt_token");
     setToken(null);
   };
 

@@ -50,7 +50,7 @@ export default function BattleDetails() {
   }
 
   return (
-    <BetProvider>
+    <BetProvider battleId={battleId}>
       <SafeAreaProvider>
         <SafeAreaView style={s.container}>
           <View style={s.logoHeader}>

@@ -6,7 +6,7 @@ const BetContext = createContext();
 
 export const useBetContext = () => useContext(BetContext);
 
-export const BetProvider = ({ children }) => {
+export const BetProvider = ({ children, battleId }) => {
   const [bets, setBets] = useState([]);
   const [spreadOUBudget, setSpreadOUBudget] = useState(2000); // Initial budget for spread and OU
   const [moneyLineBudget, setMoneyLineBudget] = useState(1000); // Initial budget for money line
@@ -19,7 +19,7 @@ export const BetProvider = ({ children }) => {
   useEffect(() => {
     const loadStoredBets = async () => {
       try {
-        const storedBets = await AsyncStorage.getItem('bets');
+        const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
         if (storedBets) {
           const parsedBets = JSON.parse(storedBets);
           setBets(parsedBets);
@@ -31,18 +31,18 @@ export const BetProvider = ({ children }) => {
       }
     };
     loadStoredBets();
-  }, []);
+  }, [battleId]);
 
   useEffect(() => {
     const storeBets = async () => {
       try {
-        await AsyncStorage.setItem('bets', JSON.stringify(bets));
+        await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(bets));
       } catch (error) {
         console.error("Failed to save bets:", error);
       }
     };
     storeBets();
-  }, [bets]);
+  }, [bets, battleId]);
 
   const updateTotalBetState = (betOptionType, amount, operation) => {
     const stateSetters = {
