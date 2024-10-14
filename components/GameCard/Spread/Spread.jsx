@@ -19,7 +19,13 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
     optionOne: awaySpread.payout,
     optionTwo: homeSpread.payout,
   };
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts);
+
+  const betOptionIDs ={
+    optionOne: awaySpread.id,
+    optionTwo: homeSpread.id
+  }
+  // console.log(betOptionIDs)
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts, betOptionIDs);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
