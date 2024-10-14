@@ -74,6 +74,7 @@ export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs
       betType: betType,
       betOptionID: betOptionID
     });
+    console.log("Selected Bet:", newBet)
     setCurrentBetId(newBet.id);
   };
 
@@ -101,6 +102,7 @@ export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs
         betType: betType,
         betOptionID: betOptionID
       });
+      console.log("Toggled to New Bet:", newBet)
       setCurrentBetId(newBet.id);
     }
   };

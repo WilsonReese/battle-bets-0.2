@@ -105,7 +105,7 @@ export const BetProvider = ({ children, battleId }) => {
       betType: betType,
       betOptionID: betOptionID,
     };
-    console.log(newBet)
+    console.log("New Bet:", newBet)
     setBets((prevBets) => [...prevBets, newBet]);
     updateTotalBetState(getBetOptionType(betType), betAmount, "add");
     return newBet;
