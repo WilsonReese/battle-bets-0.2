@@ -78,10 +78,12 @@ export default function BattleDetails() {
               </View>
               <View>
                 <BetSlip
-                  poolName={poolId}
+                  poolId={poolId}
                   isBetSlipShown={isBetSlipShown}
                   setIsBetSlipShown={setIsBetSlipShown}
                   scrollViewRef={scrollViewRef}
+                  betslipId={betslipId}
+                  battleId={battleId}
                 />
               </View>
             </>

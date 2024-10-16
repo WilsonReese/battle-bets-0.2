@@ -1,17 +1,21 @@
 import React, { useEffect, useRef } from "react";
-import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
+import { StyleSheet, View, Animated, TouchableOpacity, Alert } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
+import api from "../../utils/axiosConfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export function BetSlipHeading({
-  poolName,
+  poolId,
   isBetSlipShown,
   toggleBetSlip,
   scrollViewRef,
+  betslipId,
+  battleId
 }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
   const { bets, areAllBetsComplete } = useBetContext();
@@ -40,6 +44,32 @@ export function BetSlipHeading({
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
   }
 
+  // Handle submitting the bets
+  const handleSubmitBets = async () => {
+    try {
+      // 1. Make API request to create bets in the backend
+      const response = await api.post(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`, {
+        bets: bets.map(bet => ({
+          bet_option_id: bet.betOptionID, // Assuming bet ID maps to bet_option_id
+          bet_amount: bet.betAmount,
+        })),
+      });
+      console.log("Bets submitted, response:", response.data);
+
+      // 2. After bets are successfully created, update the betslip status
+      await api.patch(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}`, { status: "submitted" });
+      console.log("Betslip status updated to submitted");
+
+      // 3. Clear the bets for the current battle in AsyncStorage
+      await AsyncStorage.removeItem(`bets_${battleId}`);
+      Alert.alert("Success", "Bets submitted successfully!");
+
+    } catch (error) {
+      console.error("Error submitting bets:", error.response || error);
+      Alert.alert("Error", "Failed to submit bets.");
+    }
+  };
+
   return (
     <View style={s.container}>
       <View style={s.headingContainer}>
@@ -55,6 +85,7 @@ export function BetSlipHeading({
             icon={arrowSubmitIcon}
             style={s.btn}
             isEnabled={areAllBetsComplete()}
+            onPress={handleSubmitBets} // Call the handleSubmitBets function when pressed
           />
         </View>
       </View>

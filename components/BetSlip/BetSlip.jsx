@@ -14,10 +14,12 @@ const betSlipHeight = (height * 3.2) / 5;
 const betSlipHeadingHeight = 148; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
 
 export function BetSlip({
-  poolName,
+  poolId,
   isBetSlipShown,
   setIsBetSlipShown,
-  scrollViewRef
+  scrollViewRef,
+  betslipId,
+  battleId
 }) {
   const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
 
@@ -35,10 +37,12 @@ export function BetSlip({
     <Animated.View style={[s.container, { height: animatedHeight }]}>
       <View>
         <BetSlipHeading
-          poolName={poolName}
+          poolId={poolId}
           isBetSlipShown={isBetSlipShown}
           toggleBetSlip={toggleBetSlip}
           scrollViewRef={scrollViewRef}
+          betslipId={betslipId}
+          battleId={battleId}
         />
       </View>
       <BetSlipDetails toggleBetSlip={toggleBetSlip} />
