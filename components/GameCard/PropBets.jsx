@@ -12,6 +12,10 @@ export function PropBets({ betOptions, homeTeam, awayTeam }) {
         optionOne: option.payout,
         optionTwo: option.payout, // we include this because BetLogic expects it to be there
       };
+      const betOptionIDs ={
+        optionOne: option.id,
+        optionTwo: option.id
+      }
       const optionLongTitle = `${homeTeam} v ${awayTeam}: ${option.title}`;
       const {
         selection,
@@ -20,7 +24,7 @@ export function PropBets({ betOptions, homeTeam, awayTeam }) {
         toggleBet,
         betType,
         currentBetId,
-      } = useBetLogic("prop", optionLongTitle, optionLongTitle, payouts);
+      } = useBetLogic("prop", optionLongTitle, optionLongTitle, payouts, betOptionIDs);
       const { minBet, maxBet } = BETTING_RULES[betType];
 
       return (

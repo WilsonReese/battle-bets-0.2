@@ -19,7 +19,12 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
     optionOne: awayMoneyLine.payout,
     optionTwo: homeMoneyLine.payout,
   };
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", awayMoneyLineLongTitle, homeMoneyLineLongTitle, payouts);
+
+  const betOptionIDs ={
+    optionOne: awayMoneyLine.id,
+    optionTwo: homeMoneyLine.id
+  }
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", awayMoneyLineLongTitle, homeMoneyLineLongTitle, payouts, betOptionIDs);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
