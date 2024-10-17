@@ -16,6 +16,29 @@ export const BetProvider = ({ children, battleId }) => {
   const [totalPropBet, setTotalPropBet] = useState(0);
   const [betOptionType, setBetOptionType] = useState('spreadOU'); // sets SpreadOU as initial bet option type state
 
+  // Fetch bets from the backend if the betslip status is 'submitted'
+  const loadBetsFromBackend = async (poolId, battleId, betslipId) => {
+    try {
+      const response = await api.get(
+        `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`
+      );
+  
+      const transformedBets = response.data.map((bet) => ({
+        id: bet.id, // Use the ID from the backend
+        name: bet.bet_option.title, // Use the title from bet_option
+        betAmount: parseFloat(bet.bet_amount),
+        toWinAmount: parseFloat(bet.to_win_amount),
+        betType: bet.bet_option.category, // Use the category from bet_option
+        betOptionID: bet.bet_option_id, // Match the frontend structure
+      }));
+  
+      console.log("Transformed Bets:", transformedBets);
+      setBets(transformedBets); // Update state with transformed bets
+    } catch (error) {
+      console.error("Error loading bets from backend:", error.response || error);
+    }
+  };
+
   useEffect(() => {
     const loadStoredBets = async () => {
       try {
