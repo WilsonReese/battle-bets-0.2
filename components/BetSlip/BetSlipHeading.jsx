@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { StyleSheet, View, Animated, TouchableOpacity, Alert } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
@@ -8,6 +8,7 @@ import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
 import api from "../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { router } from "expo-router";
 
 export function BetSlipHeading({
   poolId,
@@ -19,6 +20,7 @@ export function BetSlipHeading({
 }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
   const { bets, areAllBetsComplete } = useBetContext();
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const arrowSubmitIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
   );
@@ -46,6 +48,9 @@ export function BetSlipHeading({
 
   // Handle submitting the bets
   const handleSubmitBets = async () => {
+    if (isSubmitting) return;
+    setIsSubmitting(true);
+
     try {
       // 1. Make API request to create bets in the backend
       const response = await api.post(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`, {
@@ -61,12 +66,17 @@ export function BetSlipHeading({
       console.log("Betslip status updated to submitted");
 
       // 3. Clear the bets for the current battle in AsyncStorage
-      await AsyncStorage.removeItem(`bets_${battleId}`);
+      await AsyncStorage.removeItem(`bets-${battleId}`);
       Alert.alert("Success", "Bets submitted successfully!");
+
+      // 4. Navigate to the pool page
+      router.push(`/pools/${poolId}`);
 
     } catch (error) {
       console.error("Error submitting bets:", error.response || error);
       Alert.alert("Error", "Failed to submit bets.");
+    } finally {
+      setIsSubmitting(false); // Reset submission state
     }
   };
 
