@@ -14,6 +14,7 @@ import {
 } from "../../../../../../components/contexts/BetContext";
 import { LoadingIndicator } from "../../../../../../components/general/LoadingIndicator";
 import api from "../../../../../../utils/axiosConfig";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function BattleDetails() {
   const { id: poolId, battleId, betslipId } = useLocalSearchParams();
@@ -40,6 +41,7 @@ export default function BattleDetails() {
   // Function to load bets from AsyncStorage
   const loadBets = async () => {
     try {
+      console.log(`Loading bets for battle ${battleId}`);
       await loadStoredBets(battleId); // Load bets for this battle
     } catch (error) {
       console.error("Error loading bets:", error);
@@ -56,74 +58,26 @@ export default function BattleDetails() {
     };
 
     initializeBattleData();
+    return () => {
+      console.log(`Clearing bets for battle ${battleId}`);
+      setBets([]);
+    };
   }, [battleId]);
 
   // useEffect to store bets in AsyncStorage whenever they change
   useEffect(() => {
     const storeUpdatedBets = async () => {
-      try {
-        if (Array.isArray(bets)) {
-          await storeBets(battleId); // Store only if bets are valid
-        }
-      } catch (error) {
-        console.error("Error storing bets:", error);
+      if (bets.length > 0) {
+        console.log(`Storing bets for battle ${battleId}`);
+        await storeBets(battleId, bets);
+      } else {
+        console.log(`No bets to store for battle ${battleId}`);
+        await AsyncStorage.removeItem(`bets-${battleId}`);
       }
     };
-  
+
     storeUpdatedBets();
-  }, [bets]);
-
-  // useEffect(() => {
-  //   const fetchGames = async () => {
-  //     try {
-  //       if (!battleId) {
-  //         console.error("No battleId provided");
-  //         return;
-  //       }
-
-  //       const response = await api.get(`/games`, {
-  //         params: { battle_id: battleId }, // assuming id corresponds to battle_id
-  //       });
-  //       setGames(response.data);
-  //     } catch (error) {
-  //       console.error("Error fetching games:", error);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchGames();
-  // }, [battleId]);
-
-  // Fetch bets and log them in the correct format
-  // useEffect(() => {
-  //   const fetchBets = async () => {
-  //     try {
-  //       const response = await api.get(
-  //         `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`
-  //       );
-  //       console.log("Fetched Bets:", response.data);
-
-  //       const formattedBets = response.data.map((bet) => ({
-  //         id: bet.id,
-  //         name: bet.bet_option.title,
-  //         betAmount: parseFloat(bet.bet_amount),
-  //         toWinAmount: parseFloat(bet.to_win_amount),
-  //         betType: bet.bet_option.category,
-  //         betOptionID: bet.bet_option_id,
-  //       }));
-
-  //       console.log("Transformed Bets:", formattedBets);
-  //       setBets(formattedBets);
-  //     } catch (error) {
-  //       console.error("Error fetching bets:", error);
-  //     }
-  //   };
-
-  //   if (betslipId) {
-  //     fetchBets(); // Only fetch bets if betslipId is available
-  //   }
-  // }, []);
+  }, [bets, battleId]);
 
   function renderGameCards() {
     return games.map((game) => (

@@ -47,7 +47,7 @@ export const BetProvider = ({ children, battleId }) => {
   const loadStoredBets = async (battleId) => {
     try {
       const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
-      console.log("Stored Bets:", storedBets)
+      console.log("Stored Bets:",`bets-${battleId}`, storedBets)
       if (storedBets) {
         const parsedBets = JSON.parse(storedBets);
         setBets(parsedBets);
@@ -61,48 +61,20 @@ export const BetProvider = ({ children, battleId }) => {
   };
 
   // Store bets in AsyncStorage
-  const storeBets = async (battleId) => {
+
+  const storeBets = async (battleId, betsToStore) => {
     try {
-      if (Array.isArray(bets) && bets.length > 0) {
-        await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(bets));
-        console.log(`Bets successfully stored for battle ${battleId}`);
+      if (betsToStore.length > 0) {
+        await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(betsToStore));
+        console.log(`Stored Bets for battle ${battleId}`);
       } else {
-        // If bets array is empty or invalid, remove the entry from AsyncStorage
         await AsyncStorage.removeItem(`bets-${battleId}`);
-        console.log(`No bets to store. Cleared bets for battle ${battleId}`);
+        console.log(`Cleared Bets for battle ${battleId}`);
       }
     } catch (error) {
       console.error("Failed to store bets:", error);
     }
   };
-
-  // useEffect(() => {
-  //   const loadStoredBets = async () => {
-  //     try {
-  //       const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
-  //       if (storedBets) {
-  //         const parsedBets = JSON.parse(storedBets);
-  //         setBets(parsedBets);
-  //         // Optionally recalculate total bet amounts if needed
-  //         recalculateTotals(parsedBets);
-  //       }
-  //     } catch (error) {
-  //       console.error("Failed to load stored bets:", error);
-  //     }
-  //   };
-  //   loadStoredBets();
-  // }, [battleId]);
-
-  // useEffect(() => {
-  //   const storeBets = async () => {
-  //     try {
-  //       await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(bets));
-  //     } catch (error) {
-  //       console.error("Failed to save bets:", error);
-  //     }
-  //   };
-  //   storeBets();
-  // }, [bets, battleId]);
 
   const updateTotalBetState = (betOptionType, amount, operation) => {
     const stateSetters = {
