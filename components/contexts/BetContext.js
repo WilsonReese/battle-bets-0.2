@@ -14,7 +14,7 @@ export const BetProvider = ({ children, battleId }) => {
   const [totalSpreadOUBet, setTotalSpreadOUBet] = useState(0);
   const [totalMoneyLineBet, setTotalMoneyLineBet] = useState(0);
   const [totalPropBet, setTotalPropBet] = useState(0);
-  const [betOptionType, setBetOptionType] = useState('spreadOU'); // sets SpreadOU as initial bet option type state
+  const [betOptionType, setBetOptionType] = useState("spreadOU"); // sets SpreadOU as initial bet option type state
 
   // Fetch bets from the backend if the betslip status is 'submitted'
   const loadBetsFromBackend = async (poolId, battleId, betslipId) => {
@@ -22,7 +22,7 @@ export const BetProvider = ({ children, battleId }) => {
       const response = await api.get(
         `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`
       );
-  
+
       const transformedBets = response.data.map((bet) => ({
         id: bet.id, // Use the ID from the backend
         name: bet.bet_option.title, // Use the title from bet_option
@@ -31,41 +31,78 @@ export const BetProvider = ({ children, battleId }) => {
         betType: bet.bet_option.category, // Use the category from bet_option
         betOptionID: bet.bet_option_id, // Match the frontend structure
       }));
-  
+
       console.log("Transformed Bets:", transformedBets);
       setBets(transformedBets); // Update state with transformed bets
     } catch (error) {
-      console.error("Error loading bets from backend:", error.response || error);
+      console.error(
+        "Error loading bets from backend:",
+        error.response || error
+      );
     }
   };
 
-  useEffect(() => {
-    const loadStoredBets = async () => {
-      try {
-        const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
-        if (storedBets) {
-          const parsedBets = JSON.parse(storedBets);
-          setBets(parsedBets);
-          // Optionally recalculate total bet amounts if needed
-          recalculateTotals(parsedBets);
-        }
-      } catch (error) {
-        console.error("Failed to load stored bets:", error);
+  // I need to use a UseEffect to load the bets from the backend
+  // Load bets from AsyncStorage
+  const loadStoredBets = async (battleId) => {
+    try {
+      const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+      console.log("Stored Bets:", storedBets)
+      if (storedBets) {
+        const parsedBets = JSON.parse(storedBets);
+        setBets(parsedBets);
+        console.log("Loaded bets from storage:", parsedBets);
+        // Optionally recalculate total bet amounts if needed
+        recalculateTotals(parsedBets);
       }
-    };
-    loadStoredBets();
-  }, [battleId]);
+    } catch (error) {
+      console.error("Failed to load stored bets:", error);
+    }
+  };
 
-  useEffect(() => {
-    const storeBets = async () => {
-      try {
+  // Store bets in AsyncStorage
+  const storeBets = async (battleId) => {
+    try {
+      if (Array.isArray(bets) && bets.length > 0) {
         await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(bets));
-      } catch (error) {
-        console.error("Failed to save bets:", error);
+        console.log(`Bets successfully stored for battle ${battleId}`);
+      } else {
+        // If bets array is empty or invalid, remove the entry from AsyncStorage
+        await AsyncStorage.removeItem(`bets-${battleId}`);
+        console.log(`No bets to store. Cleared bets for battle ${battleId}`);
       }
-    };
-    storeBets();
-  }, [bets, battleId]);
+    } catch (error) {
+      console.error("Failed to store bets:", error);
+    }
+  };
+
+  // useEffect(() => {
+  //   const loadStoredBets = async () => {
+  //     try {
+  //       const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+  //       if (storedBets) {
+  //         const parsedBets = JSON.parse(storedBets);
+  //         setBets(parsedBets);
+  //         // Optionally recalculate total bet amounts if needed
+  //         recalculateTotals(parsedBets);
+  //       }
+  //     } catch (error) {
+  //       console.error("Failed to load stored bets:", error);
+  //     }
+  //   };
+  //   loadStoredBets();
+  // }, [battleId]);
+
+  // useEffect(() => {
+  //   const storeBets = async () => {
+  //     try {
+  //       await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(bets));
+  //     } catch (error) {
+  //       console.error("Failed to save bets:", error);
+  //     }
+  //   };
+  //   storeBets();
+  // }, [bets, battleId]);
 
   const updateTotalBetState = (betOptionType, amount, operation) => {
     const stateSetters = {
@@ -128,7 +165,7 @@ export const BetProvider = ({ children, battleId }) => {
       betType: betType,
       betOptionID: betOptionID,
     };
-    console.log("Bet Context, New Bet:", newBet)
+    console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);
     updateTotalBetState(getBetOptionType(betType), betAmount, "add");
     return newBet;
@@ -138,7 +175,11 @@ export const BetProvider = ({ children, battleId }) => {
     const betToRemove = bets.find((bet) => bet.id === id);
     if (betToRemove) {
       setBets((prevBets) => prevBets.filter((bet) => bet.id !== id));
-      updateTotalBetState(getBetOptionType(betToRemove.betType), betToRemove.betAmount, "remove");
+      updateTotalBetState(
+        getBetOptionType(betToRemove.betType),
+        betToRemove.betAmount,
+        "remove"
+      );
     }
   };
 
@@ -157,7 +198,11 @@ export const BetProvider = ({ children, battleId }) => {
     );
 
     setBets(updatedBets);
-    updateTotalBetState(getBetOptionType(previousBet.betType), newBetAmount - previousBetAmount, "update");
+    updateTotalBetState(
+      getBetOptionType(previousBet.betType),
+      newBetAmount - previousBetAmount,
+      "update"
+    );
   };
 
   const getBetOptionType = (betType) => {
@@ -190,12 +235,12 @@ export const BetProvider = ({ children, battleId }) => {
 
   const getBetOptionLongTitle = (betOptionType) => {
     const betOptionLongTitleByType = {
-      spreadOU: 'Spread and Over/Under',
-      moneyLine: 'Money Line',
-      prop: 'Prop Bets',
+      spreadOU: "Spread and Over/Under",
+      moneyLine: "Money Line",
+      prop: "Prop Bets",
     };
-    return betOptionLongTitleByType[betOptionType]
-  }
+    return betOptionLongTitleByType[betOptionType];
+  };
 
   const areAllBetsComplete = () => {
     return (
@@ -234,12 +279,16 @@ export const BetProvider = ({ children, battleId }) => {
         setPropBetBudget,
         totalPropBet,
         betOptionType,
-        setBetOptionType, 
+        setBetOptionType,
         getBetOptionType,
         getBudget,
         getTotalBetAmount,
-        getBetOptionLongTitle, 
+        getBetOptionLongTitle,
         areAllBetsComplete,
+        loadStoredBets,
+        storeBets,
+        // loadBetsFromBackend
+        setBets,
         // submitBets,
       }}
     >
@@ -247,3 +296,86 @@ export const BetProvider = ({ children, battleId }) => {
     </BetContext.Provider>
   );
 };
+
+// // Fetch bets from the backend if the betslip status is 'submitted'
+// const loadBetsFromBackend = async () => {
+//   try {
+//     const response = await api.get(
+//       `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`
+//     );
+
+//     const transformedBets = response.data.map((bet) => ({
+//       id: bet.id, // Use the ID from the backend
+//       name: bet.bet_option.title, // Use the title from bet_option
+//       betAmount: parseFloat(bet.bet_amount),
+//       toWinAmount: parseFloat(bet.to_win_amount),
+//       betType: bet.bet_option.category, // Use the category from bet_option
+//       betOptionID: bet.bet_option_id, // Match the frontend structure
+//     }));
+
+//     console.log("Transformed Bets:", transformedBets);
+//     setBets(transformedBets); // Update state with transformed bets
+//   } catch (error) {
+//     console.error("Error loading bets from backend:", error.response || error);
+//   }
+// };
+
+// // On mount, prioritize loading bets from AsyncStorage
+// useEffect(() => {
+//   const loadBets = async () => {
+//     const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+//     if (storedBets) {
+//       const parsedBets = JSON.parse(storedBets);
+//       console.log("Loaded bets from AsyncStorage:", parsedBets);
+//       setBets(parsedBets);
+//     }
+
+//     // If no stored bets OR betslip is 'submitted', load from backend
+//     if (!storedBets && betslipStatus === "submitted") {
+//       console.log("Loading bets from backend...");
+//       await loadBetsFromBackend();
+//     }
+//   };
+
+//   loadBets();
+// }, [battleId]);
+
+// BattleDetails
+// Fetch games from the backend
+// const fetchGames = async () => {
+//   try {
+//     if (!battleId) {
+//       console.error("No battleId provided");
+//       return;
+//     }
+
+//     const response = await api.get(`/games`, {
+//       params: { battle_id: battleId }, // assuming id corresponds to battle_id
+//     });
+//     setGames(response.data);
+//   } catch (error) {
+//     console.error("Error fetching games:", error);
+//   }
+// };
+
+// // Fetch the betslip status from the backend
+// const fetchBetslipStatus = async () => {
+//   try {
+//     const betslipResponse = await api.get(
+//       `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}`
+//     );
+//     setBetslipStatus(betslipResponse.data.status); // Store betslip status
+//   } catch (error) {
+//     console.error("Error fetching betslip status:", error);
+//   }
+// };
+
+// useEffect(() => {
+//   const fetchData = async () => {
+//     await fetchGames();
+//     await fetchBetslipStatus();
+//     setLoading(false); // Set loading to false once both requests are complete
+//   };
+
+//   fetchData();
+// }, [battleId]);
