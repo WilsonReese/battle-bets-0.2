@@ -54,6 +54,8 @@ export const BetProvider = ({ children, battleId }) => {
         console.log("Loaded bets from storage:", parsedBets);
         // Optionally recalculate total bet amounts if needed
         recalculateTotals(parsedBets);
+      } else {
+        console.log(`No stored bets for battle ${battleId}`);
       }
     } catch (error) {
       console.error("Failed to load stored bets:", error);
@@ -66,10 +68,10 @@ export const BetProvider = ({ children, battleId }) => {
     try {
       if (betsToStore.length > 0) {
         await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(betsToStore));
-        console.log(`Stored Bets for battle ${battleId}`);
+        // console.log(`Stored Bets for battle ${battleId}`);
       } else {
         await AsyncStorage.removeItem(`bets-${battleId}`);
-        console.log(`Cleared Bets for battle ${battleId}`);
+        // console.log(`Cleared Bets for battle ${battleId}`);
       }
     } catch (error) {
       console.error("Failed to store bets:", error);

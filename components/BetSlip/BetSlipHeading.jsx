@@ -19,7 +19,7 @@ export function BetSlipHeading({
   battleId
 }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
-  const { bets, areAllBetsComplete } = useBetContext();
+  const { bets, areAllBetsComplete, setBets } = useBetContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const arrowSubmitIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
@@ -67,10 +67,16 @@ export function BetSlipHeading({
 
       // 3. Clear the bets for the current battle in AsyncStorage
       await AsyncStorage.removeItem(`bets-${battleId}`);
-      Alert.alert("Success", "Bets submitted successfully!");
+      console.log("Async storage cleared");
+      const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+      console.log("Stored Bets:",`bets-${battleId}`, storedBets)
 
+      setBets([]);
+      console.log("Bet state cleared");
+      
       // 4. Navigate to the pool page
       router.push(`/pools/${poolId}`);
+      Alert.alert("Success", "Bets submitted successfully!");
 
     } catch (error) {
       console.error("Error submitting bets:", error.response || error);
