@@ -1,6 +1,7 @@
 import React, { createContext, useState, useContext, useEffect } from "react";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import api from "../../utils/axiosConfig";
 
 const BetContext = createContext();
 
@@ -17,48 +18,107 @@ export const BetProvider = ({ children, battleId }) => {
   const [betOptionType, setBetOptionType] = useState("spreadOU"); // sets SpreadOU as initial bet option type state
 
   // Fetch bets from the backend if the betslip status is 'submitted'
-  const loadBetsFromBackend = async (poolId, battleId, betslipId) => {
+  // const loadBetsFromBackend = async (poolId, battleId, betslipId) => {
+  //   try {
+  //     const response = await api.get(
+  //       `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`
+  //     );
+
+  //     const { bets, status } = response.data;
+
+  //     const transformedBets = bets.map((bet) => ({
+  //       id: bet.id, // Use the ID from the backend
+  //       name: bet.bet_option.title, // Use the title from bet_option
+  //       betAmount: parseFloat(bet.bet_amount),
+  //       toWinAmount: parseFloat(bet.to_win_amount),
+  //       betType: bet.bet_option.category, // Use the category from bet_option
+  //       betOptionID: bet.bet_option_id, // Match the frontend structure
+  //     }));
+
+  //     console.log("Transformed Bets:", transformedBets);
+  //     // Store bets in AsyncStorage if the betslip is submitted
+  //     if (status === "submitted") {
+  //       await AsyncStorage.setItem(
+  //         `bets-${battleId}`,
+  //         JSON.stringify(transformedBets)
+  //       );
+  //     }
+
+  //     setBets(transformedBets); // Update state with transformed bets
+  //     recalculateTotals(transformedBets);
+  //   } catch (error) {
+  //     console.error(
+  //       "Error loading bets from backend:",
+  //       error.response || error
+  //     );
+  //   }
+  // };
+
+  // // I need to use a UseEffect to load the bets from the backend
+  // // Load bets from AsyncStorage
+  // const loadStoredBets = async (battleId) => {
+  //   try {
+  //     const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+  //     console.log("Stored Bets:", `bets-${battleId}`, storedBets);
+  //     if (storedBets) {
+  //       const parsedBets = JSON.parse(storedBets);
+  //       setBets(parsedBets);
+  //       console.log("Loaded bets from storage:", parsedBets);
+  //       // Optionally recalculate total bet amounts if needed
+  //       recalculateTotals(parsedBets);
+  //     } else {
+  //       console.log(`No stored bets for battle ${battleId}`);
+  //     }
+  //   } catch (error) {
+  //     console.error("Failed to load stored bets:", error);
+  //   }
+  // };
+
+  const loadBets = async (poolId, battleId, betslipId) => {
     try {
+      // Step 1: Check AsyncStorage for existing bets
+      const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+      if (storedBets) {
+        const parsedBets = JSON.parse(storedBets);
+        console.log("Loaded bets from storage:", parsedBets);
+        setBets(parsedBets);
+        recalculateTotals(parsedBets);
+        return; // Exit early since bets were loaded from storage
+      }
+  
+      // Step 2: If no stored bets, fetch from backend
       const response = await api.get(
         `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`
       );
-
-      const transformedBets = response.data.map((bet) => ({
-        id: bet.id, // Use the ID from the backend
-        name: bet.bet_option.title, // Use the title from bet_option
-        betAmount: parseFloat(bet.bet_amount),
-        toWinAmount: parseFloat(bet.to_win_amount),
-        betType: bet.bet_option.category, // Use the category from bet_option
-        betOptionID: bet.bet_option_id, // Match the frontend structure
-      }));
-
-      console.log("Transformed Bets:", transformedBets);
-      setBets(transformedBets); // Update state with transformed bets
-    } catch (error) {
-      console.error(
-        "Error loading bets from backend:",
-        error.response || error
-      );
-    }
-  };
-
-  // I need to use a UseEffect to load the bets from the backend
-  // Load bets from AsyncStorage
-  const loadStoredBets = async (battleId) => {
-    try {
-      const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
-      console.log("Stored Bets:",`bets-${battleId}`, storedBets)
-      if (storedBets) {
-        const parsedBets = JSON.parse(storedBets);
-        setBets(parsedBets);
-        console.log("Loaded bets from storage:", parsedBets);
-        // Optionally recalculate total bet amounts if needed
-        recalculateTotals(parsedBets);
+  
+      const { bets, status } = response.data;
+  
+      if (status === "submitted") {
+        const transformedBets = bets.map((bet) => ({
+          id: bet.id,
+          name: bet.bet_option.title,
+          betAmount: parseFloat(bet.bet_amount),
+          toWinAmount: parseFloat(bet.to_win_amount),
+          betType: bet.bet_option.category,
+          betOptionID: bet.bet_option_id,
+        }));
+  
+        console.log("Transformed Bets from Backend:", transformedBets);
+  
+        // Store the bets in AsyncStorage
+        await AsyncStorage.setItem(
+          `bets-${battleId}`,
+          JSON.stringify(transformedBets)
+        );
+  
+        // Update state with the transformed bets
+        setBets(transformedBets);
+        recalculateTotals(transformedBets);
       } else {
-        console.log(`No stored bets for battle ${battleId}`);
+        console.log(`Betslip for battle ${battleId} not submitted. No bets loaded.`);
       }
     } catch (error) {
-      console.error("Failed to load stored bets:", error);
+      console.error("Error loading bets:", error);
     }
   };
 
@@ -67,7 +127,10 @@ export const BetProvider = ({ children, battleId }) => {
   const storeBets = async (battleId, betsToStore) => {
     try {
       if (betsToStore.length > 0) {
-        await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(betsToStore));
+        await AsyncStorage.setItem(
+          `bets-${battleId}`,
+          JSON.stringify(betsToStore)
+        );
         // console.log(`Stored Bets for battle ${battleId}`);
       } else {
         await AsyncStorage.removeItem(`bets-${battleId}`);
@@ -259,9 +322,10 @@ export const BetProvider = ({ children, battleId }) => {
         getTotalBetAmount,
         getBetOptionLongTitle,
         areAllBetsComplete,
-        loadStoredBets,
+        loadBets,
+        // loadStoredBets,
         storeBets,
-        // loadBetsFromBackend
+        // loadBetsFromBackend,
         setBets,
         // submitBets,
       }}

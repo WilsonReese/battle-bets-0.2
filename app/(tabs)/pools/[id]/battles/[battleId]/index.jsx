@@ -22,7 +22,7 @@ export default function BattleDetails() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef(null);
-  const { bets, setBets, loadStoredBets, storeBets } = useBetContext(); // Access context function
+  const { bets, setBets, loadStoredBets, storeBets, loadBetsFromBackend, loadBets } = useBetContext(); // Access context function
   // const [bets, setBets] = useState([]);
   // const { setBets } = useBetContext();
 
@@ -39,29 +39,36 @@ export default function BattleDetails() {
   };
 
   // Function to load bets from AsyncStorage
-  const loadBets = async () => {
-    try {
-      console.log(`Loading bets for battle ${battleId}`);
-      await loadStoredBets(battleId); // Load bets for this battle
-    } catch (error) {
-      console.error("Error loading bets:", error);
-    }
-  };
+  // const loadBets = async () => {
+  //   try {
+  //     const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+
+  //     if (storedBets) {
+  //       console.log(`Loading bets for battle ${battleId}`);
+  //       await loadStoredBets(battleId); // Load bets for this battle
+  //     } else {
+  //       console.log("No stored bets, loading from backend...");
+  //       await loadBetsFromBackend(poolId, battleId, betslipId);
+  //     }
+  //   } catch (error) {
+  //     console.error("Error loading bets:", error);
+  //   }
+  // };
 
   // useEffect to trigger fetching games and loading bets on mount
   useEffect(() => {
     const initializeBattleData = async () => {
       setLoading(true);
       await fetchGames();
-      await loadBets();
+      await loadBets(poolId, battleId, betslipId);
       setLoading(false);
     };
 
     initializeBattleData();
-    return () => {
-      console.log(`Clearing bets for battle ${battleId}`);
-      setBets([]);
-    };
+    // return () => {
+    //   console.log(`Clearing bets for battle ${battleId}`);
+    //   setBets([]);
+    // };
   }, [battleId]);
 
   // useEffect to store bets in AsyncStorage whenever they change
