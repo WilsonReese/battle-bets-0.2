@@ -1,5 +1,11 @@
 import React, { useEffect, useRef, useState } from "react";
-import { StyleSheet, View, Animated, TouchableOpacity, Alert } from "react-native";
+import {
+  StyleSheet,
+  View,
+  Animated,
+  TouchableOpacity,
+  Alert,
+} from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
@@ -16,10 +22,10 @@ export function BetSlipHeading({
   toggleBetSlip,
   scrollViewRef,
   betslipId,
-  battleId
+  battleId,
 }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
-  const { bets, areAllBetsComplete, setBets } = useBetContext();
+  const { bets, areAllBetsComplete, setBets, betsToRemove, setBetsToRemove } = useBetContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const arrowSubmitIcon = (
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
@@ -53,31 +59,63 @@ export function BetSlipHeading({
 
     try {
       // 1. Make API request to create bets in the backend
-      const response = await api.post(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`, {
-        bets: bets.map(bet => ({
-          bet_option_id: bet.betOptionID, 
-          bet_amount: bet.betAmount,
-        })),
-      });
-      console.log("Bets submitted, response:", response.data);
+      // const response = await api.post(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`, {
+      //   bets: bets.map(bet => ({
+      //     bet_option_id: bet.betOptionID,
+      //     bet_amount: bet.betAmount,
+      //   })),
+      // });
+      // console.log("Bets submitted, response:", response.data);
+      // Categorize the bets: new, updated, and removed
+      const newBets = bets.filter((bet) => bet.isNew);
+      const updatedBets = bets.filter(
+        (bet) => !bet.isNew && !betsToRemove.includes(bet.id)
+      );
+      const removedBets = betsToRemove;
+
+      // Prepare the payload
+      const payload = {
+        bets: {
+          new_bets: newBets.map(({ betOptionID, betAmount }) => ({
+            bet_option_id: betOptionID,
+            bet_amount: betAmount,
+          })),
+          updated_bets: updatedBets.map(({ id, betOptionID, betAmount }) => ({
+            id,
+            bet_option_id: betOptionID,
+            bet_amount: betAmount,
+          })),
+          removed_bets: betsToRemove,
+        },
+      };
+      
+      // Call the backend endpoint with the unified logic
+      const response = await api.patch(
+        `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`,
+        payload
+      );
+      console.log("Bets submitted", response.data);
 
       // 2. After bets are successfully created, update the betslip status
-      await api.patch(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}`, { status: "submitted" });
+      await api.patch(
+        `pools/${poolId}/battles/${battleId}/betslips/${betslipId}`,
+        { status: "submitted" }
+      );
       console.log("Betslip status updated to submitted");
 
       // 3. Clear the bets for the current battle in AsyncStorage
       await AsyncStorage.removeItem(`bets-${battleId}`);
       console.log("Async storage cleared");
       const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
-      console.log("Stored Bets:",`bets-${battleId}`, storedBets)
+      console.log("Stored Bets:", `bets-${battleId}`, storedBets);
 
       setBets([]);
+      setBetsToRemove([]);
       console.log("Bet state cleared");
-      
+
       // 4. Navigate to the pool page
       router.push(`/pools/${poolId}`);
       Alert.alert("Success", "Bets submitted successfully!");
-
     } catch (error) {
       console.error("Error submitting bets:", error.response || error);
       Alert.alert("Error", "Failed to submit bets.");
@@ -191,14 +229,13 @@ const s = StyleSheet.create({
   },
 });
 
-
 // const handleSubmitBets = async () => {
 //   if (isSubmitting) return;
 //   setIsSubmitting(true);
 
 //   try {
 //     const newBets = bets.filter((bet) => !bet.id); // Bets without an ID are new
-//     const updatedBets = bets.filter((bet) => bet.id && !betsToRemove.includes(bet.id)); 
+//     const updatedBets = bets.filter((bet) => bet.id && !betsToRemove.includes(bet.id));
 //     const removedBetIds = betsToRemove; // Bets to remove
 
 //     const payload = {
@@ -229,4 +266,3 @@ const s = StyleSheet.create({
 //     setIsSubmitting(false);
 //   }
 // };
-

@@ -320,11 +320,12 @@ export const BetProvider = ({ children, battleId }) => {
     <BetContext.Provider
       value={{
         bets,
+        setBets,
         addBet,
         removeBet,
         updateBet,
-        setBets,
         betsToRemove,
+        setBetsToRemove,
         spreadOUBudget,
         setSpreadOUBudget,
         totalSpreadOUBet,
