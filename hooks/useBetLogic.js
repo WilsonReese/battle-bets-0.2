@@ -30,32 +30,22 @@ export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs
     }
   }, [selection]);
 
-  // Listens for changes in the bets and sets the selection to option one or two
-  useEffect(() => {
-    const selectedBet = bets.find((bet) => bet.id === currentBetId);
-    if (selectedBet) {
-      setSelection({
-        optionOne: selectedBet.name === optionOne,
-        optionTwo: selectedBet.name === optionTwo,
-      });
-    } else {
-      setSelection({ optionOne: false, optionTwo: false });
-    }
-  }, [bets, currentBetId, optionOne, optionTwo]);
-
-  // Listens for opening option one or option two
-  useEffect(() => {
-    const betOptionOne = bets.find((bet) => bet.name === optionOne && bet.betType === betType);
-    const betOptionTwo = bets.find((bet) => bet.name === optionTwo && bet.betType === betType);
-
-    if (betOptionOne) {
-      setSelection({ optionOne: true, optionTwo: false });
-      setCurrentBetId(betOptionOne.id);
-    } else if (betOptionTwo) {
-      setSelection({ optionOne: false, optionTwo: true });
-      setCurrentBetId(betOptionTwo.id);
-    }
-  }, [optionOne, optionTwo, bets, betType]);
+    // Sets the selection state based on the loaded bets
+    useEffect(() => {
+      const selectedBet = bets.find((bet) => 
+        (bet.name === optionOne || bet.name === optionTwo) && bet.betType === betType
+      );
+  
+      if (selectedBet) {
+        setSelection({
+          optionOne: selectedBet.name === optionOne,
+          optionTwo: selectedBet.name === optionTwo,
+        });
+        setCurrentBetId(selectedBet.id);
+      } else {
+        setSelection({ optionOne: false, optionTwo: false });
+      }
+    }, [bets, optionOne, optionTwo, betType]);
 
   // Gets title for bet e.g., 'Vanderbilt -6.5'
   const getTitle = (type) => {
@@ -91,19 +81,7 @@ export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs
       deselectBet();
     } else {
       removeBet(currentBetId);
-      const title = getTitle(type);
-      const payout = payouts[type]; // Get the correct payout based on the type
-      const betOptionID = betOptionIDs[type]
-      setSelection({ [type]: true });
-      const newBet = addBet({
-        title: title,
-        betAmount: minBet,
-        payout: payout,
-        betType: betType,
-        betOptionID: betOptionID
-      });
-      console.log("useBetLogic, Toggled to New Bet:", newBet)
-      setCurrentBetId(newBet.id);
+      selectBet(type);
     }
   };
 
