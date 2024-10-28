@@ -22,7 +22,7 @@ export default function BattleDetails() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef(null);
-  const { bets, setBets, loadStoredBets, storeBets, loadBetsFromBackend, loadBets } = useBetContext(); // Access context function
+  const { bets, storeBets, loadBets } = useBetContext(); // Access context function
   // const [bets, setBets] = useState([]);
   // const { setBets } = useBetContext();
 

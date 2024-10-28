@@ -227,6 +227,7 @@ export const BetProvider = ({ children, battleId }) => {
       if (!betToRemove.isNew) {
         setBetsToRemove((prev) => [...prev, betToRemove.id]);
       }
+      console.log('Removed Bet:', betToRemove)
       setBets((prevBets) => prevBets.filter((bet) => bet.id !== id));
       updateTotalBetState(
         getBetOptionType(betToRemove.betType),

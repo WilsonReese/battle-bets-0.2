@@ -85,9 +85,11 @@ export function BetSlipHeading({
             bet_option_id: betOptionID,
             bet_amount: betAmount,
           })),
-          removed_bets: betsToRemove,
+          removed_bets: removedBets,
         },
       };
+
+      console.log('Removed Bets:', removedBets)
       
       // Call the backend endpoint with the unified logic
       const response = await api.patch(
