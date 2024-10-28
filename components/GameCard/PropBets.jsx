@@ -16,7 +16,7 @@ export function PropBets({ betOptions, homeTeam, awayTeam }) {
         optionOne: option.id,
         optionTwo: option.id
       }
-      const optionLongTitle = `${homeTeam} v ${awayTeam}: ${option.title}`;
+      const optionLongTitle = option.long_title
       const {
         selection,
         isEnabled,

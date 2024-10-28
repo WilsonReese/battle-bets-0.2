@@ -96,7 +96,7 @@ export const BetProvider = ({ children, battleId }) => {
       if (status === "submitted") {
         const transformedBets = bets.map((bet) => ({
           id: bet.id,
-          name: bet.bet_option.title,
+          name: bet.bet_option.long_title,
           betAmount: parseFloat(bet.bet_amount),
           toWinAmount: parseFloat(bet.to_win_amount),
           betType: convertToCamelCase(bet.bet_option.category),

@@ -12,8 +12,8 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
   
   const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
   const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
-  const awaySpreadLongTitle = `${awayTeam} at ${homeTeam}: ${awaySpread.title}`;
-  const homeSpreadLongTitle = `${awayTeam} at ${homeTeam}: ${homeSpread.title}`;
+  const awaySpreadLongTitle = awaySpread.long_title
+  const homeSpreadLongTitle = homeSpread.long_title
   
   const payouts = {
     optionOne: awaySpread.payout,

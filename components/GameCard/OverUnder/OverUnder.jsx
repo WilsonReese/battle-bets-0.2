@@ -13,8 +13,8 @@ export function OverUnder({ ouOptions, ou, ouPayout, homeTeam, awayTeam }) {
   const over = ouOptions[0];
   const under = ouOptions[1];
   
-  const overLongTitle = `${homeTeam} v ${awayTeam}: ${over.title}`;
-  const underLongTitle = `${homeTeam} v ${awayTeam}: ${under.title}`;
+  const overLongTitle = over.long_title
+  const underLongTitle = under.long_title
   const payouts = {
     optionOne: over.payout,
     optionTwo: under.payout,

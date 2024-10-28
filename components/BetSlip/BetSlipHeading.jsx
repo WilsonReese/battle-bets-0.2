@@ -55,7 +55,7 @@ export function BetSlipHeading({
       // 1. Make API request to create bets in the backend
       const response = await api.post(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`, {
         bets: bets.map(bet => ({
-          bet_option_id: bet.betOptionID, // Assuming bet ID maps to bet_option_id
+          bet_option_id: bet.betOptionID, 
           bet_amount: bet.betAmount,
         })),
       });

@@ -12,8 +12,8 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
 
   const awayMoneyLine = moneyLineOptions[0]; // Assuming the first option is for the away team
   const homeMoneyLine = moneyLineOptions[1]; // Assuming the second option is for the home team
-  const awayMoneyLineLongTitle = `${awayTeam} at ${homeTeam}: ${awayMoneyLine.title}`;
-  const homeMoneyLineLongTitle = `${awayTeam} at ${homeTeam}: ${homeMoneyLine.title}`;
+  const awayMoneyLineLongTitle = awayMoneyLine.long_title
+  const homeMoneyLineLongTitle = homeMoneyLine.long_title
   
   const payouts = {
     optionOne: awayMoneyLine.payout,
