@@ -99,7 +99,7 @@ export const BetProvider = ({ children, battleId }) => {
           name: bet.bet_option.title,
           betAmount: parseFloat(bet.bet_amount),
           toWinAmount: parseFloat(bet.to_win_amount),
-          betType: bet.bet_option.category,
+          betType: convertToCamelCase(bet.bet_option.category),
           betOptionID: bet.bet_option_id,
         }));
   
@@ -139,6 +139,16 @@ export const BetProvider = ({ children, battleId }) => {
     } catch (error) {
       console.error("Failed to store bets:", error);
     }
+  };
+
+  const convertToCamelCase = (betType) => {
+    const betTypeCamelCase = {
+      spread: "spread",
+      ou: "overUnder",
+      money_line: "moneyLine",
+      prop: "prop",
+    };
+    return betTypeCamelCase[betType] || "spreadOU"; // Default to "spreadOU" if not found
   };
 
   const updateTotalBetState = (betOptionType, amount, operation) => {
