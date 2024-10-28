@@ -16,6 +16,7 @@ export const BetProvider = ({ children, battleId }) => {
   const [totalMoneyLineBet, setTotalMoneyLineBet] = useState(0);
   const [totalPropBet, setTotalPropBet] = useState(0);
   const [betOptionType, setBetOptionType] = useState("spreadOU"); // sets SpreadOU as initial bet option type state
+  const [betsToRemove, setBetsToRemove] = useState([]); // State for tracking bets to remove
 
   // Fetch bets from the backend if the betslip status is 'submitted'
   // const loadBetsFromBackend = async (poolId, battleId, betslipId) => {
@@ -211,6 +212,7 @@ export const BetProvider = ({ children, battleId }) => {
       toWinAmount: betAmount * payout,
       betType: betType,
       betOptionID: betOptionID,
+      isNew: true, // Flag to indicate it's a new bet
     };
     console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);
@@ -221,6 +223,10 @@ export const BetProvider = ({ children, battleId }) => {
   const removeBet = (id) => {
     const betToRemove = bets.find((bet) => bet.id === id);
     if (betToRemove) {
+          // Add the removed bet to betsToRemove only if it exists in the backend
+      if (!betToRemove.isNew) {
+        setBetsToRemove((prev) => [...prev, betToRemove.id]);
+      }
       setBets((prevBets) => prevBets.filter((bet) => bet.id !== id));
       updateTotalBetState(
         getBetOptionType(betToRemove.betType),
@@ -228,6 +234,7 @@ export const BetProvider = ({ children, battleId }) => {
         "remove"
       );
     }
+    // console.log('Bet removed:', betToRemove)
   };
 
   const updateBet = (id, newBetAmount, payout) => {
@@ -316,6 +323,8 @@ export const BetProvider = ({ children, battleId }) => {
         addBet,
         removeBet,
         updateBet,
+        setBets,
+        betsToRemove,
         spreadOUBudget,
         setSpreadOUBudget,
         totalSpreadOUBet,
@@ -336,7 +345,6 @@ export const BetProvider = ({ children, battleId }) => {
         // loadStoredBets,
         storeBets,
         // loadBetsFromBackend,
-        setBets,
         // submitBets,
       }}
     >

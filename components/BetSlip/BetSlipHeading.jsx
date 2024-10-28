@@ -190,3 +190,43 @@ const s = StyleSheet.create({
     fontSize: 18,
   },
 });
+
+
+// const handleSubmitBets = async () => {
+//   if (isSubmitting) return;
+//   setIsSubmitting(true);
+
+//   try {
+//     const newBets = bets.filter((bet) => !bet.id); // Bets without an ID are new
+//     const updatedBets = bets.filter((bet) => bet.id && !betsToRemove.includes(bet.id)); 
+//     const removedBetIds = betsToRemove; // Bets to remove
+
+//     const payload = {
+//       new_bets: newBets.map(({ betOptionID, betAmount }) => ({
+//         bet_option_id: betOptionID,
+//         bet_amount: betAmount,
+//       })),
+//       updated_bets: updatedBets.map(({ id, betOptionID, betAmount }) => ({
+//         id,
+//         bet_option_id: betOptionID,
+//         bet_amount: betAmount,
+//       })),
+//       removed_bet_ids: removedBetIds,
+//     };
+
+//     const response = await api.patch(
+//       `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`,
+//       { bets: payload }
+//     );
+
+//     console.log("Bets successfully updated:", response.data);
+//     Alert.alert("Success", "Bets updated successfully!");
+//     router.push(`/pools/${poolId}`);
+//   } catch (error) {
+//     console.error("Error updating bets:", error.response || error);
+//     Alert.alert("Error", "Failed to update bets.");
+//   } finally {
+//     setIsSubmitting(false);
+//   }
+// };
+
