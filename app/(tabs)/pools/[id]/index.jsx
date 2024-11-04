@@ -105,8 +105,46 @@ export default function PoolDetails() {
         <View style={s.currentBattleContainer}>
           <Txt style={s.txt}>Current Battle</Txt>
           <Txt style={s.txt}># Players</Txt>
-          <Leaderboard userBetslip={userBetslip} poolId={poolId} battleId={latestBattle.id}/>
-          <View style={s.btnContainer}>
+
+          {/* Betslip has not been created */}
+          {!userBetslip && (
+            <Btn
+            btnText={"Make Bets"}
+            style={s.btn}
+            isEnabled={true}
+            onPress={() => handleMakeBets(latestBattle.id, poolId)}
+          />
+          )}
+
+          {/* Betslip has been created but not submitted */}
+          {userBetslip && userBetslip.status == "created" && (
+            <View>
+              <Txt style={s.txt}>
+                Edit button with indication that betslip not submitted
+              </Txt>
+              <Btn
+                btnText={"Edit Bets"}
+                style={s.btn}
+                isEnabled={true}
+                onPress={() =>
+                  router.push(
+                    `/pools/${poolId}/battles/${latestBattle.id}/?betslipId=${userBetslip.id}`
+                  )
+                }
+              />
+            </View>
+          )}
+
+          {/* Betslip is submitted */}
+          {userBetslip && userBetslip.status == "submitted" && (
+            <Leaderboard
+              userBetslip={userBetslip}
+              poolId={poolId}
+              battleId={latestBattle.id}
+            />
+          )}
+
+          {/* <View style={s.btnContainer}>
             {userBetslip ? (
               // Show "Edit Bets" button if betslip exists
               <Btn
@@ -128,7 +166,7 @@ export default function PoolDetails() {
                 onPress={() => handleMakeBets(latestBattle.id, poolId)}
               />
             )}
-          </View>
+          </View> */}
         </View>
         <Txt style={s.txt}>List of all battles</Txt>
         {battles.map((battle) => (

@@ -7,18 +7,21 @@ export function Leaderboard({ userBetslip, poolId, battleId }) {
     <View>
       <View style={s.container}>
         <View style={s.firstHeaderElement}>
-          <Txt style={s.txt}>Player</Txt>
+          <Txt style={s.headerTxt}>Player</Txt>
         </View>
         <View style={s.headerElement}>
-          <Txt style={s.txt}>Won</Txt>
+          <Txt style={s.headerTxt}>Won</Txt>
         </View>
         <View style={s.headerElement}>
-          <Txt style={s.txt}>Max</Txt>
+          <Txt style={s.headerTxt}>Max</Txt>
         </View>
         <View style={s.headerElement} />
       </View>
       <View>
-        <Row betslip={userBetslip} poolId={poolId} battleId={battleId}/>
+        <Row betslip={userBetslip} poolId={poolId} battleId={battleId} />
+      </View>
+      <View style={s.hiddenBetslips}>
+        <Txt style={s.txt}>Other betslips hidden until games start</Txt>
       </View>
     </View>
   );
@@ -38,12 +41,21 @@ const s = StyleSheet.create({
   },
   headerElement: {
     flex: 1,
-    alignItems: 'center',
+    alignItems: "center",
   },
-  txt: {
+  headerTxt: {
     fontFamily: "Saira_600SemiBold",
     color: "#061826",
     fontSize: 16,
     // textAlign: "center",
+  },
+  txt: {
+    fontFamily: "Saira_400Regular_Italic",
+    color: "#061826",
+    fontSize: 14,
+    // textAlign: "center",
+  },
+  hiddenBetslips: {
+    alignItems: 'center'
   },
 });
