@@ -1,14 +1,14 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function Row({}) {
+export function Row({ betslip }) {
   return (
     <View style={s.container}>
       <View style={s.firstRowElement}>
         <Txt style={s.txt}>Reese</Txt>
       </View>
       <View style={s.rowElement}>
-        <Txt style={s.txt}>$0</Txt>
+        <Txt style={s.txt}>${betslip.earnings}</Txt>
       </View>
       <View style={s.rowElement}>
         <Txt style={s.txt}>$10000</Txt>

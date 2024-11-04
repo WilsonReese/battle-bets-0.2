@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Row } from "./Row";
 
-export function Leaderboard({}) {
+export function Leaderboard({ userBetslip }) {
   return (
     <View>
       <View style={s.container}>
@@ -18,7 +18,7 @@ export function Leaderboard({}) {
         <View style={s.headerElement} />
       </View>
       <View>
-        <Row />
+        <Row betslip={userBetslip}/>
       </View>
     </View>
   );
