@@ -25,7 +25,7 @@ export function Btn({
       onPress={isEnabled ? onPress : null}
     >
       <Txt style={s.btnText}>
-        {btnText} {icon}
+        {btnText}{icon}
       </Txt>
       {btnSecondaryText && (
         <Txt style={s.btnSecondaryText}>{btnSecondaryText}</Txt>

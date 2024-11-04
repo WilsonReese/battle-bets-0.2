@@ -1,20 +1,38 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
+import { Btn } from "../general/Buttons/Btn";
+import { router } from "expo-router";
 
-export function Row({ betslip }) {
+export function Row({ betslip, poolId, battleId }) {
   return (
     <View style={s.container}>
-      <View style={s.firstRowElement}>
-        <Txt style={s.txt}>Reese</Txt>
-      </View>
+      {betslip && (
+        <View style={s.firstRowElement}>
+          <Txt style={s.txt}>{betslip.name}</Txt>
+        </View>
+      )}
+      {betslip && (
+        <View style={s.rowElement}>
+          <Txt style={s.txt}>${betslip.earnings}</Txt>
+        </View>
+      )}
+
+      {betslip && (
+        <View style={s.rowElement}>
+          <Txt style={s.txt}>${betslip.max_payout_remaining}</Txt>
+        </View>
+      )}
       <View style={s.rowElement}>
-        <Txt style={s.txt}>${betslip.earnings}</Txt>
-      </View>
-      <View style={s.rowElement}>
-        <Txt style={s.txt}>$10000</Txt>
-      </View>
-      <View style={s.rowElement}>
-        <Txt style={s.txt}>Button</Txt>
+        <Btn
+          btnText={"Edit"}
+          style={s.btn}
+          isEnabled={true}
+          onPress={() =>
+            router.push(
+              `/pools/${poolId}/battles/${battleId}/?betslipId=${betslip.id}`
+            )
+          }
+        />
       </View>
     </View>
   );
@@ -24,6 +42,8 @@ const s = StyleSheet.create({
   container: {
     flexDirection: "row",
     justifyContent: "space-between",
+    alignItems: 'center',
+    marginVertical: 4,
   },
   firstRowElement: {
     flex: 1.75,
@@ -35,5 +55,10 @@ const s = StyleSheet.create({
   txt: {
     color: "#061826",
     fontSize: 14,
+  },
+  btn: {
+    paddingVertical: 2,
+    paddingHorizontal:12,
+    // margin: 4,
   },
 });

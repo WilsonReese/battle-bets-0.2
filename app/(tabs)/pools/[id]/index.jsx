@@ -105,7 +105,7 @@ export default function PoolDetails() {
         <View style={s.currentBattleContainer}>
           <Txt style={s.txt}>Current Battle</Txt>
           <Txt style={s.txt}># Players</Txt>
-          <Leaderboard userBetslip={userBetslip}/>
+          <Leaderboard userBetslip={userBetslip} poolId={poolId} battleId={latestBattle.id}/>
           <View style={s.btnContainer}>
             {userBetslip ? (
               // Show "Edit Bets" button if betslip exists

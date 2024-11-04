@@ -137,7 +137,7 @@ export function BetSlipHeading({
         </TouchableOpacity>
         <View style={s.btnContainer}>
           <Btn
-            btnText={"Submit Bets"}
+            btnText={"Submit Bets "}
             icon={arrowSubmitIcon}
             style={s.btn}
             isEnabled={areAllBetsComplete()}
