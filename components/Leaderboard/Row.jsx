@@ -3,9 +3,9 @@ import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
 
-export function Row({ betslip, poolId, battle }) {
+export function Row({ betslip, poolId, battle, backgroundColor }) {
   return (
-    <View style={s.container}>
+    <View style={[s.container, {backgroundColor}]}>
       {betslip && (
         <View style={s.firstRowElement}>
           <Txt style={s.txt}>{betslip.name}</Txt>
@@ -43,7 +43,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: 'center',
-    marginVertical: 4,
+    paddingVertical: 4,
   },
   firstRowElement: {
     flex: 1.75,

@@ -37,9 +37,14 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
   }, [poolId, battle.id]);
 
   function renderBetslipRows() {
-    return betslips.map((betslip) => (
+    return betslips.map((betslip, index) => (
       <View key={betslip.id}>
-        <Row betslip={betslip} poolId={poolId} battle={battle} />
+        <Row 
+          betslip={betslip} 
+          poolId={poolId} 
+          battle={battle} 
+          backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"} 
+        />
       </View>
     ));
   }

@@ -199,7 +199,7 @@ const s = StyleSheet.create({
     borderColor: "#3A454D",
     borderRadius: 8,
     padding: 8,
-    // backgroundColor: "#f8f8f8",
+    backgroundColor: "#f8f8f8",
   },
   betslipContainer: {
     // flex: 1,
