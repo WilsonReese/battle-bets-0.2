@@ -44,14 +44,14 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
         : index % 2 === 0
         ? "#F8F8F8" // Alternate colors for other betslips
         : "#DAE1E5";
-  
+
       return (
         <View key={betslip.id}>
-          <Row 
-            betslip={betslip} 
-            poolId={poolId} 
-            battle={battle} 
-            backgroundColor={backgroundColor} 
+          <Row
+            betslip={betslip}
+            poolId={poolId}
+            battle={battle}
+            backgroundColor={backgroundColor}
           />
         </View>
       );
@@ -82,17 +82,19 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
       </View>
 
       {/* Betslips are locked: show the other betslips for the battle */}
-      {!userBetslip.locked && <View>{renderBetslipRows()}</View>}
+      {userBetslip.locked && <View>{renderBetslipRows()}</View>}
 
       {/* Betslips are not locked */}
-      <View style={s.leaderboardWhenLocked}>
-        <View>
-          <Row betslip={userBetslip} poolId={poolId} battle={battle} />
+      {!userBetslip.locked && (
+        <View style={s.leaderboardWhenLocked}>
+          <View>
+            <Row betslip={userBetslip} poolId={poolId} battle={battle} />
+          </View>
+          <View style={s.hiddenBetslips}>
+            <Txt style={s.txt}>Other betslips hidden until games start</Txt>
+          </View>
         </View>
-        <View style={s.hiddenBetslips}>
-          <Txt style={s.txt}>Other betslips hidden until games start</Txt>
-        </View>
-      </View>
+      )}
     </View>
   );
 }
@@ -131,7 +133,7 @@ const s = StyleSheet.create({
   },
   leaderboardWhenLocked: {
     borderWidth: 1,
-    borderColor: 'black',
+    borderColor: "black",
     marginVertical: 4,
   },
 });
