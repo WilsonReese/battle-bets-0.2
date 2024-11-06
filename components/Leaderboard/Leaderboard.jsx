@@ -1,8 +1,57 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Row } from "./Row";
+import { useEffect, useState } from "react";
+import api from "../../utils/axiosConfig";
+import { LoadingIndicator } from "../general/LoadingIndicator";
 
-export function Leaderboard({ userBetslip, poolId, battleId }) {
+export function Leaderboard({ userBetslip, poolId, battle }) {
+  const [betslips, setBetslips] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch and sort betslips on component mount
+  useEffect(() => {
+    const fetchBetslips = async () => {
+      try {
+        const response = await api.get(
+          `/pools/${poolId}/battles/${battle.id}/betslips`
+        );
+
+        // Sort by earnings descending, then by max_payout_remaining descending
+        const sortedBetslips = response.data.sort((a, b) => {
+          if (b.earnings !== a.earnings) {
+            return b.earnings - a.earnings;
+          }
+          return b.max_payout_remaining - a.max_payout_remaining;
+        });
+
+        setBetslips(sortedBetslips);
+      } catch (error) {
+        console.error("Error fetching betslips:", error.response || error);
+      } finally {
+        setLoading(false);
+      }
+    };
+
+    fetchBetslips();
+  }, [poolId, battle.id]);
+
+  function renderBetslipRows() {
+    return betslips.map((betslip) => (
+      <View key={betslip.id}>
+        <Row betslip={betslip} poolId={poolId} battle={battle} />
+      </View>
+    ));
+  }
+
+  if (loading) {
+    return (
+      <View style={s.container}>
+        <LoadingIndicator color="dark" contentToLoad="betslips" />
+      </View>
+    );
+  }
+
   return (
     <View>
       <View style={s.container}>
@@ -18,8 +67,13 @@ export function Leaderboard({ userBetslip, poolId, battleId }) {
         <View style={s.headerElement} />
       </View>
       <View>
-        <Row betslip={userBetslip} poolId={poolId} battleId={battleId} />
+        <Row betslip={userBetslip} poolId={poolId} battle={battle} />
       </View>
+
+      {/* Betslips are locked: show the other betslips for the battle */}
+      {!userBetslip.locked && <View>{renderBetslipRows()}</View>}
+
+      {/* Betslips are not locked */}
       <View style={s.hiddenBetslips}>
         <Txt style={s.txt}>Other betslips hidden until games start</Txt>
       </View>
@@ -56,6 +110,6 @@ const s = StyleSheet.create({
     // textAlign: "center",
   },
   hiddenBetslips: {
-    alignItems: 'center'
+    alignItems: "center",
   },
 });

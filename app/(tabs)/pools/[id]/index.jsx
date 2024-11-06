@@ -140,7 +140,7 @@ export default function PoolDetails() {
             <Leaderboard
               userBetslip={userBetslip}
               poolId={poolId}
-              battleId={latestBattle.id}
+              battle={latestBattle}
             />
           )}
 

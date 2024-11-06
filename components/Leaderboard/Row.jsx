@@ -3,7 +3,7 @@ import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
 
-export function Row({ betslip, poolId, battleId }) {
+export function Row({ betslip, poolId, battle }) {
   return (
     <View style={s.container}>
       {betslip && (
@@ -29,7 +29,7 @@ export function Row({ betslip, poolId, battleId }) {
           isEnabled={true}
           onPress={() =>
             router.push(
-              `/pools/${poolId}/battles/${battleId}/?betslipId=${betslip.id}`
+              `/pools/${poolId}/battles/${battle.id}/?betslipId=${betslip.id}`
             )
           }
         />
