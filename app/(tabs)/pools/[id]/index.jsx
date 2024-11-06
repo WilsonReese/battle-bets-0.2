@@ -96,15 +96,15 @@ export default function PoolDetails() {
   }
 
   return (
-    <SafeAreaProvider>
+    <SafeAreaProvider style={s.background}>
       <SafeAreaView style={s.container}>
         <StatusBar style="dark" />
-        <Txt style={{ color: "black", fontSize: 24 }}>
+        <Txt style={{ color: "#F8F8F8", fontSize: 24 }}>
           Pool {poolId} - All Battles
         </Txt>
         <View style={s.currentBattleContainer}>
-          <Txt style={s.txt}>Current Battle</Txt>
-          <Txt style={s.txt}># Players</Txt>
+          <Txt style={[s.txt, {color: 'black'}]}>Current Battle</Txt>
+          <Txt style={[s.txt, {color: 'black'}]}># Players</Txt>
 
           {/* Betslip has not been created */}
           {!userBetslip && (
@@ -174,7 +174,7 @@ export default function PoolDetails() {
             {battle.id}
           </Txt>
         ))}
-        <Txt style={{ color: "black" }}>
+        <Txt style={s.txt}>
           This screen will show the details of the pool - current battle,
           previous battles, number of users, leaderboards
         </Txt>
@@ -184,6 +184,9 @@ export default function PoolDetails() {
 }
 
 const s = StyleSheet.create({
+  background: {
+    backgroundColor: "#061826",
+  },
   container: {
     // flex: 1,
     // justifyContent: "center",
@@ -213,7 +216,7 @@ const s = StyleSheet.create({
   },
   txt: {
     // fontFamily: "Saira_300Light",
-    color: "#061826",
+    color: "#F8F8F8",
     fontSize: 16,
   },
 });

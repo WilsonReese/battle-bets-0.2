@@ -37,16 +37,25 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
   }, [poolId, battle.id]);
 
   function renderBetslipRows() {
-    return betslips.map((betslip, index) => (
-      <View key={betslip.id}>
-        <Row 
-          betslip={betslip} 
-          poolId={poolId} 
-          battle={battle} 
-          backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"} 
-        />
-      </View>
-    ));
+    return betslips.map((betslip, index) => {
+      const isUserBetslip = betslip.id === userBetslip.id;
+      const backgroundColor = isUserBetslip
+        ? "#5996FF" // Special color for user's betslip
+        : index % 2 === 0
+        ? "#F8F8F8" // Alternate colors for other betslips
+        : "#DAE1E5";
+  
+      return (
+        <View key={betslip.id}>
+          <Row 
+            betslip={betslip} 
+            poolId={poolId} 
+            battle={battle} 
+            backgroundColor={backgroundColor} 
+          />
+        </View>
+      );
+    });
   }
 
   if (loading) {
@@ -71,16 +80,18 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
         </View>
         <View style={s.headerElement} />
       </View>
-      <View>
-        <Row betslip={userBetslip} poolId={poolId} battle={battle} />
-      </View>
 
       {/* Betslips are locked: show the other betslips for the battle */}
       {!userBetslip.locked && <View>{renderBetslipRows()}</View>}
 
       {/* Betslips are not locked */}
-      <View style={s.hiddenBetslips}>
-        <Txt style={s.txt}>Other betslips hidden until games start</Txt>
+      <View style={s.leaderboardWhenLocked}>
+        <View>
+          <Row betslip={userBetslip} poolId={poolId} battle={battle} />
+        </View>
+        <View style={s.hiddenBetslips}>
+          <Txt style={s.txt}>Other betslips hidden until games start</Txt>
+        </View>
       </View>
     </View>
   );
@@ -116,5 +127,11 @@ const s = StyleSheet.create({
   },
   hiddenBetslips: {
     alignItems: "center",
+    paddingVertical: 4,
+  },
+  leaderboardWhenLocked: {
+    borderWidth: 1,
+    borderColor: 'black',
+    marginVertical: 4,
   },
 });
