@@ -4,6 +4,7 @@ import { Row } from "./Row";
 import { useEffect, useState } from "react";
 import api from "../../utils/axiosConfig";
 import { LoadingIndicator } from "../general/LoadingIndicator";
+import { StatusIcon } from "../general/StatusIcon";
 
 export function Leaderboard({ userBetslip, poolId, battle }) {
   const [betslips, setBetslips] = useState([]);
@@ -91,7 +92,7 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
             <Row betslip={userBetslip} poolId={poolId} battle={battle} backgroundColor={'#F8F8F8'} />
           </View>
           <View style={s.hiddenBetslips}>
-            <Txt style={s.txt}>Other betslips hidden until games start</Txt>
+            <Txt style={s.txtItalic}>The other betslips are hidden until games start</Txt>
           </View>
         </View>
       )}
@@ -122,7 +123,7 @@ const s = StyleSheet.create({
     fontSize: 16,
     // textAlign: "center",
   },
-  txt: {
+  txtItalic: {
     fontFamily: "Saira_400Regular_Italic",
     color: "#061826",
     fontSize: 14,
@@ -130,7 +131,7 @@ const s = StyleSheet.create({
   },
   hiddenBetslips: {
     alignItems: "center",
-    paddingVertical: 4,
+    paddingTop: 4,
   },
   leaderboardWhenLocked: {
     // borderWidth: 1,

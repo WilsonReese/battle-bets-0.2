@@ -3,6 +3,7 @@ import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { Leaderboard } from "../Leaderboard/Leaderboard";
 import { format } from "date-fns";
+import { BaseNavigationContainer } from "@react-navigation/native";
 
 export function BattleCard({ userBetslip, poolId, battle }) {
   const handleMakeBets = async (battle, poolId) => {
@@ -31,21 +32,31 @@ export function BattleCard({ userBetslip, poolId, battle }) {
     }
   };
 
-  const battleEndDate = format(new Date(battle.end_date), "MMMM d")
+  const battleEndDate = format(new Date(battle.end_date), "MMMM d");
 
   return (
     <View style={s.container}>
-      <Txt style={s.headingTxt}>Battle on {battleEndDate}</Txt>
-      <Txt style={[s.txt, { color: "black" }]}># Players</Txt>
-
+      <View style={s.headingContainer}>
+        <Txt style={s.headingTxt}>Battle on {battleEndDate}</Txt>
+        <Txt style={s.txt}>
+					{battle.betslip_count} {battle.betslip_count === 1 ? "Player" : "Players"}
+				</Txt>
+      </View>
       {/* Betslip has not been created */}
       {!userBetslip && (
-        <Btn
-          btnText={"Make Bets"}
-          style={s.btn}
-          isEnabled={true}
-          onPress={() => handleMakeBets(battle.id, poolId)}
-        />
+        <View >
+          <View style={s.btnContainer}>
+            <Btn
+              btnText={"Make Bets"}
+              style={s.btn}
+              isEnabled={true}
+              onPress={() => handleMakeBets(battle.id, poolId)}
+            />
+          </View>
+          <Txt style={s.txtItalic}>
+            Submit your betslip by 11 AM on {battleEndDate}
+          </Txt>
+        </View>
       )}
 
       {/* Betslip has been created but not submitted */}
@@ -90,10 +101,18 @@ const s = StyleSheet.create({
     padding: 8,
     backgroundColor: "#DAE1E5",
   },
+  btnContainer: {
+    paddingVertical: 8,
+  },
   btn: {
     paddingVertical: 4,
     paddingHorizontal: 12,
     // margin: 4,
+  },
+  headingContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   headingTxt: {
     color: "#061826",
@@ -104,7 +123,13 @@ const s = StyleSheet.create({
   },
   txt: {
     // fontFamily: "Saira_300Light",
-    color: "#F8F8F8",
+    color: "#061826",
     fontSize: 16,
+  },
+  txtItalic: {
+    fontFamily: "Saira_400Regular_Italic",
+    color: "#061826",
+    fontSize: 14,
+    textAlign: "center",
   },
 });
