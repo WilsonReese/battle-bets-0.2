@@ -5,6 +5,7 @@ import { Leaderboard } from "../Leaderboard/Leaderboard";
 import { format } from "date-fns";
 import api from "../../utils/axiosConfig";
 import { router } from "expo-router";
+import { StatusIcon } from "../general/StatusIcon";
 
 export function BattleCard({ userBetslip, poolId, battle }) {
   const handleMakeBets = async (battle, poolId) => {
@@ -40,12 +41,13 @@ export function BattleCard({ userBetslip, poolId, battle }) {
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>Battle on {battleEndDate}</Txt>
         <Txt style={s.txt}>
-					{battle.betslip_count} {battle.betslip_count === 1 ? "Player" : "Players"}
-				</Txt>
+          {battle.betslip_count}{" "}
+          {battle.betslip_count === 1 ? "Player" : "Players"}
+        </Txt>
       </View>
       {/* Betslip has not been created */}
       {!userBetslip && (
-        <View >
+        <View>
           <View style={s.btnContainer}>
             <Btn
               btnText={"Make Bets"}
@@ -62,10 +64,7 @@ export function BattleCard({ userBetslip, poolId, battle }) {
 
       {/* Betslip has been created but not submitted */}
       {userBetslip && userBetslip.status == "created" && (
-        <View>
-          <Txt style={s.txt}>
-            Edit button with indication that betslip not submitted
-          </Txt>
+        <View style={s.btnContainer}>
           <Btn
             btnText={"Edit Bets"}
             style={s.btn}
@@ -76,6 +75,13 @@ export function BattleCard({ userBetslip, poolId, battle }) {
               )
             }
           />
+          <View style={s.notSubmittedIndicatorContainer}>
+            <StatusIcon isPositive={false} />
+            <Txt style={[s.txtItalic, {marginLeft: 4}]}>Betslip Not Submitted</Txt>
+          </View>
+					<Txt style={s.txtItalic}>
+            Submit your betslip by 11 AM on {battleEndDate}
+          </Txt>
         </View>
       )}
 
@@ -103,7 +109,7 @@ const s = StyleSheet.create({
     backgroundColor: "#DAE1E5",
   },
   btnContainer: {
-    paddingVertical: 8,
+    paddingTop: 8,
   },
   btn: {
     paddingVertical: 4,
@@ -131,6 +137,12 @@ const s = StyleSheet.create({
     fontFamily: "Saira_400Regular_Italic",
     color: "#061826",
     fontSize: 14,
-    textAlign: "center",
+    // textAlign: "center",
   },
+	notSubmittedIndicatorContainer: {
+		flexDirection: 'row',
+		alignItems: 'center',
+		alignSelf: 'center',
+		paddingTop: 4,
+	}
 });
