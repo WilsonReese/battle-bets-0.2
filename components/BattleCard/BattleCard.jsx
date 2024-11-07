@@ -1,9 +1,10 @@
-import { StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { Leaderboard } from "../Leaderboard/Leaderboard";
 import { format } from "date-fns";
-import { BaseNavigationContainer } from "@react-navigation/native";
+import api from "../../utils/axiosConfig";
+import { router } from "expo-router";
 
 export function BattleCard({ userBetslip, poolId, battle }) {
   const handleMakeBets = async (battle, poolId) => {
@@ -27,7 +28,7 @@ export function BattleCard({ userBetslip, poolId, battle }) {
         params: { betslipId }, // Pass the betslipId as a query parameter
       });
     } catch (error) {
-      console.error("Error creating betslip:", error.response.data);
+      console.error("Error creating betslip:", error?.response?.data || error);
       Alert.alert("Error", "Failed to create betslip. Please try again.");
     }
   };
@@ -50,7 +51,7 @@ export function BattleCard({ userBetslip, poolId, battle }) {
               btnText={"Make Bets"}
               style={s.btn}
               isEnabled={true}
-              onPress={() => handleMakeBets(battle.id, poolId)}
+              onPress={() => handleMakeBets(battle, poolId)}
             />
           </View>
           <Txt style={s.txtItalic}>
