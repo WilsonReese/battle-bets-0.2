@@ -8,6 +8,8 @@ import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LoadingIndicator } from "../../../../components/general/LoadingIndicator.jsx";
 import api from "../../../../utils/axiosConfig.js";
 import { Leaderboard } from "../../../../components/Leaderboard/Leaderboard.jsx";
+import { LogoHeader } from "@/components/LogoHeader/LogoHeader.jsx";
+import { BattleCard } from "../../../../components/BattleCard/BattleCard.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -56,40 +58,12 @@ export default function PoolDetails() {
 
   const latestBattle = battles[0];
 
-  const handleMakeBets = async (battleId, poolId) => {
-    try {
-      const response = await api.post(
-        `/pools/${poolId}/battles/${battleId}/betslips`,
-        {
-          betslip: {
-            name: null, // Name can be null or set to a default value
-            status: "created",
-          },
-        }
-      );
-
-      // Get the created betslip's ID from the response
-      const betslipId = response.data.id;
-
-      // After betslip is created, navigate to the betslip or battle page
-      router.push({
-        pathname: `pools/${poolId}/battles/${latestBattle.id}/`,
-        params: { betslipId }, // Pass the betslipId as a query parameter
-      });
-    } catch (error) {
-      console.error("Error creating betslip:", error.response.data);
-      Alert.alert("Error", "Failed to create betslip. Please try again.");
-    }
-  };
-
   // Render loading spinner while data is being fetched
   if (loading) {
     return (
-      <SafeAreaProvider>
-        <SafeAreaView style={s.container}>
-          <View style={s.container}>
-            <LoadingIndicator color="dark" contentToLoad="battles" />
-          </View>
+      <SafeAreaProvider style={s.loadingBackground}>
+        <SafeAreaView style={s.loadingContainer}>
+          <LoadingIndicator color="light" contentToLoad="battles" />
         </SafeAreaView>
       </SafeAreaProvider>
     );
@@ -99,75 +73,20 @@ export default function PoolDetails() {
     <SafeAreaProvider style={s.background}>
       <SafeAreaView style={s.container}>
         <StatusBar style="dark" />
-        <Txt style={{ color: "#F8F8F8", fontSize: 24 }}>
-          Pool {poolId} - All Battles
-        </Txt>
-        <View style={s.currentBattleContainer}>
-          <Txt style={[s.txt, {color: 'black'}]}>Current Battle</Txt>
-          <Txt style={[s.txt, {color: 'black'}]}># Players</Txt>
-
-          {/* Betslip has not been created */}
-          {!userBetslip && (
-            <Btn
-            btnText={"Make Bets"}
-            style={s.btn}
-            isEnabled={true}
-            onPress={() => handleMakeBets(latestBattle.id, poolId)}
-          />
-          )}
-
-          {/* Betslip has been created but not submitted */}
-          {userBetslip && userBetslip.status == "created" && (
-            <View>
-              <Txt style={s.txt}>
-                Edit button with indication that betslip not submitted
-              </Txt>
-              <Btn
-                btnText={"Edit Bets"}
-                style={s.btn}
-                isEnabled={true}
-                onPress={() =>
-                  router.push(
-                    `/pools/${poolId}/battles/${latestBattle.id}/?betslipId=${userBetslip.id}`
-                  )
-                }
-              />
-            </View>
-          )}
-
-          {/* Betslip is submitted */}
-          {userBetslip && userBetslip.status == "submitted" && (
-            <Leaderboard
-              userBetslip={userBetslip}
-              poolId={poolId}
-              battle={latestBattle}
-            />
-          )}
-
-          {/* <View style={s.btnContainer}>
-            {userBetslip ? (
-              // Show "Edit Bets" button if betslip exists
-              <Btn
-                btnText={"Edit Bets"}
-                style={s.btn}
-                isEnabled={true}
-                onPress={() =>
-                  router.push(
-                    `/pools/${poolId}/battles/${latestBattle.id}/?betslipId=${userBetslip.id}`
-                  )
-                }
-              />
-            ) : (
-              // Show "Make Bets" button if no betslip exists
-              <Btn
-                btnText={"Make Bets"}
-                style={s.btn}
-                isEnabled={true}
-                onPress={() => handleMakeBets(latestBattle.id, poolId)}
-              />
-            )}
-          </View> */}
+        <View style={s.logoHeader}>
+          <LogoHeader />
         </View>
+        <View style={s.titleContainer}>
+          <Txt style={s.titleText}>
+            {/* This will need to become the Pool Name */}
+            Pool {poolId}
+          </Txt>
+        </View>
+        <BattleCard
+          userBetslip={userBetslip}
+          poolId={poolId}
+          battle={latestBattle}
+        />
         <Txt style={s.txt}>List of all battles</Txt>
         {battles.map((battle) => (
           <Txt key={battle.id} style={s.txt}>
@@ -184,15 +103,29 @@ export default function PoolDetails() {
 }
 
 const s = StyleSheet.create({
+  loadingBackground: {
+    backgroundColor: "#061826",
+  },
+  loadingContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    margin: 8,
+    backgroundColor: "#061826",
+  },
   background: {
     backgroundColor: "#061826",
   },
   container: {
-    // flex: 1,
-    // justifyContent: "center",
-    alignItems: "center",
+    justifyContent: "center",
     margin: 8,
-    // backgroundColor: "#f8f8f8",
+  },
+  titleContainer: {
+    paddingTop: 8,
+  },
+  titleText: {
+    color: "#F8F8F8",
+    fontSize: 24,
   },
   currentBattleContainer: {
     // flex: 1,
@@ -202,7 +135,7 @@ const s = StyleSheet.create({
     borderColor: "#3A454D",
     borderRadius: 8,
     padding: 8,
-    backgroundColor: "#f8f8f8",
+    backgroundColor: "#DAE1E5",
   },
   betslipContainer: {
     // flex: 1,

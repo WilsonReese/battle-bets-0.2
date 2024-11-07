@@ -88,7 +88,7 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
       {!userBetslip.locked && (
         <View style={s.leaderboardWhenLocked}>
           <View>
-            <Row betslip={userBetslip} poolId={poolId} battle={battle} />
+            <Row betslip={userBetslip} poolId={poolId} battle={battle} backgroundColor={'#F8F8F8'} />
           </View>
           <View style={s.hiddenBetslips}>
             <Txt style={s.txt}>Other betslips hidden until games start</Txt>
@@ -108,7 +108,8 @@ const s = StyleSheet.create({
     // flex: 1,
   },
   firstHeaderElement: {
-    flex: 1.75,
+    flex: 2.5,
+    paddingLeft: 4,
     // alignItems: 'center',
   },
   headerElement: {
@@ -132,8 +133,8 @@ const s = StyleSheet.create({
     paddingVertical: 4,
   },
   leaderboardWhenLocked: {
-    borderWidth: 1,
-    borderColor: "black",
-    marginVertical: 4,
+    // borderWidth: 1,
+    // borderColor: "black",
+    marginVertical: 4, 
   },
 });

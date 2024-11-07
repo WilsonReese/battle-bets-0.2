@@ -46,11 +46,13 @@ const s = StyleSheet.create({
     paddingVertical: 4,
   },
   firstRowElement: {
-    flex: 1.75,
+    flex: 2.5,
+    paddingLeft: 4,
   },
   rowElement: {
     flex: 1,
     alignItems: "center",
+    borderLeftWidth: 1,
   },
   txt: {
     color: "#061826",
