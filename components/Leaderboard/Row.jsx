@@ -45,7 +45,7 @@ export function Row({ betslip, poolId, battle, backgroundColor }) {
           />
         )}
       </View>
-      <BetSlipModal visible={isModalVisible} onClose={() => setModalVisible(false)} />
+      <BetSlipModal betslip={betslip} visible={isModalVisible} onClose={() => setModalVisible(false)} />
     </View>
   );
 }
