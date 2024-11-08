@@ -1,7 +1,15 @@
 import { Modal, Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
+import { BetOptionHeading } from "./BetOptionHeading";
+import { PlacedBet } from "./PlacedBet";
 
 export function BetSlipModal({ betslip, visible, onClose }) {
+  function renderBetAmountsWon() {
+    return betslip.bets.map((bet) => (
+      <PlacedBet key={bet.id} bet={bet}/>
+    ));
+  }
+
   return (
     // <View style={[s.container]}>
     //   <Txt>Test</Txt>
@@ -17,17 +25,25 @@ export function BetSlipModal({ betslip, visible, onClose }) {
         <View style={s.modalContainer}>
           <View style={s.headingContainer}>
             <Txt style={s.titleTxt}>{betslip.name}</Txt>
+            <View>
+              <View style={s.amountsContainer}>
+                <Txt style={[s.payoutHeading, s.payoutText]}>Won: </Txt>
+                <Txt style={s.payoutText}>${betslip.earnings}</Txt>
+              </View>
+              <View style={s.amountsContainer}>
+                <Txt style={[s.payoutHeading, s.payoutText]}>Max: </Txt>
+                <Txt style={s.payoutText}>${betslip.max_payout_remaining}</Txt>
+              </View>
+            </View>
+          </View>
+
           <View>
-            <View style={s.amountsContainer}>
-              <Txt style={[s.payoutHeading, s.payoutText, ]}>Won: </Txt>
-              <Txt style={s.payoutText}>${betslip.earnings}</Txt>
-            </View>
-            <View style={s.amountsContainer}>
-              <Txt style={[s.payoutHeading, s.payoutText, ]}>Max: </Txt>
-              <Txt style={s.payoutText}>${betslip.max_payout_remaining}</Txt>
-            </View>
+            <BetOptionHeading />
           </View>
-          </View>
+
+          {renderBetAmountsWon()}
+
+          {/* <Txt style={s.txt}>{betslip.bets}</Txt> */}
           <Txt style={s.txt}>Spread Heading</Txt>
           <Txt style={s.txt}>Spread Bets</Txt>
         </View>
@@ -67,6 +83,8 @@ const s = StyleSheet.create({
     backgroundColor: "#184EAD",
     borderTopLeftRadius: 7,
     borderTopRightRadius: 7,
+    // borderBottomWidth: 1,
+    // borderColor: '#F8F8F8'
   },
   titleTxt: {
     fontSize: 20,
