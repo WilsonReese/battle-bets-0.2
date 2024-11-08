@@ -8,7 +8,8 @@ export function Btn({
   isEnabled,
   icon,
   style,
-  onPress
+  onPress, 
+  fontSize = 16,
 }) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
@@ -24,7 +25,7 @@ export function Btn({
       ]}
       onPress={isEnabled ? onPress : null}
     >
-      <Txt style={s.btnText}>
+      <Txt style={[s.btnText, {fontSize}]}>
         {btnText}{icon}
       </Txt>
       {btnSecondaryText && (
