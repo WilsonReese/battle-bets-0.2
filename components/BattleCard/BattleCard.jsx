@@ -56,9 +56,11 @@ export function BattleCard({ userBetslip, poolId, battle }) {
               onPress={() => handleMakeBets(battle, poolId)}
             />
           </View>
-          <Txt style={s.txtItalic}>
-            Submit your betslip by 11 AM on {battleEndDate}
-          </Txt>
+          <View style={s.submitBetsNoticeContainer}>
+            <Txt style={s.txtItalic}>
+              Submit your betslip by 11 AM on {battleEndDate}
+            </Txt>
+          </View>
         </View>
       )}
 
@@ -77,11 +79,15 @@ export function BattleCard({ userBetslip, poolId, battle }) {
           />
           <View style={s.notSubmittedIndicatorContainer}>
             <StatusIcon isPositive={false} />
-            <Txt style={[s.txtItalic, {marginLeft: 4}]}>Betslip Not Submitted</Txt>
+            <Txt style={[s.txtItalic, { marginLeft: 4 }]}>
+              Betslip Not Submitted
+            </Txt>
           </View>
-					<Txt style={s.txtItalic}>
-            Submit your betslip by 11 AM on {battleEndDate}
-          </Txt>
+          <View style={s.submitBetsNoticeContainer}>
+            <Txt style={s.txtItalic}>
+              Submit your betslip by 11 AM on {battleEndDate}
+            </Txt>
+          </View>
         </View>
       )}
 
@@ -139,10 +145,13 @@ const s = StyleSheet.create({
     fontSize: 14,
     // textAlign: "center",
   },
-	notSubmittedIndicatorContainer: {
-		flexDirection: 'row',
-		alignItems: 'center',
-		alignSelf: 'center',
-		paddingTop: 4,
-	}
+  notSubmittedIndicatorContainer: {
+    flexDirection: "row",
+    alignItems: "center",
+    alignSelf: "center",
+    paddingTop: 4,
+  },
+  submitBetsNoticeContainer: {
+    alignItems: 'center'
+  }
 });

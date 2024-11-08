@@ -10,6 +10,8 @@ import api from "../../../../utils/axiosConfig.js";
 import { Leaderboard } from "../../../../components/Leaderboard/Leaderboard.jsx";
 import { LogoHeader } from "@/components/LogoHeader/LogoHeader.jsx";
 import { BattleCard } from "../../../../components/BattleCard/BattleCard.jsx";
+import { format } from "date-fns";
+import { PreviousBattles } from "../../../../components/PreviousBattles/PreviousBattles.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -87,16 +89,7 @@ export default function PoolDetails() {
           poolId={poolId}
           battle={latestBattle}
         />
-        <Txt style={s.txt}>List of all battles</Txt>
-        {battles.map((battle) => (
-          <Txt key={battle.id} style={s.txt}>
-            {battle.id}
-          </Txt>
-        ))}
-        <Txt style={s.txt}>
-          This screen will show the details of the pool - current battle,
-          previous battles, number of users, leaderboards
-        </Txt>
+        <PreviousBattles battles={battles}/>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -126,16 +119,6 @@ const s = StyleSheet.create({
   titleText: {
     color: "#F8F8F8",
     fontSize: 24,
-  },
-  currentBattleContainer: {
-    // flex: 1,
-    // alignItems: "center",
-    alignSelf: "stretch",
-    borderWidth: 1,
-    borderColor: "#3A454D",
-    borderRadius: 8,
-    padding: 8,
-    backgroundColor: "#DAE1E5",
   },
   betslipContainer: {
     // flex: 1,
