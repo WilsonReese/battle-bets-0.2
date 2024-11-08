@@ -1,10 +1,10 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function BetOptionHeading({}) {
+export function BetOptionHeading({ title }) {
   return (
     <View style={s.container}>
-      <Txt style={s.titleText}>Test</Txt>
+      <Txt style={s.titleText}>{title}</Txt>
     </View>
   );
 }

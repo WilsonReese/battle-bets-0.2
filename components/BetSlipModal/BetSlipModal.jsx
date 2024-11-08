@@ -4,10 +4,40 @@ import { BetOptionHeading } from "./BetOptionHeading";
 import { PlacedBet } from "./PlacedBet";
 
 export function BetSlipModal({ betslip, visible, onClose }) {
-  function renderBetAmountsWon() {
-    return betslip.bets.map((bet) => (
-      <PlacedBet key={bet.id} bet={bet}/>
-    ));
+  function renderPlacedBetsByCategory() {
+    const categories = [
+      {
+        key: "spread_and_ou",
+        title: "Spread and Over/Under",
+        filter: (bet) =>
+          bet.bet_option.category === "spread" ||
+          bet.bet_option.category === "ou",
+      },
+      {
+        key: "money_line",
+        title: "Money Line",
+        filter: (bet) => bet.bet_option.category === "money_line",
+      },
+      {
+        key: "prop",
+        title: "Prop Bets",
+        filter: (bet) => bet.bet_option.category === "prop",
+      },
+    ];
+
+    return categories.map(({ key, title, filter }) => {
+      const filteredBets = betslip.bets.filter(filter);
+      if (filteredBets.length === 0) return null;
+
+      return (
+        <View key={key}>
+          <BetOptionHeading title={title} />
+          {filteredBets.map((bet, index) => (
+            <PlacedBet key={bet.id} bet={bet} backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"}/>
+          ))}
+        </View>
+      );
+    });
   }
 
   return (
@@ -37,11 +67,7 @@ export function BetSlipModal({ betslip, visible, onClose }) {
             </View>
           </View>
 
-          <View>
-            <BetOptionHeading />
-          </View>
-
-          {renderBetAmountsWon()}
+          {renderPlacedBetsByCategory()}
 
           {/* <Txt style={s.txt}>{betslip.bets}</Txt> */}
           <Txt style={s.txt}>Spread Heading</Txt>
