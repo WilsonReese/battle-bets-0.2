@@ -3,7 +3,7 @@ import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
 import { useState } from "react";
-import { BetSlipModal } from "../BetSlip/BetSlipModal";
+import { BetSlipModal } from "../BetSlipModal/BetSlipModal";
 
 export function Row({ betslip, poolId, battle, backgroundColor }) {
   const [isModalVisible, setModalVisible] = useState(false);
