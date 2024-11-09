@@ -1,8 +1,8 @@
 import { Stack } from "expo-router/stack";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 import { AuthProvider } from "../components/contexts/AuthContext";
 import { BetProvider } from "../components/contexts/BetContext";
-import * as SplashScreen from 'expo-splash-screen';
+import * as SplashScreen from "expo-splash-screen";
 import {
   useFonts,
   Saira_100Thin,
@@ -62,6 +62,19 @@ export default function Layout() {
               name="(tabs)"
               options={{
                 headerShown: false,
+                headerTitle: () => (
+                  <Image
+                    source={require("@/assets/images/white_logo.png")} // Replace with your logo path
+                    style={{ width: 120, height: 40 }} // Adjust the size as needed
+                    resizeMode="contain"
+                  />
+                ),
+                headerStyle: {
+                  backgroundColor: "#061826", // Set your custom background color
+                  alignItems: 'flex-start'
+                },
+                headerTintColor: "#F8F8F8", // Color for header text/icons
+                headerShadowVisible: false, // Hides the bottom border
               }}
             />
           </Stack>

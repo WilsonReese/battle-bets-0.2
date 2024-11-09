@@ -1,19 +1,37 @@
 import { Stack } from "expo-router";
-import { StyleSheet, View } from "react-native";
+import { Image, StyleSheet, View } from "react-native";
 
 export default function PoolsLayout() {
   return (
     <View style={s.container}>
-    <Stack>
-      <Stack.Screen name="create" options={{ title: 'Create Pool'}} />
-      <Stack.Screen name="[id]" options={{ title: 'Pool Details', headerShown: false}} />
-      {/* <Stack.Screen name="index" options={{ title: 'Pools' }} /> */}
-      {/* <Stack.Screen name="picks" options={{ title: 'Picks' }} />
-      <Stack.Screen name="standings" options={{ title: 'Standings' }} /> */}
-      {/* <Stack.Screen name="index" options={{ title: 'Pools', headerShown: true }}/>
-      <Stack.Screen name="[id]" options={{ title: 'Pool Details', headerShown: false, headerBackTitleVisible: false }}/>
-      <Stack.Screen name="create" options={{ title: "Create" }} /> */}
-    </Stack>
+      <Stack
+        screenOptions={{
+          headerStyle: {
+            backgroundColor: "#061826", // Set custom background color
+          },
+          headerTitleAlign: "center", // Center the title or logo
+          headerTitle: () => (
+            <Image
+              source={require("@/assets/images/white_logo.png")} // Path to your logo
+              style={{ width: 140, height: 40 }}
+              resizeMode="contain"
+            />
+          ),
+          headerTintColor: "#F8F8F8", // Text color
+          headerShadowVisible: false, // Hide header border
+          headerBackTitleVisible: false, // Hide back button text
+          contentStyle: { backgroundColor: "transparent" },
+        }}
+      >
+        <Stack.Screen
+          name="create"
+          options={{ title: "Create Pool", headerShown: true }}
+        />
+        <Stack.Screen
+          name="[id]"
+          options={{ title: "Pool Details", headerShown: true }}
+        />
+      </Stack>
     </View>
   );
 }
@@ -21,5 +39,6 @@ export default function PoolsLayout() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
+    backgroundColor: '#061826'
   },
 });
