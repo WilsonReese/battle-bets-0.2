@@ -2,6 +2,8 @@ import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetOptionHeading } from "./BetOptionHeading";
 import { PlacedBet } from "./PlacedBet";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { TouchableOpacity } from "react-native";
 
 export function BetSlipModal({ betslip, visible, onClose }) {
   function renderPlacedBetsByCategory() {
@@ -44,7 +46,11 @@ export function BetSlipModal({ betslip, visible, onClose }) {
 
       return (
         <View key={key}>
-          <BetOptionHeading title={title} amountWon={totalAmountWon} amountRemaining={maxPayoutRemaining}/>
+          <BetOptionHeading
+            title={title}
+            amountWon={totalAmountWon}
+            amountRemaining={maxPayoutRemaining}
+          />
           <View style={s.betsContainer}>
             {filteredBets.map((bet, index) => (
               <PlacedBet
@@ -84,6 +90,9 @@ export function BetSlipModal({ betslip, visible, onClose }) {
       <View style={s.modalContainer}>
         <View style={s.headingContainer}>
           <Txt style={s.titleTxt}>{betslip.name}</Txt>
+          <TouchableOpacity onPress={onClose}>
+            <FontAwesome6 name="xmark" size={24} color="#F8F8F8" />
+          </TouchableOpacity>
         </View>
         <View style={s.payoutContainer}>
           <View style={s.totalAmountsContainer}>
@@ -164,8 +173,8 @@ const s = StyleSheet.create({
   },
   betTypePayoutContainer: {
     flexDirection: "row",
-    justifyContent: 'flex-end',
-    alignItems: 'flex-end',
+    justifyContent: "flex-end",
+    alignItems: "flex-end",
     paddingHorizontal: 12,
     paddingVertical: 10,
   },
