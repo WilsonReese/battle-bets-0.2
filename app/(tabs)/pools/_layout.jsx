@@ -8,7 +8,7 @@ export default function PoolsLayout() {
         screenOptions={{
           headerShown: false, //changes Pools page and all children, overridden by one below
           headerStyle: {
-            backgroundColor: "blue", // Set custom background color
+            backgroundColor: "#061826", // BLUE FOR DEBUGGING Set custom background color
           },
           headerTitleAlign: "center", // Center the title or logo
           headerTitle: () => (
