@@ -8,7 +8,7 @@ export function Btn({
   isEnabled,
   icon,
   style,
-  onPress, 
+  onPress,
   fontSize = 16,
 }) {
   function checkIfEnabled() {
@@ -25,8 +25,9 @@ export function Btn({
       ]}
       onPress={isEnabled ? onPress : null}
     >
-      <Txt style={[s.btnText, {fontSize}]}>
-        {btnText}{icon}
+      <Txt style={[s.btnText, { fontSize }]}>
+        {btnText}
+        {icon}
       </Txt>
       {btnSecondaryText && (
         <Txt style={s.btnSecondaryText}>{btnSecondaryText}</Txt>
@@ -48,6 +49,16 @@ const s = StyleSheet.create({
   },
   enabled: {
     backgroundColor: "#54D18C",
+    //shadow
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1,
+    },
+    shadowOpacity: 0.22,
+    shadowRadius: 2.22,
+
+    elevation: 3,
   },
   btnText: {
     fontFamily: "Saira_600SemiBold",
