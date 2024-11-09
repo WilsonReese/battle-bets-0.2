@@ -15,12 +15,18 @@ import { Btn } from "../components/general/Buttons/Btn";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "../components/general/Txt";
 import { AuthContext, AuthProvider } from "../components/contexts/AuthContext";
+import { Message } from "../components/general/Message";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [message, setMessage] = useState(null); // Add state for message
   const { login } = useContext(AuthContext); // Get the login function from context
   const router = useRouter();
+
+  const showMessage = (text, color) => {
+    setMessage({ text, color });
+  };
 
   const handleLogin = async () => {
     try {
@@ -45,17 +51,20 @@ export default function Login() {
         if (data.token) {
           // Store JWT token if it exists
           await login(data.token); // Set the token globally and in SecureStore
-          Alert.alert("Login successful!");
-          router.replace("/pools"); // Redirect to pools page after login
+          showMessage("Login successful!", "#0C9449");
+          router.replace({
+            pathname: "/pools",
+            params: { successMessage: "Login successful!" },
+          });
         } else {
-          Alert.alert("Login failed. Token missing in response.");
+          showMessage("Login failed. Token missing in response.", "#AB1126");
         }
       } else {
-        Alert.alert("Login failed. Please check your credentials.");
+        showMessage("Login failed. Please check your credentials.", "#AB1126");
       }
     } catch (error) {
       console.error("Login error:", error.message);
-      Alert.alert("Login error. Please try again.");
+      showMessage("Login error. Please try again.", "#AB1126");
     }
   };
 
@@ -63,8 +72,18 @@ export default function Login() {
     <SafeAreaProvider>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={s.container}>
+          {message && (
+            <Message
+              message={message.text}
+              color={message.color}
+              onHide={() => setMessage(null)} // Hide message after duration
+            />
+          )}
           <View style={s.logoPlaceholder}>
-          <Image style={s.image} source={require('@/assets/images/icon_style_v1.png')} />
+            <Image
+              style={s.image}
+              source={require("@/assets/images/icon_style_v1.png")}
+            />
           </View>
           <View style={s.loginContainer}>
             <View style={s.textInputContainer}>

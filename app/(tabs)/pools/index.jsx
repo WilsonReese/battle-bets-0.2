@@ -1,19 +1,25 @@
 import React, { useContext, useEffect, useState } from "react";
-import {
-  View,
-  Button,
-  StyleSheet,
-} from "react-native";
-import { router } from "expo-router";
+import { View, Button, StyleSheet } from "react-native";
+import { router, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with Auth
+import { Message } from "../../../components/general/Message";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
   const [loading, setLoading] = useState(true);
   const api = useAxiosWithAuth(); // Use the custom Axios instance
+  const { successMessage } = useLocalSearchParams(); // Retrieve the message parameter
+  const [message, setMessage] = useState(null);
+
+  useEffect(() => {
+    // Display the success message if it exists
+    if (successMessage) {
+      setMessage({ text: successMessage, color: "#0C9449" });
+    }
+  }, [successMessage]);
 
   // Fetch pools from the backend API
   useEffect(() => {
@@ -35,6 +41,13 @@ export default function Pools() {
   if (loading) {
     return (
       <View style={s.container}>
+        {message && (
+          <Message
+            message={message.text}
+            color={message.color}
+            onHide={() => setMessage(null)} // Clear the message after display
+          />
+        )}
         <LoadingIndicator color="dark" contentToLoad="pools" />
       </View>
     );
@@ -42,6 +55,13 @@ export default function Pools() {
 
   return (
     <View style={s.container}>
+      {message && (
+        <Message
+          message={message.text}
+          color={message.color}
+          onHide={() => setMessage(null)} // Clear the message after display
+        />
+      )}
       <StatusBar style="dark" />
       <Txt style={{ color: "black" }}>Pools Screen</Txt>
       {pools.map((pool) => (
