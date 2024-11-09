@@ -1,8 +1,7 @@
-// components/Message.js
 import React, { useEffect } from "react";
 import { View, Text, Animated, StyleSheet } from "react-native";
 
-export function Message({ message, color, duration = 1000, onHide }) {
+export function Message({ message, color, duration = 1000, onHide, location = 40 }) {
   const opacity = new Animated.Value(1);
 
   useEffect(() => {
@@ -22,7 +21,10 @@ export function Message({ message, color, duration = 1000, onHide }) {
   }, [duration, onHide]);
 
   return (
-    <Animated.View style={[s.messageContainer, { opacity, backgroundColor: color }]}>
+    <Animated.View style={[
+      s.messageContainer,
+      { opacity, backgroundColor: color, top: location }
+    ]}>
       <Text style={s.messageText}>{message}</Text>
     </Animated.View>
   );
@@ -31,7 +33,7 @@ export function Message({ message, color, duration = 1000, onHide }) {
 const s = StyleSheet.create({
   messageContainer: {
     position: "absolute",
-    top: 250,
+    top: 40,
     alignSelf: "center",
     paddingVertical: 10,
     paddingHorizontal: 20,

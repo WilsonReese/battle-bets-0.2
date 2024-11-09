@@ -60,6 +60,7 @@ export default function Pools() {
         <Message
           message={message.text}
           color={message.color}
+          location={0}
           onHide={() => setMessage(null)} // Clear the message after display
         />
       )}
@@ -70,14 +71,13 @@ export default function Pools() {
       </View>
       <View style={s.poolsContainer}>
         {pools.map((pool) => (
-          <View style={s.btnContainer}>
-          <Btn
-            key={pool.id}
-            btnText={`Go to ${pool.name}`}
-            style={s.btn}
-            isEnabled={true}
-            onPress={() => router.push(`/pools/${pool.id}/`)}
-          />
+          <View style={s.btnContainer} key={pool.id}>
+            <Btn
+              btnText={`Go to ${pool.name}`}
+              style={s.btn}
+              isEnabled={true}
+              onPress={() => router.push(`/pools/${pool.id}/`)}
+            />
           </View>
         ))}
       </View>
@@ -102,9 +102,7 @@ const s = StyleSheet.create({
     color: "#F8F8F8",
     fontSize: 24,
   },
-  poolsContainer :{
-
-  },
+  poolsContainer: {},
   btnContainer: {
     paddingTop: 8,
   },
