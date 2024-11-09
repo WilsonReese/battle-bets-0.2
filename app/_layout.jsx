@@ -55,13 +55,13 @@ export default function Layout() {
           <Stack
             screenOptions={{
               contentStyle: { backgroundColor: "transparent" },
-              headerShown: false,
+              headerShown: true,
             }}
           >
             <Stack.Screen
               name="(tabs)"
               options={{
-                headerShown: false,
+                headerShown: true,
                 headerTitle: () => (
                   <Image
                     source={require("@/assets/images/white_logo.png")} // Replace with your logo path

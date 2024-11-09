@@ -6,6 +6,7 @@ export default function PoolsLayout() {
     <View style={s.container}>
       <Stack
         screenOptions={{
+          headerShown: true,
           headerStyle: {
             backgroundColor: "#061826", // Set custom background color
           },
