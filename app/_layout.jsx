@@ -54,18 +54,18 @@ export default function Layout() {
         <View style={s.container}>
           <Stack
             screenOptions={{
+              headerShown: false, // login, top on Pools page, can copy from the other <Stack>s if I want to customize
               contentStyle: { backgroundColor: "transparent" },
-              headerShown: true,
             }}
           >
             <Stack.Screen
               name="(tabs)"
               options={{
-                headerShown: true,
+                headerShown: false, // changes the Pools page
                 headerTitle: () => (
                   <Image
                     source={require("@/assets/images/white_logo.png")} // Replace with your logo path
-                    style={{ width: 120, height: 40 }} // Adjust the size as needed
+                    style={{ width: 140, height: 40 }} // Adjust the size as needed
                     resizeMode="contain"
                   />
                 ),

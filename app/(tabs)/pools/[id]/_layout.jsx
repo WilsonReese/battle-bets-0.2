@@ -6,9 +6,9 @@ export default function PoolDetailsLayout() {
     <View style={s.container}>
       <Stack
         screenOptions={{
-          headerShown: true,
+          headerShown: false, //overridden by the one below, changes Pool Details
           headerStyle: {
-            backgroundColor: "#061826", // Set custom background color
+            backgroundColor: "green", // Set custom background color
           },
           headerTitleAlign: "center", // Center the title or logo
           headerTitle: () => (
@@ -27,7 +27,7 @@ export default function PoolDetailsLayout() {
         {/* Pool overview page */}
         <Stack.Screen
           name="index"
-          options={{ title: "Pool Overview", headerShown: true }}
+          options={{ title: "Pool Overview", headerShown: false }} // Changes green on Pool Details
         />
 
         {/* Specific pool picks and standings */}
@@ -35,10 +35,10 @@ export default function PoolDetailsLayout() {
         <Stack.Screen name="standings" options={{ title: "Standings" }} />
 
         {/* Battles section */}
-        <Stack.Screen
+        {/* <Stack.Screen
           name="battles"
-          options={{ title: "Battles", headerShown: true }}
-        />
+          options={{ title: "Battles", headerShown: true }} // Changes green on Battle Details (but not Pool Details)
+        /> */}
 
         {/* Dynamic battle detail page */}
         {/* <Stack.Screen name="battles/[battleId]" options={{ title: 'Battle Details' }} /> */}

@@ -4,11 +4,11 @@ import { Image, StyleSheet, View } from "react-native";
 export default function BattlesLayout() {
   return (
     <View style={s.container}>
-            <Stack
+      <Stack
         screenOptions={{
-          headerShown: true,
+          headerShown: false,
           headerStyle: {
-            backgroundColor: "#061826", // Set custom background color
+            backgroundColor: "red", // Set custom background color
           },
           headerTitleAlign: "center", // Center the title or logo
           headerTitle: () => (
@@ -25,10 +25,16 @@ export default function BattlesLayout() {
         }}
       >
         {/* List of battles for the pool */}
-        <Stack.Screen name="index" options={{ title: 'Battle List', headerShown: true}} />
-        
-        {/* Dynamic battle details */}
-        <Stack.Screen name="[battleId]/index" options={{ title: 'Battle Details', headerShown: true}} />
+        {/* <Stack.Screen
+          name="index"
+          options={{ title: "Battle List", headerShown: true }}
+        /> */}
+
+        {/* Dynamic battle details ||| Below changes the Battle Details Page */}
+        <Stack.Screen
+          name="[battleId]/index"
+          options={{ title: "Battle Details", headerShown: false }}
+        />
       </Stack>
     </View>
   );

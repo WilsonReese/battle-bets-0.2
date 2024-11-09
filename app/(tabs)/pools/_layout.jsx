@@ -6,9 +6,9 @@ export default function PoolsLayout() {
     <View style={s.container}>
       <Stack
         screenOptions={{
-          headerShown: true,
+          headerShown: false, //changes Pools page and all children, overridden by one below
           headerStyle: {
-            backgroundColor: "#061826", // Set custom background color
+            backgroundColor: "blue", // Set custom background color
           },
           headerTitleAlign: "center", // Center the title or logo
           headerTitle: () => (
@@ -24,13 +24,21 @@ export default function PoolsLayout() {
           contentStyle: { backgroundColor: "transparent" },
         }}
       >
+        {/* Main pool screen with header shown */}
+        <Stack.Screen
+          name="index"
+          options={{
+            title: "Pools",
+            headerShown: true,
+          }}
+        />
         <Stack.Screen
           name="create"
           options={{ title: "Create Pool", headerShown: true }}
         />
         <Stack.Screen
           name="[id]"
-          options={{ title: "Pool Details", headerShown: true }}
+          options={{ title: "Pool Details", headerShown: true }} // changes blue on Pool Details and all children
         />
       </Stack>
     </View>
@@ -40,6 +48,6 @@ export default function PoolsLayout() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#061826'
+    backgroundColor: "#061826",
   },
 });
