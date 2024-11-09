@@ -7,6 +7,10 @@ import { TouchableOpacity } from "react-native";
 
 export function BetSlipModal({ betslip, visible, onClose }) {
   function renderPlacedBetsByCategory() {
+    if (!betslip || !betslip.bets) {
+      return null; // Return null or a placeholder if betslip.bets is not available
+    }
+    
     const categories = [
       {
         key: "spread_and_ou",
