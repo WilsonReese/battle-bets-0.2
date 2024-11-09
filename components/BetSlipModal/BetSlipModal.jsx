@@ -44,7 +44,7 @@ export function BetSlipModal({ betslip, visible, onClose }) {
 
       return (
         <View key={key}>
-          <BetOptionHeading title={title} />
+          <BetOptionHeading title={title} amountWon={totalAmountWon} amountRemaining={maxPayoutRemaining}/>
           <View style={s.betsContainer}>
             {filteredBets.map((bet, index) => (
               <PlacedBet
@@ -54,9 +54,15 @@ export function BetSlipModal({ betslip, visible, onClose }) {
               />
             ))}
           </View>
-          <View>
-            <Txt style={s.txt}>Won: ${totalAmountWon}</Txt>
-            <Txt style={s.txt}>Max: ${maxPayoutRemaining}</Txt>
+          <View style={s.betTypePayoutContainer}>
+            <View style={s.subtotalAmountsContainer}>
+              <Txt style={[s.txt, s.boldText]}>${totalAmountWon}</Txt>
+              <Txt style={s.txt}> Won</Txt>
+            </View>
+            <View style={s.subtotalAmountsContainer}>
+              <Txt style={[s.txt, s.boldText]}>${maxPayoutRemaining}</Txt>
+              <Txt style={s.txt}> To Win</Txt>
+            </View>
           </View>
         </View>
       );
@@ -70,25 +76,25 @@ export function BetSlipModal({ betslip, visible, onClose }) {
       animationType="fade"
       onRequestClose={onClose}
     >
-      {/* Pressable overlay for closing the modal */}
       <Pressable style={s.overlay} onPress={onClose}>
         {/* Empty View to capture taps outside the modal content */}
         <View />
       </Pressable>
 
-      {/* Centered modal container */}
       <View style={s.modalContainer}>
         <View style={s.headingContainer}>
           <Txt style={s.titleTxt}>{betslip.name}</Txt>
         </View>
         <View style={s.payoutContainer}>
-          <View style={s.amountsContainer}>
-            <Txt style={[s.payoutHeading, s.payoutText]}>Amount Won: </Txt>
-            <Txt style={s.payoutText}>${betslip.earnings}</Txt>
+          <View style={s.totalAmountsContainer}>
+            <Txt style={[s.boldText, s.payoutText]}>${betslip.earnings}</Txt>
+            <Txt style={s.payoutText}> Won</Txt>
           </View>
-          <View style={s.amountsContainer}>
-            <Txt style={[s.payoutHeading, s.payoutText]}>Max Remaining: </Txt>
-            <Txt style={s.payoutText}>${betslip.max_payout_remaining}</Txt>
+          <View style={s.totalAmountsContainer}>
+            <Txt style={[s.boldText, s.payoutText]}>
+              ${betslip.max_payout_remaining}
+            </Txt>
+            <Txt style={s.payoutText}> Remaining</Txt>
           </View>
         </View>
 
@@ -138,26 +144,37 @@ const s = StyleSheet.create({
   },
   payoutContainer: {
     flexDirection: "row",
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
-  payoutHeading: {
-    fontFamily: "Saira_600SemiBold",
-    // textTransform: 'uppercase'
-  },
   payoutText: {
     color: "#061826",
-    fontSize: 14,
+    fontSize: 16,
   },
-  amountsContainer: {
+  totalAmountsContainer: {
     flexDirection: "row",
   },
+  subtotalAmountsContainer: {
+    flexDirection: "row",
+    paddingLeft: 16,
+  },
   betsContainer: {
-    paddingVertical: 4,
+    paddingVertical: 0,
+  },
+  betTypePayoutContainer: {
+    flexDirection: "row",
+    justifyContent: 'flex-end',
+    alignItems: 'flex-end',
+    paddingHorizontal: 12,
+    paddingVertical: 10,
   },
   txt: {
     color: "#061826",
     fontSize: 14,
+  },
+  boldText: {
+    fontFamily: "Saira_600SemiBold",
+    // textTransform: 'uppercase'
   },
 });
