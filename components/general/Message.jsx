@@ -31,7 +31,7 @@ export function Message({ message, color, duration = 1000, onHide }) {
 const s = StyleSheet.create({
   messageContainer: {
     position: "absolute",
-    top: 40,
+    top: 250,
     alignSelf: "center",
     paddingVertical: 10,
     paddingHorizontal: 20,

@@ -74,7 +74,7 @@ export default function PoolDetails() {
   return (
     <SafeAreaProvider style={s.background}>
       <SafeAreaView style={s.container}>
-        <StatusBar style="dark" />
+        <StatusBar style="light" />
         <View style={s.titleContainer}>
           <Txt style={s.titleText}>
             {/* This will need to become the Pool Name */}

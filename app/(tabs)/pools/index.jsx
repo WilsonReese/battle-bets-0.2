@@ -6,6 +6,7 @@ import { StatusBar } from "expo-status-bar";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with Auth
 import { Message } from "../../../components/general/Message";
+import { Btn } from "../../../components/general/Buttons/Btn";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
@@ -62,20 +63,28 @@ export default function Pools() {
           onHide={() => setMessage(null)} // Clear the message after display
         />
       )}
-      <StatusBar style="dark" />
-      <Txt style={{ color: "black" }}>Pools Screen</Txt>
-      {pools.map((pool) => (
-        <Button
-          key={pool.id}
-          title={`Go to ${pool.name}`}
-          onPress={() => router.push(`/pools/${pool.id}/`)}
-        />
-      ))}
-      <Button
+      <StatusBar style="light" />
+
+      <View style={s.titleContainer}>
+        <Txt style={s.titleText}>Pools</Txt>
+      </View>
+      <View style={s.poolsContainer}>
+        {pools.map((pool) => (
+          <View style={s.btnContainer}>
+          <Btn
+            key={pool.id}
+            btnText={`Go to ${pool.name}`}
+            style={s.btn}
+            isEnabled={true}
+            onPress={() => router.push(`/pools/${pool.id}/`)}
+          />
+          </View>
+        ))}
+      </View>
+      {/* <Button
         title="Create a New Pool"
         onPress={() => router.push("/pools/create")}
-      />
-      <Txt style={{ color: "black" }}>Test</Txt>
+      /> */}
     </View>
   );
 }
@@ -83,8 +92,25 @@ export default function Pools() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
-    alignItems: "center",
+    padding: 8,
+    // justifyContent: "center",
+    // alignItems: "center",
     // backgroundColor: "#f8f8f8",
+  },
+  titleContainer: {},
+  titleText: {
+    color: "#F8F8F8",
+    fontSize: 24,
+  },
+  poolsContainer :{
+
+  },
+  btnContainer: {
+    paddingTop: 8,
+  },
+  btn: {
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    // margin: 4,
   },
 });
