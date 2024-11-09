@@ -75,9 +75,6 @@ export default function PoolDetails() {
     <SafeAreaProvider style={s.background}>
       <SafeAreaView style={s.container}>
         <StatusBar style="dark" />
-        <View style={s.logoHeader}>
-          <LogoHeader />
-        </View>
         <View style={s.titleContainer}>
           <Txt style={s.titleText}>
             {/* This will need to become the Pool Name */}
@@ -103,7 +100,7 @@ const s = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    margin: 8,
+    marginHorizontal: 8,
     backgroundColor: "#061826",
   },
   background: {
@@ -114,7 +111,7 @@ const s = StyleSheet.create({
     margin: 8,
   },
   titleContainer: {
-    paddingTop: 8,
+    // paddingTop: 8,
   },
   titleText: {
     color: "#F8F8F8",

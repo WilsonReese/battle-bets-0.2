@@ -27,7 +27,7 @@ export default function PoolDetailsLayout() {
         {/* Pool overview page */}
         <Stack.Screen
           name="index"
-          options={{ title: "Pool Overview", headerShown: false }} // Changes green on Pool Details
+          options={{ title: "Pool Overview", headerShown: true }} // Changes green on Pool Details
         />
 
         {/* Specific pool picks and standings */}
@@ -35,10 +35,10 @@ export default function PoolDetailsLayout() {
         <Stack.Screen name="standings" options={{ title: "Standings" }} />
 
         {/* Battles section */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="battles"
           options={{ title: "Battles", headerShown: true }} // Changes green on Battle Details (but not Pool Details)
-        /> */}
+        />
 
         {/* Dynamic battle detail page */}
         {/* <Stack.Screen name="battles/[battleId]" options={{ title: 'Battle Details' }} /> */}

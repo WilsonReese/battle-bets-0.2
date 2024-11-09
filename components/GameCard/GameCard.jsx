@@ -11,7 +11,7 @@ export function GameCard({ game }) {
     <View style={s.card}>
       <View style={s.gameDetails}>
         <Datetime date={game.start_time} time={game.time} />
-        <Txt style={{ fontSize: 12, color: "black" }}>Collapisble Arrow</Txt>
+        {/* <Txt style={{ fontSize: 12, color: "black" }}>Collapisble Arrow</Txt> */}
       </View>
       <View>
         <Matchup
@@ -38,6 +38,6 @@ const s = StyleSheet.create({
   },
   gameDetails: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    justifyContent: "flex",
   },
 });

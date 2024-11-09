@@ -38,7 +38,7 @@ export default function PoolsLayout() {
         />
         <Stack.Screen
           name="[id]"
-          options={{ title: "Pool Details", headerShown: true }} // changes blue on Pool Details and all children
+          options={{ title: "Pool Details", headerShown: false }} // changes blue on Pool Details and all children
         />
       </Stack>
     </View>

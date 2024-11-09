@@ -97,9 +97,6 @@ export default function BattleDetails() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={s.container}>
-        <View style={s.logoHeader}>
-          <LogoHeader />
-        </View>
         {loading ? (
           <View style={s.loadingContainer}>
             <LoadingIndicator color="light" contentToLoad="games" />
@@ -107,9 +104,9 @@ export default function BattleDetails() {
         ) : (
           <>
             <View style={s.body}>
-              <Txt>Pool:{poolId}</Txt>
-              <Txt>Betlslip:{betslipId}</Txt>
-              <SpreadAndOUInstructions />
+              <Txt>Pool {poolId}</Txt>
+              <Txt>Betlslip {betslipId}</Txt>
+              {/* <SpreadAndOUInstructions /> */}
               <ScrollView ref={scrollViewRef} style={s.scrollView}>
                 {/* This function renders each of the games */}
                 {renderGameCards()}

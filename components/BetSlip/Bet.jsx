@@ -23,7 +23,7 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
       <View style={[s.betItem, {backgroundColor}, isSelectorVisible && s.betItemEditMode]}>
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
-            <Txt style={s.betNameText}>{bet.name}: </Txt>
+            <Txt style={s.betNameText}>{bet.name}</Txt>
           </View>
           <View style={s.betAmountContainer}>
             <Txt style={s.betAmountText}>

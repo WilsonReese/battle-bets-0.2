@@ -1,11 +1,12 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
+import { format } from "date-fns";
 
-export function Datetime({ date, time }) {
+export function Datetime({ date}) {
   return (
     <View style={s.datetime}>
       <Txt style={s.text}>
-        {date}, {time}
+        {format(new Date(date), "MMMM d, h:mm a")}
       </Txt>
     </View>
   );
