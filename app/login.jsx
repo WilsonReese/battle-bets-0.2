@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Keyboard,
+  Image,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
@@ -63,7 +64,7 @@ export default function Login() {
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={s.container}>
           <View style={s.logoPlaceholder}>
-            <Txt>Logo Placeholder</Txt>
+          <Image style={s.image} source={require('@/assets/images/icon_style_v1.png')} />
           </View>
           <View style={s.loginContainer}>
             <View style={s.textInputContainer}>
@@ -112,10 +113,15 @@ const s = StyleSheet.create({
     flex: 1.5,
     height: 100,
     width: 100,
-    backgroundColor: "blue",
+    // backgroundColor: "blue",
     alignItems: "center",
     justifyContent: "center",
     alignSelf: "center",
+  },
+  image: {
+    height: 57.6,
+    width: 376.8,
+    resizeMode: "contain",
   },
   loginContainer: {
     flex: 3,

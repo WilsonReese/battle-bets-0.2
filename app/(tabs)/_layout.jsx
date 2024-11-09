@@ -1,33 +1,37 @@
 import { Tabs } from "expo-router";
-import {
-  useFonts,
-  Saira_100Thin,
-  Saira_200ExtraLight,
-  Saira_300Light,
-  Saira_400Regular,
-  Saira_400Regular_Italic,
-  Saira_500Medium,
-  Saira_600SemiBold,
-  Saira_700Bold,
-  Saira_800ExtraBold,
-  Saira_900Black,
-} from "@expo-google-fonts/saira";
+// import {
+//   useFonts,
+//   Saira_100Thin,
+//   Saira_200ExtraLight,
+//   Saira_300Light,
+//   Saira_400Regular,
+//   Saira_400Regular_Italic,
+//   Saira_500Medium,
+//   Saira_600SemiBold,
+//   Saira_700Bold,
+//   Saira_800ExtraBold,
+//   Saira_900Black,
+// } from "@expo-google-fonts/saira";
 import { StyleSheet, View } from "react-native";
 // import AppLoading from 'expo-app-loading';
 
 export default function TabLayout() {
-  const [fontsLoaded] = useFonts({
-    Saira_100Thin,
-    Saira_200ExtraLight,
-    Saira_300Light,
-    Saira_400Regular,
-    Saira_400Regular_Italic,
-    Saira_500Medium,
-    Saira_600SemiBold,
-    Saira_700Bold,
-    Saira_800ExtraBold,
-    Saira_900Black,
-  });
+  // const [fontsLoaded] = useFonts({
+  //   Saira_100Thin,
+  //   Saira_200ExtraLight,
+  //   Saira_300Light,
+  //   Saira_400Regular,
+  //   Saira_400Regular_Italic,
+  //   Saira_500Medium,
+  //   Saira_600SemiBold,
+  //   Saira_700Bold,
+  //   Saira_800ExtraBold,
+  //   Saira_900Black,
+  // });
+
+  // if (!fontsLoaded) {
+  //   return <AppLoading />; // Show a loading screen until fonts are loaded
+  // }
 
   return (
     <View style={s.container}>

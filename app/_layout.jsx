@@ -2,8 +2,52 @@ import { Stack } from "expo-router/stack";
 import { StyleSheet, View } from "react-native";
 import { AuthProvider } from "../components/contexts/AuthContext";
 import { BetProvider } from "../components/contexts/BetContext";
+import * as SplashScreen from 'expo-splash-screen';
+import {
+  useFonts,
+  Saira_100Thin,
+  Saira_200ExtraLight,
+  Saira_300Light,
+  Saira_400Regular,
+  Saira_400Regular_Italic,
+  Saira_500Medium,
+  Saira_600SemiBold,
+  Saira_700Bold,
+  Saira_800ExtraBold,
+  Saira_900Black,
+} from "@expo-google-fonts/saira";
+import { useEffect, useState } from "react";
+
+SplashScreen.preventAutoHideAsync();
 
 export default function Layout() {
+  const [fontsLoaded] = useFonts({
+    Saira_100Thin,
+    Saira_200ExtraLight,
+    Saira_300Light,
+    Saira_400Regular,
+    Saira_400Regular_Italic,
+    Saira_500Medium,
+    Saira_600SemiBold,
+    Saira_700Bold,
+    Saira_800ExtraBold,
+    Saira_900Black,
+  });
+
+  useEffect(() => {
+    async function prepare() {
+      await SplashScreen.preventAutoHideAsync();
+      if (fontsLoaded) {
+        await SplashScreen.hideAsync();
+      }
+    }
+    prepare();
+  }, [fontsLoaded]);
+
+  if (!fontsLoaded) {
+    return null; // Keep the splash screen up until fonts are loaded
+  }
+
   return (
     <BetProvider>
       <AuthProvider>
