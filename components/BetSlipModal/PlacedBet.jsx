@@ -4,9 +4,9 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export function PlacedBet({ bet, backgroundColor }) {
   // Define outcome variables based on bet status
-  const isPending = !bet.amount_won;
-  const isFailed = bet.amount_won && !bet.bet_option.success;
-  const isSuccess = bet.amount_won && bet.bet_option.success;
+  const isPending = bet.bet_option.success === null;
+  const isFailed = bet.bet_option.success === false;
+  const isSuccess = bet.bet_option.success === true;
 
   // Define colors based on outcome
   const iconColor = isPending ? "#184EAD" : isFailed ? "#AB1126" : "#0C9449";
