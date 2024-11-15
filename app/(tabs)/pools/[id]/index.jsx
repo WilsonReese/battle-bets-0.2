@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View, StyleSheet, SafeAreaView, Alert } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../../components/general/Txt.jsx";
 import { StatusBar } from "expo-status-bar";
 import { Btn } from "../../../../components/general/Buttons/Btn.jsx";
@@ -21,6 +21,7 @@ export default function PoolDetails() {
 
   // Function to fetch battles and determine the latest one
   const fetchBattles = async () => {
+    // setLoading(true);
     try {
       const battlesResponse = await api.get(`/pools/${poolId}/battles`);
       const fetchedBattles = battlesResponse.data;
@@ -54,9 +55,15 @@ export default function PoolDetails() {
   };
 
   // useEffect to fetch battles when the component mounts
-  useEffect(() => {
-    fetchBattles();
-  }, []);
+  // useEffect(() => {
+  //   fetchBattles();
+  // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchBattles();
+    }, [])
+  );
 
   const latestBattle = battles[0];
 
@@ -85,6 +92,9 @@ export default function PoolDetails() {
           userBetslip={userBetslip}
           poolId={poolId}
           battle={latestBattle}
+          setBattles={setBattles}
+          setUserBetslip={setUserBetslip}
+          setLoading={setLoading}
         />
         <PreviousBattles battles={battles}/>
       </SafeAreaView>

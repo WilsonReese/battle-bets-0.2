@@ -20,15 +20,14 @@ export default function BattlesLayout() {
           ),
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
-          headerBackTitleVisible: false, // Hide back button text
           contentStyle: { backgroundColor: "transparent" },
         }}
       >
         {/* List of battles for the pool */}
-        {/* <Stack.Screen
+        <Stack.Screen
           name="index"
-          options={{ title: "Battle List", headerShown: true }}
-        /> */}
+          options={{ title: "Battle List", headerShown: false }}
+        />
 
         {/* Dynamic battle details ||| Below changes the Battle Details Page */}
         <Stack.Screen

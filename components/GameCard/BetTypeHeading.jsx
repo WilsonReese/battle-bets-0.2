@@ -16,7 +16,7 @@ const s = StyleSheet.create({
   headingTxt: {
     color: "#061826",
     fontFamily: "Saira_300Light",
-    letterSpacing: "1%",
+    letterSpacing: 1,
     fontSize: 12,
     textTransform: "uppercase"
   },

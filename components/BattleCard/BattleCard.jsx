@@ -7,7 +7,14 @@ import api from "../../utils/axiosConfig";
 import { router } from "expo-router";
 import { StatusIcon } from "../general/StatusIcon";
 
-export function BattleCard({ userBetslip, poolId, battle }) {
+export function BattleCard({
+  userBetslip,
+  poolId,
+  battle,
+  setBattles,
+  setUserBetslip,
+  setLoading,
+}) {
   const handleMakeBets = async (battle, poolId) => {
     try {
       const response = await api.post(
@@ -22,6 +29,11 @@ export function BattleCard({ userBetslip, poolId, battle }) {
 
       // Get the created betslip's ID from the response
       const betslipId = response.data.id;
+
+      // Reset state to show loading immediately on return
+      setBattles([]);
+      setUserBetslip(null);
+      setLoading(true);
 
       // After betslip is created, navigate to the betslip or battle page
       router.push({
@@ -52,7 +64,8 @@ export function BattleCard({ userBetslip, poolId, battle }) {
             <Btn
               btnText={"Make Bets"}
               style={s.btn}
-              isEnabled={true}
+              // isEnabled={true}
+              isEnabled={!battle.locked}
               onPress={() => handleMakeBets(battle, poolId)}
             />
           </View>
@@ -70,7 +83,7 @@ export function BattleCard({ userBetslip, poolId, battle }) {
           <Btn
             btnText={"Edit Bets"}
             style={s.btn}
-            isEnabled={true}
+            isEnabled={!battle.locked}
             onPress={() =>
               router.push(
                 `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`
@@ -152,6 +165,6 @@ const s = StyleSheet.create({
     paddingTop: 4,
   },
   submitBetsNoticeContainer: {
-    alignItems: 'center'
-  }
+    alignItems: "center",
+  },
 });

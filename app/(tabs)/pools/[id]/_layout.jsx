@@ -8,7 +8,7 @@ export default function PoolDetailsLayout() {
         screenOptions={{
           headerShown: false, //overridden by the one below, changes Pool Details
           headerStyle: {
-            backgroundColor: "#061826", // GREEN FOR DEBUGGING - Set custom background color
+            backgroundColor: "#061826", // GREEN FOR DEBUGGING - Set custom background color #061826
           },
           headerTitleAlign: "center", // Center the title or logo
           headerTitle: () => (
@@ -20,7 +20,6 @@ export default function PoolDetailsLayout() {
           ),
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
-          headerBackTitleVisible: false, // Hide back button text
           contentStyle: { backgroundColor: "transparent" },
         }}
       >
@@ -37,7 +36,17 @@ export default function PoolDetailsLayout() {
         {/* Battles section */}
         <Stack.Screen
           name="battles"
-          options={{ title: "Battles", headerShown: true }} // Changes green on Battle Details (but not Pool Details)
+          options={{
+            title: "Battles",
+            headerShown: true,
+            headerLeft: () => null,
+            headerBackTitleVisible: false,
+            headerBackTitle: "Back",
+            headerBackTitleStyle: {
+              color: "blue",
+              fontFamily: "Saira_400Regular",
+            },
+          }} // Changes green on Battle Details (but not Pool Details)
         />
 
         {/* Dynamic battle detail page */}
