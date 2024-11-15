@@ -20,7 +20,6 @@ export default function PoolsLayout() {
           ),
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
-          headerBackTitleVisible: false, // Hide back button text
           contentStyle: { backgroundColor: "transparent" },
         }}
       >
