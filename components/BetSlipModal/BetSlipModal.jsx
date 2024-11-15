@@ -71,7 +71,7 @@ export function BetSlipModal({ betslip, visible, onClose }) {
             </View>
             <View style={s.subtotalAmountsContainer}>
               <Txt style={[s.txt, s.boldText]}>${maxPayoutRemaining}</Txt>
-              <Txt style={s.txt}> To Win</Txt>
+              <Txt style={s.txt}> Max</Txt>
             </View>
           </View>
         </View>
@@ -107,7 +107,7 @@ export function BetSlipModal({ betslip, visible, onClose }) {
             <Txt style={[s.boldText, s.payoutText]}>
               ${betslip.max_payout_remaining}
             </Txt>
-            <Txt style={s.payoutText}> Remaining</Txt>
+            <Txt style={s.payoutText}> Max</Txt>
           </View>
         </View>
 
