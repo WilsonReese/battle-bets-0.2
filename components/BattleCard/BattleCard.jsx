@@ -52,7 +52,8 @@ export function BattleCard({ userBetslip, poolId, battle }) {
             <Btn
               btnText={"Make Bets"}
               style={s.btn}
-              isEnabled={true}
+              // isEnabled={true}
+              isEnabled={!battle.locked}
               onPress={() => handleMakeBets(battle, poolId)}
             />
           </View>
@@ -70,7 +71,7 @@ export function BattleCard({ userBetslip, poolId, battle }) {
           <Btn
             btnText={"Edit Bets"}
             style={s.btn}
-            isEnabled={true}
+            isEnabled={!battle.locked}
             onPress={() =>
               router.push(
                 `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`

@@ -95,7 +95,7 @@ const s = StyleSheet.create({
     padding: 8,
     // justifyContent: "center",
     // alignItems: "center",
-    // backgroundColor: "#f8f8f8",
+    backgroundColor: "#061826",
   },
   titleContainer: {},
   titleText: {
