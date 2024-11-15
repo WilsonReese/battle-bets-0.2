@@ -116,7 +116,7 @@ export function BetSlipHeading({
       console.log("Bet state cleared");
 
       // 4. Navigate to the pool page
-      router.push(`/pools/${poolId}`);
+      router.back(`/pools/${poolId}`);
       Alert.alert("Success", "Bets submitted successfully!");
     } catch (error) {
       console.error("Error submitting bets:", error.response || error);

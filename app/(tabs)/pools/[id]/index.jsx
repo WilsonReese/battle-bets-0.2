@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View, StyleSheet, SafeAreaView, Alert } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../../components/general/Txt.jsx";
 import { StatusBar } from "expo-status-bar";
 import { Btn } from "../../../../components/general/Buttons/Btn.jsx";
@@ -54,9 +54,15 @@ export default function PoolDetails() {
   };
 
   // useEffect to fetch battles when the component mounts
-  useEffect(() => {
-    fetchBattles();
-  }, []);
+  // useEffect(() => {
+  //   fetchBattles();
+  // }, []);
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchBattles();
+    }, [])
+  );
 
   const latestBattle = battles[0];
 
