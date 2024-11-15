@@ -21,6 +21,7 @@ export default function PoolDetails() {
 
   // Function to fetch battles and determine the latest one
   const fetchBattles = async () => {
+    // setLoading(true);
     try {
       const battlesResponse = await api.get(`/pools/${poolId}/battles`);
       const fetchedBattles = battlesResponse.data;
@@ -91,6 +92,9 @@ export default function PoolDetails() {
           userBetslip={userBetslip}
           poolId={poolId}
           battle={latestBattle}
+          setBattles={setBattles}
+          setUserBetslip={setUserBetslip}
+          setLoading={setLoading}
         />
         <PreviousBattles battles={battles}/>
       </SafeAreaView>
