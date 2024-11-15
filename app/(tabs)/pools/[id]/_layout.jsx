@@ -8,7 +8,7 @@ export default function PoolDetailsLayout() {
         screenOptions={{
           headerShown: false, //overridden by the one below, changes Pool Details
           headerStyle: {
-            backgroundColor: "green", // GREEN FOR DEBUGGING - Set custom background color #061826
+            backgroundColor: "#061826", // GREEN FOR DEBUGGING - Set custom background color #061826
           },
           headerTitleAlign: "center", // Center the title or logo
           headerTitle: () => (
