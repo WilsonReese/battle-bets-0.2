@@ -1,1 +1,3 @@
-export const API_BASE_URL = "http://10.139.1.122:3000"
+export const API_BASE_URL = process.env.EXPO_PUBLIC_API_URL;
+
+console.log("Using API_BASE_URL:", API_BASE_URL);
