@@ -14,7 +14,8 @@
       "backgroundColor": "#061826"
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.battlebets.battlebets"
     },
     "android": {
       "adaptiveIcon": {
@@ -34,6 +35,14 @@
     ],
     "experiments": {
       "typedRoutes": true
+    },
+    "extra": {
+      "router": {
+        "origin": false
+      },
+      "eas": {
+        "projectId": "bfe2efbe-b772-4641-aa87-a4fe52c42ef0"
+      }
     }
   }
 }
