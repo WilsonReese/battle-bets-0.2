@@ -18,12 +18,12 @@ export const useAxiosWithAuth = () => {
     const requestInterceptor = api.interceptors.request.use(
       (config) => {
         if (token) {
-          console.log("Attaching token:", token);
+          // console.log("Attaching token:", token);
           config.headers.Authorization = `Bearer ${token}`; // Attach token to Authorization header
         } else {
           console.log("No token found, skipping Authorization header");
         }
-        console.log("Final Axios Request Config:", config);
+        // console.log("Final Axios Request Config:", config);
         return config;
       },
       (error) => {
