@@ -30,6 +30,7 @@ export default function Pools() {
         setPools(response.data);
         setLoading(false);
       } catch (error) {
+        // console.log("Header from fetching pools:", api.defaults.headers.Authorization);
         console.error("Error fetching pools:", error);
         setLoading(false);
       }

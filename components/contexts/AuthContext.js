@@ -12,6 +12,7 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadToken = async () => {
       const storedToken = await SecureStore.getItemAsync("jwt_token");
+      // console.log("Loaded token from SecureStore:", storedToken);
       if (storedToken) {
         setToken(storedToken);
       }
