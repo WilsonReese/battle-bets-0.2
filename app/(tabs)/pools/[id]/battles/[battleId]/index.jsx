@@ -39,6 +39,16 @@ export default function BattleDetails() {
     }
   };
 
+  const toggleBetSlip = () => {
+    Animated.timing(animatedHeight, {
+      toValue: isBetSlipShown ? betSlipHeadingHeight : betSlipHeight,
+      duration: 250,
+      useNativeDriver: false,
+    }).start(() => {
+      setIsBetSlipShown(!isBetSlipShown);
+    });
+  };
+
   // Function to load bets from AsyncStorage
   // const loadBets = async () => {
   //   try {
@@ -105,9 +115,13 @@ export default function BattleDetails() {
         ) : (
           <>
             <View style={s.body}>
-              <BudgetRow></BudgetRow>
-              <Txt>Pool {poolId}</Txt>
-              <Txt>Betlslip {betslipId}</Txt>
+              <BudgetRow
+                isBetSlipShown={isBetSlipShown}
+                scrollViewRef={scrollViewRef}
+                toggleBetSlip={toggleBetSlip}
+              ></BudgetRow>
+              {/* <Txt>Pool {poolId}</Txt>
+              <Txt>Betlslip {betslipId}</Txt> */}
               {/* <SpreadAndOUInstructions /> */}
               <ScrollView ref={scrollViewRef} style={s.scrollView}>
                 {/* This function renders each of the games */}
