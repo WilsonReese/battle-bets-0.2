@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ScrollView, ActivityIndicator, Animated, Dimensions } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "@/components/general/Txt";
@@ -24,6 +24,13 @@ export default function BattleDetails() {
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef(null);
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
+  
+  // BetSlip information
+  const { height } = Dimensions.get("window");
+  const betSlipHeight = (height * 3.2) / 5;
+  const betSlipHeadingHeight = 148; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
+  const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
+  
   // const [bets, setBets] = useState([]);
   // const { setBets } = useBetContext();
 
@@ -138,6 +145,11 @@ export default function BattleDetails() {
                 scrollViewRef={scrollViewRef}
                 betslipId={betslipId}
                 battleId={battleId}
+                height={height}
+                betSlipHeight={betSlipHeight}
+                betSlipHeadingHeight={betSlipHeadingHeight}
+                animatedHeight={animatedHeight}
+                toggleBetSlip={toggleBetSlip}
               />
             </View>
           </>
