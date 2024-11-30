@@ -27,8 +27,8 @@ export default function BattleDetails() {
   
   // BetSlip information
   const { height } = Dimensions.get("window");
-  const betSlipHeight = (height * 3.2) / 5;
-  const betSlipHeadingHeight = 148; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
+  const betSlipHeight = (height * 3) / 5;
+  const betSlipHeadingHeight = 94; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
   const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
   
   // const [bets, setBets] = useState([]);
