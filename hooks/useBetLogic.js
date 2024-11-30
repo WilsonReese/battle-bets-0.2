@@ -3,7 +3,7 @@ import { Animated } from "react-native";
 import { useBetContext } from "../components/contexts/BetContext";
 import { BETTING_RULES } from "../utils/betting-rules";
 
-export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs) => {
+export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs, optionOneShortTitle, optionTwoShortTitle) => {
   const { bets, addBet, removeBet, getBetOptionType, getBudget, getTotalBetAmount } = useBetContext();
   const [selection, setSelection] = useState({ optionOne: false, optionTwo: false });
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -52,8 +52,13 @@ export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs
     return type === "optionOne" ? optionOne : optionTwo;
   };
 
+  const getShortTitle = (type) => {
+    return type === "optionOne" ? optionOneShortTitle : optionTwoShortTitle;
+  };
+
   const selectBet = (type) => {
     const title = getTitle(type);
+    const shortTitle = getShortTitle(type)
     const payout = payouts[type]; // Get the correct payout based on the type
     const betOptionID = betOptionIDs[type]
     setSelection({ [type]: true });
@@ -62,7 +67,8 @@ export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs
       betAmount: minBet,
       payout: payout,
       betType: betType,
-      betOptionID: betOptionID
+      betOptionID: betOptionID,
+      shortTitle: shortTitle
     });
     console.log("useBetLogic, Selected Bet:", newBet)
     setCurrentBetId(newBet.id);

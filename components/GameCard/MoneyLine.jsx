@@ -13,7 +13,9 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
   const awayMoneyLine = moneyLineOptions[0]; // Assuming the first option is for the away team
   const homeMoneyLine = moneyLineOptions[1]; // Assuming the second option is for the home team
   const awayMoneyLineLongTitle = awayMoneyLine.long_title
+  const awayMoneyLineShortTitle = awayMoneyLine.title
   const homeMoneyLineLongTitle = homeMoneyLine.long_title
+  const homeMoneyLineShortTitle = homeMoneyLine.title
   
   const payouts = {
     optionOne: awayMoneyLine.payout,
@@ -24,7 +26,7 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
     optionOne: awayMoneyLine.id,
     optionTwo: homeMoneyLine.id
   }
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", awayMoneyLineLongTitle, homeMoneyLineLongTitle, payouts, betOptionIDs);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", awayMoneyLineLongTitle, homeMoneyLineLongTitle, payouts, betOptionIDs, awayMoneyLineShortTitle, homeMoneyLineShortTitle);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (

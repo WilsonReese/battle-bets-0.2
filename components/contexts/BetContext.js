@@ -204,7 +204,7 @@ export const BetProvider = ({ children, battleId }) => {
     setTotalPropBet(totalPropBet);
   };
 
-  const addBet = ({ title, betAmount, payout, betType, betOptionID }) => {
+  const addBet = ({ title, betAmount, payout, betType, betOptionID, shortTitle }) => {
     const newBet = {
       id: uuid.v4(),
       name: title,
@@ -213,6 +213,7 @@ export const BetProvider = ({ children, battleId }) => {
       betType: betType,
       betOptionID: betOptionID,
       isNew: true, // Flag to indicate it's a new bet
+      shortTitle: shortTitle
     };
     console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);

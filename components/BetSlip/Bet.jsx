@@ -4,6 +4,7 @@ import { Txt } from "../general/Txt";
 import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
 import { useBetContext } from "../contexts/BetContext";
+import { BetDetails } from "./BetDetails";
 
 export function Bet({ bet, isSelectorVisible, backgroundColor }) {
   const { minBet, maxBet } = BETTING_RULES[bet.betType];
@@ -24,6 +25,7 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
             <Txt style={s.betNameText}>{bet.name}</Txt>
+            <BetDetails name={bet.shortTitle}/>
           </View>
           <View style={s.betAmountContainer}>
             <Txt style={s.betAmountText}>

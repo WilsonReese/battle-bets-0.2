@@ -13,7 +13,9 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
   const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
   const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
   const awaySpreadLongTitle = awaySpread.long_title
+  const awaySpreadShortTitle = awaySpread.title
   const homeSpreadLongTitle = homeSpread.long_title
+  const homeSpreadShortTitle = homeSpread.title
   
   const payouts = {
     optionOne: awaySpread.payout,
@@ -25,7 +27,7 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
     optionTwo: homeSpread.id
   }
   // console.log(betOptionIDs)
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts, betOptionIDs);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts, betOptionIDs, awaySpreadShortTitle, homeSpreadShortTitle);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
