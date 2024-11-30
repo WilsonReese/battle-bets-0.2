@@ -25,7 +25,7 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
             <Txt style={s.betNameText}>{bet.name}</Txt>
-            <BetDetails name={bet.shortTitle}/>
+            <BetDetails name={bet.shortTitle} multiplier={bet.payout}/>
           </View>
           <View style={s.betAmountContainer}>
             <Txt style={s.betAmountText}>

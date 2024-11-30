@@ -213,7 +213,8 @@ export const BetProvider = ({ children, battleId }) => {
       betType: betType,
       betOptionID: betOptionID,
       isNew: true, // Flag to indicate it's a new bet
-      shortTitle: shortTitle
+      shortTitle: shortTitle,
+      payout: payout
     };
     console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);

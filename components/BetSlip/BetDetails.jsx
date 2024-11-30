@@ -7,7 +7,7 @@ export function BetDetails({name, matchup, time, multiplier}) {
     <View style={[s.container]}>
       <View style={s.betNameContainer}>
         <Txt style={[s.txt, s.betNameTxt]}>{name}</Txt>
-        <Txt style={[s.txt, s.smallTxt]}>x2</Txt>
+        <Txt style={[s.txt, s.smallTxt]}>x {multiplier}</Txt>
       </View>
       <View style={s.matchupContainer}>
         <Txt style={[s.txt, s.smallTxt]}>Texas at Texas A&M</Txt>
