@@ -15,6 +15,7 @@ import {
 import { LoadingIndicator } from "../../../../../../components/general/LoadingIndicator";
 import api from "../../../../../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
 
 export default function BattleDetails() {
   const { id: poolId, battleId, betslipId } = useLocalSearchParams();
@@ -104,6 +105,7 @@ export default function BattleDetails() {
         ) : (
           <>
             <View style={s.body}>
+              <BudgetRow></BudgetRow>
               <Txt>Pool {poolId}</Txt>
               <Txt>Betlslip {betslipId}</Txt>
               {/* <SpreadAndOUInstructions /> */}
