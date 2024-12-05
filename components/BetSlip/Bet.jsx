@@ -6,6 +6,7 @@ import { BETTING_RULES } from "../../utils/betting-rules";
 import { useBetContext } from "../contexts/BetContext";
 import { BetDetails } from "./BetDetails";
 import { format } from "date-fns";
+import { BetAmount } from "./BetAmount";
 
 export function Bet({ bet, isSelectorVisible, backgroundColor }) {
   const { minBet, maxBet } = BETTING_RULES[bet.betType];
@@ -31,9 +32,7 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
             <BetDetails name={bet.shortTitle} multiplier={bet.payout} matchup={matchup} time={gameTime}/>
           </View>
           <View style={s.betAmountContainer}>
-            <Txt style={s.betAmountText}>
-              ${bet.betAmount} to win ${bet.toWinAmount}
-            </Txt>
+            <BetAmount betAmount={bet.betAmount} toWinAmount={bet.toWinAmount}/>
           </View>
         </View>
       </View>
@@ -71,6 +70,7 @@ const s = StyleSheet.create({
   },
   betDetailsContainer: {
     flexDirection: "row",
+    alignItems: 'center'
     // justifyContent: "space-between",
   },
   betNameContainer: {
