@@ -70,11 +70,14 @@ const s = StyleSheet.create({
   },
   betDetailsContainer: {
     flexDirection: "row",
-    alignItems: 'center'
+    alignItems: 'center',
+    // backgroundColor: 'orange'
     // justifyContent: "space-between",
   },
   betNameContainer: {
     flex: 3,
+    // paddingRight: 20,
+    // marginRight: 20,
     // backgroundColor: 'green'
   },
   betNameText: {

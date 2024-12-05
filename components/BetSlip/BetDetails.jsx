@@ -5,6 +5,10 @@ import { Txt } from "../general/Txt";
 export function BetDetails({ name, matchup, time, multiplier }) {
   return (
     <View style={[s.container]}>
+      <View style={s.matchupContainer}>
+        <Txt style={[s.smallTxt]}>{matchup}</Txt>
+        {/* <Txt style={[s.smallTxt]}>{time}</Txt> */}
+      </View>
       <View style={s.betInfoContainer}>
         <View style={s.betNameContainer}>
           <Txt style={[s.betNameTxt]}>{name}</Txt>
@@ -13,12 +17,20 @@ export function BetDetails({ name, matchup, time, multiplier }) {
           <Txt style={[s.payoutTxt]}>x{multiplier}</Txt>
         </View>
       </View>
-      <View style={s.matchupContainer}>
-        {/* <Txt style={[s.txt, s.smallTxt]}>x{multiplier}</Txt> */}
-        <Txt style={[s.smallTxt]}>{matchup}</Txt>
-        <Txt style={[s.smallTxt]}>{time}</Txt>
-      </View>
     </View>
+		// <View style={s.container}>
+		// 	<View style={s.betDetailsContainer}>
+		// 		<View>
+		// 			<Txt style={[s.smallTxt]}>{matchup}</Txt>
+		// 		</View>
+		// 		<View>
+		// 			<Txt style={[s.betNameTxt]}>{name}</Txt>
+		// 		</View>
+		// 	</View>
+		// 	<View>
+		// 		<Txt style={[s.payoutTxt]}>x{multiplier}</Txt>
+		// 	</View>
+		// </View>
   );
 }
 
@@ -34,15 +46,18 @@ const s = StyleSheet.create({
   },
   betNameContainer: {
     flex: 4,
+		flexDirection: 'row',
     // justifyContent: 'flex-end',
     // alignItems: 'center',
     // backgroundColor: 'green'
   },
   betPayoutContainer: {
     flex: 1,
-    alignItems: "flex-end",
+    alignItems: "center",
     justifyContent: "center",
-    paddingLeft: 4,
+    // paddingLeft: 4,
+		borderRadius: 4,
+		backgroundColor: '#54D18C',
   },
   betNameTxt: {
     fontFamily: "Saira_600SemiBold",
@@ -54,14 +69,14 @@ const s = StyleSheet.create({
   },
   matchupContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
+    // justifyContent: "space-between",
   },
 	payoutTxt: {
 		color: "#061826",
-		fontSize: 14,
+		fontSize: 12,
 	},
   smallTxt: {
-    fontSize: 11,
+    fontSize: 10,
 		color: '#6E7880'
   },
 });
