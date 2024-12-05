@@ -47,6 +47,7 @@ const s = StyleSheet.create({
   betNameContainer: {
     flex: 4,
 		flexDirection: 'row',
+		paddingRight: 8,
     // justifyContent: 'flex-end',
     // alignItems: 'center',
     // backgroundColor: 'green'
