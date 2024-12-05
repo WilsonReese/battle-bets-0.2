@@ -3,7 +3,7 @@ import { Animated } from "react-native";
 import { useBetContext } from "../components/contexts/BetContext";
 import { BETTING_RULES } from "../utils/betting-rules";
 
-export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs, optionOneShortTitle, optionTwoShortTitle) => {
+export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs, optionOneShortTitle, optionTwoShortTitle, game) => {
   const { bets, addBet, removeBet, getBetOptionType, getBudget, getTotalBetAmount } = useBetContext();
   const [selection, setSelection] = useState({ optionOne: false, optionTwo: false });
   const animatedHeight = useRef(new Animated.Value(0)).current;
@@ -68,7 +68,8 @@ export const useBetLogic = (betType, optionOne, optionTwo, payouts, betOptionIDs
       payout: payout,
       betType: betType,
       betOptionID: betOptionID,
-      shortTitle: shortTitle
+      shortTitle: shortTitle,
+      game: game
     });
     console.log("useBetLogic, Selected Bet:", newBet)
     setCurrentBetId(newBet.id);

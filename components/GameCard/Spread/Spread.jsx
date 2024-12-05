@@ -5,7 +5,7 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, homeTeam, awayTeam }) {
+export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, homeTeam, awayTeam, game }) {
   if (!spreadOptions || spreadOptions.length < 2) {
     return null; // Ensure there are at least two options (home and away)
   }
@@ -27,7 +27,7 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
     optionTwo: homeSpread.id
   }
   // console.log(betOptionIDs)
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts, betOptionIDs, awaySpreadShortTitle, homeSpreadShortTitle);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts, betOptionIDs, awaySpreadShortTitle, homeSpreadShortTitle, game);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (

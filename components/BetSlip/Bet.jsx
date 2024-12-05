@@ -5,11 +5,14 @@ import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
 import { useBetContext } from "../contexts/BetContext";
 import { BetDetails } from "./BetDetails";
+import { format } from "date-fns";
 
 export function Bet({ bet, isSelectorVisible, backgroundColor }) {
   const { minBet, maxBet } = BETTING_RULES[bet.betType];
   const { removeBet } = useBetContext();
   const animatedHeight = useRef(new Animated.Value(0)).current;
+  const matchup = `${bet.game.away_team.name} at ${bet.game.home_team.name}`
+  const gameTime = format(new Date(bet.game.start_time), "h:mm a"); // Format time
 
   useEffect(() => {
     Animated.timing(animatedHeight, {
@@ -24,8 +27,8 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
       <View style={[s.betItem, {backgroundColor}, isSelectorVisible && s.betItemEditMode]}>
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
-            <Txt style={s.betNameText}>{bet.name}</Txt>
-            <BetDetails name={bet.shortTitle} multiplier={bet.payout}/>
+            {/* <Txt style={s.betNameText}>{bet.name}</Txt> */}
+            <BetDetails name={bet.shortTitle} multiplier={bet.payout} matchup={matchup} time={gameTime}/>
           </View>
           <View style={s.betAmountContainer}>
             <Txt style={s.betAmountText}>

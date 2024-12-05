@@ -33,6 +33,7 @@ export function BetOptions({ game }) {
         <View>
           <Spread
             spreadOptions={spreadOptions}
+            game={game}
             homeTeam={game.home_team.name}
             awayTeam={game.away_team.name}
             // spreadHome={game.spreadHome}
@@ -41,6 +42,7 @@ export function BetOptions({ game }) {
           />
           <OverUnder
             ouOptions={ouOptions}
+            game={game}
             // ou={game.ou}
             // ouPayout={game.ouPayout}
             homeTeam={game.home_team.name}
@@ -52,6 +54,7 @@ export function BetOptions({ game }) {
         <View>
           <MoneyLine
             moneyLineOptions={moneyLineOptions}
+            game={game}
             homeTeam={game.home_team.name}
             awayTeam={game.away_team.name}
             moneyLineHome={game.moneyLineHome}
@@ -64,6 +67,7 @@ export function BetOptions({ game }) {
       {betOptionType === "prop" && (
         <PropBets
           betOptions={propBetOptions}
+          game={game}
           homeTeam={game.home_team.name}
           awayTeam={game.away_team.name}
         />

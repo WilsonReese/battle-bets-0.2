@@ -5,7 +5,7 @@ import { BetOption } from "./BetOption";
 import { useBetLogic } from "../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../utils/betting-rules";
 
-export function PropBets({ betOptions, homeTeam, awayTeam }) {
+export function PropBets({ betOptions, homeTeam, awayTeam, game }) {
   const renderPropOptions = (betOptions) => {
     return betOptions.map((option) => {
       const payouts = {
@@ -25,7 +25,7 @@ export function PropBets({ betOptions, homeTeam, awayTeam }) {
         toggleBet,
         betType,
         currentBetId,
-      } = useBetLogic("prop", optionLongTitle, optionLongTitle, payouts, betOptionIDs, optionShortTitle, optionShortTitle);
+      } = useBetLogic("prop", optionLongTitle, optionLongTitle, payouts, betOptionIDs, optionShortTitle, optionShortTitle, game);
       const { minBet, maxBet } = BETTING_RULES[betType];
 
       return (

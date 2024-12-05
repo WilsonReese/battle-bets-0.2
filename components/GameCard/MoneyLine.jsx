@@ -5,7 +5,7 @@ import { BetOption } from "./BetOption";
 import { useBetLogic } from "../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../utils/betting-rules";
 
-export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome, moneyLineHomePayout, moneyLineAway, moneyLineAwayPayout }) {
+export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome, moneyLineHomePayout, moneyLineAway, moneyLineAwayPayout, game }) {
   if (!moneyLineOptions || moneyLineOptions.length < 2) {
     return null; // Ensure there are at least two options (home and away)
   }
@@ -26,7 +26,7 @@ export function MoneyLine({ moneyLineOptions, homeTeam, awayTeam, moneyLineHome,
     optionOne: awayMoneyLine.id,
     optionTwo: homeMoneyLine.id
   }
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", awayMoneyLineLongTitle, homeMoneyLineLongTitle, payouts, betOptionIDs, awayMoneyLineShortTitle, homeMoneyLineShortTitle);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("moneyLine", awayMoneyLineLongTitle, homeMoneyLineLongTitle, payouts, betOptionIDs, awayMoneyLineShortTitle, homeMoneyLineShortTitle, game);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (
