@@ -16,6 +16,7 @@ export function BetDetails({ name, matchup, time, multiplier }) {
       <View style={s.matchupContainer}>
         <Txt style={[s.txt, s.smallTxt]}>{matchup}</Txt>
         <Txt style={[s.txt, s.smallTxt]}>{time}</Txt>
+        {/* <Txt style={[s.txt, s.smallTxt]}>x{multiplier}</Txt> */}
       </View>
     </View>
   );
