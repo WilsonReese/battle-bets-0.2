@@ -5,12 +5,12 @@ import { router } from "expo-router";
 import { useState } from "react";
 import { BetSlipModal } from "../BetSlipModal/BetSlipModal";
 
-export function Row({ betslip, poolId, battle, backgroundColor }) {
+export function Row({ betslip, poolId, battle, backgroundColor, fontFamily}) {
   const [isModalVisible, setModalVisible] = useState(false);
   return (
     <View style={[s.container, { backgroundColor }]}>
       <View style={s.firstRowElement}>
-        <Txt style={s.txt}>{betslip.name}</Txt>
+        <Txt style={[s.txt, {fontFamily: fontFamily}]}>{betslip.name}</Txt>
       </View>
       <View style={s.rowElement}>
         <Txt style={s.txt}>${betslip.earnings}</Txt>

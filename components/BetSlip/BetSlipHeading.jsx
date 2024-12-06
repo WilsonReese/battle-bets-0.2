@@ -146,7 +146,7 @@ export function BetSlipHeading({
         </View>
       </View>
 
-      <View style={s.progressContainer}>
+      {/* <View style={s.progressContainer}>
         <ProgressIndicator
           betOptionTypeProp={"spreadOU"}
           toggleBetSlip={toggleBetSlip}
@@ -165,7 +165,7 @@ export function BetSlipHeading({
           isBetSlipShown={isBetSlipShown}
           scrollViewRef={scrollViewRef}
         />
-      </View>
+      </View> */}
       <View style={s.payoutContainer}>
         <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
         <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>

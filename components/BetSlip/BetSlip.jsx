@@ -9,29 +9,19 @@ import {
 import { BetSlipHeading } from "./BetSlipHeading";
 import { BetSlipDetails } from "./BetSlipDetails";
 
-const { height } = Dimensions.get("window");
-const betSlipHeight = (height * 3.2) / 5; 
-const betSlipHeadingHeight = 148; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
-
 export function BetSlip({
   poolId,
   isBetSlipShown,
   setIsBetSlipShown,
   scrollViewRef,
   betslipId,
-  battleId
+  battleId,
+  height,
+  betSlipHeight,
+  betSlipHeadingHeight, 
+  animatedHeight,
+  toggleBetSlip
 }) {
-  const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
-
-  const toggleBetSlip = () => {
-    Animated.timing(animatedHeight, {
-      toValue: isBetSlipShown ? betSlipHeadingHeight : betSlipHeight,
-      duration: 250,
-      useNativeDriver: false,
-    }).start(() => {
-      setIsBetSlipShown(!isBetSlipShown);
-    });
-  };
 
   return (
     <Animated.View style={[s.container, { height: animatedHeight }]}>

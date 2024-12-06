@@ -5,7 +5,7 @@ import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function OverUnder({ ouOptions, ou, ouPayout, homeTeam, awayTeam }) {
+export function OverUnder({ ouOptions, ou, ouPayout, homeTeam, awayTeam, game }) {
   if (!ouOptions || ouOptions.length < 2) {
     return null; // Ensure there are at least two options (home and away)
   }
@@ -14,7 +14,10 @@ export function OverUnder({ ouOptions, ou, ouPayout, homeTeam, awayTeam }) {
   const under = ouOptions[1];
   
   const overLongTitle = over.long_title
+  const overShortTitle = over.title
   const underLongTitle = under.long_title
+  const underShortTitle = under.title
+
   const payouts = {
     optionOne: over.payout,
     optionTwo: under.payout,
@@ -24,7 +27,7 @@ export function OverUnder({ ouOptions, ou, ouPayout, homeTeam, awayTeam }) {
     optionOne: over.id,
     optionTwo: under.id
   }
-  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overLongTitle, underLongTitle, payouts, betOptionIDs);
+  const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("overUnder", overLongTitle, underLongTitle, payouts, betOptionIDs, overShortTitle, underShortTitle, game);
   const { minBet, maxBet } = BETTING_RULES[betType];
 
   return (

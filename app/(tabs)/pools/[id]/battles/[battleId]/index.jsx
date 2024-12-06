@@ -1,4 +1,4 @@
-import { View, StyleSheet, ScrollView, ActivityIndicator } from "react-native";
+import { View, StyleSheet, ScrollView, ActivityIndicator, Animated, Dimensions } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "@/components/general/Txt";
@@ -15,6 +15,7 @@ import {
 import { LoadingIndicator } from "../../../../../../components/general/LoadingIndicator";
 import api from "../../../../../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
 
 export default function BattleDetails() {
   const { id: poolId, battleId, betslipId } = useLocalSearchParams();
@@ -23,6 +24,13 @@ export default function BattleDetails() {
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef(null);
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
+  
+  // BetSlip information
+  const { height } = Dimensions.get("window");
+  const betSlipHeight = (height * 3) / 5;
+  const betSlipHeadingHeight = 94; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
+  const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
+  
   // const [bets, setBets] = useState([]);
   // const { setBets } = useBetContext();
 
@@ -36,6 +44,16 @@ export default function BattleDetails() {
     } catch (error) {
       console.error("Error fetching games:", error);
     }
+  };
+
+  const toggleBetSlip = () => {
+    Animated.timing(animatedHeight, {
+      toValue: isBetSlipShown ? betSlipHeadingHeight : betSlipHeight,
+      duration: 250,
+      useNativeDriver: false,
+    }).start(() => {
+      setIsBetSlipShown(!isBetSlipShown);
+    });
   };
 
   // Function to load bets from AsyncStorage
@@ -104,8 +122,13 @@ export default function BattleDetails() {
         ) : (
           <>
             <View style={s.body}>
-              <Txt>Pool {poolId}</Txt>
-              <Txt>Betlslip {betslipId}</Txt>
+              <BudgetRow
+                isBetSlipShown={isBetSlipShown}
+                scrollViewRef={scrollViewRef}
+                toggleBetSlip={toggleBetSlip}
+              ></BudgetRow>
+              {/* <Txt>Pool {poolId}</Txt>
+              <Txt>Betlslip {betslipId}</Txt> */}
               {/* <SpreadAndOUInstructions /> */}
               <ScrollView ref={scrollViewRef} style={s.scrollView}>
                 {/* This function renders each of the games */}
@@ -122,6 +145,11 @@ export default function BattleDetails() {
                 scrollViewRef={scrollViewRef}
                 betslipId={betslipId}
                 battleId={battleId}
+                height={height}
+                betSlipHeight={betSlipHeight}
+                betSlipHeadingHeight={betSlipHeadingHeight}
+                animatedHeight={animatedHeight}
+                toggleBetSlip={toggleBetSlip}
               />
             </View>
           </>

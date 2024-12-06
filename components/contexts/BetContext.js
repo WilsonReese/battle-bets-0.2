@@ -102,6 +102,9 @@ export const BetProvider = ({ children, battleId }) => {
           toWinAmount: parseFloat(bet.to_win_amount),
           betType: convertToCamelCase(bet.bet_option.category),
           betOptionID: bet.bet_option_id,
+          shortTitle: bet.bet_option.title,
+          payout: bet.bet_option.payout,
+          game: bet.bet_option.game
         }));
   
         console.log("Transformed Bets from Backend:", transformedBets);
@@ -204,7 +207,7 @@ export const BetProvider = ({ children, battleId }) => {
     setTotalPropBet(totalPropBet);
   };
 
-  const addBet = ({ title, betAmount, payout, betType, betOptionID }) => {
+  const addBet = ({ title, betAmount, payout, betType, betOptionID, shortTitle, game }) => {
     const newBet = {
       id: uuid.v4(),
       name: title,
@@ -213,6 +216,9 @@ export const BetProvider = ({ children, battleId }) => {
       betType: betType,
       betOptionID: betOptionID,
       isNew: true, // Flag to indicate it's a new bet
+      shortTitle: shortTitle,
+      payout: payout,
+      game: game
     };
     console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);

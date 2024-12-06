@@ -79,7 +79,7 @@ const s = StyleSheet.create({
   payoutText: {
     fontFamily: "Saira_300Light",
     color: "#061826",
-    fontSize: 14,
+    fontSize: 12,
   },
   disabledOption: {
     backgroundColor: "#B8C3CC", 

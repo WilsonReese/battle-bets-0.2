@@ -4,11 +4,16 @@ import { Txt } from "../general/Txt";
 import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
 import { useBetContext } from "../contexts/BetContext";
+import { BetDetails } from "./BetDetails";
+import { format } from "date-fns";
+import { BetAmount } from "./BetAmount";
 
 export function Bet({ bet, isSelectorVisible, backgroundColor }) {
   const { minBet, maxBet } = BETTING_RULES[bet.betType];
   const { removeBet } = useBetContext();
   const animatedHeight = useRef(new Animated.Value(0)).current;
+  const matchup = `${bet.game.away_team.name} at ${bet.game.home_team.name}`
+  const gameTime = format(new Date(bet.game.start_time), "h:mm a"); // Format time
 
   useEffect(() => {
     Animated.timing(animatedHeight, {
@@ -23,12 +28,11 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
       <View style={[s.betItem, {backgroundColor}, isSelectorVisible && s.betItemEditMode]}>
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
-            <Txt style={s.betNameText}>{bet.name}</Txt>
+            {/* <Txt style={s.betNameText}>{bet.name}</Txt> */}
+            <BetDetails name={bet.shortTitle} multiplier={bet.payout} matchup={matchup} time={gameTime}/>
           </View>
           <View style={s.betAmountContainer}>
-            <Txt style={s.betAmountText}>
-              ${bet.betAmount} to win ${bet.toWinAmount}
-            </Txt>
+            <BetAmount betAmount={bet.betAmount} toWinAmount={bet.toWinAmount}/>
           </View>
         </View>
       </View>
@@ -66,10 +70,14 @@ const s = StyleSheet.create({
   },
   betDetailsContainer: {
     flexDirection: "row",
+    alignItems: 'center',
+    // backgroundColor: 'orange'
     // justifyContent: "space-between",
   },
   betNameContainer: {
     flex: 3,
+    // paddingRight: 20,
+    // marginRight: 20,
     // backgroundColor: 'green'
   },
   betNameText: {
