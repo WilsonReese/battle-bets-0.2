@@ -102,6 +102,9 @@ export const BetProvider = ({ children, battleId }) => {
           toWinAmount: parseFloat(bet.to_win_amount),
           betType: convertToCamelCase(bet.bet_option.category),
           betOptionID: bet.bet_option_id,
+          shortTitle: bet.bet_option.title,
+          payout: bet.bet_option.payout,
+          game: bet.bet_option.game
         }));
   
         console.log("Transformed Bets from Backend:", transformedBets);
