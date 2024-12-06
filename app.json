@@ -2,7 +2,7 @@
   "expo": {
     "name": "battle-bets",
     "slug": "battle-bets",
-    "version": "1.0.0",
+    "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon_v2.png",
     "scheme": "myapp",
@@ -15,7 +15,8 @@
     },
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "com.battlebets.battlebets"
+      "bundleIdentifier": "com.battlebets.battlebets",
+      "buildNumber": "2"
     },
     "android": {
       "adaptiveIcon": {
