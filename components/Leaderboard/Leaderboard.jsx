@@ -40,11 +40,8 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
   function renderBetslipRows() {
     return betslips.map((betslip, index) => {
       const isUserBetslip = betslip.id === userBetslip.id;
-      const backgroundColor = isUserBetslip
-        ? "#5996FF" // Special color for user's betslip
-        : index % 2 === 0
-        ? "#F8F8F8" // Alternate colors for other betslips
-        : "#DAE1E5";
+      const backgroundColor = index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"; // Alternate colors for all rows
+      const fontFamily = isUserBetslip ? "Saira_600SemiBold" : "Saira_400Regular"; // Font based on user's betslip
 
       return (
         <View key={betslip.id}>
@@ -53,6 +50,7 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
             poolId={poolId}
             battle={battle}
             backgroundColor={backgroundColor}
+            fontFamily={fontFamily}
           />
         </View>
       );
