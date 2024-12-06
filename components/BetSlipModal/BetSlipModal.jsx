@@ -58,10 +58,11 @@ export function BetSlipModal({ betslip, visible, onClose }) {
           <View style={s.betsContainer}>
             {filteredBets.map((bet, index) => (
               <PlacedBet
-                key={bet.id}
-                bet={bet}
-                backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"}
+              key={bet.id}
+              bet={bet}
+              backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"}
               />
+              // console.log('Bet:', bet)
             ))}
           </View>
           <View style={s.betTypePayoutContainer}>
