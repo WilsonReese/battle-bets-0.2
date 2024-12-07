@@ -73,7 +73,7 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
       </View>
       <View style={s.toWin}>
         <Txt style={[s.text, s.toWinText]}>To Win:</Txt>
-        <Txt style={[s.text]}>${betAmount * payout}</Txt>
+        <Txt style={[s.text]}>${Math.round(betAmount * payout)}</Txt>
       </View>
     </View>
   );

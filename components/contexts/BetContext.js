@@ -212,7 +212,7 @@ export const BetProvider = ({ children, battleId }) => {
       id: uuid.v4(),
       name: title,
       betAmount,
-      toWinAmount: betAmount * payout,
+      toWinAmount: Math.round(betAmount * payout),
       betType: betType,
       betOptionID: betOptionID,
       isNew: true, // Flag to indicate it's a new bet
