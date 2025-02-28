@@ -71,6 +71,11 @@ export default function Pools() {
       <View style={s.titleContainer}>
         <Txt style={s.titleText}>Leagues</Txt>
       </View>
+      <View>
+        {pools.map((pool) => (
+          <PoolCard key={pool.id} pool={pool} />
+        ))}
+      </View>
       <View style={s.poolsContainer}>
         {pools.map((pool) => (
           <View style={s.btnContainer} key={pool.id}>
@@ -81,11 +86,6 @@ export default function Pools() {
               onPress={() => router.push(`/pools/${pool.id}/`)}
             />
           </View>
-        ))}
-      </View>
-      <View>
-      {pools.map((pool) => (
-          <PoolCard key={pool.id} pool={pool}/>
         ))}
       </View>
       {/* <Button
