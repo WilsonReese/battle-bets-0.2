@@ -7,6 +7,7 @@ import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with Auth
 import { Message } from "../../../components/general/Message";
 import { Btn } from "../../../components/general/Buttons/Btn";
+import { PoolCard } from "../../../components/PoolCard/PoolCard";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
@@ -68,7 +69,7 @@ export default function Pools() {
       <StatusBar style="light" />
 
       <View style={s.titleContainer}>
-        <Txt style={s.titleText}>Pools</Txt>
+        <Txt style={s.titleText}>Leagues</Txt>
       </View>
       <View style={s.poolsContainer}>
         {pools.map((pool) => (
@@ -80,6 +81,11 @@ export default function Pools() {
               onPress={() => router.push(`/pools/${pool.id}/`)}
             />
           </View>
+        ))}
+      </View>
+      <View>
+      {pools.map((pool) => (
+          <PoolCard key={pool.id} pool={pool}/>
         ))}
       </View>
       {/* <Button

@@ -10,7 +10,8 @@ export function GameCard({ game }) {
     // Game Card
     <View style={s.card}>
       <View style={s.gameDetails}>
-        <Datetime date={game.start_time} time={game.time} />
+        <View style={{height: 4}}/>
+        {/* <Datetime date={game.start_time} time={game.time} /> */}
         {/* <Txt style={{ fontSize: 12, color: "black" }}>Collapisble Arrow</Txt> */}
       </View>
       <View>
