@@ -1,30 +1,42 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
+import { Btn } from "../general/Buttons/Btn";
+import { router } from "expo-router";
 
 export function PoolCard({ pool }) {
   return (
     <View style={s.card}>
       <Txt style={s.heading}>{pool.name}</Txt>
-      <View style={s.leagueOverviewContainer}>
-        <View>
+      <View style={s.section}>
+        <View style={s.detailsSection}>
           <Txt style={s.txt}>25 points</Txt>
           <Txt style={s.txt}>4th place</Txt>
         </View>
-        <View>
-          <Txt>Button Go to League</Txt>
+        <View style={s.btnSection}>
+          <Btn
+            btnText={`Go to ${pool.name}`}
+            style={s.btn}
+            isEnabled={true}
+            onPress={() => router.push(`/pools/${pool.id}/`)}
+          />
         </View>
       </View>
-      <View style={s.horizontalLine}/>
+      <View style={s.horizontalLine} />
       <View>
         <Txt style={s.heading}>Current Battle</Txt>
         {/* THIS SECTION WILL NEED TO BE DYNAMIC DEPENDING ON BETSLIP STATUS */}
-        <View style={s.currentBattleContainer}>
-          <View>
-            <Txt style={s.txt}>Make bets before games start</Txt>
+        <View style={s.section}>
+          <View style={s.detailsSection}>
             <Txt style={s.txt}>0/12 betslips submitted</Txt>
+            <Txt style={s.txt}>Make bets before games start</Txt>
           </View>
-          <View>
-            <Txt>Make Bets</Txt>
+          <View style={s.btnSection}>
+            <Btn
+              btnText={'Fix Routing'}
+              style={s.btn}
+              isEnabled={true}
+              onPress={() => router.push(`/pools/${pool.id}/`)}
+            />
           </View>
         </View>
       </View>
@@ -38,7 +50,7 @@ const s = StyleSheet.create({
     marginVertical: 4,
     borderRadius: 8,
     paddingHorizontal: 12,
-    paddingVertical: 8,
+    paddingVertical: 4,
   },
   heading: {
     color: "#061826",
@@ -49,21 +61,30 @@ const s = StyleSheet.create({
   txt: {
     color: "#061826",
   },
-  leagueOverviewContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+  section: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    paddingVertical: 4,
+  },
+  btnSection: {
+    // flex: 2,
+    backgroundColor: 'blue',
+  },
+  detailsSection: {
+    flex: 4,
+    backgroundColor: 'green'
   },
   horizontalLine: {
     height: 1,
-    backgroundColor: "#F8F8F8",
-    alignSelf: 'stretch',
-    marginVertical: 4,
+    backgroundColor: "#B8C3CC",
+    alignSelf: "stretch",
+    marginVertical: 8,
     // width: 100,
   },
-  currentBattleContainer: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+  btn: {
+    paddingVertical: 4,
+    paddingHorizontal: 12,
+    // margin: 4,
   },
 });
