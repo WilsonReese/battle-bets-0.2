@@ -7,34 +7,39 @@ export function PoolCard({ pool }) {
   return (
     <View style={s.card}>
       <Txt style={s.heading}>{pool.name}</Txt>
-      <View style={s.section}>
-        <View style={s.detailsSection}>
-          <Txt style={s.txt}>25 points</Txt>
-          <Txt style={s.txt}>4th place</Txt>
+
+      <View style={s.detailsContainer}>
+        <View style={s.overviewContainer}>
+          <Txt style={s.sectonHeadingTxt}>Overview</Txt>
+          <View>
+            <Txt style={s.txt}>25 points</Txt>
+            <Txt style={s.txt}>Rank 4th</Txt>
+          </View>
+          <View>
+            <Btn
+              btnText={`Go to ${pool.name}`}
+              style={s.btn}
+              isEnabled={true}
+              fontSize={14}
+              onPress={() => router.push(`/pools/${pool.id}/`)}
+            />
+          </View>
         </View>
-        <View style={s.btnSection}>
-          <Btn
-            btnText={`Go to ${pool.name}`}
-            style={s.btn}
-            isEnabled={true}
-            onPress={() => router.push(`/pools/${pool.id}/`)}
-          />
-        </View>
-      </View>
-      <View style={s.horizontalLine} />
-      <View>
-        <Txt style={s.heading}>Current Battle</Txt>
-        {/* THIS SECTION WILL NEED TO BE DYNAMIC DEPENDING ON BETSLIP STATUS */}
-        <View style={s.section}>
-          <View style={s.detailsSection}>
+
+        {/* <View style={s.verticalLine} /> */}
+
+        <View style={s.currentBattleContainer}>
+          <Txt style={s.sectonHeadingTxt}>Current Battle</Txt>
+          <View>
             <Txt style={s.txt}>0/12 betslips submitted</Txt>
             <Txt style={s.txt}>Make bets before games start</Txt>
           </View>
-          <View style={s.btnSection}>
+          <View>
             <Btn
-              btnText={'Fix Routing'}
+              btnText={`Go to ${pool.name}`}
               style={s.btn}
               isEnabled={true}
+              fontSize={14}
               onPress={() => router.push(`/pools/${pool.id}/`)}
             />
           </View>
@@ -58,30 +63,43 @@ const s = StyleSheet.create({
     paddingVertical: 4,
     // fontSize: 18,
   },
-  txt: {
-    color: "#061826",
-  },
-  section: {
+  headingsContainer: {
     flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingVertical: 4,
   },
-  btnSection: {
-    // flex: 2,
-    backgroundColor: 'blue',
+  detailsContainer: {
+    flexDirection: "row",
+    paddingBottom: 8, 
+    // justifyContent: 'space-between'
+    // alignItems: 
   },
-  detailsSection: {
-    flex: 4,
-    backgroundColor: 'green'
+  overviewContainer: {
+    flex: 3,
+    paddingRight: 4,
   },
-  horizontalLine: {
-    height: 1,
+  currentBattleContainer: {
+    flex: 5,
+    paddingLeft: 4,
+  },
+  verticalLine: {
+    width: 1,
     backgroundColor: "#B8C3CC",
     alignSelf: "stretch",
     marginVertical: 8,
-    // width: 100,
   },
+
+  sectonHeadingTxt: {
+    color: "#061826",
+    fontFamily: "Saira_300Light",
+    letterSpacing: 1,
+    fontSize: 12,
+    textTransform: "uppercase",
+  },
+
+  txt: {
+    color: "#061826",
+    fontSize: 14,
+  },
+
   btn: {
     paddingVertical: 4,
     paddingHorizontal: 12,
