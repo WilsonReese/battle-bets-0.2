@@ -10,10 +10,18 @@ export function PoolCard({ pool }) {
 
       <View style={s.detailsContainer}>
         <View style={s.overviewContainer}>
-          <Txt style={s.sectonHeadingTxt}>Overview</Txt>
-          <View>
-            <Txt style={s.txt}>25 points</Txt>
-            <Txt style={s.txt}>Rank 4th</Txt>
+          <View style={s.headingTxtContainer}>
+            <Txt style={s.sectonHeadingTxt}>Overview</Txt>
+          </View>
+          <View style={s.infoContainer}>
+            <View style={s.infoUnitContainer}>
+              <Txt style={s.infoTitleTxt}>Points: </Txt>
+              <Txt style={s.txt}>25</Txt>
+            </View>
+            <View style={s.infoUnitContainer}>
+              <Txt style={s.infoTitleTxt}>Rank: </Txt>
+              <Txt style={s.txt}>4</Txt>
+            </View>
           </View>
           <View>
             <Btn
@@ -29,8 +37,10 @@ export function PoolCard({ pool }) {
         {/* <View style={s.verticalLine} /> */}
 
         <View style={s.currentBattleContainer}>
-          <Txt style={s.sectonHeadingTxt}>Current Battle</Txt>
-          <View>
+          <View style={s.headingTxtContainer}>
+            <Txt style={s.sectonHeadingTxt}>Current Battle</Txt>
+          </View>
+          <View style={s.infoContainer}>
             <Txt style={s.txt}>0/12 betslips submitted</Txt>
             <Txt style={s.txt}>Make bets before games start</Txt>
           </View>
@@ -61,11 +71,11 @@ const s = StyleSheet.create({
     color: "#061826",
     fontFamily: "Saira_600SemiBold",
     paddingVertical: 4,
-    // fontSize: 18,
+    fontSize: 18,
   },
-  headingsContainer: {
-    flexDirection: "row",
-  },
+  // headingTxtContainer: {
+  //   paddingBottom: 2,
+  // },
   detailsContainer: {
     flexDirection: "row",
     paddingBottom: 8, 
@@ -80,18 +90,33 @@ const s = StyleSheet.create({
     flex: 5,
     paddingLeft: 4,
   },
-  verticalLine: {
-    width: 1,
-    backgroundColor: "#B8C3CC",
-    alignSelf: "stretch",
-    marginVertical: 8,
+  // verticalLine: {
+  //   width: 1,
+  //   backgroundColor: "#B8C3CC",
+  //   alignSelf: "stretch",
+  //   marginVertical: 8,
+  // },
+
+  infoContainer: {
+    paddingVertical: 4, 
+  },
+
+  infoUnitContainer: {
+    flexDirection: 'row',
+    // justifyContent: 'space-between'
+  },
+
+  infoTitleTxt: {
+    color: "#061826",
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 14,
   },
 
   sectonHeadingTxt: {
     color: "#061826",
     fontFamily: "Saira_300Light",
-    letterSpacing: 1,
-    fontSize: 12,
+    letterSpacing: 2,
+    fontSize: 14,
     textTransform: "uppercase",
   },
 
