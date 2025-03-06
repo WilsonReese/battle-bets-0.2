@@ -96,7 +96,13 @@ export default function PoolDetails() {
           setUserBetslip={setUserBetslip}
           setLoading={setLoading}
         />
+        <Txt style={s.titleText}>Standings</Txt>
         <PreviousBattles battles={battles}/>
+        <Txt style={s.titleText}>League Manager (for commish)</Txt>
+        <Txt>Invite Players (modal/form to add players)</Txt>
+        <Txt>Pending Players (email, has acct?, sent when?, cancel invite)</Txt>
+        <Txt style={s.titleText}>Previous Seasons</Txt>
+        <Txt>Probably just a drop down to select a previous season (if there is a previous season)</Txt>
       </SafeAreaView>
     </SafeAreaProvider>
   );

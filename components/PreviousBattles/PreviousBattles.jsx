@@ -15,7 +15,7 @@ export function PreviousBattles({ battles }) {
             {format(new Date(battle.end_date), "MMMM d")}
           </Txt>
         ))}
-        <Txt>Need to remove the first battle in the list. Need to get important battle information: Date, # players, user amount won, user placement</Txt>
+        <Txt>Need to remove the first battle in the list. Need to get important battle information: Date, # players, user amount won, user placement, drop down to show the battle card for previous battles?</Txt>
     </View>
   );
 }

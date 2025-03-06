@@ -69,12 +69,17 @@ export default function Pools() {
       <StatusBar style="light" />
 
       <View style={s.titleContainer}>
-        <Txt style={s.titleText}>Leagues</Txt>
+        <Txt style={s.titleText}>My Leagues (dropdown if multiple leagues)</Txt>
       </View>
       <View>
+        <Txt>Make this a carousel</Txt>
         {pools.map((pool) => (
           <PoolCard key={pool.id} pool={pool} />
         ))}
+      </View>
+      <View>
+        <Txt>Create League Button</Txt>
+        <Txt>League Invitations (scrollable)</Txt>
       </View>
       <View style={s.poolsContainer}>
         {pools.map((pool) => (
