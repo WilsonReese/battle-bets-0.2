@@ -23,6 +23,7 @@ export default function PoolDetails() {
   const fetchBattles = async () => {
     // setLoading(true);
     try {
+      // LEAGUE SEASONS UPDATE
       const battlesResponse = await api.get(`/pools/${poolId}/battles`);
       const fetchedBattles = battlesResponse.data;
 
@@ -41,6 +42,7 @@ export default function PoolDetails() {
 
       const latestBattle = fetchedBattles[0];
       const betslipsResponse = await api.get(
+        // LEAGUE SEASONS UPDATE
         `/pools/${poolId}/battles/${latestBattle.id}/betslips?user_only=true`
       );
       const foundUserBetslip = betslipsResponse.data;
