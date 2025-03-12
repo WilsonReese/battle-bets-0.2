@@ -10,15 +10,16 @@ import { StatusIcon } from "../general/StatusIcon";
 export function BattleCard({
   userBetslip,
   poolId,
+  season,
   battle,
   setBattles,
   setUserBetslip,
   setLoading,
 }) {
-  const handleMakeBets = async (battle, poolId) => {
+  const handleMakeBets = async (battle, poolId, season) => {
     try {
       const response = await api.post(
-        `/pools/${poolId}/battles/${battle.id}/betslips`,
+        `/pools/${poolId}/league_seasons/${season.id}/battles/${battle.id}/betslips`,
         {
           betslip: {
             name: null, // Name can be null or set to a default value
@@ -26,6 +27,9 @@ export function BattleCard({
           },
         }
       );
+
+      console.log(`API Request URL: /pools/${poolId}/league_seasons/${season.id}/battles/${battle.id}/betslips`);
+
 
       // Get the created betslip's ID from the response
       const betslipId = response.data.id;
@@ -41,12 +45,19 @@ export function BattleCard({
         params: { betslipId }, // Pass the betslipId as a query parameter
       });
     } catch (error) {
-      console.error("Error creating betslip:", error?.response?.data || error);
+      if (error.response) {
+        console.error("Error creating betslip:", error.response.status);
+        console.error("Response Data:", error.response.data);
+      } else {
+        console.error("Unknown Error:", error);
+      }
       Alert.alert("Error", "Failed to create betslip. Please try again.");
     }
   };
 
   const battleEndDate = format(new Date(battle.end_date), "MMMM d");
+
+  console.log('Season:', season.id)
 
   return (
     <View style={s.container}>
@@ -66,7 +77,7 @@ export function BattleCard({
               style={s.btn}
               // isEnabled={true}
               isEnabled={!battle.locked}
-              onPress={() => handleMakeBets(battle, poolId)}
+              onPress={() => handleMakeBets(battle, poolId, season)}
             />
           </View>
           <View style={s.submitBetsNoticeContainer}>

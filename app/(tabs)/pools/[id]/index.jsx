@@ -20,45 +20,47 @@ export default function PoolDetails() {
   const [userBetslip, setUserBetslip] = useState(null);
   const [selectedSeason, setSelectedSeason] = useState(null);
 
-  // Function to fetch battles and determine the latest one
-  useEffect(() => {
-    const fetchSeasons = async () => {
-      const response = await api.get(`/pools/${poolId}/league_seasons`);
-      setSeasons(response.data);
-    };
-
-    fetchSeasons();
-  }, []);
-
-  const fetchBattles = async () => {
-    // setLoading(true);
+  const fetchSeasons = async () => {
     try {
-      // Step 1: Fetch all league seasons
-      const leagueSeasonsResponse = await api.get(
-        `/pools/${poolId}/league_seasons`
-      );
-      const allLeagueSeasons = leagueSeasonsResponse.data;
+      const response = await api.get(`/pools/${poolId}/league_seasons`);
+      const allLeagueSeasons = response.data;
+
       console.log("League Seasons:", allLeagueSeasons);
 
-      // Step 2: Filter for the desired league season (e.g., 2024 <-- hard coded for now)
-      const leagueSeason = allLeagueSeasons.find(
-        (ls) => ls.season.year === 2024
+      // Default to 2024 for now
+      const desiredSeason = allLeagueSeasons.find(
+        (leagueSeason) => leagueSeason.season.year === 2024
       );
 
-      if (!leagueSeason) {
+      if (!desiredSeason) {
         console.error("No league season found for 2024.");
         Alert.alert("Error", "No active league season found.");
         setLoading(false);
         return;
       }
 
-      // Step 3: Fetch battles for the selected league season
+      console.log('Desired Season:', desiredSeason)
+
+      setSelectedSeason(desiredSeason);
+    } catch (error) {
+      console.error("Error fetching league seasons:", error.response || error);
+      Alert.alert("Error", "Failed to fetch league seasons.");
+    }
+  };
+
+  // Function to fetch battles and determine the latest one
+  const fetchBattles = async () => {
+    if (!selectedSeason) {
+      Alert.alert("Error", "Please select a season first.");
+      return;
+    }
+
+    try {
       const battlesResponse = await api.get(
-        `/pools/${poolId}/league_seasons/${leagueSeason.id}/battles`
+        `/pools/${poolId}/league_seasons/${selectedSeason.id}/battles`
       );
       const fetchedBattles = battlesResponse.data;
 
-      // this portion can be deleted once I set up functionality that handles automatically creating battles
       if (fetchedBattles.length === 0) {
         console.error("No battles found for this pool.");
         Alert.alert(
@@ -66,23 +68,22 @@ export default function PoolDetails() {
           "There are no battles available for this pool."
         );
         setLoading(false);
-        return; // Exit the function if there are no battles
+        return;
       }
 
       setBattles(fetchedBattles);
 
-      // Step 4: Fetch betslips for the latest battle
       const latestBattle = fetchedBattles[0];
       const betslipsResponse = await api.get(
-        `/pools/${poolId}/league_seasons/${leagueSeason.id}/battles/${latestBattle.id}/betslips?user_only=true`
+        `/pools/${poolId}/league_seasons/${selectedSeason.id}/battles/${latestBattle.id}/betslips?user_only=true`
       );
       const foundUserBetslip = betslipsResponse.data;
 
-      setUserBetslip(foundUserBetslip); // Update the state with the found betslip
+      setUserBetslip(foundUserBetslip);
       setLoading(false);
     } catch (error) {
       console.error("Error fetching battles:", error.response || error);
-      setLoading(false); // Stop loading if there's an error
+      setLoading(false);
       Alert.alert("Error", "Failed to fetch battles.");
     }
   };
@@ -94,8 +95,16 @@ export default function PoolDetails() {
 
   useFocusEffect(
     useCallback(() => {
-      fetchBattles();
+      fetchSeasons();
     }, [])
+  );
+  
+  useFocusEffect(
+    useCallback(() => {
+      if (selectedSeason) {
+        fetchBattles();
+      }
+    }, [selectedSeason])
   );
 
   const latestBattle = battles[0];
@@ -121,25 +130,10 @@ export default function PoolDetails() {
             Pool {poolId}
           </Txt>
         </View>
-        <View>
-          <Picker
-            selectedValue={selectedSeason}
-            onValueChange={(value) => setSelectedSeason(value)}
-          >
-            {seasons.map((season) => (
-              <Picker.Item
-                key={season.id}
-                label={season.year.toString()}
-                value={season.id}
-              />
-            ))}
-          </Picker>
-
-          <Button title="Fetch Battles" onPress={fetchBattles} />
-        </View>
         <BattleCard
           userBetslip={userBetslip}
           poolId={poolId}
+          season={selectedSeason}
           battle={latestBattle}
           setBattles={setBattles}
           setUserBetslip={setUserBetslip}
