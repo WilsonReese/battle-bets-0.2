@@ -27,7 +27,8 @@ export default function PoolDetails() {
 
       console.log("League Seasons:", allLeagueSeasons);
 
-      // Default to 2024 for now
+      // Will need to update this to allow for the user to select the season and have a default
+      // Hard code to 2024 for now 
       const desiredSeason = allLeagueSeasons.find(
         (leagueSeason) => leagueSeason.season.year === 2024
       );

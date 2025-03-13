@@ -1,9 +1,24 @@
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
+import { useStandings } from "../contexts/StandingsContext";
+import { useEffect } from "react";
 
 export function PoolCard({ pool }) {
+  const { userLeaderboardEntries, loading, fetchStandings } = useStandings();
+
+    // Extract user's points and ranking
+    const userEntry = userLeaderboardEntries[pool.id];
+
+    useEffect(() => {
+      fetchStandings(pool.id, 2024); // Hard code: Fetch 2024 season data on mount
+    }, [pool.id]);
+  
+    if (loading) {
+      return <ActivityIndicator size="small" color="#061826" />;
+    }
+
   return (
     <View style={s.card}>
       <Txt style={s.heading}>{pool.name}</Txt>
@@ -16,11 +31,11 @@ export function PoolCard({ pool }) {
           <View style={s.infoContainer}>
             <View style={s.infoUnitContainer}>
               <Txt style={s.infoTitleTxt}>Points: </Txt>
-              <Txt style={s.txt}>25</Txt>
+              <Txt style={s.txt}>{userEntry?.total_points || 'N/A'}</Txt>
             </View>
             <View style={s.infoUnitContainer}>
               <Txt style={s.infoTitleTxt}>Rank: </Txt>
-              <Txt style={s.txt}>4</Txt>
+              <Txt style={s.txt}>{userEntry?.ranking || 'N/A'}</Txt>
             </View>
           </View>
           <View>
