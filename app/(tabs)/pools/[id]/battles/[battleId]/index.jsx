@@ -18,7 +18,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
 
 export default function BattleDetails() {
-  const { id: poolId, battleId, betslipId } = useLocalSearchParams();
+  const { id: poolId, leagueSeasonId, battleId, betslipId } = useLocalSearchParams();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -78,7 +78,7 @@ export default function BattleDetails() {
     const initializeBattleData = async () => {
       setLoading(true);
       await fetchGames();
-      await loadBets(poolId, battleId, betslipId);
+      await loadBets(poolId, leagueSeasonId, battleId, betslipId);
       setLoading(false);
     };
 
@@ -143,6 +143,7 @@ export default function BattleDetails() {
                 isBetSlipShown={isBetSlipShown}
                 setIsBetSlipShown={setIsBetSlipShown}
                 scrollViewRef={scrollViewRef}
+                leagueSeasonId={leagueSeasonId}
                 betslipId={betslipId}
                 battleId={battleId}
                 height={height}

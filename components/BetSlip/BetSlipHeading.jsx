@@ -21,6 +21,7 @@ export function BetSlipHeading({
   isBetSlipShown,
   toggleBetSlip,
   scrollViewRef,
+  leagueSeasonId,
   betslipId,
   battleId,
 }) {
@@ -93,14 +94,14 @@ export function BetSlipHeading({
       
       // Call the backend endpoint with the unified logic
       const response = await api.patch(
-        `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`,
+        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`,
         payload
       );
       console.log("Bets submitted", response.data);
 
       // 2. After bets are successfully created, update the betslip status
       await api.patch(
-        `pools/${poolId}/battles/${battleId}/betslips/${betslipId}`,
+        `pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}`,
         { status: "submitted" }
       );
       console.log("Betslip status updated to submitted");

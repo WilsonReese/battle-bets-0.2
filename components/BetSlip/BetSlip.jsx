@@ -14,6 +14,7 @@ export function BetSlip({
   isBetSlipShown,
   setIsBetSlipShown,
   scrollViewRef,
+  leagueSeasonId,
   betslipId,
   battleId,
   height,
@@ -31,6 +32,7 @@ export function BetSlip({
           isBetSlipShown={isBetSlipShown}
           toggleBetSlip={toggleBetSlip}
           scrollViewRef={scrollViewRef}
+          leagueSeasonId={leagueSeasonId}
           betslipId={betslipId}
           battleId={battleId}
         />

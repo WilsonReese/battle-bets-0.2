@@ -75,7 +75,7 @@ export const BetProvider = ({ children, battleId }) => {
   //   }
   // };
 
-  const loadBets = async (poolId, battleId, betslipId) => {
+  const loadBets = async (poolId, leagueSeasonId, battleId, betslipId) => {
     try {
       // Step 1: Check AsyncStorage for existing bets
       const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
@@ -89,7 +89,7 @@ export const BetProvider = ({ children, battleId }) => {
   
       // Step 2: If no stored bets, fetch from backend
       const response = await api.get(
-        `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`
+        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`
       );
   
       const { bets, status } = response.data;

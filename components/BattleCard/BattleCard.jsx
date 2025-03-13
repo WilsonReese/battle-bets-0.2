@@ -120,6 +120,7 @@ export function BattleCard({
         <Leaderboard
           userBetslip={userBetslip}
           poolId={poolId}
+          leagueSeasonId={season.id}
           battle={battle}
         />
       )}

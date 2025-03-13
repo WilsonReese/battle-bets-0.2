@@ -6,7 +6,7 @@ import api from "../../utils/axiosConfig";
 import { LoadingIndicator } from "../general/LoadingIndicator";
 import { StatusIcon } from "../general/StatusIcon";
 
-export function Leaderboard({ userBetslip, poolId, battle }) {
+export function Leaderboard({ userBetslip, poolId, leagueSeasonId, battle }) {
   const [betslips, setBetslips] = useState([]);
   const [loading, setLoading] = useState(true);
 
@@ -15,7 +15,7 @@ export function Leaderboard({ userBetslip, poolId, battle }) {
     const fetchBetslips = async () => {
       try {
         const response = await api.get(
-          `/pools/${poolId}/battles/${battle.id}/betslips`
+          `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battle.id}/betslips`
         );
 
         // Sort by earnings descending, then by max_payout_remaining descending
