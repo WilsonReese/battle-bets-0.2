@@ -22,7 +22,14 @@ export default function CreatePool() {
   const [selectedWeek, setSelectedWeek] = useState("Week 1");
 
   // Dynamically set height based on content (each row = ~50px)
-  const snapPoints = useMemo(() => ["40%"], []);
+
+
+  // THIS IS WHERE I LEFT OFF
+  // I NEED TO GET THE BOTTOMSHEET TO OPEN TO A MAXIMUM HEIGHT
+  // I got this working but need to still clean up this screen
+
+
+  // const snapPoints = useMemo(() => ["40%"], []);
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
@@ -68,12 +75,13 @@ export default function CreatePool() {
       <BottomSheet
         ref={bottomSheetRef}
         index={-1}
-        snapPoints={snapPoints}
+        // snapPoints={snapPoints}
         enablePanDownToClose
+        maxDynamicContentSize={320}
         backgroundStyle={{ backgroundColor: "#F8F8F8" }}
         handleIndicatorStyle={{ backgroundColor: "#061826" }} // the top little "handle" bar
       >
-        <BottomSheetScrollView style={s.sheetContainer} >
+        <BottomSheetScrollView style={s.sheetContainer}>
           {WEEKS.map((week) => (
             <TouchableOpacity
               key={week}
