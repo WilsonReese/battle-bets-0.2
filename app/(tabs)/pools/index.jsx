@@ -74,15 +74,15 @@ export default function Pools() {
         {pools.map((pool) => (
           <PoolCard key={pool.id} pool={pool} />
         ))}
+      </ScrollView>
         <View style={s.createLeagueContainer}>
           <Btn
             btnText={"Create a League"}
             style={s.btn}
             isEnabled={true}
-            onPress={() => router.push(`/pools/${pool.id}/`)}
+            onPress={() => router.push(`/pools/create/`)}
           />
         </View>
-      </ScrollView>
     </View>
   );
 }
