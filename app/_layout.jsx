@@ -18,6 +18,7 @@ import {
 } from "@expo-google-fonts/saira";
 import { useEffect, useState } from "react";
 import { StandingsProvider } from "../components/contexts/StandingsContext";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -50,40 +51,42 @@ export default function Layout() {
   }
 
   return (
-    <BetProvider>
-      <AuthProvider>
-        <StandingsProvider>
-          <View style={s.container}>
-            <Stack
-              screenOptions={{
-                headerShown: false, // login, top on Pools page, can copy from the other <Stack>s if I want to customize
-                contentStyle: { backgroundColor: "transparent" },
-              }}
-            >
-              <Stack.Screen
-                name="(tabs)"
-                options={{
-                  headerShown: false, // changes the Pools page
-                  headerTitle: () => (
-                    <Image
-                      source={require("@/assets/images/white_logo.png")} // Replace with your logo path
-                      style={{ width: 140, height: 40 }} // Adjust the size as needed
-                      resizeMode="contain"
-                    />
-                  ),
-                  headerStyle: {
-                    backgroundColor: "#061826", // Set your custom background color
-                    alignItems: "flex-start",
-                  },
-                  headerTintColor: "#F8F8F8", // Color for header text/icons
-                  headerShadowVisible: false, // Hides the bottom border
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <BetProvider>
+        <AuthProvider>
+          <StandingsProvider>
+            <View style={s.container}>
+              <Stack
+                screenOptions={{
+                  headerShown: false, // login, top on Pools page, can copy from the other <Stack>s if I want to customize
+                  contentStyle: { backgroundColor: "transparent" },
                 }}
-              />
-            </Stack>
-          </View>
-        </StandingsProvider>
-      </AuthProvider>
-    </BetProvider>
+              >
+                <Stack.Screen
+                  name="(tabs)"
+                  options={{
+                    headerShown: false, // changes the Pools page
+                    headerTitle: () => (
+                      <Image
+                        source={require("@/assets/images/white_logo.png")} // Replace with your logo path
+                        style={{ width: 140, height: 40 }} // Adjust the size as needed
+                        resizeMode="contain"
+                      />
+                    ),
+                    headerStyle: {
+                      backgroundColor: "#061826", // Set your custom background color
+                      alignItems: "flex-start",
+                    },
+                    headerTintColor: "#F8F8F8", // Color for header text/icons
+                    headerShadowVisible: false, // Hides the bottom border
+                  }}
+                />
+              </Stack>
+            </View>
+          </StandingsProvider>
+        </AuthProvider>
+      </BetProvider>
+    </GestureHandlerRootView>
   );
 }
 
