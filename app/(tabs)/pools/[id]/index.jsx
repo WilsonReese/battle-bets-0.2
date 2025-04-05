@@ -128,7 +128,7 @@ export default function PoolDetails() {
         <View style={s.titleContainer}>
           <Txt style={s.titleText}>
             {/* This will need to become the Pool Name */}
-            Pool {poolId}
+            Pool {poolId} (Make Dropdown)
           </Txt>
         </View>
         <BattleCard

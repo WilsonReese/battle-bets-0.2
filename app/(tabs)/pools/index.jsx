@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { View, Button, StyleSheet } from "react-native";
+import { View, Button, StyleSheet, ScrollView } from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
@@ -68,34 +68,21 @@ export default function Pools() {
       <StatusBar style="light" />
 
       <View style={s.titleContainer}>
-        <Txt style={s.titleText}>My Leagues (dropdown if multiple leagues)</Txt>
+        <Txt style={s.titleText}>Leagues</Txt>
       </View>
-      <View>
-        <Txt>Make this a carousel</Txt>
+      <ScrollView>
         {pools.map((pool) => (
           <PoolCard key={pool.id} pool={pool} />
         ))}
-      </View>
-      <View>
-        <Txt>Create League Button</Txt>
-        <Txt>League Invitations (scrollable)</Txt>
-      </View>
-      <View style={s.poolsContainer}>
-        {pools.map((pool) => (
-          <View style={s.btnContainer} key={pool.id}>
-            <Btn
-              btnText={`Go to ${pool.name}`}
-              style={s.btn}
-              isEnabled={true}
-              onPress={() => router.push(`/pools/${pool.id}/`)}
-            />
-          </View>
-        ))}
-      </View>
-      {/* <Button
-        title="Create a New Pool"
-        onPress={() => router.push("/pools/create")}
-      /> */}
+        <View style={s.createLeagueContainer}>
+          <Btn
+            btnText={"Create a League"}
+            style={s.btn}
+            isEnabled={true}
+            onPress={() => router.push(`/pools/${pool.id}/`)}
+          />
+        </View>
+      </ScrollView>
     </View>
   );
 }
@@ -118,8 +105,11 @@ const s = StyleSheet.create({
     paddingTop: 8,
   },
   btn: {
-    paddingVertical: 4,
+    paddingVertical: 12,
     paddingHorizontal: 12,
     // margin: 4,
   },
+  createLeagueContainer: {
+    paddingVertical: 12
+  }
 });
