@@ -91,7 +91,7 @@ export default function CreatePool() {
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <ScrollView contentContainerStyle={{ paddingBottom: 100 }}>
+        <ScrollView contentContainerStyle={{ paddingBottom: 100 }} keyboardShouldPersistTaps='handled'>
           <View>
             <Txt style={s.formText}>League Name</Txt>
             <View style={s.textInputContainer}>
