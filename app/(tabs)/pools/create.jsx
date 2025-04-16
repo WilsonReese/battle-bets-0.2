@@ -15,16 +15,39 @@ import BottomSheet, { BottomSheetScrollView, BottomSheetView } from "@gorhom/bot
 import { Txt } from "../../../components/general/Txt";
 import { Btn } from "../../../components/general/Buttons/Btn";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import api from "../../../utils/axiosConfig";
+import { router } from "expo-router";
 
 const WEEKS = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "6", "7", "Week 8", "9", "10", "11", "12", "13", "14"];
 
 export default function CreatePool() {
   const bottomSheetRef = useRef(null);
   const [selectedWeek, setSelectedWeek] = useState("Week 1");
+  const [leagueName, setLeagueName] = useState("");
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
     bottomSheetRef.current?.close();
+  };
+
+  const handleCreateLeague = async () => {
+    if (!leagueName.trim()) {
+      alert("Please enter a league name.");
+      return;
+    }
+  
+    try {
+      const response = await api.post("/pools", {
+        name: leagueName,
+      });
+  
+      console.log("Pool created:", response.data);
+      // You can optionally route to the new pool here:
+      router.back(`/pools/`);
+    } catch (error) {
+      console.error("Failed to create pool:", error?.response?.data || error.message);
+      alert("Failed to create league. Please try again.");
+    }
   };
 
   return (
@@ -41,6 +64,8 @@ export default function CreatePool() {
                 style={s.inputText}
                 placeholder="Enter League Name"
                 placeholderTextColor="#B8C3CC"
+                value={leagueName}
+                onChangeText={setLeagueName}
                 autoCapitalize="none"
               />
             </View>
@@ -60,7 +85,7 @@ export default function CreatePool() {
               btnText={"Create League"}
               style={s.btn}
               isEnabled={true}
-              onPress={() => console.log("Create League")}
+              onPress={handleCreateLeague}
             />
           </View>
         </ScrollView>
