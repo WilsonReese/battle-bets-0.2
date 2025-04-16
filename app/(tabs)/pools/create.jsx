@@ -14,22 +14,13 @@ import {
 import BottomSheet, { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
 import { Txt } from "../../../components/general/Txt";
 import { Btn } from "../../../components/general/Buttons/Btn";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 const WEEKS = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "6", "7", "Week 8", "9", "10", "11", "12", "13", "14"];
 
 export default function CreatePool() {
   const bottomSheetRef = useRef(null);
   const [selectedWeek, setSelectedWeek] = useState("Week 1");
-
-  // Dynamically set height based on content (each row = ~50px)
-
-
-  // THIS IS WHERE I LEFT OFF
-  // I NEED TO GET THE BOTTOMSHEET TO OPEN TO A MAXIMUM HEIGHT
-  // I got this working but need to still clean up this screen
-
-
-  // const snapPoints = useMemo(() => ["40%"], []);
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
@@ -59,7 +50,10 @@ export default function CreatePool() {
               style={s.weekSelector}
               onPress={() => bottomSheetRef.current?.expand()}
             >
-              <Txt>{selectedWeek}</Txt>
+              <View style={s.weekSelectorView}>
+                <Txt style={s.responseTxt}>{selectedWeek}</Txt>
+                <FontAwesome6 name="chevron-down" size={16} color="#F8F8F8" />
+              </View>
             </TouchableOpacity>
 
             <Btn
@@ -129,10 +123,21 @@ const s = StyleSheet.create({
     marginTop: 24,
   },
   weekSelector: {
-    backgroundColor: "#DAE1E5",
+    // backgroundColor: "#DAE1E5",
+    borderWidth: 1,
+    borderColor: "#3A454D",
     borderRadius: 8,
     padding: 12,
     marginTop: 8,
+  },
+  weekSelectorView: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center'
+  },
+  responseTxt: {
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 14,
   },
   sheetContainer: {
     padding: 16,
