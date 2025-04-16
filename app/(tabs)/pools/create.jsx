@@ -11,19 +11,43 @@ import {
   TouchableOpacity,
   Dimensions,
 } from "react-native";
-import BottomSheet, { BottomSheetScrollView, BottomSheetView } from "@gorhom/bottom-sheet";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 import { Txt } from "../../../components/general/Txt";
 import { Btn } from "../../../components/general/Buttons/Btn";
-import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import api from "../../../utils/axiosConfig";
 import { router } from "expo-router";
+import { Message } from "../../../components/general/Message";
 
-const WEEKS = ["Week 1", "Week 2", "Week 3", "Week 4", "Week 5", "6", "7", "Week 8", "9", "10", "11", "12", "13", "14"];
+const WEEKS = [
+  "Week 1",
+  "Week 2",
+  "Week 3",
+  "Week 4",
+  "Week 5",
+  "6",
+  "7",
+  "Week 8",
+  "9",
+  "10",
+  "11",
+  "12",
+  "13",
+  "14",
+];
 
 export default function CreatePool() {
   const bottomSheetRef = useRef(null);
   const [selectedWeek, setSelectedWeek] = useState("Week 1");
   const [leagueName, setLeagueName] = useState("");
+  const [message, setMessage] = useState(null); // Add state for message
+
+  const showMessage = (text, color) => {
+    setMessage({ text, color });
+  };
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
@@ -32,26 +56,37 @@ export default function CreatePool() {
 
   const handleCreateLeague = async () => {
     if (!leagueName.trim()) {
-      alert("Please enter a league name.");
+      showMessage("Please enter a league name.", "#AB1126");
       return;
     }
-  
+
     try {
       const response = await api.post("/pools", {
         name: leagueName,
       });
-  
+
       console.log("Pool created:", response.data);
       // You can optionally route to the new pool here:
       router.back(`/pools/`);
     } catch (error) {
-      console.error("Failed to create pool:", error?.response?.data || error.message);
+      console.error(
+        "Failed to create pool:",
+        error?.response?.data || error.message
+      );
       alert("Failed to create league. Please try again.");
     }
   };
 
   return (
     <View style={s.container}>
+      {message && (
+        <Message
+          message={message.text}
+          color={message.color}
+          onHide={() => setMessage(null)} // Hide message after duration
+          location={0}
+        />
+      )}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
@@ -156,9 +191,9 @@ const s = StyleSheet.create({
     marginTop: 8,
   },
   weekSelectorView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center'
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
   },
   responseTxt: {
     fontFamily: "Saira_600SemiBold",
