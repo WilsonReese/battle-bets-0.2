@@ -16,6 +16,8 @@
   },
   "dependencies": {
     "@expo-google-fonts/saira": "^0.2.3",
+    "@expo/config-plugins": "~10.0.0",
+    "@expo/prebuild-config": "~9.0.0",
     "@expo/vector-icons": "^14.0.0",
     "@gorhom/bottom-sheet": "^5.1.2",
     "@react-native-async-storage/async-storage": "2.1.2",
@@ -24,7 +26,6 @@
     "axios": "^1.7.7",
     "date-fns": "^4.1.0",
     "expo": "^53.0.0",
-    "expo-app-loading": "^2.1.1",
     "expo-constants": "~17.1.5",
     "expo-font": "~13.3.1",
     "expo-linking": "~7.1.4",

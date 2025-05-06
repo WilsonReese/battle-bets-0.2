@@ -23,25 +23,25 @@ import { router } from "expo-router";
 import { Message } from "../../../components/general/Message";
 
 const WEEKS = [
-  "Week 1",
-  "Week 2",
-  "Week 3",
-  "Week 4",
-  "Week 5",
-  "6",
-  "7",
-  "Week 8",
-  "9",
-  "10",
-  "11",
-  "12",
-  "13",
-  "14",
+  { label: "Week 1", value: 1 },
+  { label: "Week 2", value: 2 },
+  { label: "Week 3", value: 3 },
+  { label: "Week 4", value: 4 },
+  { label: "Week 5", value: 5 },
+  { label: "Week 6", value: 6 },
+  { label: "Week 7", value: 7 },
+  { label: "Week 8", value: 8 },
+  { label: "Week 9", value: 9 },
+  { label: "Week 10", value: 10 },
+  { label: "Week 11", value: 11 },
+  { label: "Week 12", value: 12 },
+  { label: "Week 13", value: 13 },
+  { label: "Week 14", value: 14 },
 ];
 
 export default function CreatePool() {
   const bottomSheetRef = useRef(null);
-  const [selectedWeek, setSelectedWeek] = useState("Week 1");
+  const [selectedWeek, setSelectedWeek] = useState(WEEKS[0]);
   const [leagueName, setLeagueName] = useState("");
   const [message, setMessage] = useState(null); // Add state for message
 
@@ -55,14 +55,20 @@ export default function CreatePool() {
   };
 
   const handleCreateLeague = async () => {
+    console.log("Create league pressed")
+    
     if (!leagueName.trim()) {
       showMessage("Please enter a league name.", "#AB1126");
       return;
     }
 
+    // This is how I get the number for the start week - might not be the way to do it in final version
+    // const startWeekNumber = parseInt(selectedWeek.replace(/\D/g, ""), 10);
+
     try {
       const response = await api.post("/pools", {
         name: leagueName,
+        start_week: selectedWeek.value,
       });
 
       console.log("Pool created:", response.data);
@@ -114,7 +120,7 @@ export default function CreatePool() {
               onPress={() => bottomSheetRef.current?.expand()}
             >
               <View style={s.weekSelectorView}>
-                <Txt style={s.responseTxt}>{selectedWeek}</Txt>
+                <Txt style={s.responseTxt}>{selectedWeek.label}</Txt>
                 <FontAwesome6 name="chevron-down" size={16} color="#F8F8F8" />
               </View>
             </TouchableOpacity>
@@ -141,14 +147,14 @@ export default function CreatePool() {
         <BottomSheetScrollView style={s.sheetContainer}>
           {WEEKS.map((week) => (
             <TouchableOpacity
-              key={week}
+              key={week.value}
               style={s.radioItem}
               onPress={() => handleSelectWeek(week)}
             >
               <View style={s.radioCircle}>
-                {selectedWeek === week && <View style={s.radioSelected} />}
+                {selectedWeek.value === week.value && <View style={s.radioSelected} />}
               </View>
-              <Txt style={s.radioLabel}>{week}</Txt>
+              <Txt style={s.radioLabel}>{week.label}</Txt>
             </TouchableOpacity>
           ))}
         </BottomSheetScrollView>
