@@ -55,15 +55,10 @@ export default function CreatePool() {
   };
 
   const handleCreateLeague = async () => {
-    console.log("Create league pressed")
-    
     if (!leagueName.trim()) {
       showMessage("Please enter a league name.", "#AB1126");
       return;
     }
-
-    // This is how I get the number for the start week - might not be the way to do it in final version
-    // const startWeekNumber = parseInt(selectedWeek.replace(/\D/g, ""), 10);
 
     try {
       const response = await api.post("/pools", {
