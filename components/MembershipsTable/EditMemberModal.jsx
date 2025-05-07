@@ -71,7 +71,7 @@ export function EditMemberModal({
                 >
                   <Txt style={s.txt}>Promote to Commissioner</Txt>
                   <FontAwesome6
-                    name="arrow-up"
+                    name="crown"
                     size={18}
                     color="#061826"
                     style={{ paddingRight: 8 }}
@@ -88,7 +88,7 @@ export function EditMemberModal({
                     name="trash-can"
                     size={18}
                     color="#061826"
-                    style={{ paddingRight: 7 }}
+                    style={{ paddingRight: 10 }}
                   />
                 </TouchableOpacity>
               </>

@@ -4,6 +4,7 @@ import { Btn } from "../general/Buttons/Btn";
 import { useState } from "react";
 import api from "../../utils/axiosConfig";
 import { EditMemberModal } from "./EditMemberModal";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export function MembershipRow({ member, isLast, poolId, onRemove }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -15,9 +16,19 @@ export function MembershipRow({ member, isLast, poolId, onRemove }) {
         style={[s.container, !isLast && s.withBottomBorder]}
       >
         <View style={s.leftSection}>
-          <Txt style={s.txt}>
-            {member.user.first_name} {member.user.last_name}
-          </Txt>
+          <View style={s.name}>
+            <Txt style={s.txt}>
+              {member.user.first_name} {member.user.last_name}
+            </Txt>
+            {member.is_commissioner && (
+              <FontAwesome6
+                name="crown"
+                size={16}
+                color="#54D18C"
+                style={{ paddingLeft: 4, paddingBottom: 3 }}
+              />
+            )}
+          </View>
           <Txt style={s.detailsTxt}>@{member.user.username}</Txt>
         </View>
 
@@ -61,6 +72,10 @@ const s = StyleSheet.create({
   },
   leftSection: {
     flex: 1,
+  },
+  name: {
+    flexDirection: 'row',
+    alignItems:'center'
   },
   rightSection: {
     flexDirection: "row",
