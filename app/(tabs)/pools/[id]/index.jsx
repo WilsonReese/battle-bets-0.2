@@ -18,6 +18,7 @@ import { LogoHeader } from "@/components/LogoHeader/LogoHeader.jsx";
 import { BattleCard } from "../../../../components/BattleCard/BattleCard.jsx";
 import { format } from "date-fns";
 import { PreviousBattles } from "../../../../components/PreviousBattles/PreviousBattles.jsx";
+import { MembershipsTable } from "../../../../components/MembershipsTable/MembershipsTable.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -172,15 +173,9 @@ export default function PoolDetails() {
           <Txt style={s.titleText}>League</Txt>
           <View style={{ marginTop: 16 }}>
             <Txt style={s.titleText}>Members</Txt>
-            {memberships.map((member) => (
-              <View key={member.id} style={{ marginVertical: 4 }}>
-                <Txt style={s.txt}>
-                  {member.user.first_name} {member.user.last_name} (@
-                  {member.user.username})
-                </Txt>
-              </View>
-            ))}
           </View>
+
+          <MembershipsTable memberships={memberships}/>
 
           <PreviousBattles battles={battles} />
           <Txt style={s.titleText}>League Manager (for commish)</Txt>
