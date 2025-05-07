@@ -96,7 +96,7 @@ export function EditMemberModal({
 
             {mode === "confirmRemove" && (
               <View style={s.confirmActionContainer}>
-                <Txt style={[s.txt, s.confirmationTxt ]}>Remove this user?</Txt>
+                <Txt style={[s.txt, s.confirmationTxt ]}>Remove this user from league?</Txt>
                 <View style={s.actions}>
                   <Btn
                     btnText="Yes, remove user"

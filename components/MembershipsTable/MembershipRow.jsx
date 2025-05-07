@@ -7,7 +7,7 @@ import { EditMemberModal } from "./EditMemberModal";
 
 export function MembershipRow({ member, isLast, poolId, onRemove }) {
   const [modalVisible, setModalVisible] = useState(false);
-  
+
   return (
     <>
       <View
@@ -39,7 +39,13 @@ export function MembershipRow({ member, isLast, poolId, onRemove }) {
         </View>
       </View>
 
-      <EditMemberModal member={member} poolId={poolId} onRemove={onRemove} modalVisible={modalVisible} setModalVisible={setModalVisible} />
+      <EditMemberModal
+        member={member}
+        poolId={poolId}
+        onRemove={onRemove}
+        modalVisible={modalVisible}
+        onClose={() => setModalVisible(false)}
+      />
     </>
   );
 }
