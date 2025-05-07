@@ -10,18 +10,26 @@ export function EditMemberModal({
   poolId,
   onRemove,
   modalVisible,
-  setModalVisible,
+  onClose,
 }) {
+  const [mode, setMode] = useState("default");
+
   const handleConfirmRemove = async () => {
     try {
       await api.delete(`/pools/${poolId}/pool_memberships/${member.id}`);
       onRemove?.(member.id); // Notify parent to refresh or remove from list
-      setModalVisible(false);
+      onClose();
+      setMode("default");
     } catch (err) {
       console.error("Error removing member:", err.response || err);
       // Optionally show error feedback
-      setModalVisible(false);
+      onClose();
     }
+  };
+
+  const resetAndClose = () => {
+    setMode("default");
+    onClose();
   };
 
   return (
@@ -32,7 +40,7 @@ export function EditMemberModal({
           <View style={s.modalContainer}>
             <View style={s.modalHeadingContainer}>
               <Txt style={s.modalHeadingText}>Edit Membership</Txt>
-              <TouchableOpacity onPress={() => setModalVisible(false)}>
+              <TouchableOpacity onPress={resetAndClose}>
                 <FontAwesome6
                   name="x"
                   size={18}
@@ -54,46 +62,59 @@ export function EditMemberModal({
                   <Txt style={s.detailsTxt}>2025</Txt>
                 </View>
               </View>
-              <TouchableOpacity
-                style={[s.actionContainer, s.promoteMemberOption]}
-              >
-                <Txt style={s.txt}>Promote to Commissioner</Txt>
-                <FontAwesome6
-                  name="arrow-up"
-                  size={18}
-                  color="black"
-                  style={{ paddingRight: 8 }}
-                />
-              </TouchableOpacity>
-              <TouchableOpacity
-                style={[s.actionContainer, s.removeMemberOption]}
-              >
-                <Txt style={s.txt}>
-                  Remove {member.user.first_name} from League
-                </Txt>
-                <FontAwesome6
-                  name="trash-can"
-                  size={18}
-                  color="black"
-                  style={{ paddingRight: 7 }}
-                />
-              </TouchableOpacity>
             </View>
-            <View style={s.modalBtns}>
-              <Btn
-                btnText="Cancel"
-                onPress={() => setModalVisible(false)}
-                isEnabled={true}
-                style={s.modalBtn}
-              />
-              <Btn
-                btnText="Confirm"
-                onPress={handleConfirmRemove}
-                isEnabled={true}
-                style={s.modalBtn}
-                fontColor="#AB1126"
-              />
-            </View>
+
+            {mode === "default" && (
+              <>
+                <TouchableOpacity
+                  style={[s.actionContainer, s.promoteMemberOption]}
+                >
+                  <Txt style={s.txt}>Promote to Commissioner</Txt>
+                  <FontAwesome6
+                    name="arrow-up"
+                    size={18}
+                    color="#061826"
+                    style={{ paddingRight: 8 }}
+                  />
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={[s.actionContainer, s.removeMemberOption]}
+                  onPress={() => setMode("confirmRemove")}
+                >
+                  <Txt style={s.txt}>
+                    Remove {member.user.first_name} from League
+                  </Txt>
+                  <FontAwesome6
+                    name="trash-can"
+                    size={18}
+                    color="#061826"
+                    style={{ paddingRight: 7 }}
+                  />
+                </TouchableOpacity>
+              </>
+            )}
+
+            {mode === "confirmRemove" && (
+              <View style={s.confirmActionContainer}>
+                <Txt style={[s.txt, s.confirmationTxt ]}>Remove this user?</Txt>
+                <View style={s.actions}>
+                  <Btn
+                    btnText="Yes, remove user"
+                    onPress={handleConfirmRemove}
+                    isEnabled={true}
+                    style={[s.actionBtn, s.redBtn]}
+                    // fontColor="#AB1126"
+                  />
+                  <Btn
+                    btnText="Cancel"
+                    onPress={() => setMode("default")}
+                    isEnabled={true}
+                    style={[s.actionBtn, s.cancelBtn]}
+                    fontColor="#184EAD"
+                  />
+                </View>
+              </View>
+            )}
           </View>
         </View>
       </Modal>
@@ -110,7 +131,7 @@ const s = StyleSheet.create({
   },
   modalContainer: {
     backgroundColor: "#F8F8F8",
-    borderRadius: 19,
+    borderRadius: 9,
     // padding: 20,
     width: "80%",
   },
@@ -149,7 +170,7 @@ const s = StyleSheet.create({
   actionContainer: {
     paddingHorizontal: 8,
     paddingVertical: 12,
-    marginVertical: 2,
+    // marginVertical: 2,
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -159,6 +180,9 @@ const s = StyleSheet.create({
   },
   removeMemberOption: {
     backgroundColor: "#E06777",
+    marginTop: 4,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
   },
   detailsTxt: {
     color: "#061826",
@@ -170,13 +194,29 @@ const s = StyleSheet.create({
     fontSize: 16,
     color: "#061826",
   },
-  modalBtns: {
+  confirmActionContainer: {
+    padding: 8,
+    alignItems: 'center'
+  },
+  confirmationTxt: {
+    paddingBottom: 8,
+    fontFamily: "Saira_600SemiBold",
+  },
+  actions: {
     flexDirection: "row",
     justifyContent: "flex-end",
     gap: 8,
   },
-  modalBtn: {
+  actionBtn: {
     paddingVertical: 6,
     paddingHorizontal: 12,
   },
+  redBtn: {
+    backgroundColor: '#E06777'
+  },
+  cancelBtn: {
+    backgroundColor: '#F8F8F8',
+    borderWidth: 1,
+    borderColor: '#184EAD'
+  }
 });
