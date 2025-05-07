@@ -1,5 +1,11 @@
 import React, { useCallback, useContext, useEffect, useState } from "react";
-import { View, StyleSheet, SafeAreaView, Alert } from "react-native";
+import {
+  View,
+  StyleSheet,
+  SafeAreaView,
+  Alert,
+  ScrollView,
+} from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../../components/general/Txt.jsx";
 import { StatusBar } from "expo-status-bar";
@@ -18,6 +24,7 @@ export default function PoolDetails() {
   const [battles, setBattles] = useState([]);
   const [loading, setLoading] = useState(true);
   const [userBetslip, setUserBetslip] = useState(null);
+  const [memberships, setMemberships] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
 
   const fetchSeasons = async () => {
@@ -93,10 +100,17 @@ export default function PoolDetails() {
     }
   };
 
-  // useEffect to fetch battles when the component mounts
-  // useEffect(() => {
-  //   fetchBattles();
-  // }, []);
+  const fetchPoolMemberships = async () => {
+    try {
+      const response = await api.get(`/pools/${poolId}/pool_memberships`);
+      setMemberships(response.data);
+    } catch (error) {
+      console.error(
+        "Error fetching pool memberships:",
+        error.response || error
+      );
+    }
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -111,6 +125,12 @@ export default function PoolDetails() {
       setLoading(false); // only stop loading once season is confirmed
     }
   }, [selectedSeason]);
+
+  useEffect(() => {
+    if (poolId) {
+      fetchPoolMemberships(poolId, setMemberships);
+    }
+  }, [poolId]);
 
   const latestBattle = battles[0];
 
@@ -129,33 +149,51 @@ export default function PoolDetails() {
     <SafeAreaProvider style={s.background}>
       <SafeAreaView style={s.container}>
         <StatusBar style="light" />
-        <View style={s.titleContainer}>
-          <Txt style={s.titleText}>
-            {/* This will need to become the Pool Name */}
-            Pool {poolId} (Make Dropdown)
+        <ScrollView>
+          <View style={s.titleContainer}>
+            <Txt style={s.titleText}>
+              {/* This will need to become the Pool Name */}
+              Pool {poolId} (Make Dropdown)
+            </Txt>
+          </View>
+          {selectedSeason?.hasStarted && ( // This will need to be updated for when a season has ended - seasons will need statuses
+            <BattleCard
+              userBetslip={userBetslip}
+              poolId={poolId}
+              season={selectedSeason}
+              battle={latestBattle}
+              setBattles={setBattles}
+              setUserBetslip={setUserBetslip}
+              setLoading={setLoading}
+            />
+          )}
+
+          {/* We need to make this a component */}
+          <Txt style={s.titleText}>League</Txt>
+          <View style={{ marginTop: 16 }}>
+            <Txt style={s.titleText}>Members</Txt>
+            {memberships.map((member) => (
+              <View key={member.id} style={{ marginVertical: 4 }}>
+                <Txt style={s.txt}>
+                  {member.user.first_name} {member.user.last_name} (@
+                  {member.user.username})
+                </Txt>
+              </View>
+            ))}
+          </View>
+
+          <PreviousBattles battles={battles} />
+          <Txt style={s.titleText}>League Manager (for commish)</Txt>
+          <Txt>Invite Players (modal/form to add players)</Txt>
+          <Txt>
+            Pending Players (email, has acct?, sent when?, cancel invite)
           </Txt>
-        </View>
-        {selectedSeason?.hasStarted && (
-          <BattleCard
-            userBetslip={userBetslip}
-            poolId={poolId}
-            season={selectedSeason}
-            battle={latestBattle}
-            setBattles={setBattles}
-            setUserBetslip={setUserBetslip}
-            setLoading={setLoading}
-          />
-        )}
-        <Txt style={s.titleText}>Standings</Txt>
-        <PreviousBattles battles={battles} />
-        <Txt style={s.titleText}>League Manager (for commish)</Txt>
-        <Txt>Invite Players (modal/form to add players)</Txt>
-        <Txt>Pending Players (email, has acct?, sent when?, cancel invite)</Txt>
-        <Txt style={s.titleText}>Previous Seasons</Txt>
-        <Txt>
-          Probably just a drop down to select a previous season (if there is a
-          previous season)
-        </Txt>
+          <Txt style={s.titleText}>Previous Seasons</Txt>
+          <Txt>
+            Probably just a drop down to select a previous season (if there is a
+            previous season)
+          </Txt>
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -178,6 +216,7 @@ const s = StyleSheet.create({
   container: {
     justifyContent: "center",
     margin: 8,
+    flex: 1,
   },
   titleContainer: {
     // paddingTop: 8,
