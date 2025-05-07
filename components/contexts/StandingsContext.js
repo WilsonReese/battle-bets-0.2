@@ -27,9 +27,19 @@ export const StandingsProvider = ({ children }) => {
       );
 
       // Fetch only the user's leaderboard entry
-      const userLeaderboardEntryResponse = await api.get(
-        `/pools/${poolId}/league_seasons/${season.id}/leaderboard_entries?user_only=true`
-      );
+      let userEntry = null;
+      try {
+        const userResponse = await api.get(
+          `/pools/${poolId}/league_seasons/${season.id}/leaderboard_entries?user_only=true`
+        );
+        userEntry = userResponse.data;
+      } catch (err) {
+        if (err.response?.status === 404) {
+          console.log("No user leaderboard entry yet. This is expected for new leagues.");
+        } else {
+          console.error("Error fetching user leaderboard entry:", err);
+        }
+      }
 
       setStandings((prev) => ({
         ...prev,
@@ -41,7 +51,7 @@ export const StandingsProvider = ({ children }) => {
 
       setUserLeaderboardEntries((prev) => ({
         ...prev,
-        [poolId]: userLeaderboardEntryResponse.data,
+        [poolId]: userEntry,
       }));
     } catch (error) {
       console.error("Error fetching standings:", error.response || error);
