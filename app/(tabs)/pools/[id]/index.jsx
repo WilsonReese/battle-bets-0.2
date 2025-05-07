@@ -28,7 +28,7 @@ export default function PoolDetails() {
       console.log("League Seasons:", allLeagueSeasons);
 
       // Will need to update this to allow for the user to select the season and have a default
-      // Hard code to 2024 for now 
+      // Hard code to 2024 for now
       const desiredSeason = allLeagueSeasons.find(
         (leagueSeason) => leagueSeason.season.year === 2024
       );
@@ -40,9 +40,13 @@ export default function PoolDetails() {
         return;
       }
 
-      console.log('Desired Season:', desiredSeason)
+      console.log("Desired Season:", desiredSeason);
 
-      setSelectedSeason(desiredSeason);
+      // Add a flag to determine if battle logic should be fetched
+      setSelectedSeason({
+        ...desiredSeason,
+        hasStarted: desiredSeason["has_started?"],
+      });
     } catch (error) {
       console.error("Error fetching league seasons:", error.response || error);
       Alert.alert("Error", "Failed to fetch league seasons.");
@@ -99,14 +103,14 @@ export default function PoolDetails() {
       fetchSeasons();
     }, [])
   );
-  
-  useFocusEffect(
-    useCallback(() => {
-      if (selectedSeason) {
-        fetchBattles();
-      }
-    }, [selectedSeason])
-  );
+
+  useEffect(() => {
+    if (selectedSeason?.hasStarted) {
+      fetchBattles();
+    } else if (selectedSeason && !selectedSeason.hasStarted) {
+      setLoading(false); // only stop loading once season is confirmed
+    }
+  }, [selectedSeason]);
 
   const latestBattle = battles[0];
 
@@ -131,15 +135,17 @@ export default function PoolDetails() {
             Pool {poolId} (Make Dropdown)
           </Txt>
         </View>
-        <BattleCard
-          userBetslip={userBetslip}
-          poolId={poolId}
-          season={selectedSeason}
-          battle={latestBattle}
-          setBattles={setBattles}
-          setUserBetslip={setUserBetslip}
-          setLoading={setLoading}
-        />
+        {selectedSeason?.hasStarted && (
+          <BattleCard
+            userBetslip={userBetslip}
+            poolId={poolId}
+            season={selectedSeason}
+            battle={latestBattle}
+            setBattles={setBattles}
+            setUserBetslip={setUserBetslip}
+            setLoading={setLoading}
+          />
+        )}
         <Txt style={s.titleText}>Standings</Txt>
         <PreviousBattles battles={battles} />
         <Txt style={s.titleText}>League Manager (for commish)</Txt>
