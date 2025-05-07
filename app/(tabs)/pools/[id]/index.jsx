@@ -175,7 +175,7 @@ export default function PoolDetails() {
             <Txt style={s.titleText}>Members</Txt>
           </View>
 
-          <MembershipsTable memberships={memberships}/>
+          <MembershipsTable memberships={memberships} setMemberships={setMemberships} poolId={poolId}/>
 
           <PreviousBattles battles={battles} />
           <Txt style={s.titleText}>League Manager (for commish)</Txt>
