@@ -19,6 +19,7 @@ import { BattleCard } from "../../../../components/BattleCard/BattleCard.jsx";
 import { format } from "date-fns";
 import { PreviousBattles } from "../../../../components/PreviousBattles/PreviousBattles.jsx";
 import { MembershipsTable } from "../../../../components/MembershipsTable/MembershipsTable.jsx";
+import { Message } from "../../../../components/general/Message";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -27,6 +28,11 @@ export default function PoolDetails() {
   const [userBetslip, setUserBetslip] = useState(null);
   const [memberships, setMemberships] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
+  const [message, setMessage] = useState(null);
+
+  const showMessage = (text, color = "#54D18C", duration = 2000) => {
+    setMessage({ text, color, duration });
+  };
 
   const fetchSeasons = async () => {
     try {
@@ -149,6 +155,14 @@ export default function PoolDetails() {
   return (
     <SafeAreaProvider style={s.background}>
       <SafeAreaView style={s.container}>
+        {message && (
+          <Message
+            message={message.text}
+            color={message.color}
+            duration={message.duration}
+            onHide={() => setMessage(null)}
+          />
+        )}
         <StatusBar style="light" />
         <ScrollView>
           <View style={s.titleContainer}>
@@ -180,6 +194,7 @@ export default function PoolDetails() {
             setMemberships={setMemberships}
             poolId={poolId}
             fetchPoolMemberships={fetchPoolMemberships}
+            showMessage={showMessage}
           />
 
           <PreviousBattles battles={battles} />

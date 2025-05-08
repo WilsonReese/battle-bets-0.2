@@ -11,7 +11,8 @@ export function EditMemberModal({
   onRemove,
   modalVisible,
   onClose,
-  onChange
+  onChange,
+  showMessage,
 }) {
   const [mode, setMode] = useState("default");
 
@@ -20,11 +21,14 @@ export function EditMemberModal({
       await api.delete(`/pools/${poolId}/pool_memberships/${member.id}`);
       onRemove?.(member.id); // Notify parent to refresh or remove from list
       onChange?.(); // Refresh list
+      showMessage?.("User removed successfully", "#0C9449");
       onClose();
       setMode("default");
     } catch (err) {
       console.error("Error removing member:", err.response || err);
-      // Optionally show error feedback
+      const msg =
+        err?.response?.data?.error || "Something went wrong. Please try again.";
+      showMessage?.(msg, "#AB1126"); // Show as error (red background)
       onClose();
     }
   };
@@ -35,7 +39,7 @@ export function EditMemberModal({
         is_commissioner: true,
       });
       onChange?.(); // Refresh list
-      // You could optionally call a prop like `onPromote?.(member.id);`
+      showMessage?.("User promoted to commissioner", "#0C9449");
       onClose();
       setMode("default");
     } catch (err) {
@@ -50,10 +54,14 @@ export function EditMemberModal({
         pool_membership: { is_commissioner: false },
       });
       onChange?.(); // Refresh list
+      showMessage?.("User demoted successfully", "#0C9449");
       onClose();
       setMode("default");
     } catch (err) {
       console.error("Error demoting member:", err.response || err);
+      const msg =
+        err?.response?.data?.error || "Something went wrong. Please try again.";
+      showMessage?.(msg, "#AB1126"); // Show as error (red background)
       onClose();
     }
   };
@@ -340,7 +348,7 @@ const s = StyleSheet.create({
     backgroundColor: "#E06777",
   },
   greenBtn: {
-    backgroundColor: '#0C9449'
+    backgroundColor: "#0C9449",
   },
   cancelBtn: {
     backgroundColor: "#F8F8F8",
