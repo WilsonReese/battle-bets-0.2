@@ -5,8 +5,16 @@ import { useState } from "react";
 import api from "../../utils/axiosConfig";
 import { EditMemberModal } from "./EditMemberModal";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { formatMembershipJoinDate } from "../../utils/dateUtils";
 
-export function MembershipRow({ member, isLast, poolId, onRemove, fetchPoolMemberships, showMessage }) {
+export function MembershipRow({
+  member,
+  isLast,
+  poolId,
+  onRemove,
+  fetchPoolMemberships,
+  showMessage,
+}) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -35,7 +43,9 @@ export function MembershipRow({ member, isLast, poolId, onRemove, fetchPoolMembe
         <View style={s.rightSection}>
           <View>
             <Txt>Joined</Txt>
-            <Txt style={s.detailsTxt}>2025</Txt>
+            <Txt style={s.detailsTxt}>
+              {formatMembershipJoinDate(member.created_at)}
+            </Txt>
           </View>
           <View style={s.removeButtonContainer}>
             <Btn
@@ -76,8 +86,8 @@ const s = StyleSheet.create({
     flex: 1,
   },
   name: {
-    flexDirection: 'row',
-    alignItems:'center'
+    flexDirection: "row",
+    alignItems: "center",
   },
   rightSection: {
     flexDirection: "row",

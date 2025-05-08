@@ -4,6 +4,8 @@ import { Btn } from "../general/Buttons/Btn";
 import { useState } from "react";
 import api from "../../utils/axiosConfig";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { formatMembershipJoinDate } from "../../utils/dateUtils";
+
 
 export function EditMemberModal({
   member,
@@ -29,7 +31,7 @@ export function EditMemberModal({
       const msg =
         err?.response?.data?.error || "Something went wrong. Please try again.";
       showMessage?.(msg, "#AB1126"); // Show as error (red background)
-      onClose();
+      resetAndClose();
     }
   };
 
@@ -62,7 +64,7 @@ export function EditMemberModal({
       const msg =
         err?.response?.data?.error || "Something went wrong. Please try again.";
       showMessage?.(msg, "#AB1126"); // Show as error (red background)
-      onClose();
+      resetAndClose();
     }
   };
 
@@ -95,7 +97,9 @@ export function EditMemberModal({
                 </View>
                 <View style={s.rightSection}>
                   <Txt style={s.txt}>Joined</Txt>
-                  <Txt style={s.detailsTxt}>2025</Txt>
+                  <Txt style={s.detailsTxt}>
+                    {formatMembershipJoinDate(member.created_at)}
+                  </Txt>
                 </View>
               </View>
             </View>
