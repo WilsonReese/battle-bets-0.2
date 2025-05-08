@@ -41,11 +41,11 @@ export function MembershipRow({
         </View>
 
         <View style={s.rightSection}>
-          <View>
-            <Txt>Joined</Txt>
-            <Txt style={s.detailsTxt}>
-              {formatMembershipJoinDate(member.created_at)}
-            </Txt>
+          <View style={{alignItems: 'flex-end'}}>
+              <Txt>Joined</Txt>
+              <Txt style={s.detailsTxt}>
+                {formatMembershipJoinDate(member.created_at)}
+              </Txt>
           </View>
           <View style={s.removeButtonContainer}>
             <Btn
