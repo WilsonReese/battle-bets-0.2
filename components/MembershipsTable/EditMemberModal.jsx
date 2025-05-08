@@ -98,10 +98,10 @@ export function EditMemberModal({
                 {/* Member is a commissioner  */}
                 {member.is_commissioner ? (
                   <TouchableOpacity
-                    style={[s.actionContainer, s.promoteMemberOption]}
+                    style={[s.actionContainer, s.removeMemberOption]}
                     onPress={() => setMode("confirmDemote")}
                   >
-                    <Txt style={s.promoteTxt}>Demote from Commissioner</Txt>
+                    <Txt style={s.removeTxt}>Demote Commissioner</Txt>
                     <FontAwesome6
                       name="arrow-down"
                       size={18}
@@ -156,7 +156,8 @@ export function EditMemberModal({
                     btnText="Yes, promote user"
                     onPress={handleConfirmPromote}
                     isEnabled={true}
-                    style={[s.actionBtn, s.redBtn]}
+                    style={[s.actionBtn, s.greenBtn]}
+                    fontSize={14}
                     // fontColor="#AB1126"
                   />
                   <Btn
@@ -165,6 +166,7 @@ export function EditMemberModal({
                     isEnabled={true}
                     style={[s.actionBtn, s.cancelBtn]}
                     fontColor="#184EAD"
+                    fontSize={14}
                   />
                 </View>
               </View>
@@ -181,6 +183,7 @@ export function EditMemberModal({
                     onPress={handleConfirmDemote}
                     isEnabled={true}
                     style={[s.actionBtn, s.redBtn]}
+                    fontSize={14}
                   />
                   <Btn
                     btnText="Cancel"
@@ -188,6 +191,7 @@ export function EditMemberModal({
                     isEnabled={true}
                     style={[s.actionBtn, s.cancelBtn]}
                     fontColor="#184EAD"
+                    fontSize={14}
                   />
                 </View>
               </View>
@@ -205,6 +209,7 @@ export function EditMemberModal({
                     onPress={handleConfirmRemove}
                     isEnabled={true}
                     style={[s.actionBtn, s.redBtn]}
+                    fontSize={14}
                     // fontColor="#AB1126"
                   />
                   <Btn
@@ -213,6 +218,7 @@ export function EditMemberModal({
                     isEnabled={true}
                     style={[s.actionBtn, s.cancelBtn]}
                     fontColor="#184EAD"
+                    fontSize={14}
                   />
                 </View>
               </View>
@@ -332,6 +338,9 @@ const s = StyleSheet.create({
   },
   redBtn: {
     backgroundColor: "#E06777",
+  },
+  greenBtn: {
+    backgroundColor: '#0C9449'
   },
   cancelBtn: {
     backgroundColor: "#F8F8F8",
