@@ -1,10 +1,10 @@
 import { Modal, StyleSheet, TouchableOpacity, View } from "react-native";
-import { Txt } from "../general/Txt";
-import { Btn } from "../general/Buttons/Btn";
+import { Txt } from "../../general/Txt";
+import { Btn } from "../../general/Buttons/Btn";
 import { useState } from "react";
-import api from "../../utils/axiosConfig";
+import api from "../../../utils/axiosConfig";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { formatMembershipJoinDate } from "../../utils/dateUtils";
+import { formatMembershipJoinDate } from "../../../utils/dateUtils";
 
 export function EditMemberModal({
   member,

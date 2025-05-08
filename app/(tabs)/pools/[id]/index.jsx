@@ -18,7 +18,7 @@ import { LogoHeader } from "@/components/LogoHeader/LogoHeader.jsx";
 import { BattleCard } from "../../../../components/BattleCard/BattleCard.jsx";
 import { format } from "date-fns";
 import { PreviousBattles } from "../../../../components/PreviousBattles/PreviousBattles.jsx";
-import { MembershipsTable } from "../../../../components/MembershipsTable/MembershipsTable.jsx";
+import { MembershipsTable } from "../../../../components/PoolDetails/MembershipsTable/MembershipsTable.jsx";
 import { Message } from "../../../../components/general/Message";
 import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 

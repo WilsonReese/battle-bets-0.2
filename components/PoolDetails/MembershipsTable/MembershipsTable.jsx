@@ -1,8 +1,8 @@
 import React, { useContext, useRef, useState } from "react";
 import { Animated, FlatList, StyleSheet, View, Dimensions } from "react-native";
-import { Txt } from "../general/Txt";
+import { Txt } from "../../general/Txt";
 import { MembershipRow } from "./MembershipRow";
-import { AuthContext } from "../contexts/AuthContext";
+import { AuthContext } from "../../contexts/AuthContext";
 
 export function MembershipsTable({
   containerWidth,
