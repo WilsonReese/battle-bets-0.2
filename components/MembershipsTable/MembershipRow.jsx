@@ -14,6 +14,7 @@ export function MembershipRow({
   onRemove,
   fetchPoolMemberships,
   showMessage,
+  isCurrentUserCommissioner,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -41,22 +42,24 @@ export function MembershipRow({
         </View>
 
         <View style={s.rightSection}>
-          <View style={{alignItems: 'flex-end'}}>
-              <Txt>Joined</Txt>
-              <Txt style={s.detailsTxt}>
-                {formatMembershipJoinDate(member.created_at)}
-              </Txt>
+          <View style={{ alignItems: "flex-end" }}>
+            <Txt>Joined</Txt>
+            <Txt style={s.detailsTxt}>
+              {formatMembershipJoinDate(member.created_at)}
+            </Txt>
           </View>
-          <View style={s.removeButtonContainer}>
-            <Btn
-              btnText={"Edit"}
-              style={s.btn}
-              isEnabled={true}
-              fontSize={12}
-              fontColor={"#54D18C"}
-              onPress={() => setModalVisible(true)}
-            />
-          </View>
+          {isCurrentUserCommissioner && (
+            <View style={s.removeButtonContainer}>
+              <Btn
+                btnText={"Edit"}
+                style={s.btn}
+                isEnabled={true}
+                fontSize={12}
+                fontColor={"#54D18C"}
+                onPress={() => setModalVisible(true)}
+              />
+            </View>
+          )}
         </View>
       </View>
 

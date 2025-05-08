@@ -1,7 +1,8 @@
-import React, { useRef, useState } from "react";
+import React, { useContext, useRef, useState } from "react";
 import { Animated, FlatList, StyleSheet, View, Dimensions } from "react-native";
 import { Txt } from "../general/Txt";
 import { MembershipRow } from "./MembershipRow";
+import { AuthContext } from "../contexts/AuthContext";
 
 export function MembershipsTable({
   containerWidth,
@@ -10,9 +11,10 @@ export function MembershipsTable({
   poolId,
   fetchPoolMemberships,
   showMessage,
+  isCurrentUserCommissioner
 }) {
   const PAGE_WIDTH = containerWidth || Dimensions.get("window").width;
-  const MEMBERS_PER_PAGE = 3;
+  const MEMBERS_PER_PAGE = 15;
 
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
@@ -39,6 +41,7 @@ export function MembershipsTable({
                 poolId={poolId}
                 fetchPoolMemberships={fetchPoolMemberships}
                 showMessage={showMessage}
+                isCurrentUserCommissioner={isCurrentUserCommissioner}
               />
             ))}
           </View>

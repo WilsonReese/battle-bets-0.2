@@ -20,6 +20,7 @@ import { format } from "date-fns";
 import { PreviousBattles } from "../../../../components/PreviousBattles/PreviousBattles.jsx";
 import { MembershipsTable } from "../../../../components/MembershipsTable/MembershipsTable.jsx";
 import { Message } from "../../../../components/general/Message";
+import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -30,6 +31,13 @@ export default function PoolDetails() {
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [message, setMessage] = useState(null);
   const [containerWidth, setContainerWidth] = useState(null);
+
+  // Checking for commissioners
+  const { currentUserId } = useContext(AuthContext);
+  const userMembership = memberships.find(
+    (m) => String(m.user.id) === String(currentUserId)
+  );
+  const isCurrentUserCommissioner = userMembership?.is_commissioner;
 
   // Pagination for league memberships
   // const [page, setPage] = useState(1);
@@ -128,6 +136,7 @@ export default function PoolDetails() {
     try {
       const response = await api.get(`/pools/${poolId}/pool_memberships`);
       setMemberships(response.data); // Expecting just an array of memberships now
+      console.log("Memberships: ", response.data);
     } catch (error) {
       console.error(
         "Error fetching pool memberships:",
@@ -226,6 +235,7 @@ export default function PoolDetails() {
             poolId={poolId}
             fetchPoolMemberships={fetchPoolMemberships}
             showMessage={showMessage}
+            isCurrentUserCommissioner={isCurrentUserCommissioner}
             // page={page}
             // totalPages={totalPages}
             // setPage={setPage}
