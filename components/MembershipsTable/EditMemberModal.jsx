@@ -6,7 +6,6 @@ import api from "../../utils/axiosConfig";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { formatMembershipJoinDate } from "../../utils/dateUtils";
 
-
 export function EditMemberModal({
   member,
   poolId,
@@ -46,6 +45,9 @@ export function EditMemberModal({
       setMode("default");
     } catch (err) {
       console.error("Error promoting member:", err.response || err);
+      const msg =
+        err?.response?.data?.error || "Something went wrong. Please try again.";
+      showMessage?.(msg, "#AB1126"); // Show as error (red background)
       onClose();
     }
   };

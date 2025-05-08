@@ -29,6 +29,10 @@ export default function PoolDetails() {
   const [memberships, setMemberships] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [message, setMessage] = useState(null);
+  
+  // Pagination for league memberships
+  const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(1);
 
   const showMessage = (text, color = "#54D18C", duration = 2000) => {
     setMessage({ text, color, duration });
@@ -107,16 +111,14 @@ export default function PoolDetails() {
     }
   };
 
-  const fetchPoolMemberships = async () => {
+  const fetchPoolMemberships = async (pageToFetch = 1) => {
     try {
-      const response = await api.get(`/pools/${poolId}/pool_memberships`);
-      setMemberships(response.data);
-      console.log("Memberships: ", response.data)
+      const response = await api.get(`/pools/${poolId}/pool_memberships?page=${pageToFetch}`);
+      setMemberships(response.data.memberships);
+      setPage(response.data.current_page);
+      setTotalPages(response.data.total_pages);
     } catch (error) {
-      console.error(
-        "Error fetching pool memberships:",
-        error.response || error
-      );
+      console.error("Error fetching pool memberships:", error.response || error);
     }
   };
 
@@ -136,9 +138,9 @@ export default function PoolDetails() {
 
   useEffect(() => {
     if (poolId) {
-      fetchPoolMemberships(poolId, setMemberships);
+      fetchPoolMemberships(page);
     }
-  }, [poolId]);
+  }, [poolId, page]);
 
   const latestBattle = battles[0];
 
@@ -196,6 +198,9 @@ export default function PoolDetails() {
             poolId={poolId}
             fetchPoolMemberships={fetchPoolMemberships}
             showMessage={showMessage}
+            page={page}
+            totalPages={totalPages}
+            setPage={setPage}
           />
 
           <PreviousBattles battles={battles} />
