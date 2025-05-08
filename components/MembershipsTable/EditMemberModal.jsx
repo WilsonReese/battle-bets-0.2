@@ -41,12 +41,13 @@ export function EditMemberModal({
             <View style={s.modalHeadingContainer}>
               <Txt style={s.modalHeadingText}>Edit Membership</Txt>
               <TouchableOpacity onPress={resetAndClose}>
-                <FontAwesome6
-                  name="x"
-                  size={18}
-                  color="#F8F8F8"
-                  style={{ paddingRight: 6 }}
-                />
+                <View style={s.closeModalContainer}>
+                  <FontAwesome6
+                    name="x"
+                    size={18}
+                    color="#F8F8F8"
+                  />
+                </View>
               </TouchableOpacity>
             </View>
             <View style={s.modalBodyContainer}>
@@ -69,11 +70,11 @@ export function EditMemberModal({
                 <TouchableOpacity
                   style={[s.actionContainer, s.promoteMemberOption]}
                 >
-                  <Txt style={s.txt}>Promote to Commissioner</Txt>
+                  <Txt style={s.promoteTxt}>Promote to Commissioner</Txt>
                   <FontAwesome6
                     name="crown"
                     size={18}
-                    color="#061826"
+                    color="#0C9449"
                     style={{ paddingRight: 8 }}
                   />
                 </TouchableOpacity>
@@ -81,13 +82,13 @@ export function EditMemberModal({
                   style={[s.actionContainer, s.removeMemberOption]}
                   onPress={() => setMode("confirmRemove")}
                 >
-                  <Txt style={s.txt}>
+                  <Txt style={s.removeTxt}>
                     Remove {member.user.first_name} from League
                   </Txt>
                   <FontAwesome6
                     name="trash-can"
                     size={18}
-                    color="#061826"
+                    color="#E06777"
                     style={{ paddingRight: 10 }}
                   />
                 </TouchableOpacity>
@@ -96,7 +97,9 @@ export function EditMemberModal({
 
             {mode === "confirmRemove" && (
               <View style={s.confirmActionContainer}>
-                <Txt style={[s.txt, s.confirmationTxt ]}>Remove this user from league?</Txt>
+                <Txt style={[s.txt, s.confirmationTxt]}>
+                  Remove this user from league?
+                </Txt>
                 <View style={s.actions}>
                   <Btn
                     btnText="Yes, remove user"
@@ -138,7 +141,7 @@ const s = StyleSheet.create({
   modalHeadingContainer: {
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
-    paddingVertical: 8,
+    // paddingVertical: 8,
     backgroundColor: "#184EAD",
     flexDirection: "row",
     alignItems: "center",
@@ -149,6 +152,12 @@ const s = StyleSheet.create({
     fontFamily: "Saira_600SemiBold",
     color: "#F8F8F8",
     fontSize: 18,
+  },
+  closeModalContainer: {
+    // backgroundColor: 'green',
+    paddingVertical: 12,
+    paddingRight: 6,
+    paddingLeft: 12
   },
   modalBodyContainer: {
     // paddingHorizontal: 8,
@@ -174,12 +183,13 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
+    backgroundColor: "#DAE1E5",
   },
   promoteMemberOption: {
-    backgroundColor: "#54D18C",
+    // backgroundColor: "#54D18C",
   },
   removeMemberOption: {
-    backgroundColor: "#E06777",
+    // backgroundColor: "#E06777",
     marginTop: 4,
     borderBottomRightRadius: 8,
     borderBottomLeftRadius: 8,
@@ -194,9 +204,19 @@ const s = StyleSheet.create({
     fontSize: 16,
     color: "#061826",
   },
+  removeTxt: {
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 14,
+    color: "#E06777",
+  },
+  promoteTxt: {
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 14,
+    color: "#0C9449",
+  },
   confirmActionContainer: {
     padding: 8,
-    alignItems: 'center'
+    alignItems: "center",
   },
   confirmationTxt: {
     paddingBottom: 8,
@@ -212,11 +232,11 @@ const s = StyleSheet.create({
     paddingHorizontal: 12,
   },
   redBtn: {
-    backgroundColor: '#E06777'
+    backgroundColor: "#E06777",
   },
   cancelBtn: {
-    backgroundColor: '#F8F8F8',
+    backgroundColor: "#F8F8F8",
     borderWidth: 1,
-    borderColor: '#184EAD'
-  }
+    borderColor: "#184EAD",
+  },
 });
