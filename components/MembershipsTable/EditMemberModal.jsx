@@ -11,6 +11,7 @@ export function EditMemberModal({
   onRemove,
   modalVisible,
   onClose,
+  onChange
 }) {
   const [mode, setMode] = useState("default");
 
@@ -18,6 +19,7 @@ export function EditMemberModal({
     try {
       await api.delete(`/pools/${poolId}/pool_memberships/${member.id}`);
       onRemove?.(member.id); // Notify parent to refresh or remove from list
+      onChange?.(); // Refresh list
       onClose();
       setMode("default");
     } catch (err) {
@@ -32,6 +34,7 @@ export function EditMemberModal({
       await api.patch(`/pools/${poolId}/pool_memberships/${member.id}`, {
         is_commissioner: true,
       });
+      onChange?.(); // Refresh list
       // You could optionally call a prop like `onPromote?.(member.id);`
       onClose();
       setMode("default");
@@ -46,6 +49,7 @@ export function EditMemberModal({
       await api.patch(`/pools/${poolId}/pool_memberships/${member.id}`, {
         pool_membership: { is_commissioner: false },
       });
+      onChange?.(); // Refresh list
       onClose();
       setMode("default");
     } catch (err) {

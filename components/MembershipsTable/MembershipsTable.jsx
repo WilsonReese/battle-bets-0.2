@@ -2,7 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { MembershipRow } from "./MembershipRow";
 
-export function MembershipsTable({ memberships, setMemberships, poolId}) {
+export function MembershipsTable({ memberships, setMemberships, poolId, fetchPoolMemberships}) {
   return (
     <View>
       <Txt style={s.titleText}>League Members</Txt>
@@ -15,6 +15,7 @@ export function MembershipsTable({ memberships, setMemberships, poolId}) {
           onRemove={(removedId) =>
             setMemberships((prev) => prev.filter((m) => m.id !== removedId))
           }
+          fetchPoolMemberships={fetchPoolMemberships}
         />
       ))}
     </View>

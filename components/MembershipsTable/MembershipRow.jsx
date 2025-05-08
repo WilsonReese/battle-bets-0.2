@@ -6,7 +6,7 @@ import api from "../../utils/axiosConfig";
 import { EditMemberModal } from "./EditMemberModal";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
-export function MembershipRow({ member, isLast, poolId, onRemove }) {
+export function MembershipRow({ member, isLast, poolId, onRemove, fetchPoolMemberships }) {
   const [modalVisible, setModalVisible] = useState(false);
 
   return (
@@ -56,6 +56,7 @@ export function MembershipRow({ member, isLast, poolId, onRemove }) {
         onRemove={onRemove}
         modalVisible={modalVisible}
         onClose={() => setModalVisible(false)}
+        onChange={fetchPoolMemberships}
       />
     </>
   );

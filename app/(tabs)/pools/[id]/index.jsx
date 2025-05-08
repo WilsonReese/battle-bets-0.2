@@ -105,7 +105,6 @@ export default function PoolDetails() {
     try {
       const response = await api.get(`/pools/${poolId}/pool_memberships`);
       setMemberships(response.data);
-      console.log('Memberships: ', response.data)
     } catch (error) {
       console.error(
         "Error fetching pool memberships:",
@@ -176,7 +175,12 @@ export default function PoolDetails() {
             <Txt style={s.titleText}>Members</Txt>
           </View>
 
-          <MembershipsTable memberships={memberships} setMemberships={setMemberships} poolId={poolId}/>
+          <MembershipsTable
+            memberships={memberships}
+            setMemberships={setMemberships}
+            poolId={poolId}
+            fetchPoolMemberships={fetchPoolMemberships}
+          />
 
           <PreviousBattles battles={battles} />
           <Txt style={s.titleText}>League Manager (for commish)</Txt>
