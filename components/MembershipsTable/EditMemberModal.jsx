@@ -27,6 +27,20 @@ export function EditMemberModal({
     }
   };
 
+  const handleConfirmPromote = async () => {
+    try {
+      await api.patch(`/pools/${poolId}/pool_memberships/${member.id}`, {
+        is_commissioner: true,
+      });
+      // You could optionally call a prop like `onPromote?.(member.id);`
+      onClose();
+      setMode("default");
+    } catch (err) {
+      console.error("Error promoting member:", err.response || err);
+      onClose();
+    }
+  };
+
   const resetAndClose = () => {
     setMode("default");
     onClose();
@@ -42,11 +56,7 @@ export function EditMemberModal({
               <Txt style={s.modalHeadingText}>Edit Membership</Txt>
               <TouchableOpacity onPress={resetAndClose}>
                 <View style={s.closeModalContainer}>
-                  <FontAwesome6
-                    name="x"
-                    size={18}
-                    color="#F8F8F8"
-                  />
+                  <FontAwesome6 name="x" size={18} color="#F8F8F8" />
                 </View>
               </TouchableOpacity>
             </View>
@@ -69,6 +79,7 @@ export function EditMemberModal({
               <>
                 <TouchableOpacity
                   style={[s.actionContainer, s.promoteMemberOption]}
+                  onPress={() => setMode("confirmPromote")}
                 >
                   <Txt style={s.promoteTxt}>Promote to Commissioner</Txt>
                   <FontAwesome6
@@ -93,6 +104,30 @@ export function EditMemberModal({
                   />
                 </TouchableOpacity>
               </>
+            )}
+
+            {mode === "confirmPromote" && (
+              <View style={s.confirmActionContainer}>
+                <Txt style={[s.txt, s.confirmationTxt]}>
+                  Promote this user to commissioner?
+                </Txt>
+                <View style={s.actions}>
+                  <Btn
+                    btnText="Yes, promote user"
+                    onPress={handleConfirmPromote}
+                    isEnabled={true}
+                    style={[s.actionBtn, s.redBtn]}
+                    // fontColor="#AB1126"
+                  />
+                  <Btn
+                    btnText="Cancel"
+                    onPress={() => setMode("default")}
+                    isEnabled={true}
+                    style={[s.actionBtn, s.cancelBtn]}
+                    fontColor="#184EAD"
+                  />
+                </View>
+              </View>
             )}
 
             {mode === "confirmRemove" && (
@@ -157,7 +192,7 @@ const s = StyleSheet.create({
     // backgroundColor: 'green',
     paddingVertical: 12,
     paddingRight: 6,
-    paddingLeft: 12
+    paddingLeft: 12,
   },
   modalBodyContainer: {
     // paddingHorizontal: 8,
