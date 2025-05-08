@@ -1,32 +1,37 @@
 import React, { useRef, useState } from "react";
-import { FlatList, StyleSheet, View, Dimensions } from "react-native";
+import {
+  Animated,
+  FlatList,
+  StyleSheet,
+  View,
+  Dimensions,
+} from "react-native";
 import { Txt } from "../general/Txt";
 import { MembershipRow } from "./MembershipRow";
 
-export function MembershipsTable({ containerWidth, memberships, setMemberships, poolId, fetchPoolMemberships, showMessage }) {
+export function MembershipsTable({
+  containerWidth,
+  memberships,
+  setMemberships,
+  poolId,
+  fetchPoolMemberships,
+  showMessage,
+}) {
   const PAGE_WIDTH = containerWidth || Dimensions.get("window").width;
-  const membersPerPage = 1;
-  const pages = Math.ceil(memberships.length / membersPerPage);
-  const flatListRef = useRef(null);
-  const [currentPage, setCurrentPage] = useState(0);
-  
-  const groupedMembers = Array.from({ length: pages }, (_, i) =>
-    memberships.slice(i * membersPerPage, (i + 1) * membersPerPage)
-);
-  // Dots
-  const MAX_VISIBLE_DOTS = 5;
-  const visibleStart = Math.max(0, Math.min(currentPage - Math.floor(MAX_VISIBLE_DOTS / 2), pages - MAX_VISIBLE_DOTS));
-  const visibleDots = groupedMembers.slice(visibleStart, visibleStart + MAX_VISIBLE_DOTS);
+  const MEMBERS_PER_PAGE = 15;
 
-  const handleScroll = (event) => {
-    const page = Math.round(event.nativeEvent.contentOffset.x / PAGE_WIDTH);
-    setCurrentPage(page);
-  };
+  const scrollX = useRef(new Animated.Value(0)).current;
+  const flatListRef = useRef(null);
+  const pages = Math.ceil(memberships.length / MEMBERS_PER_PAGE);
+  const groupedMembers = Array.from({ length: pages }, (_, i) =>
+    memberships.slice(i * MEMBERS_PER_PAGE, (i + 1) * MEMBERS_PER_PAGE)
+  );
 
   return (
     <View>
       <Txt style={s.titleText}>League Members</Txt>
-      <FlatList
+
+      <Animated.FlatList
         ref={flatListRef}
         data={groupedMembers}
         keyExtractor={(_, i) => `page-${i}`}
@@ -47,25 +52,66 @@ export function MembershipsTable({ containerWidth, memberships, setMemberships, 
         horizontal
         pagingEnabled
         showsHorizontalScrollIndicator={false}
-        onScroll={handleScroll}
         scrollEventThrottle={16}
+        onScroll={Animated.event(
+          [{ nativeEvent: { contentOffset: { x: scrollX } } }],
+          { useNativeDriver: false }
+        )}
       />
 
-      {/* Page dots */}
-      <View style={s.dotsContainer}>
-  {visibleDots.map((_, i) => {
-    const actualIndex = i + visibleStart;
-    return (
-      <View
-        key={actualIndex}
-        style={[
-          s.dot,
-          currentPage === actualIndex ? s.activeDot : s.inactiveDot,
-        ]}
-      />
-    );
-  })}
-</View>
+      {/* Dot pagination */}
+      {/* Scrollable dot strip that moves with swipe */}
+      <View style={s.dotScrollContainer}>
+        <Animated.View
+          style={[
+            s.dotsWrapper,
+            {
+              transform: [
+                {
+                  translateX: scrollX.interpolate({
+                    inputRange: [0, PAGE_WIDTH * (pages - 1)],
+                    outputRange: [0, -((8 + 12) * (pages - 1)) / 2], // width + margin * (pages - 1) / 2
+                    extrapolate: "clamp",
+                  }),
+                },
+              ],
+            },
+          ]}
+        >
+          {groupedMembers.map((_, i) => {
+            const inputRange = [
+              (i - 1) * PAGE_WIDTH,
+              i * PAGE_WIDTH,
+              (i + 1) * PAGE_WIDTH,
+            ];
+
+            const scale = scrollX.interpolate({
+              inputRange,
+              outputRange: [1, 1.4, 1],
+              extrapolate: "clamp",
+            });
+
+            const opacity = scrollX.interpolate({
+              inputRange,
+              outputRange: [0.3, 1, 0.3],
+              extrapolate: "clamp",
+            });
+
+            return (
+              <Animated.View
+                key={i}
+                style={[
+                  s.dot,
+                  {
+                    transform: [{ scale }],
+                    opacity,
+                  },
+                ]}
+              />
+            );
+          })}
+        </Animated.View>
+      </View>
     </View>
   );
 }
@@ -75,24 +121,22 @@ const s = StyleSheet.create({
     color: "#F8F8F8",
     fontSize: 24,
   },
-  // page: {
-  //   width: PAGE_WIDTH,
-  // },
-  dotsContainer: {
+  dotScrollContainer: {
+    height: 24,
+    alignItems: "center",
+    overflow: "hidden",
+    marginHorizontal: 60,
+    paddingVertical: 10,
+  },
+  dotsWrapper: {
     flexDirection: "row",
-    justifyContent: "center",
-    marginTop: 12,
+    alignItems: "center",
   },
   dot: {
     width: 8,
     height: 8,
     borderRadius: 4,
-    marginHorizontal: 4,
-  },
-  activeDot: {
+    marginHorizontal: 6,
     backgroundColor: "#54D18C",
-  },
-  inactiveDot: {
-    backgroundColor: "#B8C3CC",
   },
 });
