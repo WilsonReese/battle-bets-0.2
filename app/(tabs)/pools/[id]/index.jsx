@@ -29,10 +29,11 @@ export default function PoolDetails() {
   const [memberships, setMemberships] = useState([]);
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [message, setMessage] = useState(null);
-  
+  const [containerWidth, setContainerWidth] = useState(null);
+
   // Pagination for league memberships
-  const [page, setPage] = useState(1);
-  const [totalPages, setTotalPages] = useState(1);
+  // const [page, setPage] = useState(1);
+  // const [totalPages, setTotalPages] = useState(1);
 
   const showMessage = (text, color = "#54D18C", duration = 2000) => {
     setMessage({ text, color, duration });
@@ -111,14 +112,27 @@ export default function PoolDetails() {
     }
   };
 
-  const fetchPoolMemberships = async (pageToFetch = 1) => {
+  // for pagination
+  // const fetchPoolMemberships = async (pageToFetch = 1) => {
+  //   try {
+  //     const response = await api.get(`/pools/${poolId}/pool_memberships?page=${pageToFetch}`);
+  //     setMemberships(response.data.memberships);
+  //     setPage(response.data.current_page);
+  //     setTotalPages(response.data.total_pages);
+  //   } catch (error) {
+  //     console.error("Error fetching pool memberships:", error.response || error);
+  //   }
+  // };
+
+  const fetchPoolMemberships = async () => {
     try {
-      const response = await api.get(`/pools/${poolId}/pool_memberships?page=${pageToFetch}`);
-      setMemberships(response.data.memberships);
-      setPage(response.data.current_page);
-      setTotalPages(response.data.total_pages);
+      const response = await api.get(`/pools/${poolId}/pool_memberships`);
+      setMemberships(response.data); // Expecting just an array of memberships now
     } catch (error) {
-      console.error("Error fetching pool memberships:", error.response || error);
+      console.error(
+        "Error fetching pool memberships:",
+        error.response || error
+      );
     }
   };
 
@@ -136,11 +150,18 @@ export default function PoolDetails() {
     }
   }, [selectedSeason]);
 
+  // for pagination
+  // useEffect(() => {
+  //   if (poolId) {
+  //     fetchPoolMemberships(page);
+  //   }
+  // }, [poolId, page]);
+
   useEffect(() => {
     if (poolId) {
-      fetchPoolMemberships(page);
+      fetchPoolMemberships(); // No more page param
     }
-  }, [poolId, page]);
+  }, [poolId]);
 
   const latestBattle = battles[0];
 
@@ -157,7 +178,13 @@ export default function PoolDetails() {
 
   return (
     <SafeAreaProvider style={s.background}>
-      <SafeAreaView style={s.container}>
+      <SafeAreaView
+        style={s.container}
+        onLayout={(event) => {
+          const { width } = event.nativeEvent.layout;
+          setContainerWidth(width);
+        }}
+      >
         {message && (
           <Message
             message={message.text}
@@ -167,7 +194,7 @@ export default function PoolDetails() {
           />
         )}
         <StatusBar style="light" />
-        <ScrollView>
+        <ScrollView showsVerticalScrollIndicator={false}>
           <View style={s.titleContainer}>
             <Txt style={s.titleText}>
               {/* This will need to become the Pool Name */}
@@ -193,14 +220,15 @@ export default function PoolDetails() {
           </View>
 
           <MembershipsTable
+            containerWidth={containerWidth}
             memberships={memberships}
             setMemberships={setMemberships}
             poolId={poolId}
             fetchPoolMemberships={fetchPoolMemberships}
             showMessage={showMessage}
-            page={page}
-            totalPages={totalPages}
-            setPage={setPage}
+            // page={page}
+            // totalPages={totalPages}
+            // setPage={setPage}
           />
 
           <PreviousBattles battles={battles} />
