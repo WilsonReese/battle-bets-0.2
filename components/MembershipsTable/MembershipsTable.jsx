@@ -1,11 +1,5 @@
 import React, { useRef, useState } from "react";
-import {
-  Animated,
-  FlatList,
-  StyleSheet,
-  View,
-  Dimensions,
-} from "react-native";
+import { Animated, FlatList, StyleSheet, View, Dimensions } from "react-native";
 import { Txt } from "../general/Txt";
 import { MembershipRow } from "./MembershipRow";
 
@@ -18,7 +12,7 @@ export function MembershipsTable({
   showMessage,
 }) {
   const PAGE_WIDTH = containerWidth || Dimensions.get("window").width;
-  const MEMBERS_PER_PAGE = 15;
+  const MEMBERS_PER_PAGE = 3;
 
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
@@ -61,57 +55,59 @@ export function MembershipsTable({
 
       {/* Dot pagination */}
       {/* Scrollable dot strip that moves with swipe */}
-      <View style={s.dotScrollContainer}>
-        <Animated.View
-          style={[
-            s.dotsWrapper,
-            {
-              transform: [
-                {
-                  translateX: scrollX.interpolate({
-                    inputRange: [0, PAGE_WIDTH * (pages - 1)],
-                    outputRange: [0, -((8 + 12) * (pages - 1)) / 2], // width + margin * (pages - 1) / 2
-                    extrapolate: "clamp",
-                  }),
-                },
-              ],
-            },
-          ]}
-        >
-          {groupedMembers.map((_, i) => {
-            const inputRange = [
-              (i - 1) * PAGE_WIDTH,
-              i * PAGE_WIDTH,
-              (i + 1) * PAGE_WIDTH,
-            ];
-
-            const scale = scrollX.interpolate({
-              inputRange,
-              outputRange: [1, 1.4, 1],
-              extrapolate: "clamp",
-            });
-
-            const opacity = scrollX.interpolate({
-              inputRange,
-              outputRange: [0.3, 1, 0.3],
-              extrapolate: "clamp",
-            });
-
-            return (
-              <Animated.View
-                key={i}
-                style={[
-                  s.dot,
+      {pages > 1 && (
+        <View style={s.dotScrollContainer}>
+          <Animated.View
+            style={[
+              s.dotsWrapper,
+              {
+                transform: [
                   {
-                    transform: [{ scale }],
-                    opacity,
+                    translateX: scrollX.interpolate({
+                      inputRange: [0, PAGE_WIDTH * (pages - 1)],
+                      outputRange: [0, -((8 + 12) * (pages - 1)) / 2], // width + margin * (pages - 1) / 2
+                      extrapolate: "clamp",
+                    }),
                   },
-                ]}
-              />
-            );
-          })}
-        </Animated.View>
-      </View>
+                ],
+              },
+            ]}
+          >
+            {groupedMembers.map((_, i) => {
+              const inputRange = [
+                (i - 1) * PAGE_WIDTH,
+                i * PAGE_WIDTH,
+                (i + 1) * PAGE_WIDTH,
+              ];
+
+              const scale = scrollX.interpolate({
+                inputRange,
+                outputRange: [1, 1.4, 1],
+                extrapolate: "clamp",
+              });
+
+              const opacity = scrollX.interpolate({
+                inputRange,
+                outputRange: [0.3, 1, 0.3],
+                extrapolate: "clamp",
+              });
+
+              return (
+                <Animated.View
+                  key={i}
+                  style={[
+                    s.dot,
+                    {
+                      transform: [{ scale }],
+                      opacity,
+                    },
+                  ]}
+                />
+              );
+            })}
+          </Animated.View>
+        </View>
+      )}
     </View>
   );
 }
