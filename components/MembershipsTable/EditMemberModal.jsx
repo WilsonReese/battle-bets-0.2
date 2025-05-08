@@ -41,6 +41,19 @@ export function EditMemberModal({
     }
   };
 
+  const handleConfirmDemote = async () => {
+    try {
+      await api.patch(`/pools/${poolId}/pool_memberships/${member.id}`, {
+        pool_membership: { is_commissioner: false },
+      });
+      onClose();
+      setMode("default");
+    } catch (err) {
+      console.error("Error demoting member:", err.response || err);
+      onClose();
+    }
+  };
+
   const resetAndClose = () => {
     setMode("default");
     onClose();
@@ -75,37 +88,60 @@ export function EditMemberModal({
               </View>
             </View>
 
+            {/* Which buttons to display */}
             {mode === "default" && (
               <>
-                <TouchableOpacity
-                  style={[s.actionContainer, s.promoteMemberOption]}
-                  onPress={() => setMode("confirmPromote")}
-                >
-                  <Txt style={s.promoteTxt}>Promote to Commissioner</Txt>
-                  <FontAwesome6
-                    name="crown"
-                    size={18}
-                    color="#0C9449"
-                    style={{ paddingRight: 8 }}
-                  />
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={[s.actionContainer, s.removeMemberOption]}
-                  onPress={() => setMode("confirmRemove")}
-                >
-                  <Txt style={s.removeTxt}>
-                    Remove {member.user.first_name} from League
-                  </Txt>
-                  <FontAwesome6
-                    name="trash-can"
-                    size={18}
-                    color="#E06777"
-                    style={{ paddingRight: 10 }}
-                  />
-                </TouchableOpacity>
+                {/* Member is a commissioner  */}
+                {member.is_commissioner ? (
+                  <TouchableOpacity
+                    style={[s.actionContainer, s.promoteMemberOption]}
+                    onPress={() => setMode("confirmDemote")}
+                  >
+                    <Txt style={s.promoteTxt}>Demote from Commissioner</Txt>
+                    <FontAwesome6
+                      name="arrow-down"
+                      size={18}
+                      color="#E06777"
+                      style={{ paddingRight: 8 }}
+                    />
+                  </TouchableOpacity>
+                ) : (
+                  // Member is not a commissioner
+                  <TouchableOpacity
+                    style={[s.actionContainer, s.promoteMemberOption]}
+                    onPress={() => setMode("confirmPromote")}
+                  >
+                    <Txt style={s.promoteTxt}>Promote to Commissioner</Txt>
+                    <FontAwesome6
+                      name="crown"
+                      size={18}
+                      color="#0C9449"
+                      style={{ paddingRight: 8 }}
+                    />
+                  </TouchableOpacity>
+                )}
+
+                {/* Only allow removing if not commissioner */}
+                {!member.is_commissioner && (
+                  <TouchableOpacity
+                    style={[s.actionContainer, s.removeMemberOption]}
+                    onPress={() => setMode("confirmRemove")}
+                  >
+                    <Txt style={s.removeTxt}>
+                      Remove {member.user.first_name} from League
+                    </Txt>
+                    <FontAwesome6
+                      name="trash-can"
+                      size={18}
+                      color="#E06777"
+                      style={{ paddingRight: 10 }}
+                    />
+                  </TouchableOpacity>
+                )}
               </>
             )}
 
+            {/* Confirming promotion to commissioner */}
             {mode === "confirmPromote" && (
               <View style={s.confirmActionContainer}>
                 <Txt style={[s.txt, s.confirmationTxt]}>
@@ -130,6 +166,30 @@ export function EditMemberModal({
               </View>
             )}
 
+            {mode === "confirmDemote" && (
+              <View style={s.confirmActionContainer}>
+                <Txt style={[s.txt, s.confirmationTxt]}>
+                  Demote this user from commissioner?
+                </Txt>
+                <View style={s.actions}>
+                  <Btn
+                    btnText="Yes, demote user"
+                    onPress={handleConfirmDemote}
+                    isEnabled={true}
+                    style={[s.actionBtn, s.redBtn]}
+                  />
+                  <Btn
+                    btnText="Cancel"
+                    onPress={() => setMode("default")}
+                    isEnabled={true}
+                    style={[s.actionBtn, s.cancelBtn]}
+                    fontColor="#184EAD"
+                  />
+                </View>
+              </View>
+            )}
+
+            {/* Confirming removing user */}
             {mode === "confirmRemove" && (
               <View style={s.confirmActionContainer}>
                 <Txt style={[s.txt, s.confirmationTxt]}>
