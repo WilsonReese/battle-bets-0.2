@@ -6,6 +6,7 @@ export default function PoolDetailsLayout() {
     <View style={s.container}>
       <Stack
         screenOptions={{
+          // animation: "slide_from_left", // Applies to all screens under /pools
           headerShown: false, //overridden by the one below, changes Pool Details
           headerStyle: {
             backgroundColor: "#061826", // GREEN FOR DEBUGGING - Set custom background color #061826

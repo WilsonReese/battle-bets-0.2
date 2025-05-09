@@ -149,7 +149,12 @@ export default function PoolDetails() {
             previous season)
           </Txt>
           <Txt style={s.titleText}>User Options</Txt>
-          <LeaveLeagueButton/>
+          <LeaveLeagueButton
+            showMessage={showMessage}
+            poolId={poolId}
+            memberships={memberships}
+            currentUserId={currentUserId}
+          />
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>

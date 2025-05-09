@@ -68,8 +68,8 @@ export default function CreatePool() {
 
       console.log("Pool created:", response.data);
       // You can optionally route to the new pool here:
-      router.replace({
-        pathname: "/pools",
+      router.back({
+        // pathname: "/pools",
         params: { successMessage: "League created successfully." },
       });
     } catch (error) {
