@@ -5,6 +5,7 @@ import { useState } from "react";
 import api from "../../../utils/axiosConfig";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { formatMembershipJoinDate } from "../../../utils/dateUtils";
+import { useToastMessage } from "../../../hooks/useToastMessage";
 
 export function EditMemberModal({
   member,
@@ -13,23 +14,23 @@ export function EditMemberModal({
   modalVisible,
   onClose,
   onChange,
-  showMessage,
 }) {
   const [mode, setMode] = useState("default");
+  const {  showError, showSuccess } = useToastMessage();
 
   const handleConfirmRemove = async () => {
     try {
       await api.delete(`/pools/${poolId}/pool_memberships/${member.id}`);
       onRemove?.(member.id); // Notify parent to refresh or remove from list
       onChange?.(); // Refresh list
-      showMessage?.("User removed successfully", "#0C9449");
+      showSuccess("User removed successfully.")
       onClose();
       setMode("default");
     } catch (err) {
       console.error("Error removing member:", err.response || err);
       const msg =
         err?.response?.data?.error || "Something went wrong. Please try again.";
-      showMessage?.(msg, "#AB1126"); // Show as error (red background)
+      showError(msg); // Show as error (red background)
       resetAndClose();
     }
   };
@@ -40,14 +41,14 @@ export function EditMemberModal({
         is_commissioner: true,
       });
       onChange?.(); // Refresh list
-      showMessage?.("User promoted to commissioner", "#0C9449");
+      showSuccess("User promoted to commissioner.");
       onClose();
       setMode("default");
     } catch (err) {
       console.error("Error promoting member:", err.response || err);
       const msg =
         err?.response?.data?.error || "Something went wrong. Please try again.";
-      showMessage?.(msg, "#AB1126"); // Show as error (red background)
+      showError(msg); // Show as error (red background)
       onClose();
     }
   };
@@ -58,14 +59,14 @@ export function EditMemberModal({
         pool_membership: { is_commissioner: false },
       });
       onChange?.(); // Refresh list
-      showMessage?.("User demoted successfully", "#0C9449");
+      showSuccess("User demoted successfully.");
       onClose();
       setMode("default");
     } catch (err) {
       console.error("Error demoting member:", err.response || err);
       const msg =
         err?.response?.data?.error || "Something went wrong. Please try again.";
-      showMessage?.(msg, "#AB1126"); // Show as error (red background)
+      showError(msg); // Show as error (red background)
       resetAndClose();
     }
   };

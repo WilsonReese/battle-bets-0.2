@@ -6,15 +6,16 @@ import { useState } from "react";
 import { LeaveConfirmModal } from "./LeaveConfirmModal";
 import { useRouter } from "expo-router";
 import api from "../../../utils/axiosConfig";
+import { useToastMessage } from "../../../hooks/useToastMessage";
 
 export function LeaveLeagueButton({
-  showMessage,
   poolId,
   memberships,
   currentUserId,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
   const router = useRouter();
+  const {  showError, showSuccess } = useToastMessage();
 
   const handleConfirmLeave = async () => {
     const userMembership = memberships.find(
@@ -23,7 +24,7 @@ export function LeaveLeagueButton({
 
     if (!userMembership) {
       console.warn("User membership not found.");
-      showMessage?.("Error finding membership", "#AB1126");
+      showError("Error finding membership.");
       return;
     }
 
@@ -35,9 +36,9 @@ export function LeaveLeagueButton({
       // router.replace("/pools"); // Redirect to pools page
     } catch (error) {
       console.error("Error leaving league:", error.response || error);
-      showMessage?.("Failed to leave league", "#AB1126");
+      showError("Failed to leave league.");
     } finally {
-      showMessage?.("Left league successfully", "#0C9449");
+      showSuccess("Left league successfully.");
       setModalVisible(false);
     }
   };

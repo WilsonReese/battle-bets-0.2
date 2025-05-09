@@ -13,7 +13,6 @@ export function MembershipRow({
   poolId,
   onRemove,
   fetchPoolMemberships,
-  showMessage,
   isCurrentUserCommissioner,
 }) {
   const [modalVisible, setModalVisible] = useState(false);
@@ -70,7 +69,6 @@ export function MembershipRow({
         modalVisible={modalVisible}
         onClose={() => setModalVisible(false)}
         onChange={fetchPoolMemberships}
-        showMessage={showMessage}
       />
     </>
   );

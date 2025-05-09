@@ -18,15 +18,14 @@ import { BattleCard } from "../../../../components/BattleCard/BattleCard.jsx";
 import { format } from "date-fns";
 import { PreviousBattles } from "../../../../components/PreviousBattles/PreviousBattles.jsx";
 import { MembershipsTable } from "../../../../components/PoolDetails/MembershipsTable/MembershipsTable.jsx";
-import { Message } from "../../../../components/general/Message";
 import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 import { usePoolDetails } from "../../../../hooks/usePoolDetails.js";
 import { LeaveLeagueButton } from "../../../../components/PoolDetails/LeaveLeagueButton/LeaveLeagueButton.jsx";
+import { useToastMessage } from "../../../../hooks/useToastMessage.js";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
-  const [message, setMessage] = useState(null);
-  const [containerWidth, setContainerWidth] = useState(null);
+  const [containerWidth, setContainerWidth] = useState(null);  
 
   const {
     selectedSeason,
@@ -49,10 +48,6 @@ export default function PoolDetails() {
     (m) => String(m.user.id) === String(currentUserId)
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
-
-  const showMessage = (text, color = "#54D18C", duration = 2000) => {
-    setMessage({ text, color, duration });
-  };
 
   useFocusEffect(
     useCallback(() => {
@@ -96,14 +91,6 @@ export default function PoolDetails() {
           setContainerWidth(width);
         }}
       >
-        {message && (
-          <Message
-            message={message.text}
-            color={message.color}
-            duration={message.duration}
-            onHide={() => setMessage(null)}
-          />
-        )}
         <StatusBar style="light" />
         <ScrollView showsVerticalScrollIndicator={false}>
           <View style={s.titleContainer}>
@@ -130,7 +117,6 @@ export default function PoolDetails() {
             setMemberships={setMemberships}
             poolId={poolId}
             fetchPoolMemberships={fetchPoolMemberships}
-            showMessage={showMessage}
             isCurrentUserCommissioner={isCurrentUserCommissioner}
             // page={page}
             // totalPages={totalPages}
@@ -150,7 +136,6 @@ export default function PoolDetails() {
           </Txt>
           <Txt style={s.titleText}>User Options</Txt>
           <LeaveLeagueButton
-            showMessage={showMessage}
             poolId={poolId}
             memberships={memberships}
             currentUserId={currentUserId}

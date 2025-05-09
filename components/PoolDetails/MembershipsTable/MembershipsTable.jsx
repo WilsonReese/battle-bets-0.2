@@ -10,7 +10,6 @@ export function MembershipsTable({
   setMemberships,
   poolId,
   fetchPoolMemberships,
-  showMessage,
   isCurrentUserCommissioner
 }) {
   const PAGE_WIDTH = containerWidth || Dimensions.get("window").width;
@@ -40,7 +39,6 @@ export function MembershipsTable({
                 isLast={index === item.length - 1}
                 poolId={poolId}
                 fetchPoolMemberships={fetchPoolMemberships}
-                showMessage={showMessage}
                 isCurrentUserCommissioner={isCurrentUserCommissioner}
               />
             ))}
