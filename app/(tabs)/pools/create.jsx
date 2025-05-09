@@ -1,4 +1,4 @@
-import React, { useMemo, useRef, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
   Text,
@@ -82,9 +82,13 @@ export default function CreatePool() {
         "Failed to create league:",
         error?.response?.data || error.message
       );
-      showError("Please enter a league name.");
+      showError("League name already taken");
     }
   };
+
+  useEffect(() => {
+    clearMessage(); // Clear any lingering messages when this screen mounts
+  }, []);
 
   return (
     <View style={s.container}>
