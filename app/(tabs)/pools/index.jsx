@@ -1,6 +1,6 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useCallback, useContext, useEffect, useState } from "react";
 import { View, Button, StyleSheet, ScrollView } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
@@ -24,20 +24,22 @@ export default function Pools() {
   }, [successMessage]);
 
   // Fetch pools from the backend API
-  useEffect(() => {
-    const fetchPools = async () => {
-      try {
-        const response = await api.get("/pools");
-        setPools(response.data);
-        setLoading(false);
-      } catch (error) {
-        console.error("Error fetching pools:", error);
-        setLoading(false);
-      }
-    };
-
-    fetchPools();
-  }, [api]);
+  useFocusEffect(
+    useCallback(() => {
+      const fetchPools = async () => {
+        try {
+          const response = await api.get("/pools");
+          setPools(response.data);
+          setLoading(false);
+        } catch (error) {
+          console.error("Error fetching pools:", error);
+          setLoading(false);
+        }
+      };
+  
+      fetchPools();
+    }, [api])
+  );
 
   // Render loading state or pool list
   if (loading) {
@@ -70,7 +72,7 @@ export default function Pools() {
       <View style={s.titleContainer}>
         <Txt style={s.titleText}>Leagues</Txt>
       </View>
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {pools.map((pool) => (
           <PoolCard key={pool.id} pool={pool} />
         ))}
