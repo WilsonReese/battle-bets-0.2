@@ -28,6 +28,12 @@ export function LeaveLeagueButton({
       return;
     }
 
+    if (userMembership.is_commissioner) {
+      showError("Commissioners cannot leave the league.");
+      setModalVisible(false);
+      return;
+    }
+
     try {
       await api.delete(
         `/pools/${poolId}/pool_memberships/${userMembership.id}`
