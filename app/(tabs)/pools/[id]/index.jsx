@@ -9,7 +9,6 @@ import {
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../../components/general/Txt.jsx";
 import { StatusBar } from "expo-status-bar";
-import { Btn } from "../../../../components/general/Buttons/Btn.jsx";
 import { SafeAreaProvider } from "react-native-safe-area-context";
 import { LoadingIndicator } from "../../../../components/general/LoadingIndicator.jsx";
 import api from "../../../../utils/axiosConfig.js";
@@ -22,6 +21,7 @@ import { MembershipsTable } from "../../../../components/PoolDetails/Memberships
 import { Message } from "../../../../components/general/Message";
 import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 import { usePoolDetails } from "../../../../hooks/usePoolDetails.js";
+import { LeaveLeagueButton } from "../../../../components/PoolDetails/LeaveLeagueButton/LeaveLeagueButton.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -148,6 +148,8 @@ export default function PoolDetails() {
             Probably just a drop down to select a previous season (if there is a
             previous season)
           </Txt>
+          <Txt style={s.titleText}>User Options</Txt>
+          <LeaveLeagueButton/>
         </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
