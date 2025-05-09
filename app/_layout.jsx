@@ -16,12 +16,43 @@ import {
   Saira_800ExtraBold,
   Saira_900Black,
 } from "@expo-google-fonts/saira";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { StandingsProvider } from "../components/contexts/StandingsContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { MessageProvider } from "../components/contexts/MessageContext";
+import { useToastMessage } from "../hooks/useToastMessage";
+import { Message } from "../components/general/Message";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
 
 SplashScreen.preventAutoHideAsync();
+
+// Global toast renderer component
+function GlobalMessageRenderer() {
+  const { message, clearMessage } = useToastMessage();
+  const insets = useSafeAreaInsets();
+
+  if (!message) return null;
+
+  return (
+    <View
+      style={{
+        position: "absolute",
+        top: insets.top + 12, // 12px below safe area
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+      }}
+    >
+      <Message
+        message={message.text}
+        color={message.color}
+        duration={message.duration}
+        location={0}
+        onHide={clearMessage}
+      />
+    </View>
+  );
+}
 
 export default function Layout() {
   const [fontsLoaded] = useFonts({
@@ -47,47 +78,46 @@ export default function Layout() {
     prepare();
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null; // Keep the splash screen up until fonts are loaded
-  }
+  if (!fontsLoaded) return null;
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <MessageProvider>
-      <BetProvider>
-        <AuthProvider>
-          <StandingsProvider>
-            <View style={s.container}>
-              <Stack
-                screenOptions={{
-                  headerShown: false, // login, top on Pools page, can copy from the other <Stack>s if I want to customize
-                  contentStyle: { backgroundColor: "transparent" },
-                }}
-              >
-                <Stack.Screen
-                  name="(tabs)"
-                  options={{
-                    headerShown: false, // changes the Pools page
-                    headerTitle: () => (
-                      <Image
-                        source={require("@/assets/images/white_logo.png")} // Replace with your logo path
-                        style={{ width: 140, height: 40 }} // Adjust the size as needed
-                        resizeMode="contain"
-                      />
-                    ),
-                    headerStyle: {
-                      backgroundColor: "#061826", // Set your custom background color
-                      alignItems: "flex-start",
-                    },
-                    headerTintColor: "#F8F8F8", // Color for header text/icons
-                    headerShadowVisible: false, // Hides the bottom border
+        <BetProvider>
+          <AuthProvider>
+            <StandingsProvider>
+              <View style={s.container}>
+                <GlobalMessageRenderer />
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                    contentStyle: { backgroundColor: "transparent" },
                   }}
-                />
-              </Stack>
-            </View>
-          </StandingsProvider>
-        </AuthProvider>
-      </BetProvider>
+                >
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{
+                      headerShown: false,
+                      headerTitle: () => (
+                        <Image
+                          source={require("@/assets/images/white_logo.png")}
+                          style={{ width: 140, height: 40 }}
+                          resizeMode="contain"
+                        />
+                      ),
+                      headerStyle: {
+                        backgroundColor: "#061826",
+                        alignItems: "flex-start",
+                      },
+                      headerTintColor: "#F8F8F8",
+                      headerShadowVisible: false,
+                    }}
+                  />
+                </Stack>
+              </View>
+            </StandingsProvider>
+          </AuthProvider>
+        </BetProvider>
       </MessageProvider>
     </GestureHandlerRootView>
   );
@@ -96,6 +126,5 @@ export default function Layout() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'blue', // Your global background color
   },
 });
