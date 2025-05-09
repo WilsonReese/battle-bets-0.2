@@ -21,6 +21,8 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import api from "../../../utils/axiosConfig";
 import { router } from "expo-router";
 import { Message } from "../../../components/general/Message";
+import { useMessage } from "../../../components/contexts/MessageContext";
+import { useToastMessage } from "../../../hooks/useToastMessage";
 
 const WEEKS = [
   { label: "Week 1", value: 1 },
@@ -43,11 +45,16 @@ export default function CreatePool() {
   const bottomSheetRef = useRef(null);
   const [selectedWeek, setSelectedWeek] = useState(WEEKS[0]);
   const [leagueName, setLeagueName] = useState("");
-  const [message, setMessage] = useState(null); // Add state for message
+  // const [message, setMessage] = useState(null); // Add state for message
 
-  const showMessage = (text, color) => {
-    setMessage({ text, color });
-  };
+  // const { showMessage, message, clearMessage } = useMessage();
+  const { message, showError, showSuccess, clearMessage } = useToastMessage();
+
+
+
+  // const showMessage = (text, color) => {
+  //   setMessage({ text, color });
+  // };
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
@@ -56,7 +63,7 @@ export default function CreatePool() {
 
   const handleCreateLeague = async () => {
     if (!leagueName.trim()) {
-      showMessage("Please enter a league name.", "#AB1126");
+      showError("Please enter a league name.");
       return;
     }
 
@@ -68,16 +75,14 @@ export default function CreatePool() {
 
       console.log("Pool created:", response.data);
       // You can optionally route to the new pool here:
-      router.back({
-        // pathname: "/pools",
-        params: { successMessage: "League created successfully." },
-      });
+      showSuccess("League created successfully.");
+      router.back({});
     } catch (error) {
       console.error(
         "Failed to create league:",
         error?.response?.data || error.message
       );
-      showMessage("Failed to create league.", "#AB1126");
+      showError("Please enter a league name.");
     }
   };
 
@@ -87,15 +92,19 @@ export default function CreatePool() {
         <Message
           message={message.text}
           color={message.color}
-          onHide={() => setMessage(null)} // Hide message after duration
+          duration={message.duration}
           location={0}
+          onHide={clearMessage}
         />
       )}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
       >
-        <ScrollView contentContainerStyle={{ paddingBottom: 100 }} keyboardShouldPersistTaps='handled'>
+        <ScrollView
+          contentContainerStyle={{ paddingBottom: 100 }}
+          keyboardShouldPersistTaps="handled"
+        >
           <View>
             <Txt style={s.formText}>League Name</Txt>
             <View style={s.textInputContainer}>
@@ -147,7 +156,9 @@ export default function CreatePool() {
               onPress={() => handleSelectWeek(week)}
             >
               <View style={s.radioCircle}>
-                {selectedWeek.value === week.value && <View style={s.radioSelected} />}
+                {selectedWeek.value === week.value && (
+                  <View style={s.radioSelected} />
+                )}
               </View>
               <Txt style={s.radioLabel}>{week.label}</Txt>
             </TouchableOpacity>

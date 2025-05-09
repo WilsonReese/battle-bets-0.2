@@ -8,20 +8,23 @@ import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with
 import { Message } from "../../../components/general/Message";
 import { Btn } from "../../../components/general/Buttons/Btn";
 import { PoolCard } from "../../../components/PoolCard/PoolCard";
+import { useMessage } from "../../../components/contexts/MessageContext";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
   const [loading, setLoading] = useState(true);
   const api = useAxiosWithAuth(); // Use the custom Axios instance
   const { successMessage } = useLocalSearchParams(); // Retrieve the message parameter
-  const [message, setMessage] = useState(null);
+  // const [message, setMessage] = useState(null);
 
-  useEffect(() => {
-    // Display the success message if it exists
-    if (successMessage) {
-      setMessage({ text: successMessage, color: "#0C9449" });
-    }
-  }, [successMessage]);
+  const { message, clearMessage } = useMessage();
+
+  // useEffect(() => {
+  //   // Display the success message if it exists
+  //   if (successMessage) {
+  //     setMessage({ text: successMessage, color: "#0C9449" });
+  //   }
+  // }, [successMessage]);
 
   // Fetch pools from the backend API
   useFocusEffect(
@@ -64,7 +67,7 @@ export default function Pools() {
           message={message.text}
           color={message.color}
           location={0}
-          onHide={() => setMessage(null)} // Clear the message after display
+          onHide={() => clearMessage} // Clear the message after display
         />
       )}
       <StatusBar style="light" />

@@ -19,6 +19,7 @@ import {
 import { useEffect, useState } from "react";
 import { StandingsProvider } from "../components/contexts/StandingsContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { MessageProvider } from "../components/contexts/MessageContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -52,6 +53,7 @@ export default function Layout() {
 
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+      <MessageProvider>
       <BetProvider>
         <AuthProvider>
           <StandingsProvider>
@@ -86,6 +88,7 @@ export default function Layout() {
           </StandingsProvider>
         </AuthProvider>
       </BetProvider>
+      </MessageProvider>
     </GestureHandlerRootView>
   );
 }
