@@ -16,17 +16,14 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "../components/general/Txt";
 import { AuthContext, AuthProvider } from "../components/contexts/AuthContext";
 import { Message } from "../components/general/Message";
+import { useToastMessage } from "../hooks/useToastMessage";
 
 export default function Login() {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [message, setMessage] = useState(null); // Add state for message
+  const { showSuccess, showError, message, clearMessage} = useToastMessage();
   const { login } = useContext(AuthContext); // Get the login function from context
   const router = useRouter();
-
-  const showMessage = (text, color) => {
-    setMessage({ text, color });
-  };
 
   const handleLogin = async () => {
     try {
@@ -51,20 +48,20 @@ export default function Login() {
         if (data.token) {
           // Store JWT token if it exists
           await login(data.token); // Set the token globally and in SecureStore
-          showMessage("Login successful!", "#0C9449");
+          showSuccess("Login successful!");
           router.replace({
             pathname: "/pools",
             params: { successMessage: "Login successful!" },
           });
         } else {
-          showMessage("Login failed. Token missing in response.", "#AB1126");
+          showError("Login failed.");
         }
       } else {
-        showMessage("Login failed. Please check your credentials.", "#AB1126");
+        showError("Username and password do not match");
       }
     } catch (error) {
       console.error("Login error:", error.message);
-      showMessage("Login error. Please try again.", "#AB1126");
+      showError("Login error. Please try again.");
     }
   };
 
@@ -76,7 +73,9 @@ export default function Login() {
             <Message
               message={message.text}
               color={message.color}
-              onHide={() => setMessage(null)} // Hide message after duration
+              duration={message.duration}
+              location={0}
+              onHide={clearMessage}
             />
           )}
           <View style={s.logoPlaceholder}>
