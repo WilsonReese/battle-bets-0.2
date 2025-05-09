@@ -37,7 +37,7 @@ function GlobalMessageRenderer() {
     <View
       style={{
         position: "absolute",
-        top: insets.top + 12, // 12px below safe area
+        top: insets.top + 20, // 12px below safe area
         left: 0,
         right: 0,
         zIndex: 1000,

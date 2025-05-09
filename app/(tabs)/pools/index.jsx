@@ -5,31 +5,19 @@ import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with Auth
-import { Message } from "../../../components/general/Message";
 import { Btn } from "../../../components/general/Buttons/Btn";
 import { PoolCard } from "../../../components/PoolCard/PoolCard";
-import { useMessage } from "../../../components/contexts/MessageContext";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
   const [loading, setLoading] = useState(true);
   const api = useAxiosWithAuth(); // Use the custom Axios instance
-  const { successMessage } = useLocalSearchParams(); // Retrieve the message parameter
-  // const [message, setMessage] = useState(null);
-
-  const { message, clearMessage } = useMessage();
-
-  // useEffect(() => {
-  //   // Display the success message if it exists
-  //   if (successMessage) {
-  //     setMessage({ text: successMessage, color: "#0C9449" });
-  //   }
-  // }, [successMessage]);
 
   // Fetch pools from the backend API
   useFocusEffect(
     useCallback(() => {
       const fetchPools = async () => {
+        setLoading(true)
         try {
           const response = await api.get("/pools");
           setPools(response.data);
@@ -48,30 +36,14 @@ export default function Pools() {
   if (loading) {
     return (
       <View style={s.container}>
-        {message && (
-          <Message
-            message={message.text}
-            color={message.color}
-            onHide={() => setMessage(null)} // Clear the message after display
-          />
-        )}
-        <LoadingIndicator color="dark" contentToLoad="pools" />
+        <LoadingIndicator color="light" contentToLoad="pools" />
       </View>
     );
   }
 
   return (
     <View style={s.container}>
-      {message && (
-        <Message
-          message={message.text}
-          color={message.color}
-          location={0}
-          onHide={() => clearMessage} // Clear the message after display
-        />
-      )}
       <StatusBar style="light" />
-
       <View style={s.titleContainer}>
         <Txt style={s.titleText}>Leagues</Txt>
       </View>

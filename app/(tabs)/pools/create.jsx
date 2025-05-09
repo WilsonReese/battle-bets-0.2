@@ -20,8 +20,6 @@ import { Btn } from "../../../components/general/Buttons/Btn";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import api from "../../../utils/axiosConfig";
 import { router } from "expo-router";
-import { Message } from "../../../components/general/Message";
-import { useMessage } from "../../../components/contexts/MessageContext";
 import { useToastMessage } from "../../../hooks/useToastMessage";
 
 const WEEKS = [
@@ -45,10 +43,7 @@ export default function CreatePool() {
   const bottomSheetRef = useRef(null);
   const [selectedWeek, setSelectedWeek] = useState(WEEKS[0]);
   const [leagueName, setLeagueName] = useState("");
-  // const [message, setMessage] = useState(null); // Add state for message
-
-  // const { showMessage, message, clearMessage } = useMessage();
-  const { message, showError, showSuccess, clearMessage } = useToastMessage();
+  const {  showError, showSuccess } = useToastMessage();
 
 
 
@@ -86,21 +81,9 @@ export default function CreatePool() {
     }
   };
 
-  useEffect(() => {
-    clearMessage(); // Clear any lingering messages when this screen mounts
-  }, []);
 
   return (
     <View style={s.container}>
-      {message && (
-        <Message
-          message={message.text}
-          color={message.color}
-          duration={message.duration}
-          location={0}
-          onHide={clearMessage}
-        />
-      )}
       <KeyboardAvoidingView
         behavior={Platform.OS === "ios" ? "padding" : "height"}
         style={{ flex: 1 }}
