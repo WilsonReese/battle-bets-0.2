@@ -22,12 +22,16 @@ import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 import { usePoolDetails } from "../../../../hooks/usePoolDetails.js";
 import { LeaveLeagueButton } from "../../../../components/PoolDetails/LeaveLeagueButton/LeaveLeagueButton.jsx";
 import { useToastMessage } from "../../../../hooks/useToastMessage.js";
+import { InviteUsersButton } from "../../../../components/PoolDetails/InviteUsers/InviteUsersButton.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
-  const [containerWidth, setContainerWidth] = useState(null);  
+  const [containerWidth, setContainerWidth] = useState(null);
+  // const [poolDetails, setPoolDetails] = useState(null); 
 
   const {
+    inviteToken,
+    fetchPoolDetails,
     selectedSeason,
     battles,
     setBattles,
@@ -48,6 +52,21 @@ export default function PoolDetails() {
     (m) => String(m.user.id) === String(currentUserId)
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
+
+  // const fetchPoolDetails = async () => {
+  //   try {
+  //     const res = await api.get(`/pools/${poolId}`);
+  //     setPoolDetails(res.data);
+  //   } catch (err) {
+  //     console.error("Failed to fetch pool details", err.response || err);
+  //   }
+  // };
+
+  useEffect(() => {
+    if (poolId) {
+      fetchPoolDetails();
+    }
+  }, [poolId]);
 
   useFocusEffect(
     useCallback(() => {
@@ -122,6 +141,8 @@ export default function PoolDetails() {
             // totalPages={totalPages}
             // setPage={setPage}
           />
+
+          <InviteUsersButton poolId={poolId} inviteToken={inviteToken} />
 
           <PreviousBattles battles={battles} />
           <Txt style={s.titleText}>League Manager (for commish)</Txt>

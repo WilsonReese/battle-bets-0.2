@@ -3,11 +3,21 @@ import { useCallback, useEffect, useState } from "react";
 import api from "../utils/axiosConfig";
 
 export const usePoolDetails = (poolId) => {
+  const [poolDetails, setPoolDetails] = useState(null); // ⬅️ Added
   const [selectedSeason, setSelectedSeason] = useState(null);
   const [battles, setBattles] = useState([]);
   const [userBetslip, setUserBetslip] = useState(null);
   const [memberships, setMemberships] = useState([]);
   const [loading, setLoading] = useState(true);
+
+  const fetchPoolDetails = useCallback(async () => {
+    try {
+      const response = await api.get(`/pools/${poolId}`);
+      setPoolDetails(response.data);
+    } catch (error) {
+      console.error("Error fetching pool details:", error.response || error);
+    }
+  }, [poolId]);
 
   const fetchSeasons = useCallback(async () => {
     try {
@@ -71,12 +81,15 @@ export const usePoolDetails = (poolId) => {
     }
   }, [poolId]);
 
+  // Initial load
   useEffect(() => {
     if (poolId) {
+      fetchPoolDetails();
       fetchPoolMemberships();
     }
-  }, [poolId, fetchPoolMemberships]);
+  }, [poolId, fetchPoolDetails, fetchPoolMemberships]);
 
+  // Battle logic when season updates
   useEffect(() => {
     if (selectedSeason?.hasStarted) {
       fetchBattles();
@@ -86,6 +99,8 @@ export const usePoolDetails = (poolId) => {
   }, [selectedSeason, fetchBattles]);
 
   return {
+    poolDetails,                         // ⬅️ now available
+    inviteToken: poolDetails?.invite_token, // optional convenience
     selectedSeason,
     battles,
     setBattles,
@@ -96,6 +111,7 @@ export const usePoolDetails = (poolId) => {
     fetchSeasons,
     fetchBattles,
     fetchPoolMemberships,
+    fetchPoolDetails,
     loading,
     setLoading,
   };
