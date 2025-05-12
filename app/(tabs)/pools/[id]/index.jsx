@@ -145,17 +145,11 @@ export default function PoolDetails() {
           <InviteUsersButton poolId={poolId} inviteToken={inviteToken} />
 
           <PreviousBattles battles={battles} />
-          <Txt style={s.titleText}>League Manager (for commish)</Txt>
-          <Txt>Invite Players (modal/form to add players)</Txt>
+          <Txt style={s.titleText}>Settings</Txt>
+          <Txt>Need to be able to go to the create/edit league screen</Txt>
           <Txt>
-            Pending Players (email, has acct?, sent when?, cancel invite)
+            Need to be able to change league name or change league start date
           </Txt>
-          <Txt style={s.titleText}>Previous Seasons</Txt>
-          <Txt>
-            Probably just a drop down to select a previous season (if there is a
-            previous season)
-          </Txt>
-          <Txt style={s.titleText}>User Options</Txt>
           <LeaveLeagueButton
             poolId={poolId}
             memberships={memberships}
