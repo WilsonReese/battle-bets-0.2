@@ -157,7 +157,7 @@ export default function PoolDetails() {
             </>
           )}
 
-          <LeagueStandingsTable leagueSeason={selectedSeason} poolId={poolId}/>
+          <LeagueStandingsTable leagueSeason={selectedSeason} poolId={poolId} containerWidth={containerWidth}/>
 
           <MembershipsTable
             containerWidth={containerWidth}

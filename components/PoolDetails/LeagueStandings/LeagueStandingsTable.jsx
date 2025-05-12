@@ -1,10 +1,12 @@
-import { FlatList, StyleSheet, View } from "react-native";
+import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import { useStandings } from "../../contexts/StandingsContext";
 import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
+import { LeagueStandingsRow } from "./LeagueStandingsRow";
+import { PaginatedFlatList } from "../../general/PaginatedFlatList";
 
-export function LeagueStandingsTable({ leagueSeason, poolId }) {
+export function LeagueStandingsTable({ leagueSeason, poolId, containerWidth }) {
   const { standings, fetchStandings, loading } = useStandings();
 
   useEffect(() => {
@@ -21,17 +23,14 @@ export function LeagueStandingsTable({ leagueSeason, poolId }) {
       <View>
         <Txt>Standings for {leagueSeason?.season?.year}</Txt>
       </View>
-      <ScrollView>
-        {leaderboardEntries.map((entry, index) => (
-          <View key={entry.id} style={s.row}>
-            {console.log(entry.user.first_name)}
-            <Txt style={s.position}>{index + 1}.</Txt>
-            <Txt style={s.position}>{entry.ranking}</Txt>
-            <Txt style={s.name}>{entry.user.first_name} {entry.user.last_name}</Txt>
-            <Txt style={s.points}>${entry.total_points.toFixed(2)}</Txt>
-          </View>
-        ))}
-      </ScrollView>
+      <PaginatedFlatList
+          data={leaderboardEntries}
+          itemsPerPage={10}
+          containerWidth={containerWidth}
+          renderItemRow={(entry) => (
+            <LeagueStandingsRow key={entry.id} entry={entry} />
+          )}
+        />
     </>
   );
 }
@@ -58,7 +57,7 @@ const s = StyleSheet.create({
     flex: 1,
     color: "#F8F8F8",
   },
-  score: {
+  points: {
     width: 80,
     textAlign: "right",
     color: "#54D18C",
