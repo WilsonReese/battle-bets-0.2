@@ -13,7 +13,7 @@ export function MembershipsTable({
   isCurrentUserCommissioner
 }) {
   const PAGE_WIDTH = containerWidth || Dimensions.get("window").width;
-  const MEMBERS_PER_PAGE = 15;
+  const MEMBERS_PER_PAGE = 12;
 
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);

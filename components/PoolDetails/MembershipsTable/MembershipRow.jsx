@@ -42,7 +42,7 @@ export function MembershipRow({
 
         <View style={s.rightSection}>
           <View style={{ alignItems: "flex-end" }}>
-            <Txt>Joined</Txt>
+            <Txt style={s.txt}>Joined</Txt>
             <Txt style={s.detailsTxt}>
               {formatMembershipJoinDate(member.created_at)}
             </Txt>
@@ -100,13 +100,14 @@ const s = StyleSheet.create({
   },
   txt: {
     color: "#F8F8F8",
+    fontSize: 14
   },
   usernameContainer: {
     marginTop: -4,
   },
   detailsTxt: {
     color: "#B8C3CC",
-    fontSize: 12,
+    fontSize: 11,
     fontFamily: "Saira_400Regular_Italic",
     marginTop: -4,
   },
