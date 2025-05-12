@@ -1,10 +1,18 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
+import React, {
+  useCallback,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+} from "react";
 import {
   View,
   StyleSheet,
   SafeAreaView,
   Alert,
   ScrollView,
+  TouchableOpacity,
+  Modal,
 } from "react-native";
 import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
 import { Txt } from "../../../../components/general/Txt.jsx";
@@ -24,6 +32,8 @@ import { LeaveLeagueButton } from "../../../../components/PoolDetails/LeaveLeagu
 import { useToastMessage } from "../../../../hooks/useToastMessage.js";
 import { InviteUsersButton } from "../../../../components/PoolDetails/InviteUsers/InviteUsersButton.jsx";
 import { PaginatedFlatList } from "../../../../components/general/PaginatedFlatList.jsx";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { PoolSelectionModal } from "../../../../components/PoolDetails/PoolSelection/PoolSelectionModal.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -32,6 +42,7 @@ export default function PoolDetails() {
 
   const {
     inviteToken,
+    poolDetails,
     fetchPoolDetails,
     selectedSeason,
     battles,
@@ -45,6 +56,8 @@ export default function PoolDetails() {
     fetchPoolMemberships,
     loading,
     setLoading,
+    fetchUserPools,
+    userPools
   } = usePoolDetails(poolId);
 
   // Checking for commissioners
@@ -53,15 +66,9 @@ export default function PoolDetails() {
     (m) => String(m.user.id) === String(currentUserId)
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
+  const [modalVisible, setModalVisible] = useState(false);
 
-  // const fetchPoolDetails = async () => {
-  //   try {
-  //     const res = await api.get(`/pools/${poolId}`);
-  //     setPoolDetails(res.data);
-  //   } catch (err) {
-  //     console.error("Failed to fetch pool details", err.response || err);
-  //   }
-  // };
+  console.log("User Pools: ", userPools);
 
   useEffect(() => {
     if (poolId) {
@@ -113,12 +120,19 @@ export default function PoolDetails() {
       >
         <StatusBar style="light" />
         <ScrollView showsVerticalScrollIndicator={false}>
-          <View style={s.titleContainer}>
+          <TouchableOpacity
+            style={s.titleContainer}
+            onPress={() => {
+              setModalVisible(true);
+              fetchUserPools();
+            }}
+          >
             <Txt style={s.titleText}>
               {/* This will need to become the Pool Name */}
-              Pool {poolId} (Make Dropdown)
+              {poolDetails.name}
             </Txt>
-          </View>
+            <FontAwesome6 name="caret-down" size={24} color="#54D18C" />
+          </TouchableOpacity>
           {selectedSeason?.hasStarted && battles.length > 0 && (
             <>
               <PaginatedFlatList
@@ -167,6 +181,8 @@ export default function PoolDetails() {
             currentUserId={currentUserId}
           />
         </ScrollView>
+
+        <PoolSelectionModal modalVisible={modalVisible} userPools={userPools} setModalVisible={setModalVisible}/>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -193,6 +209,9 @@ const s = StyleSheet.create({
   },
   titleContainer: {
     // paddingTop: 8,
+    flexDirection: "row",
+    gap: 8,
+    alignItems: "center",
   },
   titleText: {
     color: "#F8F8F8",
@@ -212,5 +231,20 @@ const s = StyleSheet.create({
     // fontFamily: "Saira_300Light",
     color: "#F8F8F8",
     fontSize: 16,
+  },
+  bottomSheetTxt: {
+    color: "#061826",
+  },
+  modalOverlay: {
+    flex: 1,
+    backgroundColor: "rgba(0,0,0,0.5)",
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  modalContainer: {
+    backgroundColor: "#F8F8F8",
+    borderRadius: 9,
+    // padding: 20,
+    width: "80%",
   },
 });

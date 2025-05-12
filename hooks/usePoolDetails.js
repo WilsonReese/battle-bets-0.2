@@ -9,6 +9,8 @@ export const usePoolDetails = (poolId) => {
   const [userBetslip, setUserBetslip] = useState(null);
   const [memberships, setMemberships] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [userPools, setUserPools] = useState([]);
+  const [isFetchingPools, setIsFetchingPools] = useState(false);
 
   const fetchPoolDetails = useCallback(async () => {
     try {
@@ -77,9 +79,24 @@ export const usePoolDetails = (poolId) => {
       const response = await api.get(`/pools/${poolId}/pool_memberships`);
       setMemberships(response.data);
     } catch (error) {
-      console.error("Error fetching pool memberships:", error.response || error);
+      console.error(
+        "Error fetching pool memberships:",
+        error.response || error
+      );
     }
   }, [poolId]);
+
+  const fetchUserPools = async () => {
+    try {
+      setIsFetchingPools(true);
+      const response = await api.get("/pools");
+      setUserPools(response.data);
+    } catch (err) {
+      console.error("Error fetching user pools", err.response || err);
+    } finally {
+      setIsFetchingPools(false);
+    }
+  };
 
   // Initial load
   useEffect(() => {
@@ -99,7 +116,7 @@ export const usePoolDetails = (poolId) => {
   }, [selectedSeason, fetchBattles]);
 
   return {
-    poolDetails,                         // ⬅️ now available
+    poolDetails,
     inviteToken: poolDetails?.invite_token, // optional convenience
     selectedSeason,
     battles,
@@ -114,5 +131,7 @@ export const usePoolDetails = (poolId) => {
     fetchPoolDetails,
     loading,
     setLoading,
+    fetchUserPools, 
+    userPools
   };
 };

@@ -45,12 +45,6 @@ export default function CreatePool() {
   const [leagueName, setLeagueName] = useState("");
   const {  showError, showSuccess } = useToastMessage();
 
-
-
-  // const showMessage = (text, color) => {
-  //   setMessage({ text, color });
-  // };
-
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
     bottomSheetRef.current?.close();
