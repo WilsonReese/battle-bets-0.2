@@ -23,11 +23,12 @@ import { usePoolDetails } from "../../../../hooks/usePoolDetails.js";
 import { LeaveLeagueButton } from "../../../../components/PoolDetails/LeaveLeagueButton/LeaveLeagueButton.jsx";
 import { useToastMessage } from "../../../../hooks/useToastMessage.js";
 import { InviteUsersButton } from "../../../../components/PoolDetails/InviteUsers/InviteUsersButton.jsx";
+import { PaginatedFlatList } from "../../../../components/general/PaginatedFlatList.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
   const [containerWidth, setContainerWidth] = useState(null);
-  // const [poolDetails, setPoolDetails] = useState(null); 
+  // const [poolDetails, setPoolDetails] = useState(null);
 
   const {
     inviteToken,
@@ -118,16 +119,26 @@ export default function PoolDetails() {
               Pool {poolId} (Make Dropdown)
             </Txt>
           </View>
-          {selectedSeason?.hasStarted && ( // This will need to be updated for when a season has ended - seasons will need statuses
-            <BattleCard
-              userBetslip={userBetslip}
-              poolId={poolId}
-              season={selectedSeason}
-              battle={latestBattle}
-              setBattles={setBattles}
-              setUserBetslip={setUserBetslip}
-              setLoading={setLoading}
-            />
+          {selectedSeason?.hasStarted && battles.length > 0 && (
+            <>
+              <PaginatedFlatList
+                data={battles}
+                itemsPerPage={1}
+                containerWidth={containerWidth}
+                renderItemRow={(battle) => (
+                  <BattleCard
+                    key={battle.id}
+                    userBetslip={userBetslip}
+                    poolId={poolId}
+                    season={selectedSeason}
+                    battle={battle}
+                    setBattles={setBattles}
+                    setUserBetslip={setUserBetslip}
+                    setLoading={setLoading}
+                  />
+                )}
+              />
+            </>
           )}
 
           <MembershipsTable
