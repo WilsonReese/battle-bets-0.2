@@ -8,7 +8,7 @@ export function InviteUsersButton({ poolId, inviteToken }) {
   const { showSuccess, showError } = useToastMessage();
 
   const handleCopyLink = async () => {
-    const link = `battlebets://join?pool_id=${poolId}&token=${inviteToken}`;
+    const link = `exp://10.139.1.76:8081/--/join?pool_id=${poolId}&token=${inviteToken}`;
     await Clipboard.setStringAsync(link);
     showSuccess("Invitation link copied!");
   };

@@ -23,6 +23,7 @@ import { MessageProvider } from "../components/contexts/MessageContext";
 import { useToastMessage } from "../hooks/useToastMessage";
 import { Message } from "../components/general/Message";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useDeepLinkHandler } from "../hooks/useDeepLinkHandler";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -55,6 +56,8 @@ function GlobalMessageRenderer() {
 }
 
 export default function Layout() {
+  // useDeepLinkHandler();
+  
   const [fontsLoaded] = useFonts({
     Saira_100Thin,
     Saira_200ExtraLight,
@@ -85,6 +88,7 @@ export default function Layout() {
       <MessageProvider>
         <BetProvider>
           <AuthProvider>
+          <DeepLinkWrapper />
             <StandingsProvider>
               <View style={s.container}>
                 <GlobalMessageRenderer />
@@ -121,6 +125,11 @@ export default function Layout() {
       </MessageProvider>
     </GestureHandlerRootView>
   );
+}
+
+function DeepLinkWrapper() {
+  useDeepLinkHandler();
+  return null;
 }
 
 const s = StyleSheet.create({
