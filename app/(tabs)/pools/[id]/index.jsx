@@ -34,6 +34,8 @@ import { InviteUsersButton } from "../../../../components/PoolDetails/InviteUser
 import { PaginatedFlatList } from "../../../../components/general/PaginatedFlatList.jsx";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { PoolSelectionModal } from "../../../../components/PoolDetails/PoolSelection/PoolSelectionModal.jsx";
+import { useStandings } from "../../../../components/contexts/StandingsContext.js";
+import { LeagueStandingsTable } from "../../../../components/PoolDetails/LeagueStandings/LeagueStandingsTable.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -60,7 +62,7 @@ export default function PoolDetails() {
     userPools,
   } = usePoolDetails(poolId);
 
-  // Checking for commissioners
+  const { userLeaderboardEntries, fetchStandings } = useStandings();
   const { currentUserId } = useContext(AuthContext);
   const userMembership = memberships.find(
     (m) => String(m.user.id) === String(currentUserId)
@@ -155,6 +157,8 @@ export default function PoolDetails() {
             </>
           )}
 
+          <LeagueStandingsTable leagueSeason={selectedSeason} poolId={poolId}/>
+
           <MembershipsTable
             containerWidth={containerWidth}
             memberships={memberships}
@@ -162,18 +166,15 @@ export default function PoolDetails() {
             poolId={poolId}
             fetchPoolMemberships={fetchPoolMemberships}
             isCurrentUserCommissioner={isCurrentUserCommissioner}
-            // page={page}
-            // totalPages={totalPages}
-            // setPage={setPage}
           />
 
           <InviteUsersButton poolId={poolId} inviteToken={inviteToken} />
 
-          <PreviousBattles battles={battles} />
+          {/* <PreviousBattles battles={battles} /> */}
           <Txt style={s.titleText}>Settings</Txt>
           <Txt>Need to be able to go to the create/edit league screen</Txt>
           <Txt>
-            Need to be able to change league name or change league start date
+            Need to be able to change league name or change league start date. Maybe just make it editable right here?
           </Txt>
           <LeaveLeagueButton
             poolId={poolId}

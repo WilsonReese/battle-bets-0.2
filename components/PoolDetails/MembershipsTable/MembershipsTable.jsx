@@ -15,7 +15,7 @@ export function MembershipsTable({
       <Txt style={{ fontSize: 24, color: "#F8F8F8" }}>League Members</Txt>
       <PaginatedFlatList
         data={memberships}
-        itemsPerPage={3}
+        itemsPerPage={12}
         containerWidth={containerWidth}
         renderItemRow={(member, index, total) => (
           <MembershipRow
