@@ -57,7 +57,7 @@ export default function PoolDetails() {
     loading,
     setLoading,
     fetchUserPools,
-    userPools
+    userPools,
   } = usePoolDetails(poolId);
 
   // Checking for commissioners
@@ -182,7 +182,12 @@ export default function PoolDetails() {
           />
         </ScrollView>
 
-        <PoolSelectionModal modalVisible={modalVisible} userPools={userPools} setModalVisible={setModalVisible}/>
+        <PoolSelectionModal
+          modalVisible={modalVisible}
+          userPools={userPools}
+          setModalVisible={setModalVisible}
+          currentPoolId={poolId}
+        />
       </SafeAreaView>
     </SafeAreaProvider>
   );
