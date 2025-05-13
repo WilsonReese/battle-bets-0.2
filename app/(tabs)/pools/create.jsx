@@ -60,6 +60,7 @@ export default function CreatePool() {
   
     try {
       if (isEditMode) {
+        console.log("Start Week: ", selectedWeek.value)
         await api.patch(`/pools/${poolId}`, {
           name: leagueName,
           start_week: selectedWeek.value,

@@ -36,7 +36,7 @@ export function LeagueStandingsTable({ leagueSeason, poolId, containerWidth }) {
       </View>
       <PaginatedFlatList
         data={leaderboardEntries}
-        itemsPerPage={10}
+        itemsPerPage={15}
         containerWidth={containerWidth}
         renderItemRow={(entry, index, total) => (
           <LeagueStandingsRow

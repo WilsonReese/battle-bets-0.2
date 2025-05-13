@@ -36,6 +36,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { PoolSelectionModal } from "../../../../components/PoolDetails/PoolSelection/PoolSelectionModal.jsx";
 import { useStandings } from "../../../../components/contexts/StandingsContext.js";
 import { LeagueStandingsTable } from "../../../../components/PoolDetails/LeagueStandings/LeagueStandingsTable.jsx";
+import { LeagueSettings } from "../../../../components/PoolDetails/LeagueSettings/LeagueSettings.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -70,11 +71,13 @@ export default function PoolDetails() {
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
   const [modalVisible, setModalVisible] = useState(false);
 
-  useEffect(() => {
-    if (poolId) {
-      fetchPoolDetails();
-    }
-  }, [poolId]);
+  useFocusEffect(
+    useCallback(() => {
+      if (poolId) {
+        fetchPoolDetails();
+      }
+    }, [poolId])
+  );
 
   useFocusEffect(
     useCallback(() => {
@@ -140,7 +143,7 @@ export default function PoolDetails() {
             <FontAwesome6 name="caret-down" size={24} color="#54D18C" />
           </TouchableOpacity>
           {selectedSeason?.hasStarted && battles.length > 0 && (
-            <>
+            <View style={s.section}>
               <PaginatedFlatList
                 data={battles}
                 itemsPerPage={1}
@@ -158,47 +161,34 @@ export default function PoolDetails() {
                   />
                 )}
               />
-            </>
+            </View>
           )}
+          <View style={s.section}>
+            <LeagueStandingsTable
+              leagueSeason={selectedSeason}
+              poolId={poolId}
+              containerWidth={containerWidth}
+            />
+          </View>
 
-          <LeagueStandingsTable
-            leagueSeason={selectedSeason}
-            poolId={poolId}
-            containerWidth={containerWidth}
-          />
-
-          <MembershipsTable
-            containerWidth={containerWidth}
-            memberships={memberships}
-            setMemberships={setMemberships}
-            poolId={poolId}
-            fetchPoolMemberships={fetchPoolMemberships}
-            isCurrentUserCommissioner={isCurrentUserCommissioner}
-          />
-
-          <InviteUsersButton poolId={poolId} inviteToken={inviteToken} />
+          <View style={s.section}>
+            <MembershipsTable
+              containerWidth={containerWidth}
+              memberships={memberships}
+              setMemberships={setMemberships}
+              poolId={poolId}
+              fetchPoolMemberships={fetchPoolMemberships}
+              isCurrentUserCommissioner={isCurrentUserCommissioner}
+            />
+            <InviteUsersButton poolId={poolId} inviteToken={inviteToken} />
+          </View>
 
           {/* <PreviousBattles battles={battles} /> */}
-          <Txt style={s.titleText}>Settings</Txt>
-          <Txt>Need to be able to go to the create/edit league screen</Txt>
-          <Txt>
-            Need to be able to change league name or change league start date.
-            Maybe just make it editable right here?
-          </Txt>
-          <Txt>{poolDetails.name}</Txt>
-          <Txt>{selectedSeason.start_week}</Txt>
-          <TouchableOpacity
-            onPress={() => {
-              router.push({
-                pathname: "/pools/create",
-                params: {
-                  poolId: poolDetails.id,
-                },
-              });
-            }}
-          >
-            <Txt>Edit League</Txt>
-          </TouchableOpacity>
+          <LeagueSettings
+            isCurrentUserCommissioner={isCurrentUserCommissioner}
+            poolDetails={poolDetails}
+            selectedSeason={selectedSeason}
+          />
           <LeaveLeagueButton
             poolId={poolId}
             memberships={memberships}
@@ -241,10 +231,14 @@ const s = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
+    paddingBottom: 8,
   },
   titleText: {
     color: "#F8F8F8",
     fontSize: 24,
+  },
+  section: {
+    paddingBottom: 8,
   },
   betslipContainer: {
     // flex: 1,
