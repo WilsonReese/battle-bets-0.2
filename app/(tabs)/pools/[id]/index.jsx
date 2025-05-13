@@ -98,6 +98,12 @@ export default function PoolDetails() {
     }
   }, [poolId]);
 
+  useEffect(() => {
+    if (selectedSeason && poolId) {
+      fetchStandings(poolId, selectedSeason.season.year);
+    }
+  }, [memberships]);
+
   const latestBattle = battles[0];
 
   // Render loading spinner while data is being fetched
