@@ -234,14 +234,14 @@ const s = StyleSheet.create({
     flexDirection: "row",
     gap: 8,
     alignItems: "center",
-    paddingBottom: 8,
+    paddingBottom: 12,
   },
   titleText: {
     color: "#F8F8F8",
     fontSize: 24,
   },
   section: {
-    paddingBottom: 16,
+    paddingBottom: 24,
   },
   betslipContainer: {
     // flex: 1,

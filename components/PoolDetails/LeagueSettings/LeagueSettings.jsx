@@ -22,7 +22,7 @@ export function LeagueSettings({
       setModalVisible(false);
       router.back(); // or wherever you want to take them after delete
     } catch (err) {
-      console.error("Failed to delete league:", err?.response?.data || err.message);
+      // console.error("Failed to delete league:", err?.response?.data || err.message);
       showError("Failed to delete league.");
     }
   };
