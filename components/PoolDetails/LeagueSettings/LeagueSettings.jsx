@@ -80,6 +80,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     paddingBottom: 8,
+    alignItems: 'center',
   },
   settingRow: {
     flexDirection: "row",

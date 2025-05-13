@@ -70,6 +70,7 @@ export default function PoolDetails() {
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
   const [modalVisible, setModalVisible] = useState(false);
+  
 
   useFocusEffect(
     useCallback(() => {
@@ -163,6 +164,7 @@ export default function PoolDetails() {
               />
             </View>
           )}
+          {selectedSeason?.hasStarted > 0 && (
           <View style={s.section}>
             <LeagueStandingsTable
               leagueSeason={selectedSeason}
@@ -170,6 +172,7 @@ export default function PoolDetails() {
               containerWidth={containerWidth}
             />
           </View>
+          )}
 
           <View style={s.section}>
             <MembershipsTable
