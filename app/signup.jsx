@@ -15,6 +15,7 @@ import { useToastMessage } from "../hooks/useToastMessage";
 import api from "../utils/axiosConfig";
 import { Btn } from "../components/general/Buttons/Btn";
 import { Txt } from "../components/general/Txt";
+import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 
 export default function SignupScreen() {
   const [form, setForm] = useState({
@@ -58,79 +59,87 @@ export default function SignupScreen() {
   };
 
   return (
-    <KeyboardAvoidingView
-      behavior={Platform.OS === "ios" ? "padding" : undefined}
-      style={s.container}
-    >
+    <SafeAreaProvider>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        <ScrollView
-          contentContainerStyle={s.innerContainer}
-          keyboardShouldPersistTaps="handled"
-        >
-          <Txt style={s.title}>Create Account</Txt>
+        <SafeAreaView style={s.container}>
+          <KeyboardAvoidingView
+            behavior={Platform.OS === "ios" ? "padding" : undefined}
+            style={s.container}
+          >
+            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+              <ScrollView
+                contentContainerStyle={s.innerContainer}
+                keyboardShouldPersistTaps="handled"
+              >
+                <Txt style={s.title}>Create Account</Txt>
 
-          <TextInput
-            placeholder="First Name"
-            placeholderTextColor="#B8C3CC"
-            style={s.input}
-            value={form.first_name}
-            onChangeText={(val) => handleChange("first_name", val)}
-          />
+                <TextInput
+                  placeholder="First Name"
+                  placeholderTextColor="#B8C3CC"
+                  style={s.input}
+                  value={form.first_name}
+                  onChangeText={(val) => handleChange("first_name", val)}
+                />
 
-          <TextInput
-            placeholder="Last Name"
-            placeholderTextColor="#B8C3CC"
-            style={s.input}
-            value={form.last_name}
-            onChangeText={(val) => handleChange("last_name", val)}
-          />
+                <TextInput
+                  placeholder="Last Name"
+                  placeholderTextColor="#B8C3CC"
+                  style={s.input}
+                  value={form.last_name}
+                  onChangeText={(val) => handleChange("last_name", val)}
+                />
 
-          <TextInput
-            placeholder="Username"
-            placeholderTextColor="#B8C3CC"
-            style={s.input}
-            value={form.username}
-            onChangeText={(val) => handleChange("username", val)}
-            autoCapitalize="none"
-          />
+                <TextInput
+                  placeholder="Username"
+                  placeholderTextColor="#B8C3CC"
+                  style={s.input}
+                  value={form.username}
+                  onChangeText={(val) => handleChange("username", val)}
+                  autoCapitalize="none"
+                />
 
-          <TextInput
-            placeholder="Email"
-            placeholderTextColor="#B8C3CC"
-            style={s.input}
-            value={form.email}
-            onChangeText={(val) => handleChange("email", val)}
-            autoCapitalize="none"
-            keyboardType="email-address"
-          />
+                <TextInput
+                  placeholder="Email"
+                  placeholderTextColor="#B8C3CC"
+                  style={s.input}
+                  value={form.email}
+                  onChangeText={(val) => handleChange("email", val)}
+                  autoCapitalize="none"
+                  keyboardType="email-address"
+                />
 
-          <TextInput
-            placeholder="Password"
-            placeholderTextColor="#B8C3CC"
-            style={s.input}
-            secureTextEntry
-            value={form.password}
-            onChangeText={(val) => handleChange("password", val)}
-          />
+                <TextInput
+                  placeholder="Password"
+                  placeholderTextColor="#B8C3CC"
+                  style={s.input}
+                  secureTextEntry
+                  value={form.password}
+                  onChangeText={(val) => handleChange("password", val)}
+                />
 
-          <TextInput
-            placeholder="Confirm Password"
-            placeholderTextColor="#B8C3CC"
-            style={s.input}
-            secureTextEntry
-            value={form.password_confirmation}
-            onChangeText={(val) => handleChange("password_confirmation", val)}
-          />
+                <TextInput
+                  placeholder="Confirm Password"
+                  placeholderTextColor="#B8C3CC"
+                  style={s.input}
+                  secureTextEntry
+                  value={form.password_confirmation}
+                  onChangeText={(val) =>
+                    handleChange("password_confirmation", val)
+                  }
+                />
 
-          <Btn
-            btnText="Create Account"
-            onPress={handleSignup}
-            isEnabled={true}
-            style={s.submitButton}
-          />
-        </ScrollView>
+                <Btn
+                  btnText="Create Account"
+                  onPress={handleSignup}
+                  isEnabled={true}
+                  style={s.submitButton}
+                />
+              </ScrollView>
+            </TouchableWithoutFeedback>
+          </KeyboardAvoidingView>
+        </SafeAreaView>
       </TouchableWithoutFeedback>
-    </KeyboardAvoidingView>
+    </SafeAreaProvider>
   );
 }
 
