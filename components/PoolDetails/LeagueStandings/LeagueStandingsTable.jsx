@@ -52,7 +52,7 @@ export function LeagueStandingsTable({ leagueSeason, poolId, containerWidth }) {
 
 const s = StyleSheet.create({
   title: {
-    fontSize: 24,
+    fontSize: 20,
     color: "#F8F8F8",
     marginBottom: 8,
   },

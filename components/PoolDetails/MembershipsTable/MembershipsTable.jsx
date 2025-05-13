@@ -12,7 +12,7 @@ export function MembershipsTable({
 }) {
   return (
     <>
-      <Txt style={{ fontSize: 24, color: "#F8F8F8" }}>Members</Txt>
+      <Txt style={{ fontSize: 20, color: "#F8F8F8" }}>Members</Txt>
       <PaginatedFlatList
         data={memberships}
         itemsPerPage={8}

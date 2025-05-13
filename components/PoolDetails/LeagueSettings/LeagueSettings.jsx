@@ -74,7 +74,7 @@ export function LeagueSettings({
 const s = StyleSheet.create({
   titleText: {
     color: "#F8F8F8",
-    fontSize: 24,
+    fontSize: 20,
   },
   settingTitleContainer: {
     flexDirection: "row",
