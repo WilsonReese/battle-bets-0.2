@@ -44,9 +44,11 @@ export default function CreatePool() {
   const bottomSheetRef = useRef(null);
   const [selectedWeek, setSelectedWeek] = useState(WEEKS[0]);
   const [leagueName, setLeagueName] = useState("");
-  const {  showError, showSuccess } = useToastMessage();
+  const { showError, showSuccess } = useToastMessage();
   const { poolId } = useLocalSearchParams();
   const isEditMode = !!poolId;
+  const [currentSeason, setCurrentSeason] = useState(null);
+  const isStartWeekLocked = currentSeason?.["has_started?"];
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
@@ -58,10 +60,10 @@ export default function CreatePool() {
       showError("Please enter a league name.");
       return;
     }
-  
+
     try {
       if (isEditMode) {
-        console.log("Start Week: ", selectedWeek.value)
+        console.log("Start Week: ", selectedWeek.value);
         await api.patch(`/pools/${poolId}`, {
           name: leagueName,
           start_week: selectedWeek.value,
@@ -74,10 +76,13 @@ export default function CreatePool() {
         });
         showSuccess("League created successfully.");
       }
-  
+
       router.back();
     } catch (error) {
-      console.error("Failed to submit league:", error?.response?.data || error.message);
+      console.error(
+        "Failed to submit league:",
+        error?.response?.data || error.message
+      );
       showError("Something went wrong.");
     }
   };
@@ -86,20 +91,27 @@ export default function CreatePool() {
     const loadData = async () => {
       if (isEditMode) {
         const poolRes = await api.get(`/pools/${poolId}`);
-        const leagueSeasonsRes = await api.get(`/pools/${poolId}/league_seasons`);
-  
+        const leagueSeasonsRes = await api.get(
+          `/pools/${poolId}/league_seasons`
+        );
+
         setLeagueName(poolRes.data.name);
-        const currentSeason = leagueSeasonsRes.data.find(ls => ls.season.year === 2024); // adjust logic as needed
-        if (currentSeason) {
-          const weekOption = WEEKS.find(w => w.value === currentSeason.start_week);
+        const current = leagueSeasonsRes.data.find(
+          (ls) => ls.season.year === 2024
+        );
+        setCurrentSeason(current);
+
+        console.log("Current Season: ", current);
+
+        if (current) {
+          const weekOption = WEEKS.find((w) => w.value === current.start_week);
           if (weekOption) setSelectedWeek(weekOption);
         }
       }
     };
-  
+
     loadData();
   }, []);
-
 
   return (
     <View style={s.container}>
@@ -120,26 +132,48 @@ export default function CreatePool() {
                 placeholderTextColor="#B8C3CC"
                 value={leagueName}
                 onChangeText={setLeagueName}
-                autoCapitalize="none"
+                autoCapitalize="words"
                 onFocus={() => {
-                  bottomSheetRef.current?.close(); // 👈 close sheet when input is focused
+                  bottomSheetRef.current?.close();
                 }}
               />
             </View>
 
-            <Txt style={s.formText}>Start Week</Txt>
-            <TouchableOpacity
-              style={s.weekSelector}
-              onPress={() => {
-                Keyboard.dismiss(); // 👈 hides the keyboard
-                bottomSheetRef.current?.expand();
-              }}
-            >
-              <View style={s.weekSelectorView}>
-                <Txt style={s.responseTxt}>{selectedWeek.label}</Txt>
-                <FontAwesome6 name="chevron-down" size={16} color="#F8F8F8" />
+            <View>
+              <View style={s.labelWithIcon}>
+                <Txt style={s.formText}>
+                  Start Week {console.log("Locked?", isStartWeekLocked)}
+                </Txt>
+                {isStartWeekLocked && (
+                  <FontAwesome6 name="lock" size={14} color="#B8C3CC" />
+                )}
               </View>
-            </TouchableOpacity>
+
+              <TouchableOpacity
+                style={[s.weekSelector]}
+                disabled={isStartWeekLocked}
+                onPress={() => {
+                  Keyboard.dismiss();
+                  bottomSheetRef.current?.expand();
+                }}
+              >
+                <View style={s.weekSelectorView}>
+                  <Txt
+                    style={[
+                      s.responseTxt,
+                      isStartWeekLocked && { color: "#6E7880" }, // gray text
+                    ]}
+                  >
+                    {selectedWeek.label}
+                  </Txt>
+                  <FontAwesome6
+                    name="chevron-down"
+                    size={16}
+                    color={isStartWeekLocked ? "#6E7880" : "#F8F8F8"} // gray icon
+                  />
+                </View>
+              </TouchableOpacity>
+            </View>
 
             <Btn
               style={s.btn}
@@ -253,5 +287,10 @@ const s = StyleSheet.create({
   radioLabel: {
     fontSize: 16,
     color: "#061826",
+  },
+  labelWithIcon: {
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 4,
   },
 });
