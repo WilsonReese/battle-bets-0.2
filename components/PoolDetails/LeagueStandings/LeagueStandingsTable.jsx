@@ -21,46 +21,61 @@ export function LeagueStandingsTable({ leagueSeason, poolId, containerWidth }) {
   return (
     <>
       <View>
-        <Txt>Standings for {leagueSeason?.season?.year}</Txt>
+        <Txt style={s.title}>Standings</Txt>
+      </View>
+      <View style={s.headerContainer}>
+        <View style={s.rankHeader}>
+          <Txt style={s.headerTxt}>Rank</Txt>
+        </View>
+        <View style={s.playerHeader}>
+          <Txt style={s.headerTxt}>Player</Txt>
+        </View>
+        <View style={s.scoreHeader}>
+          <Txt style={s.headerTxt}>Score</Txt>
+        </View>
+        <View style={s.headerElement} />
       </View>
       <PaginatedFlatList
-          data={leaderboardEntries}
-          itemsPerPage={10}
-          containerWidth={containerWidth}
-          renderItemRow={(entry) => (
-            <LeagueStandingsRow key={entry.id} entry={entry} />
-          )}
-        />
+        data={leaderboardEntries}
+        itemsPerPage={10}
+        containerWidth={containerWidth}
+        renderItemRow={(entry, index, total) => (
+          <LeagueStandingsRow
+            key={entry.id}
+            entry={entry}
+            isLast={index === total - 1}
+          />
+        )}
+      />
     </>
   );
 }
 
 const s = StyleSheet.create({
   title: {
-    fontSize: 20,
+    fontSize: 24,
     color: "#F8F8F8",
     marginBottom: 8,
   },
-  row: {
+  headerContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
-    paddingVertical: 10,
-    borderBottomWidth: 1,
-    borderBottomColor: "#ccc",
+    borderBottomWidth: .5,
+    borderColor: "#3A454D",
   },
-  position: {
-    width: 30,
-    fontWeight: "bold",
-    color: "#F8F8F8",
+  rankHeader: {
+    width: 60,
+    alignItems: 'center',
   },
-  name: {
-    flex: 1,
-    color: "#F8F8F8",
+  playerHeader: {
+    flex: 20,
   },
-  points: {
+  scoreHeader: {
     width: 80,
-    textAlign: "right",
-    color: "#54D18C",
-    fontWeight: "600",
+    alignItems: "center",
+  },
+  headerTxt: {
+    color: "#F8F8F8",
+    fontSize: 12
   },
 });
