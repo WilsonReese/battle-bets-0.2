@@ -71,7 +71,7 @@ export function LeaveLeagueButton({
 
 const s = StyleSheet.create({
   button: {
-    paddingHorizontal: 12,
+    paddingHorizontal: 8,
     paddingVertical: 16,
     flexDirection: "row",
     justifyContent: "space-between",
