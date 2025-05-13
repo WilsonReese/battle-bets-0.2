@@ -10,6 +10,7 @@ import {
   Platform,
   TouchableOpacity,
   Dimensions,
+  Keyboard,
 } from "react-native";
 import BottomSheet, {
   BottomSheetScrollView,
@@ -120,13 +121,19 @@ export default function CreatePool() {
                 value={leagueName}
                 onChangeText={setLeagueName}
                 autoCapitalize="none"
+                onFocus={() => {
+                  bottomSheetRef.current?.close(); // 👈 close sheet when input is focused
+                }}
               />
             </View>
 
             <Txt style={s.formText}>Start Week</Txt>
             <TouchableOpacity
               style={s.weekSelector}
-              onPress={() => bottomSheetRef.current?.expand()}
+              onPress={() => {
+                Keyboard.dismiss(); // 👈 hides the keyboard
+                bottomSheetRef.current?.expand();
+              }}
             >
               <View style={s.weekSelectorView}>
                 <Txt style={s.responseTxt}>{selectedWeek.label}</Txt>

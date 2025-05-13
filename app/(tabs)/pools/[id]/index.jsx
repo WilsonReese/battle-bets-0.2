@@ -238,7 +238,7 @@ const s = StyleSheet.create({
     fontSize: 24,
   },
   section: {
-    paddingBottom: 8,
+    paddingBottom: 16,
   },
   betslipContainer: {
     // flex: 1,
