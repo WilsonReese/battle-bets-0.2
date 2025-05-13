@@ -16,7 +16,6 @@ export function LeagueStandingsTable({ leagueSeason, poolId, containerWidth }) {
   }, [leagueSeason, poolId]);
 
   const leaderboardEntries = standings[poolId]?.entries || [];
-  console.log(leaderboardEntries);
 
   return (
     <>

@@ -19,7 +19,7 @@ import { Txt } from "../../../components/general/Txt";
 import { Btn } from "../../../components/general/Buttons/Btn";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import api from "../../../utils/axiosConfig";
-import { router } from "expo-router";
+import { router, useLocalSearchParams } from "expo-router";
 import { useToastMessage } from "../../../hooks/useToastMessage";
 
 const WEEKS = [
@@ -44,36 +44,59 @@ export default function CreatePool() {
   const [selectedWeek, setSelectedWeek] = useState(WEEKS[0]);
   const [leagueName, setLeagueName] = useState("");
   const {  showError, showSuccess } = useToastMessage();
+  const { poolId } = useLocalSearchParams();
+  const isEditMode = !!poolId;
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
     bottomSheetRef.current?.close();
   };
 
-  const handleCreateLeague = async () => {
+  const handleSubmit = async () => {
     if (!leagueName.trim()) {
       showError("Please enter a league name.");
       return;
     }
-
+  
     try {
-      const response = await api.post("/pools", {
-        name: leagueName,
-        start_week: selectedWeek.value,
-      });
-
-      console.log("Pool created:", response.data);
-      // You can optionally route to the new pool here:
-      showSuccess("League created successfully.");
-      router.back({});
+      if (isEditMode) {
+        await api.patch(`/pools/${poolId}`, {
+          name: leagueName,
+          start_week: selectedWeek.value,
+        });
+        showSuccess("League updated successfully.");
+      } else {
+        await api.post("/pools", {
+          name: leagueName,
+          start_week: selectedWeek.value,
+        });
+        showSuccess("League created successfully.");
+      }
+  
+      router.back();
     } catch (error) {
-      console.error(
-        "Failed to create league:",
-        error?.response?.data || error.message
-      );
-      showError("League name already taken");
+      console.error("Failed to submit league:", error?.response?.data || error.message);
+      showError("Something went wrong.");
     }
   };
+
+  useEffect(() => {
+    const loadData = async () => {
+      if (isEditMode) {
+        const poolRes = await api.get(`/pools/${poolId}`);
+        const leagueSeasonsRes = await api.get(`/pools/${poolId}/league_seasons`);
+  
+        setLeagueName(poolRes.data.name);
+        const currentSeason = leagueSeasonsRes.data.find(ls => ls.season.year === 2024); // adjust logic as needed
+        if (currentSeason) {
+          const weekOption = WEEKS.find(w => w.value === currentSeason.start_week);
+          if (weekOption) setSelectedWeek(weekOption);
+        }
+      }
+    };
+  
+    loadData();
+  }, []);
 
 
   return (
@@ -111,10 +134,10 @@ export default function CreatePool() {
             </TouchableOpacity>
 
             <Btn
-              btnText={"Create League"}
               style={s.btn}
+              btnText={isEditMode ? "Save Changes" : "Create League"}
+              onPress={handleSubmit}
               isEnabled={true}
-              onPress={handleCreateLeague}
             />
           </View>
         </ScrollView>

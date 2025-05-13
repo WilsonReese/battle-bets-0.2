@@ -70,8 +70,6 @@ export default function PoolDetails() {
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
   const [modalVisible, setModalVisible] = useState(false);
 
-  console.log("User Pools: ", userPools);
-
   useEffect(() => {
     if (poolId) {
       fetchPoolDetails();
@@ -163,7 +161,11 @@ export default function PoolDetails() {
             </>
           )}
 
-          <LeagueStandingsTable leagueSeason={selectedSeason} poolId={poolId} containerWidth={containerWidth}/>
+          <LeagueStandingsTable
+            leagueSeason={selectedSeason}
+            poolId={poolId}
+            containerWidth={containerWidth}
+          />
 
           <MembershipsTable
             containerWidth={containerWidth}
@@ -180,8 +182,23 @@ export default function PoolDetails() {
           <Txt style={s.titleText}>Settings</Txt>
           <Txt>Need to be able to go to the create/edit league screen</Txt>
           <Txt>
-            Need to be able to change league name or change league start date. Maybe just make it editable right here?
+            Need to be able to change league name or change league start date.
+            Maybe just make it editable right here?
           </Txt>
+          <Txt>{poolDetails.name}</Txt>
+          <Txt>{selectedSeason.start_week}</Txt>
+          <TouchableOpacity
+            onPress={() => {
+              router.push({
+                pathname: "/pools/create",
+                params: {
+                  poolId: poolDetails.id,
+                },
+              });
+            }}
+          >
+            <Txt>Edit League</Txt>
+          </TouchableOpacity>
           <LeaveLeagueButton
             poolId={poolId}
             memberships={memberships}
