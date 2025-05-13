@@ -1,3 +1,7 @@
+// export const unstable_settings = {
+//   initialRouteName: "index",
+// };
+
 import { Stack } from "expo-router/stack";
 import { Image, StyleSheet, View } from "react-native";
 import { AuthProvider } from "../components/contexts/AuthContext";

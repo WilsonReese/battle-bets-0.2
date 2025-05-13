@@ -6,6 +6,7 @@ import {
   StyleSheet,
   TouchableWithoutFeedback,
   Image,
+  TouchableOpacity,
 } from "react-native";
 import * as SecureStore from "expo-secure-store";
 import { useRouter } from "expo-router";
@@ -93,6 +94,10 @@ export default function Login() {
               onPress={handleLogin}
               style={s.loginButton}
             />
+
+            <TouchableOpacity onPress={() => router.replace("/signup")}>
+              <Txt>Sign Up</Txt>
+            </TouchableOpacity>
           </View>
         </SafeAreaView>
       </TouchableWithoutFeedback>
