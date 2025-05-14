@@ -10,7 +10,6 @@ import {
   TouchableWithoutFeedback,
   TouchableOpacity,
 } from "react-native";
-
 import { router } from "expo-router";
 import { useToastMessage } from "../hooks/useToastMessage";
 import api from "../utils/axiosConfig";
@@ -35,6 +34,27 @@ export default function SignupScreen() {
     setForm((prev) => ({ ...prev, [key]: value }));
   };
 
+  function validateSignupForm({ username, password }) {
+    const usernameRegex = /^[a-zA-Z_][a-zA-Z0-9_]{2,19}$/;
+    const passwordRegex = /^[^\s]{8,}$/; // No spaces, at least 8 chars
+
+    const errors = [];
+
+    if (!usernameRegex.test(username)) {
+      errors.push(
+        "• Username must be 3–20 characters, use letters/numbers/underscores only, and start with a letter or underscore."
+      );
+    }
+
+    if (!passwordRegex.test(password)) {
+      errors.push(
+        "• Password must be at least 8 characters with no spaces."
+      );
+    }
+
+    return errors;
+  }
+
   const handleSignup = async () => {
     const {
       first_name,
@@ -54,6 +74,12 @@ export default function SignupScreen() {
       !password_confirmation
     ) {
       showError("Please fill out all required fields.");
+      return;
+    }
+
+    const validationErrors = validateSignupForm(form);
+    if (validationErrors.length > 0) {
+      showError(validationErrors.join("\n"));
       return;
     }
 
@@ -128,6 +154,7 @@ export default function SignupScreen() {
                   placeholder="Username"
                   placeholderTextColor="#B8C3CC"
                   style={s.input}
+                  autoCorrect={false}
                   value={form.username}
                   onChangeText={(val) => handleChange("username", val)}
                   autoCapitalize="none"
