@@ -8,6 +8,7 @@ import {
   Platform,
   Keyboard,
   TouchableWithoutFeedback,
+  TouchableOpacity,
 } from "react-native";
 
 import { router } from "expo-router";
@@ -28,6 +29,7 @@ export default function SignupScreen() {
   });
 
   const { showError, showSuccess } = useToastMessage();
+  const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
   const handleChange = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
@@ -43,18 +45,40 @@ export default function SignupScreen() {
       password_confirmation,
     } = form;
 
-    if (!email || !password || !username) {
+    if (
+      !email ||
+      !password ||
+      !username ||
+      !first_name ||
+      !last_name ||
+      !password_confirmation
+    ) {
       showError("Please fill out all required fields.");
       return;
     }
 
+    // Constraints on any of the fields (password length, password values)
+
     try {
-      const res = await api.post("/signup", form);
+      const res = await api.post("/signup", { user: form });
       showSuccess("Account created! You can now log in.");
       router.push("/login");
     } catch (err) {
       console.error("Signup failed", err?.response?.data || err.message);
-      showError("Signup failed. Please check your input.");
+      const errors = err?.response?.data?.errors;
+
+      if (errors) {
+        const formattedErrors = Object.entries(errors)
+          .map(
+            ([field, messages]) =>
+              `• ${capitalize(field)} ${messages.join(", ")}`
+          )
+          .join("\n");
+
+        showError(formattedErrors);
+      } else {
+        showError("Signup failed. Please check your input.");
+      }
     }
   };
 
@@ -73,22 +97,33 @@ export default function SignupScreen() {
               >
                 <Txt style={s.title}>Create Account</Txt>
 
-                <TextInput
-                  placeholder="First Name"
-                  placeholderTextColor="#B8C3CC"
-                  style={s.input}
-                  value={form.first_name}
-                  onChangeText={(val) => handleChange("first_name", val)}
-                />
+                <View style={s.nameContainer}>
+                  <View style={s.nameElement}>
+                    <Txt>First Name</Txt>
+                    <TextInput
+                      placeholder="First Name"
+                      placeholderTextColor="#B8C3CC"
+                      autoCapitalize="words"
+                      style={s.input}
+                      value={form.first_name}
+                      onChangeText={(val) => handleChange("first_name", val)}
+                    />
+                  </View>
 
-                <TextInput
-                  placeholder="Last Name"
-                  placeholderTextColor="#B8C3CC"
-                  style={s.input}
-                  value={form.last_name}
-                  onChangeText={(val) => handleChange("last_name", val)}
-                />
+                  <View style={s.nameElement}>
+                    <Txt style={s.formTxt}>Last Name</Txt>
+                    <TextInput
+                      placeholder="Last Name"
+                      placeholderTextColor="#B8C3CC"
+                      autoCapitalize="words"
+                      style={s.input}
+                      value={form.last_name}
+                      onChangeText={(val) => handleChange("last_name", val)}
+                    />
+                  </View>
+                </View>
 
+                <Txt>Username</Txt>
                 <TextInput
                   placeholder="Username"
                   placeholderTextColor="#B8C3CC"
@@ -98,6 +133,7 @@ export default function SignupScreen() {
                   autoCapitalize="none"
                 />
 
+                <Txt>Email</Txt>
                 <TextInput
                   placeholder="Email"
                   placeholderTextColor="#B8C3CC"
@@ -108,6 +144,7 @@ export default function SignupScreen() {
                   keyboardType="email-address"
                 />
 
+                <Txt>Password</Txt>
                 <TextInput
                   placeholder="Password"
                   placeholderTextColor="#B8C3CC"
@@ -117,6 +154,7 @@ export default function SignupScreen() {
                   onChangeText={(val) => handleChange("password", val)}
                 />
 
+                <Txt>Confirm Password</Txt>
                 <TextInput
                   placeholder="Confirm Password"
                   placeholderTextColor="#B8C3CC"
@@ -134,6 +172,9 @@ export default function SignupScreen() {
                   isEnabled={true}
                   style={s.submitButton}
                 />
+                <TouchableOpacity onPress={() => router.back()}>
+                  <Txt>Back to Login</Txt>
+                </TouchableOpacity>
               </ScrollView>
             </TouchableWithoutFeedback>
           </KeyboardAvoidingView>
@@ -156,9 +197,20 @@ const s = StyleSheet.create({
     color: "#F8F8F8",
     marginBottom: 16,
   },
+  nameContainer: {
+    flexDirection: "row",
+    gap: 8,
+  },
+  nameElement: {
+    flex: 1,
+  },
+  formTxt: {
+    // fontFamily: "Saira_600SemiBold",
+  },
   input: {
+    fontFamily: "Saira_600SemiBold",
     height: 48,
-    backgroundColor: "#1B2730",
+    // backgroundColor: "#F8F8F8",
     borderColor: "#3A454D",
     borderWidth: 1,
     borderRadius: 8,
