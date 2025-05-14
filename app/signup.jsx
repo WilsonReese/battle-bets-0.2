@@ -122,15 +122,6 @@ export default function SignupScreen() {
           }
           return merged;
         });
-
-        // const formattedErrors = Object.entries(errors)
-        //   .map(
-        //     ([field, messages]) =>
-        //       `• ${capitalize(field)} ${messages.join(", ")}`
-        //   )
-        //   .join("\n");
-
-        // showError(formattedErrors);
       } else {
         showError("Signup failed. Please check your input.");
       }
