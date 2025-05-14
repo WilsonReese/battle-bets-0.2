@@ -26,82 +26,111 @@ export default function SignupScreen() {
     password: "",
     password_confirmation: "",
   });
+  const [fieldErrors, setFieldErrors] = useState({});
 
   const { showError, showSuccess } = useToastMessage();
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
   const handleChange = (key, value) => {
     setForm((prev) => ({ ...prev, [key]: value }));
+    setFieldErrors((prev) => ({ ...prev, [key]: undefined }));
   };
 
-  function validateSignupForm({ username, password }) {
+  function validateSignupForm({
+    first_name,
+    last_name,
+    username,
+    email,
+    password,
+    password_confirmation,
+  }) {
+    const errors = {};
+
+    // Required fields
+    if (!first_name.trim()) errors.first_name = ["is required."];
+    if (!last_name.trim()) errors.last_name = ["is required."];
+    if (!username.trim()) errors.username = ["is required."];
+    if (!email.trim()) errors.email = ["is required."];
+    if (!password.trim()) errors.password = ["is required."];
+    if (!password_confirmation.trim())
+      errors.password_confirmation = ["is required."];
+
+    // Username format (if provided)
     const usernameRegex = /^[a-zA-Z_][a-zA-Z0-9_]{2,19}$/;
-    const passwordRegex = /^[^\s]{8,}$/; // No spaces, at least 8 chars
-
-    const errors = [];
-
-    if (!usernameRegex.test(username)) {
-      errors.push(
-        "• Username must be 3–20 characters, use letters/numbers/underscores only, and start with a letter or underscore."
+    if (username && !usernameRegex.test(username)) {
+      errors.username = errors.username || [];
+      errors.username.push(
+        "must be 3–20 characters, use letters/numbers/underscores only, and start with a letter or underscore."
       );
     }
 
-    if (!passwordRegex.test(password)) {
-      errors.push(
-        "• Password must be at least 8 characters with no spaces."
-      );
+    // Password format (if provided)
+    const passwordRegex = /^[^\s]{8,}$/;
+    if (password && !passwordRegex.test(password)) {
+      errors.password = errors.password || [];
+      errors.password.push("must be at least 8 characters with no spaces.");
+    }
+
+    // Password confirmation match
+    if (
+      password &&
+      password_confirmation &&
+      password !== password_confirmation
+    ) {
+      errors.password_confirmation = errors.password_confirmation || [];
+      errors.password_confirmation.push("does not match the password.");
     }
 
     return errors;
   }
 
   const handleSignup = async () => {
-    const {
-      first_name,
-      last_name,
-      username,
-      email,
-      password,
-      password_confirmation,
-    } = form;
-
-    if (
-      !email ||
-      !password ||
-      !username ||
-      !first_name ||
-      !last_name ||
-      !password_confirmation
-    ) {
-      showError("Please fill out all required fields.");
-      return;
-    }
-
+    setFieldErrors({});
+    
     const validationErrors = validateSignupForm(form);
-    if (validationErrors.length > 0) {
-      showError(validationErrors.join("\n"));
+    const hasMissingRequiredFields = Object.values(validationErrors).some(
+      (arr) => arr.includes("is required.")
+    );
+
+    if (hasMissingRequiredFields) {
+      setFieldErrors(validationErrors);
+      // const summary = Object.entries(validationErrors)
+      //   .map(
+      //     ([field, messages]) => `• ${capitalize(field)} ${messages.join(", ")}`
+      //   )
+      //   .join("\n");
+
+      // showError(summary);
       return;
     }
-
-    // Constraints on any of the fields (password length, password values)
 
     try {
       const res = await api.post("/signup", { user: form });
       showSuccess("Account created! You can now log in.");
+      setFieldErrors({});
       router.push("/login");
     } catch (err) {
       console.error("Signup failed", err?.response?.data || err.message);
       const errors = err?.response?.data?.errors;
 
       if (errors) {
-        const formattedErrors = Object.entries(errors)
-          .map(
-            ([field, messages]) =>
-              `• ${capitalize(field)} ${messages.join(", ")}`
-          )
-          .join("\n");
+        // Merge backend errors with existing ones
+        setFieldErrors((prev) => {
+          const merged = { ...prev };
+          for (const [key, value] of Object.entries(errors)) {
+            merged[key] = [...(merged[key] || []), ...value];
+          }
+          return merged;
+        });
 
-        showError(formattedErrors);
+        // const formattedErrors = Object.entries(errors)
+        //   .map(
+        //     ([field, messages]) =>
+        //       `• ${capitalize(field)} ${messages.join(", ")}`
+        //   )
+        //   .join("\n");
+
+        // showError(formattedErrors);
       } else {
         showError("Signup failed. Please check your input.");
       }
@@ -134,6 +163,11 @@ export default function SignupScreen() {
                       value={form.first_name}
                       onChangeText={(val) => handleChange("first_name", val)}
                     />
+                    {fieldErrors.first_name && (
+                      <Txt style={s.inlineError}>
+                        First name {fieldErrors.first_name.join(", ")}
+                      </Txt>
+                    )}
                   </View>
 
                   <View style={s.nameElement}>
@@ -146,6 +180,11 @@ export default function SignupScreen() {
                       value={form.last_name}
                       onChangeText={(val) => handleChange("last_name", val)}
                     />
+                    {fieldErrors.last_name && (
+                      <Txt style={s.inlineError}>
+                        Last name {fieldErrors.last_name.join(", ")}
+                      </Txt>
+                    )}
                   </View>
                 </View>
 
@@ -159,17 +198,28 @@ export default function SignupScreen() {
                   onChangeText={(val) => handleChange("username", val)}
                   autoCapitalize="none"
                 />
+                {fieldErrors.username && (
+                  <Txt style={s.inlineError}>
+                    Username {fieldErrors.username.join(", ")}
+                  </Txt>
+                )}
 
                 <Txt>Email</Txt>
                 <TextInput
                   placeholder="Email"
                   placeholderTextColor="#B8C3CC"
                   style={s.input}
+                  autoCorrect={false}
                   value={form.email}
                   onChangeText={(val) => handleChange("email", val)}
                   autoCapitalize="none"
                   keyboardType="email-address"
                 />
+                {fieldErrors.email && (
+                  <Txt style={s.inlineError}>
+                    Email {fieldErrors.email.join(", ")}
+                  </Txt>
+                )}
 
                 <Txt>Password</Txt>
                 <TextInput
@@ -180,6 +230,11 @@ export default function SignupScreen() {
                   value={form.password}
                   onChangeText={(val) => handleChange("password", val)}
                 />
+                {fieldErrors.password && (
+                  <Txt style={s.inlineError}>
+                    Password {fieldErrors.password.join(", ")}
+                  </Txt>
+                )}
 
                 <Txt>Confirm Password</Txt>
                 <TextInput
@@ -192,6 +247,12 @@ export default function SignupScreen() {
                     handleChange("password_confirmation", val)
                   }
                 />
+                {fieldErrors.password_confirmation && (
+                  <Txt style={s.inlineError}>
+                    Password confirmation{" "}
+                    {fieldErrors.password_confirmation.join(", ")}
+                  </Txt>
+                )}
 
                 <Btn
                   btnText="Create Account"
@@ -245,6 +306,13 @@ const s = StyleSheet.create({
     marginBottom: 12,
     color: "#F8F8F8",
     fontSize: 14,
+  },
+  inlineError: {
+    fontFamily: "Saira_400Regular_Italic",
+    color: "#E06777",
+    fontSize: 12,
+    marginTop: -8,
+    marginBottom: 8,
   },
   submitButton: {
     marginTop: 16,
