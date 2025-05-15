@@ -98,8 +98,18 @@ export default function Login() {
               style={s.loginButton}
             />
 
-            <TouchableOpacity style={s.signUpContainer} onPress={() => router.push("/signup")}>
+            <TouchableOpacity
+              style={s.signUpContainer}
+              onPress={() => router.push("/signup")}
+            >
               <Txt style={s.signUpTxt}>Create Account</Txt>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              style={s.signUpContainer}
+              onPress={() => router.replace("/emailConfirmation")}
+            >
+              <Txt style={s.loginTxt}>Email Confirmation Page</Txt>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -155,15 +165,15 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
   },
   forgotPasswordTxt: {
-    fontFamily: 'Saira_400Regular_Italic',
+    fontFamily: "Saira_400Regular_Italic",
     fontSize: 14,
     // color: '#B8C3CC'
   },
   signUpContainer: {
     paddingVertical: 20,
-    alignItems: 'center',
+    alignItems: "center",
   },
   signUpTxt: {
     // color: '#B8C3CC'
-  }
+  },
 });

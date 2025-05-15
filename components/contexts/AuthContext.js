@@ -9,14 +9,18 @@ export const AuthContext = createContext();
 export const AuthProvider = ({ children }) => {
   const [token, setToken] = useState(null);
   const [currentUserId, setCurrentUserId] = useState(null);
+  const [isConfirmed, setIsConfirmed] = useState(null);
 
   const decodeToken = (jwt) => {
     try {
       const decoded = jwtDecode(jwt);
-      return decoded.sub || decoded.user_id || null;
+      return {
+        userId: decoded.sub || decoded.user_id || null,
+        confirmed: decoded.confirmed ?? null,
+      };
     } catch (err) {
       console.error("Error decoding token:", err);
-      return null;
+      return { userId: null, confirmed: null };
     }
   };
 
@@ -24,10 +28,11 @@ export const AuthProvider = ({ children }) => {
   useEffect(() => {
     const loadToken = async () => {
       const storedToken = await SecureStore.getItemAsync("jwt_token");
-      // console.log("Loaded token from SecureStore:", storedToken);
       if (storedToken) {
         setToken(storedToken);
-        setCurrentUserId(decodeToken(storedToken));
+        const { userId, confirmed } = decodeToken(storedToken);
+        setCurrentUserId(userId);
+        setIsConfirmed(confirmed);
       }
     };
 
@@ -37,12 +42,13 @@ export const AuthProvider = ({ children }) => {
   const login = async (newToken) => {
     await SecureStore.setItemAsync("jwt_token", newToken);
     setToken(newToken);
-    setCurrentUserId(decodeToken(newToken));
-    // Check if there are any keys in AsyncStorage before clearing
-    const keys = await AsyncStorage.getAllKeys();
+    const { userId, confirmed } = decodeToken(newToken);
+    setCurrentUserId(userId);
+    setIsConfirmed(confirmed);
 
+    const keys = await AsyncStorage.getAllKeys();
     if (keys.length > 0) {
-      await AsyncStorage.clear(); // Only clear if there are stored items
+      await AsyncStorage.clear();
     }
   };
 
@@ -53,7 +59,7 @@ export const AuthProvider = ({ children }) => {
   };
 
   return (
-    <AuthContext.Provider value={{ token, login, logout, currentUserId }}>
+    <AuthContext.Provider value={{ token, login, logout, currentUserId, isConfirmed }}>
       {children}
     </AuthContext.Provider>
   );

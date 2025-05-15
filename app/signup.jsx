@@ -251,8 +251,17 @@ export default function SignupScreen() {
                   isEnabled={true}
                   style={s.submitButton}
                 />
-                <TouchableOpacity style={s.loginContainer} onPress={() => router.back()}>
+                <TouchableOpacity
+                  style={s.loginContainer}
+                  onPress={() => router.back()}
+                >
                   <Txt style={s.loginTxt}>Back to Login</Txt>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  style={s.loginContainer}
+                  onPress={() => router.replace("/emailConfirmation")}
+                >
+                  <Txt style={s.loginTxt}>Email Confirmation Page</Txt>
                 </TouchableOpacity>
               </ScrollView>
             </TouchableWithoutFeedback>
