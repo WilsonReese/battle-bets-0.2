@@ -41,8 +41,14 @@ export default function Login() {
 
         if (data.token) {
           await login(data.token);
+
+          if (data.confirmed) {
+            router.replace("/pools");
+          } else {
+            router.replace("/emailConfirmation");
+          }
+
           showSuccess("Login successful!");
-          router.replace("/pools");
         } else {
           showError("Login failed: Token missing.");
         }
