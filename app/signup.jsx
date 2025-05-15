@@ -86,7 +86,7 @@ export default function SignupScreen() {
 
   const handleSignup = async () => {
     setFieldErrors({});
-    
+
     const validationErrors = validateSignupForm(form);
     const hasMissingRequiredFields = Object.values(validationErrors).some(
       (arr) => arr.includes("is required.")
@@ -251,8 +251,8 @@ export default function SignupScreen() {
                   isEnabled={true}
                   style={s.submitButton}
                 />
-                <TouchableOpacity onPress={() => router.back()}>
-                  <Txt>Back to Login</Txt>
+                <TouchableOpacity style={s.loginContainer} onPress={() => router.back()}>
+                  <Txt style={s.loginTxt}>Back to Login</Txt>
                 </TouchableOpacity>
               </ScrollView>
             </TouchableWithoutFeedback>
@@ -308,5 +308,12 @@ const s = StyleSheet.create({
   submitButton: {
     marginTop: 16,
     paddingVertical: 12,
+  },
+  loginContainer: {
+    paddingVertical: 20,
+    alignItems: "center",
+  },
+  loginTxt: {
+    // color: "#B8C3CC",
   },
 });

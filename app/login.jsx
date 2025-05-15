@@ -88,6 +88,9 @@ export default function Login() {
                 autoCapitalize="none"
               />
             </View>
+            <TouchableOpacity style={s.forgotPassword}>
+              <Txt style={s.forgotPasswordTxt}>Forgot Password?</Txt>
+            </TouchableOpacity>
             <Btn
               btnText="Login"
               isEnabled={true}
@@ -95,8 +98,8 @@ export default function Login() {
               style={s.loginButton}
             />
 
-            <TouchableOpacity onPress={() => router.push("/signup")}>
-              <Txt>Sign Up</Txt>
+            <TouchableOpacity style={s.signUpContainer} onPress={() => router.push("/signup")}>
+              <Txt style={s.signUpTxt}>Create Account</Txt>
             </TouchableOpacity>
           </View>
         </SafeAreaView>
@@ -145,4 +148,22 @@ const s = StyleSheet.create({
     height: 48,
     marginVertical: 4,
   },
+  forgotPassword: {
+    paddingTop: 6,
+    paddingBottom: 12,
+    // alignItems: 'flex-end',
+    paddingHorizontal: 8,
+  },
+  forgotPasswordTxt: {
+    fontFamily: 'Saira_400Regular_Italic',
+    fontSize: 14,
+    // color: '#B8C3CC'
+  },
+  signUpContainer: {
+    paddingVertical: 20,
+    alignItems: 'center',
+  },
+  signUpTxt: {
+    // color: '#B8C3CC'
+  }
 });
