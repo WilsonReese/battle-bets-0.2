@@ -18,6 +18,7 @@ import { Txt } from "../components/general/Txt";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { API_BASE_URL } from "../utils/api";
 import { AuthContext } from "../components/contexts/AuthContext";
+import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
 
 export default function SignupScreen() {
   const { login } = useContext(AuthContext);
@@ -138,7 +139,7 @@ export default function SignupScreen() {
         const data = JSON.parse(responseText);
         if (data.token) {
           await login(data.token); // from AuthContext
-          router.replace("/emailConfirmation"); 
+          router.replace("/emailConfirmation");
         } else {
           showError("Login failed: Token missing.");
         }
@@ -155,15 +156,12 @@ export default function SignupScreen() {
     <SafeAreaProvider>
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <SafeAreaView style={s.container}>
-          <KeyboardAvoidingView
-            behavior={Platform.OS === "ios" ? "padding" : undefined}
-            style={s.container}
+          <KeyboardAwareScrollView
+            contentContainerStyle={s.innerContainer}
+            extraScrollHeight={60} // tweak this if needed
+            enableOnAndroid={true}
+            keyboardShouldPersistTaps="handled"
           >
-            <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-              <ScrollView
-                contentContainerStyle={s.innerContainer}
-                keyboardShouldPersistTaps="handled"
-              >
                 <Txt style={s.title}>Create Account</Txt>
 
                 <View style={s.nameContainer}>
@@ -280,9 +278,7 @@ export default function SignupScreen() {
                 >
                   <Txt style={s.loginTxt}>Back to Login</Txt>
                 </TouchableOpacity>
-              </ScrollView>
-            </TouchableWithoutFeedback>
-          </KeyboardAvoidingView>
+          </KeyboardAwareScrollView>
         </SafeAreaView>
       </TouchableWithoutFeedback>
     </SafeAreaProvider>
