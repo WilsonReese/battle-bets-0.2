@@ -5,6 +5,7 @@ import {
   Linking,
   Alert,
   AppState,
+  RefreshControl,
 } from "react-native";
 import { router, useFocusEffect } from "expo-router";
 import { Txt } from "../components/general/Txt";
@@ -14,13 +15,15 @@ import { Btn } from "../components/general/Buttons/Btn";
 import { useToastMessage } from "../hooks/useToastMessage";
 import { EmailLink } from "react-native-email-link";
 import { openInbox } from "react-native-email-link";
-import { useCallback, useContext, useEffect, useRef } from "react";
+import { useCallback, useContext, useEffect, useRef, useState } from "react";
 import { AuthContext } from "../components/contexts/AuthContext";
 import { API_BASE_URL } from "../utils/api";
+import { ScrollView } from "react-native-gesture-handler";
 
 export default function EmailConfirmation() {
   const { showError, showSuccess } = useToastMessage();
   const { token, logout } = useContext(AuthContext);
+  const [refreshing, setRefreshing] = useState(false);
   const appState = useRef(AppState.currentState);
 
   const checkConfirmation = async () => {
@@ -35,13 +38,20 @@ export default function EmailConfirmation() {
       if (response.ok) {
         const data = await response.json();
         if (data.confirmed) {
-          showSuccess('Account confirmed!')
+          showSuccess("Account confirmed!");
           router.replace("/pools");
         }
       }
     } catch (error) {
       console.error("Error checking confirmation:", error.message);
+    } finally {
+      setRefreshing(false);
     }
+  };
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    checkConfirmation();
   };
 
   const handleLogout = async () => {
@@ -79,7 +89,7 @@ export default function EmailConfirmation() {
   };
 
   useEffect(() => {
-    const subscription = AppState.addEventListener("change", nextAppState => {
+    const subscription = AppState.addEventListener("change", (nextAppState) => {
       if (
         appState.current.match(/inactive|background/) &&
         nextAppState === "active"
@@ -97,29 +107,40 @@ export default function EmailConfirmation() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={s.container}>
-        <View style={s.mailContainer}>
-          <Txt style={s.titleTxt}>Account created!</Txt>
-          <FontAwesome6 name="envelope-open-text" size={150} color="#F8F8F8" />
-          <Txt style={s.txt}>Check email to confirm account.</Txt>
-          <Btn
-            btnText={"Open Mail App"}
-            style={s.btn}
-            backgroundColor={"#54D18C"}
-            isEnabled={true}
-            onPress={openInbox}
-          />
-          <TouchableOpacity onPress={checkConfirmation}>
-            <Txt style={s.txt}>Refresh</Txt>
-          </TouchableOpacity>
-          <TouchableOpacity>
-            <Txt style={s.txt}>Resend Link</Txt>
-          </TouchableOpacity>
-        </View>
-        <View style={s.loginContainer}>
-          <TouchableOpacity style={s.loginButton} onPress={handleLogout}>
-            <Txt style={s.txt}>Login with a Different Account</Txt>
-          </TouchableOpacity>
-        </View>
+        <ScrollView
+          contentContainerStyle={{flex: 1}}
+          refreshControl={
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+          }
+          showsVerticalScrollIndicator={false}
+        >
+          <View style={s.contentContainer}>
+            <View style={s.mailContainer}>
+              <Txt style={s.titleTxt}>Account created!</Txt>
+              <FontAwesome6
+                name="envelope-open-text"
+                size={150}
+                color="#F8F8F8"
+              />
+              <Txt style={s.txt}>Check email to confirm account.</Txt>
+              <Btn
+                btnText={"Open Mail App"}
+                style={s.btn}
+                backgroundColor={"#54D18C"}
+                isEnabled={true}
+                onPress={openInbox}
+              />
+              <TouchableOpacity>
+                <Txt style={s.txt}>Resend Link</Txt>
+              </TouchableOpacity>
+            </View>
+            <View style={s.loginContainer}>
+              <TouchableOpacity style={s.loginButton} onPress={handleLogout}>
+                <Txt style={s.txt}>Login with a Different Account</Txt>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </ScrollView>
       </SafeAreaView>
     </SafeAreaProvider>
   );
@@ -130,19 +151,25 @@ const s = StyleSheet.create({
     flex: 1,
     backgroundColor: "#061826",
     justifyContent: "center",
-    alignItems: "center",
+    // alignItems: "center",
+  },
+  contentContainer: {
+    flex: 1,
+    paddingVertical: 40,
+    justifyContent: 'space-between',
+    // backgroundColor: 'blue'
   },
   mailContainer: {
-    flex: 5,
-    justifyContent: "center",
+    // flex: 5,
     alignItems: "center",
     padding: 36,
-    // backgroundColor: 'green'
+    // backgroundColor: "green",
   },
   loginContainer: {
-    flex: 3,
-    // backgroundColor: 'blue',
+    // flex: 2,
+    // backgroundColor: "blue",
     // justifyContent: 'center',
+    alignItems: 'center'
   },
   btn: {
     paddingVertical: 8,
