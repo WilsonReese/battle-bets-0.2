@@ -4,10 +4,12 @@ import * as SecureStore from 'expo-secure-store';
 import { useRouter } from 'expo-router';
 import { API_BASE_URL } from '../../../utils/api';
 import { AuthContext } from '../../../components/contexts/AuthContext';
+import { useToastMessage } from '../../../hooks/useToastMessage';
 
 export default function Profile() {
   const { logout, token } = useContext(AuthContext); // Get logout function and token
   const router = useRouter();
+  const { showError, showSuccess } = useToastMessage();
 
   const handleLogout = async () => {
     try {
@@ -27,19 +29,19 @@ export default function Profile() {
         if (response.ok) {
           // If logout is successful, clear the token from SecureStore
           await logout();
-          Alert.alert('Logged out successfully!');
+          showSuccess('Logged out successfully.');
           
           // Redirect to the login screen
           router.replace('/login');
         } else {
-          Alert.alert('Logout failed. Please try again.');
+          showError('Logout failed. Please try again.');
         }
       } else {
-        Alert.alert('No token found. You are already logged out.');
+        showError('No token found. You are already logged out.');
       }
     } catch (error) {
       console.error('Logout error:', error.message);
-      Alert.alert('An error occurred. Please try again.');
+      showError('An error occurred. Please try again.');
     }
   };
 
