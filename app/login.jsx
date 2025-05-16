@@ -111,12 +111,12 @@ export default function Login() {
               <Txt style={s.signUpTxt}>Create Account</Txt>
             </TouchableOpacity>
 
-            <TouchableOpacity
+            {/* <TouchableOpacity
               style={s.signUpContainer}
               onPress={() => router.replace("/emailConfirmation")}
             >
               <Txt style={s.loginTxt}>Email Confirmation Page</Txt>
-            </TouchableOpacity>
+            </TouchableOpacity> */}
           </View>
         </SafeAreaView>
       </TouchableWithoutFeedback>

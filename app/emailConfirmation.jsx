@@ -22,11 +22,12 @@ import { ScrollView } from "react-native-gesture-handler";
 
 export default function EmailConfirmation() {
   const { showError, showSuccess } = useToastMessage();
-  const { token, logout } = useContext(AuthContext);
+  const { token, logout, currentUserEmail } = useContext(AuthContext);
+  const [userEmail, setUserEmail] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const appState = useRef(AppState.currentState);
 
-  const checkConfirmation = async () => {
+  const fetchCurrentUser = async () => {
     try {
       const response = await fetch(`${API_BASE_URL}/current_user`, {
         headers: {
@@ -37,21 +38,60 @@ export default function EmailConfirmation() {
 
       if (response.ok) {
         const data = await response.json();
-        if (data.confirmed) {
-          showSuccess("Account confirmed!");
-          router.replace("/pools");
+
+        if (data.email) {
+          setUserEmail(data.email);
         }
+
+        return data;
       }
-    } catch (error) {
-      console.error("Error checking confirmation:", error.message);
+    } catch (err) {
+      console.error("Error fetching current user:", err.message);
+    }
+
+    return null;
+  };
+
+  const checkConfirmation = async () => {
+    try {
+      const data = await fetchCurrentUser();
+
+      if (data?.confirmed) {
+        showSuccess("Account confirmed!");
+        router.replace("/pools");
+      }
     } finally {
       setRefreshing(false);
     }
   };
 
-  const onRefresh = () => {
-    setRefreshing(true);
-    checkConfirmation();
+  const handleResendConfirmation = async () => {
+    if (!userEmail) {
+      showError("Email not available. Try refreshing.");
+      return;
+    }
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/confirmation`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          user: { email: userEmail },
+        }),
+      });
+
+      if (response.ok) {
+        showSuccess("Confirmation link sent again!");
+      } else {
+        const data = await response.json();
+        showError(data.errors?.[0] || "Failed to resend confirmation.");
+      }
+    } catch (error) {
+      console.error("Resend error:", error.message);
+      showError("Could not resend confirmation. Try again.");
+    }
   };
 
   const handleLogout = async () => {
@@ -104,11 +144,20 @@ export default function EmailConfirmation() {
     };
   }, []);
 
+  useEffect(() => {
+    fetchCurrentUser(); // only fetches + sets email
+  }, [token]);
+
+  const onRefresh = () => {
+    setRefreshing(true);
+    checkConfirmation();
+  };
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={s.container}>
         <ScrollView
-          contentContainerStyle={{flex: 1}}
+          contentContainerStyle={{ flex: 1 }}
           refreshControl={
             <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
           }
@@ -130,7 +179,7 @@ export default function EmailConfirmation() {
                 isEnabled={true}
                 onPress={openInbox}
               />
-              <TouchableOpacity>
+              <TouchableOpacity onPress={handleResendConfirmation}>
                 <Txt style={s.txt}>Resend Link</Txt>
               </TouchableOpacity>
             </View>
@@ -156,7 +205,7 @@ const s = StyleSheet.create({
   contentContainer: {
     flex: 1,
     paddingVertical: 40,
-    justifyContent: 'space-between',
+    justifyContent: "space-between",
     // backgroundColor: 'blue'
   },
   mailContainer: {
@@ -169,7 +218,7 @@ const s = StyleSheet.create({
     // flex: 2,
     // backgroundColor: "blue",
     // justifyContent: 'center',
-    alignItems: 'center'
+    alignItems: "center",
   },
   btn: {
     paddingVertical: 8,

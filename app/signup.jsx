@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import {
   View,
   TextInput,
@@ -16,8 +16,11 @@ import api from "../utils/axiosConfig";
 import { Btn } from "../components/general/Buttons/Btn";
 import { Txt } from "../components/general/Txt";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
+import { API_BASE_URL } from "../utils/api";
+import { AuthContext } from "../components/contexts/AuthContext";
 
 export default function SignupScreen() {
+  const { login } = useContext(AuthContext);
   const [form, setForm] = useState({
     first_name: "",
     last_name: "",
@@ -94,27 +97,20 @@ export default function SignupScreen() {
 
     if (hasMissingRequiredFields) {
       setFieldErrors(validationErrors);
-      // const summary = Object.entries(validationErrors)
-      //   .map(
-      //     ([field, messages]) => `• ${capitalize(field)} ${messages.join(", ")}`
-      //   )
-      //   .join("\n");
-
-      // showError(summary);
       return;
     }
 
     try {
-      const res = await api.post("/signup", { user: form });
-      showSuccess("Account created! You can now log in.");
-      setFieldErrors({});
-      router.push("/login");
+      await api.post("/signup", { user: form });
+      showSuccess("Account created!");
+
+      // Try auto-login after successful signup
+      await handleLogin(form.email, form.password);
     } catch (err) {
       console.error("Signup failed", err?.response?.data || err.message);
       const errors = err?.response?.data?.errors;
 
       if (errors) {
-        // Merge backend errors with existing ones
         setFieldErrors((prev) => {
           const merged = { ...prev };
           for (const [key, value] of Object.entries(errors)) {
@@ -125,6 +121,33 @@ export default function SignupScreen() {
       } else {
         showError("Signup failed. Please check your input.");
       }
+    }
+  };
+
+  const handleLogin = async (email, password) => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/login`, {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ user: { email, password } }),
+      });
+
+      const responseText = await response.text();
+
+      if (response.ok) {
+        const data = JSON.parse(responseText);
+        if (data.token) {
+          await login(data.token); // from AuthContext
+          router.replace("/emailConfirmation"); 
+        } else {
+          showError("Login failed: Token missing.");
+        }
+      } else {
+        showError("Login failed. Please check your credentials.");
+      }
+    } catch (error) {
+      console.error("Login error:", error.message);
+      showError("Login error. Please try again.");
     }
   };
 
@@ -256,12 +279,6 @@ export default function SignupScreen() {
                   onPress={() => router.back()}
                 >
                   <Txt style={s.loginTxt}>Back to Login</Txt>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  style={s.loginContainer}
-                  onPress={() => router.replace("/emailConfirmation")}
-                >
-                  <Txt style={s.loginTxt}>Email Confirmation Page</Txt>
                 </TouchableOpacity>
               </ScrollView>
             </TouchableWithoutFeedback>
