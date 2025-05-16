@@ -1,5 +1,12 @@
-import { View, StyleSheet, TouchableOpacity, Linking } from "react-native";
-import { router } from "expo-router";
+import {
+  View,
+  StyleSheet,
+  TouchableOpacity,
+  Linking,
+  Alert,
+  AppState,
+} from "react-native";
+import { router, useFocusEffect } from "expo-router";
 import { Txt } from "../components/general/Txt";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -7,9 +14,35 @@ import { Btn } from "../components/general/Buttons/Btn";
 import { useToastMessage } from "../hooks/useToastMessage";
 import { EmailLink } from "react-native-email-link";
 import { openInbox } from "react-native-email-link";
+import { useCallback, useContext, useEffect, useRef } from "react";
+import { AuthContext } from "../components/contexts/AuthContext";
+import { API_BASE_URL } from "../utils/api";
 
 export default function EmailConfirmation() {
-  // const { showError, showSuccess } = useToastMessage();
+  const { showError, showSuccess } = useToastMessage();
+  const { token, logout } = useContext(AuthContext);
+  const appState = useRef(AppState.currentState);
+
+  const checkConfirmation = async () => {
+    try {
+      const response = await fetch(`${API_BASE_URL}/current_user`, {
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${token}`,
+        },
+      });
+
+      if (response.ok) {
+        const data = await response.json();
+        if (data.confirmed) {
+          showSuccess('Account confirmed!')
+          router.replace("/pools");
+        }
+      }
+    } catch (error) {
+      console.error("Error checking confirmation:", error.message);
+    }
+  };
 
   const handleLogout = async () => {
     try {
@@ -45,6 +78,22 @@ export default function EmailConfirmation() {
     }
   };
 
+  useEffect(() => {
+    const subscription = AppState.addEventListener("change", nextAppState => {
+      if (
+        appState.current.match(/inactive|background/) &&
+        nextAppState === "active"
+      ) {
+        checkConfirmation();
+      }
+      appState.current = nextAppState;
+    });
+
+    return () => {
+      subscription.remove();
+    };
+  }, []);
+
   return (
     <SafeAreaProvider>
       <SafeAreaView style={s.container}>
@@ -59,15 +108,15 @@ export default function EmailConfirmation() {
             isEnabled={true}
             onPress={openInbox}
           />
+          <TouchableOpacity onPress={checkConfirmation}>
+            <Txt style={s.txt}>Refresh</Txt>
+          </TouchableOpacity>
           <TouchableOpacity>
             <Txt style={s.txt}>Resend Link</Txt>
           </TouchableOpacity>
         </View>
         <View style={s.loginContainer}>
-          <TouchableOpacity
-            style={s.loginButton}
-            onPress={handleLogout}
-          >
+          <TouchableOpacity style={s.loginButton} onPress={handleLogout}>
             <Txt style={s.txt}>Login with a Different Account</Txt>
           </TouchableOpacity>
         </View>
