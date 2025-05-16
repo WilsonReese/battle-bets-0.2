@@ -57,7 +57,7 @@ export default function EmailConfirmation() {
       const data = await fetchCurrentUser();
 
       if (data?.confirmed) {
-        showSuccess("Account confirmed!");
+        showSuccess("Account confirmed. Welcome in!");
         router.replace("/pools");
       }
     } finally {
@@ -83,7 +83,7 @@ export default function EmailConfirmation() {
       });
 
       if (response.ok) {
-        showSuccess("Confirmation link sent again!");
+        showSuccess("Confirmation link re-sent.");
       } else {
         const data = await response.json();
         showError(data.errors?.[0] || "Failed to resend confirmation.");
@@ -171,7 +171,7 @@ export default function EmailConfirmation() {
                 size={150}
                 color="#F8F8F8"
               />
-              <Txt style={s.txt}>Check email to confirm account.</Txt>
+              <Txt style={s.txt}>An account confirmation link has been sent to your email.</Txt>
               <Btn
                 btnText={"Open Mail App"}
                 style={s.btn}
@@ -233,5 +233,6 @@ const s = StyleSheet.create({
   },
   txt: {
     paddingVertical: 6,
+    textAlign: 'center',
   },
 });
