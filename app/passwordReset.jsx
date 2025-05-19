@@ -23,7 +23,8 @@ export default function PasswordReset() {
   const [newPassword, setNewPassword] = useState("");
   const [confirmPassword, setConfirmPassword] = useState("");
   const [refreshing, setRefreshing] = useState(false);
-  
+  const [fieldErrors, setFieldErrors] = useState({});
+
   const { showError, showSuccess } = useToastMessage();
   const appState = useRef(AppState.currentState);
 
@@ -54,6 +55,34 @@ export default function PasswordReset() {
     }
   };
 
+  const validatePasswordResetForm = (password, passwordConfirmation) => {
+    const errors = {};
+
+    // Required
+    if (!password.trim()) {
+      errors.password = ["is required."];
+    }
+
+    if (!passwordConfirmation.trim()) {
+      errors.password_confirmation = ["is required."];
+    }
+
+    // Format
+    const passwordRegex = /^[^\s]{8,}$/;
+    if (password && !passwordRegex.test(password)) {
+      errors.password = errors.password || [];
+      errors.password.push("must be at least 8 characters with no spaces.");
+    }
+
+    // Match
+    if (password && passwordConfirmation && password !== passwordConfirmation) {
+      errors.password_confirmation = errors.password_confirmation || [];
+      errors.password_confirmation.push("does not match the password.");
+    }
+
+    return errors;
+  };
+
   // Run on app resume
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
@@ -82,10 +111,14 @@ export default function PasswordReset() {
         body: JSON.stringify({ user: { email } }),
       });
 
+      const data = await response.json();
+
       if (response.ok) {
         showSuccess("Reset link sent to email.");
+      } else if (response.status === 404) {
+        showError("No account associated with this email.");
       } else {
-        showError("Could not send reset link.");
+        showError(data.errors?.[0] || "Could not send reset link.");
       }
     } catch (err) {
       console.error("Reset request failed:", err.message);
@@ -94,10 +127,10 @@ export default function PasswordReset() {
   };
 
   const handlePasswordUpdate = async () => {
-    if (newPassword !== confirmPassword) {
-      showError("Passwords do not match.");
-      return;
-    }
+    const errors = validatePasswordResetForm(newPassword, confirmPassword);
+    setFieldErrors(errors);
+
+    if (Object.keys(errors).length > 0) return;
 
     try {
       const res = await fetch(`${API_BASE_URL}/password/update`, {
@@ -124,7 +157,6 @@ export default function PasswordReset() {
       showError("Something went wrong.");
     }
   };
-
   const onRefresh = async () => {
     setRefreshing(true);
     await fetchResetStatus();
@@ -150,16 +182,37 @@ export default function PasswordReset() {
                 placeholderTextColor="#B8C3CC"
                 style={s.input}
                 secureTextEntry
-                onChangeText={setNewPassword}
+                onChangeText={(val) => {
+                  setNewPassword(val);
+                  setFieldErrors((prev) => ({ ...prev, password: undefined }));
+                }}
               />
+              {fieldErrors.password && (
+                <Txt style={s.inlineError}>
+                  Password {fieldErrors.password.join(", ")}
+                </Txt>
+              )}
+
               <TextInput
                 key="confirm-password"
                 placeholder="Confirm Password"
                 placeholderTextColor="#B8C3CC"
                 style={s.input}
                 secureTextEntry
-                onChangeText={setConfirmPassword}
+                onChangeText={(val) => {
+                  setConfirmPassword(val);
+                  setFieldErrors((prev) => ({
+                    ...prev,
+                    password_confirmation: undefined,
+                  }));
+                }}
               />
+              {fieldErrors.password_confirmation && (
+                <Txt style={s.inlineError}>
+                  Password confirmation{" "}
+                  {fieldErrors.password_confirmation.join(", ")}
+                </Txt>
+              )}
               <Btn
                 btnText="Save Password"
                 isEnabled={true}
@@ -169,7 +222,9 @@ export default function PasswordReset() {
             </>
           ) : (
             <>
-              <Txt style={s.txt}>Enter your email to receive a password reset link.</Txt>
+              <Txt style={s.txt}>
+                Enter your email to receive a password reset link.
+              </Txt>
               <TextInput
                 key="email"
                 placeholder="Email"
@@ -187,7 +242,10 @@ export default function PasswordReset() {
               />
             </>
           )}
-          <TouchableOpacity style={s.loginContainer} onPress={() => router.replace("/login")}>
+          <TouchableOpacity
+            style={s.loginContainer}
+            onPress={() => router.replace("/login")}
+          >
             <Txt>Back to login</Txt>
           </TouchableOpacity>
         </ScrollView>
@@ -231,5 +289,12 @@ const s = StyleSheet.create({
   },
   txt: {
     paddingBottom: 4,
-  }
+  },
+  inlineError: {
+    fontFamily: "Saira_400Regular_Italic",
+    color: "#E06777",
+    fontSize: 12,
+    marginTop: -8,
+    marginBottom: 8,
+  },
 });
