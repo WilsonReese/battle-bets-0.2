@@ -26,6 +26,8 @@ export default function EmailConfirmation() {
   const [userEmail, setUserEmail] = useState(null);
   const [refreshing, setRefreshing] = useState(false);
   const appState = useRef(AppState.currentState);
+  const [cooldown, setCooldown] = useState(0);
+  const cooldownRef = useRef(null);
 
   const fetchCurrentUser = async () => {
     try {
@@ -65,6 +67,19 @@ export default function EmailConfirmation() {
     }
   };
 
+  const startCooldown = (seconds) => {
+    setCooldown(seconds);
+    cooldownRef.current = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(cooldownRef.current);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
   const handleResendConfirmation = async () => {
     if (!userEmail) {
       showError("Email not available. Try refreshing.");
@@ -77,15 +92,15 @@ export default function EmailConfirmation() {
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify({
-          user: { email: userEmail },
-        }),
+        body: JSON.stringify({ user: { email: userEmail } }),
       });
+
+      const data = await response.json();
 
       if (response.ok) {
         showSuccess("Confirmation link re-sent.");
+        startCooldown(10); // 🔁 10-second cooldown
       } else {
-        const data = await response.json();
         showError(data.errors?.[0] || "Failed to resend confirmation.");
       }
     } catch (error) {
@@ -148,6 +163,14 @@ export default function EmailConfirmation() {
     fetchCurrentUser(); // only fetches + sets email
   }, [token]);
 
+  useEffect(() => {
+    return () => {
+      if (cooldownRef.current) {
+        clearInterval(cooldownRef.current);
+      }
+    };
+  }, []);
+
   const onRefresh = () => {
     setRefreshing(true);
     checkConfirmation();
@@ -171,7 +194,9 @@ export default function EmailConfirmation() {
                 size={150}
                 color="#F8F8F8"
               />
-              <Txt style={s.txt}>An account confirmation link has been sent to your email.</Txt>
+              <Txt style={s.txt}>
+                An account confirmation link has been sent to your email.
+              </Txt>
               <Btn
                 btnText={"Open Mail App"}
                 style={s.btn}
@@ -179,8 +204,15 @@ export default function EmailConfirmation() {
                 isEnabled={true}
                 onPress={openInbox}
               />
-              <TouchableOpacity onPress={handleResendConfirmation}>
-                <Txt style={s.txt}>Resend Link</Txt>
+              <TouchableOpacity
+                onPress={handleResendConfirmation}
+                disabled={cooldown > 0}
+              >
+                <Txt style={[s.txt, cooldown > 0 && s.disabled]}>
+                  {cooldown > 0
+                    ? `Resend Link (:${String(cooldown).padStart(2, "0")})`
+                    : "Resend Link"}
+                </Txt>
               </TouchableOpacity>
             </View>
             <View style={s.loginContainer}>
@@ -233,6 +265,9 @@ const s = StyleSheet.create({
   },
   txt: {
     paddingVertical: 6,
-    textAlign: 'center',
+    textAlign: "center",
+  },
+  disabled: {
+    color: "#6E7880",
   },
 });

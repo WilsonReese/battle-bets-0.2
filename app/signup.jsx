@@ -31,6 +31,7 @@ export default function SignupScreen() {
     password_confirmation: "",
   });
   const [fieldErrors, setFieldErrors] = useState({});
+  const [signupDisabled, setSignupDisabled] = useState(false);
 
   const { showError, showSuccess } = useToastMessage();
   const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
@@ -101,11 +102,14 @@ export default function SignupScreen() {
       return;
     }
 
+    setSignupDisabled(true); // ⛔ temporarily disable the button
+
+    setTimeout(() => setSignupDisabled(false), 3000); // ✅ re-enable in 3 seconds
+
     try {
       await api.post("/signup", { user: form });
       showSuccess("Account created!");
 
-      // Try auto-login after successful signup
       await handleLogin(form.email, form.password);
     } catch (err) {
       console.error("Signup failed", err?.response?.data || err.message);
@@ -162,122 +166,120 @@ export default function SignupScreen() {
             enableOnAndroid={true}
             keyboardShouldPersistTaps="handled"
           >
-                <Txt style={s.title}>Create Account</Txt>
+            <Txt style={s.title}>Create Account</Txt>
 
-                <View style={s.nameContainer}>
-                  <View style={s.nameElement}>
-                    <Txt>First Name</Txt>
-                    <TextInput
-                      placeholder="First Name"
-                      placeholderTextColor="#B8C3CC"
-                      autoCapitalize="words"
-                      style={s.input}
-                      value={form.first_name}
-                      onChangeText={(val) => handleChange("first_name", val)}
-                    />
-                    {fieldErrors.first_name && (
-                      <Txt style={s.inlineError}>
-                        First name {fieldErrors.first_name.join(", ")}
-                      </Txt>
-                    )}
-                  </View>
-
-                  <View style={s.nameElement}>
-                    <Txt style={s.formTxt}>Last Name</Txt>
-                    <TextInput
-                      placeholder="Last Name"
-                      placeholderTextColor="#B8C3CC"
-                      autoCapitalize="words"
-                      style={s.input}
-                      value={form.last_name}
-                      onChangeText={(val) => handleChange("last_name", val)}
-                    />
-                    {fieldErrors.last_name && (
-                      <Txt style={s.inlineError}>
-                        Last name {fieldErrors.last_name.join(", ")}
-                      </Txt>
-                    )}
-                  </View>
-                </View>
-
-                <Txt>Username</Txt>
+            <View style={s.nameContainer}>
+              <View style={s.nameElement}>
+                <Txt>First Name</Txt>
                 <TextInput
-                  placeholder="Username"
+                  placeholder="First Name"
                   placeholderTextColor="#B8C3CC"
+                  autoCapitalize="words"
                   style={s.input}
-                  autoCorrect={false}
-                  value={form.username}
-                  onChangeText={(val) => handleChange("username", val)}
-                  autoCapitalize="none"
+                  value={form.first_name}
+                  onChangeText={(val) => handleChange("first_name", val)}
                 />
-                {fieldErrors.username && (
+                {fieldErrors.first_name && (
                   <Txt style={s.inlineError}>
-                    Username {fieldErrors.username.join(", ")}
+                    First name {fieldErrors.first_name.join(", ")}
                   </Txt>
                 )}
+              </View>
 
-                <Txt>Email</Txt>
+              <View style={s.nameElement}>
+                <Txt style={s.formTxt}>Last Name</Txt>
                 <TextInput
-                  placeholder="Email"
+                  placeholder="Last Name"
                   placeholderTextColor="#B8C3CC"
+                  autoCapitalize="words"
                   style={s.input}
-                  autoCorrect={false}
-                  value={form.email}
-                  onChangeText={(val) => handleChange("email", val)}
-                  autoCapitalize="none"
-                  keyboardType="email-address"
+                  value={form.last_name}
+                  onChangeText={(val) => handleChange("last_name", val)}
                 />
-                {fieldErrors.email && (
+                {fieldErrors.last_name && (
                   <Txt style={s.inlineError}>
-                    Email {fieldErrors.email.join(", ")}
+                    Last name {fieldErrors.last_name.join(", ")}
                   </Txt>
                 )}
+              </View>
+            </View>
 
-                <Txt>Password</Txt>
-                <TextInput
-                  placeholder="Password"
-                  placeholderTextColor="#B8C3CC"
-                  style={s.input}
-                  secureTextEntry
-                  value={form.password}
-                  onChangeText={(val) => handleChange("password", val)}
-                />
-                {fieldErrors.password && (
-                  <Txt style={s.inlineError}>
-                    Password {fieldErrors.password.join(", ")}
-                  </Txt>
-                )}
+            <Txt>Username</Txt>
+            <TextInput
+              placeholder="Username"
+              placeholderTextColor="#B8C3CC"
+              style={s.input}
+              autoCorrect={false}
+              value={form.username}
+              onChangeText={(val) => handleChange("username", val)}
+              autoCapitalize="none"
+            />
+            {fieldErrors.username && (
+              <Txt style={s.inlineError}>
+                Username {fieldErrors.username.join(", ")}
+              </Txt>
+            )}
 
-                <Txt>Confirm Password</Txt>
-                <TextInput
-                  placeholder="Confirm Password"
-                  placeholderTextColor="#B8C3CC"
-                  style={s.input}
-                  secureTextEntry
-                  value={form.password_confirmation}
-                  onChangeText={(val) =>
-                    handleChange("password_confirmation", val)
-                  }
-                />
-                {fieldErrors.password_confirmation && (
-                  <Txt style={s.inlineError}>
-                    Password confirmation{" "}
-                    {fieldErrors.password_confirmation.join(", ")}
-                  </Txt>
-                )}
+            <Txt>Email</Txt>
+            <TextInput
+              placeholder="Email"
+              placeholderTextColor="#B8C3CC"
+              style={s.input}
+              autoCorrect={false}
+              value={form.email}
+              onChangeText={(val) => handleChange("email", val)}
+              autoCapitalize="none"
+              keyboardType="email-address"
+            />
+            {fieldErrors.email && (
+              <Txt style={s.inlineError}>
+                Email {fieldErrors.email.join(", ")}
+              </Txt>
+            )}
 
-                <Btn
-                  btnText="Create Account"
-                  onPress={handleSignup}
-                  isEnabled={true}
-                  style={s.submitButton}
-                />
-                <TouchableOpacity
-                  style={s.loginContainer}
-                  onPress={() => router.back()}
-                >
-                  <Txt style={s.loginTxt}>Back to Login</Txt>
-                </TouchableOpacity>
+            <Txt>Password</Txt>
+            <TextInput
+              placeholder="Password"
+              placeholderTextColor="#B8C3CC"
+              style={s.input}
+              secureTextEntry
+              value={form.password}
+              onChangeText={(val) => handleChange("password", val)}
+            />
+            {fieldErrors.password && (
+              <Txt style={s.inlineError}>
+                Password {fieldErrors.password.join(", ")}
+              </Txt>
+            )}
+
+            <Txt>Confirm Password</Txt>
+            <TextInput
+              placeholder="Confirm Password"
+              placeholderTextColor="#B8C3CC"
+              style={s.input}
+              secureTextEntry
+              value={form.password_confirmation}
+              onChangeText={(val) => handleChange("password_confirmation", val)}
+            />
+            {fieldErrors.password_confirmation && (
+              <Txt style={s.inlineError}>
+                Password confirmation{" "}
+                {fieldErrors.password_confirmation.join(", ")}
+              </Txt>
+            )}
+
+            <Btn
+              btnText={signupDisabled ? "Processing..." : "Create Account"}
+              onPress={handleSignup}
+              isEnabled={!signupDisabled}
+              style={s.submitButton}
+            />
+            <TouchableOpacity
+              style={s.loginContainer}
+              onPress={() => router.back()}
+            >
+              <Txt style={s.loginTxt}>Back to Login</Txt>
+            </TouchableOpacity>
           </KeyboardAwareScrollView>
         </SafeAreaView>
       </TouchableWithoutFeedback>
