@@ -83,19 +83,19 @@ export default function PasswordReset() {
       });
 
       if (response.ok) {
-        showSuccess("Reset link sent", "Check your email for the link.");
+        showSuccess("Reset link sent to email.");
       } else {
-        showError("Error", "Could not send reset email.");
+        showError("Could not send reset link.");
       }
     } catch (err) {
       console.error("Reset request failed:", err.message);
-      showError("Error", "Failed to request reset.");
+      showError("Failed to request reset.");
     }
   };
 
   const handlePasswordUpdate = async () => {
     if (newPassword !== confirmPassword) {
-      showError("Error", "Passwords do not match.");
+      showError("Passwords do not match.");
       return;
     }
 
@@ -113,15 +113,15 @@ export default function PasswordReset() {
       });
 
       if (res.ok) {
-        showSuccess("Success", "Password updated.");
+        showSuccess("Password updated.");
         router.replace("/login");
       } else {
         const error = await res.json();
-        showError("Error", error.errors?.[0] || "Failed to update password.");
+        showError("Failed to update password.");
       }
     } catch (err) {
       console.error("Password update failed:", err.message);
-      showError("Error", "Something went wrong.");
+      showError("Something went wrong.");
     }
   };
 
@@ -145,13 +145,17 @@ export default function PasswordReset() {
             <>
               <Txt style={s.txt}>Set a new password.</Txt>
               <TextInput
+                key="new-password"
                 placeholder="New Password"
+                placeholderTextColor="#B8C3CC"
                 style={s.input}
                 secureTextEntry
                 onChangeText={setNewPassword}
               />
               <TextInput
+                key="confirm-password"
                 placeholder="Confirm Password"
+                placeholderTextColor="#B8C3CC"
                 style={s.input}
                 secureTextEntry
                 onChangeText={setConfirmPassword}
@@ -167,7 +171,9 @@ export default function PasswordReset() {
             <>
               <Txt style={s.txt}>Enter your email to receive a password reset link.</Txt>
               <TextInput
+                key="email"
                 placeholder="Email"
+                placeholderTextColor="#B8C3CC"
                 style={s.input}
                 onChangeText={setEmail}
                 autoCapitalize="none"
