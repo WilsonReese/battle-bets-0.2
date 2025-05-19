@@ -94,7 +94,7 @@ export default function Login() {
                 autoCapitalize="none"
               />
             </View>
-            <TouchableOpacity style={s.forgotPassword}>
+            <TouchableOpacity style={s.forgotPassword} onPress={() => router.replace("/passwordReset")}>
               <Txt style={s.forgotPasswordTxt}>Forgot Password?</Txt>
             </TouchableOpacity>
             <Btn
