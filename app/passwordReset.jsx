@@ -24,6 +24,7 @@ export default function PasswordReset() {
   const [confirmPassword, setConfirmPassword] = useState("");
   const [refreshing, setRefreshing] = useState(false);
   const [fieldErrors, setFieldErrors] = useState({});
+  const [cooldown, setCooldown] = useState(0);
 
   const { showError, showSuccess } = useToastMessage();
   const appState = useRef(AppState.currentState);
@@ -83,6 +84,19 @@ export default function PasswordReset() {
     return errors;
   };
 
+  const startCooldown = (seconds) => {
+    setCooldown(seconds);
+    const interval = setInterval(() => {
+      setCooldown((prev) => {
+        if (prev <= 1) {
+          clearInterval(interval);
+          return 0;
+        }
+        return prev - 1;
+      });
+    }, 1000);
+  };
+
   // Run on app resume
   useEffect(() => {
     const subscription = AppState.addEventListener("change", (nextAppState) => {
@@ -115,6 +129,7 @@ export default function PasswordReset() {
 
       if (response.ok) {
         showSuccess("Reset link sent to email.");
+        startCooldown(10); // ⏳ start 10-second countdown
       } else if (response.status === 404) {
         showError("No account associated with this email.");
       } else {
@@ -235,8 +250,8 @@ export default function PasswordReset() {
                 keyboardType="email-address"
               />
               <Btn
-                btnText="Send Reset Link"
-                isEnabled={true}
+                btnText={cooldown > 0 ? `Resend in ${cooldown}s` : "Send Reset Link"}
+                isEnabled={cooldown === 0}
                 onPress={handleSendResetEmail}
                 style={s.btn}
               />
