@@ -6,6 +6,7 @@ import { AuthContext } from "../../../components/contexts/AuthContext";
 import { useToastMessage } from "../../../hooks/useToastMessage";
 import { Txt } from "../../../components/general/Txt";
 import { Btn } from "../../../components/general/Buttons/Btn";
+import { formatFullDate } from "../../../utils/dateUtils";
 
 export default function Profile() {
   const { logout, token } = useContext(AuthContext);
@@ -184,7 +185,7 @@ export default function Profile() {
           {/* Member Since */}
           <View style={s.detailsRow}>
             <Txt style={s.labelTxt}>Member Since:</Txt>
-            <Txt style={s.txt}>{user.created_at}</Txt>
+            <Txt style={s.txt}>{formatFullDate(user.created_at)}</Txt>
           </View>
         </>
       ) : (
@@ -192,6 +193,7 @@ export default function Profile() {
       )}
 
       <View style={{ marginTop: 24 }}>
+        <Txt style={s.titleTxt}>Account Settings</Txt>
         <Txt style={s.txt}>Options:</Txt>
         <Txt style={s.txt}>• Change password</Txt>
         <Txt style={s.labelTxt}>• Notification Settings</Txt>

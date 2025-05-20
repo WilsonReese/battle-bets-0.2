@@ -1,3 +1,5 @@
+import { parseISO, format } from "date-fns";
+
 export function formatMembershipJoinDate(createdAt) {
   const createdDate = new Date(createdAt);
   const now = new Date();
@@ -13,4 +15,14 @@ export function formatMembershipJoinDate(createdAt) {
   if (diffHrs < 24) return `${diffHrs}h ago`;
   if (diffDays < 365) return `${diffDays}d ago`;
   return `${createdDate.getFullYear()}`;
+}
+
+export function formatFullDate(dateString) {
+  if (!dateString) return "";
+  try {
+    return format(parseISO(dateString), "MMMM dd, yyyy");
+  } catch (e) {
+    console.error("Invalid date passed to formatFullDate:", dateString);
+    return dateString;
+  }
 }
