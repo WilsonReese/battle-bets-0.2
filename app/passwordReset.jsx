@@ -251,7 +251,9 @@ export default function PasswordReset() {
               />
               <Btn
                 btnText={cooldown > 0 ? `Resend in ${cooldown}s` : "Send Reset Link"}
+                // btnText='Send Reset Link'
                 isEnabled={cooldown === 0}
+                // isEnabled={true}
                 onPress={handleSendResetEmail}
                 style={s.btn}
               />

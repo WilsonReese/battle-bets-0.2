@@ -5,6 +5,7 @@ import { useRouter } from 'expo-router';
 import { API_BASE_URL } from '../../../utils/api';
 import { AuthContext } from '../../../components/contexts/AuthContext';
 import { useToastMessage } from '../../../hooks/useToastMessage';
+import { Txt } from '../../../components/general/Txt';
 
 export default function Profile() {
   const { logout, token } = useContext(AuthContext); // Get logout function and token
@@ -46,18 +47,35 @@ export default function Profile() {
   };
 
   return (
-    <View style={styles.container}>
-      <Text>Profile Screen</Text>
+    <View style={s.container}>
+      <Txt style={s.txt}>Profile Screen</Txt>
+      <Txt style={s.txt}>User Info:</Txt>
+      <Txt style={s.txt}>Name</Txt>
+      <Txt style={s.txt}>Username</Txt>
+      <Txt style={s.txt}>Email</Txt>
+      <Txt style={s.txt}>Account age</Txt>
+
+      <Txt style={s.txt}>Options:</Txt>
+      <Txt style={s.txt}>Change password</Txt>
+      <Txt style={s.txt}>Delete account</Txt>
+
+      <Txt>Terms and Conditions</Txt>
+      <Txt></Txt>
+
+      <Txt>Leagues</Txt>
       <Button title="Logout" onPress={handleLogout} />
     </View>
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#f8f8f8',
+  },
+  txt: {
+    color: '#061826'
   },
 });
