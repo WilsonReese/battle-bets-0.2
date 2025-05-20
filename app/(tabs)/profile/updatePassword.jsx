@@ -16,18 +16,18 @@ export default function UpdatePassword() {
 
   const validate = () => {
     const errors = {};
-    if (!newPassword.trim()) errors.password = ["is required."];
+    if (!newPassword.trim()) errors.password = ["Password is required."];
     if (!confirmPassword.trim())
-      errors.password_confirmation = ["is required."];
+      errors.password_confirmation = ["Password confirmation is required."];
     if (newPassword.length < 8)
       errors.password = [
         ...(errors.password || []),
-        "must be at least 8 characters.",
+        "Password must be at least 8 characters.",
       ];
     if (newPassword !== confirmPassword)
       errors.password_confirmation = [
         ...(errors.password_confirmation || []),
-        "does not match.",
+        "Password confirmation does not match.",
       ];
     return errors;
   };
@@ -79,7 +79,7 @@ export default function UpdatePassword() {
         }}
       />
       {fieldErrors.password && (
-        <Txt style={s.inlineError}>{fieldErrors.password.join(", ")}</Txt>
+        <Txt style={s.inlineError}>{fieldErrors.password.join(" ")}</Txt>
       )}
 
       <Txt>Confirm Password</Txt>
@@ -98,17 +98,18 @@ export default function UpdatePassword() {
       />
       {fieldErrors.password_confirmation && (
         <Txt style={s.inlineError}>
-          {fieldErrors.password_confirmation.join(", ")}
+          {fieldErrors.password_confirmation.join(" ")}
         </Txt>
       )}
 
       <Btn
         btnText="Save Password"
         isEnabled={true}
+        style={s.btn}
         onPress={handleChangePassword}
       />
 
-      <TouchableOpacity onPress={() => router.back()} style={{ marginTop: 16 }}>
+      <TouchableOpacity onPress={() => router.back()} style={s.backButton}>
         <Txt>Back to Profile</Txt>
       </TouchableOpacity>
     </View>
@@ -138,4 +139,21 @@ const s = StyleSheet.create({
     color: "#F8F8F8",
     fontSize: 14,
   },
+  inlineError: {
+    fontFamily: "Saira_400Regular_Italic",
+    color: "#E06777",
+    fontSize: 12,
+    marginTop: -8,
+    marginBottom: 8,
+  },
+  btn: {
+    paddingVertical: 12,
+    marginTop: 8,
+  },
+  backButton: {
+    marginTop: 12,
+    alignItems: 'center',
+    // backgroundColor: 'blue',
+    paddingVertical: 4,
+  }
 });

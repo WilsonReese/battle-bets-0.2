@@ -245,13 +245,15 @@ export default function Profile() {
           )}
 
           <View style={s.settingsContainer}>
-            <Txt style={s.titleTxt}>Account Settings</Txt>
-            <TouchableOpacity style={s.settingsRow} onPress={() => router.push("/profile/updatePassword")}>
+            <TouchableOpacity
+              style={s.settingsButton}
+              onPress={() => router.push("/profile/updatePassword")}
+            >
               <Txt style={s.txt}>Change password</Txt>
+              <FontAwesome6 name="lock" size={18} color="#F8F8F8" style={{paddingRight: 2}}/>
             </TouchableOpacity>
-            
 
-            <TouchableOpacity style={s.logoutButton} onPress={handleLogout}>
+            <TouchableOpacity style={s.settingsButton} onPress={handleLogout}>
               <Txt style={s.logoutTxt}>Logout</Txt>
               <FontAwesome6
                 name="arrow-right-from-bracket"
@@ -333,14 +335,7 @@ const s = StyleSheet.create({
   settingsContainer: {
     paddingTop: 24,
   },
-  settingsRow: {
-    // paddingVertical: 16,
-    // flexDirection: "row",
-    // justifyContent: "space-between",
-    // alignItems: "center",
-    // backgroundColor: 'green'
-  },
-  logoutButton: {
+  settingsButton: {
     paddingHorizontal: 8,
     paddingVertical: 16,
     flexDirection: "row",
