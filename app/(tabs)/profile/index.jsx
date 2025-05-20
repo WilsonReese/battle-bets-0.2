@@ -1,6 +1,15 @@
-import React, { useContext, useEffect, useState } from "react";
-import { View, StyleSheet, Button, TextInput } from "react-native";
-import { useRouter } from "expo-router";
+import React, { useContext, useEffect, useRef, useState } from "react";
+import {
+  View,
+  StyleSheet,
+  Button,
+  TextInput,
+  TouchableWithoutFeedback,
+  KeyboardAvoidingView,
+  Keyboard,
+  Platform,
+} from "react-native";
+import { useFocusEffect, useRouter } from "expo-router";
 import api from "../../../utils/axiosConfig";
 import { AuthContext } from "../../../components/contexts/AuthContext";
 import { useToastMessage } from "../../../hooks/useToastMessage";
@@ -21,6 +30,7 @@ export default function Profile() {
   });
   const [errors, setErrors] = useState({});
   const [isEditing, setIsEditing] = useState(false);
+  const hasFocusedOnce = useRef(false);
 
   useEffect(() => {
     const fetchCurrentUser = async () => {
@@ -112,105 +122,138 @@ export default function Profile() {
     }
   };
 
-  return (
-    <View style={s.container}>
-      <View style={s.titleContainer}>
-        <Txt style={s.titleTxt}>Profile</Txt>
-        <Btn
-          btnText={isEditing ? "Save" : "Edit"}
-          isEnabled={true}
-          fontSize={14}
-          style={s.btn}
-          onPress={handleEditToggle}
-        />
-      </View>
+  useFocusEffect(
+    React.useCallback(() => {
+      if (hasFocusedOnce.current) {
+        // Only reset if we've visited this screen before
+        setIsEditing(false);
+        if (user) {
+          setForm({
+            first_name: user.first_name,
+            last_name: user.last_name,
+            username: user.username,
+          });
+        }
+        setErrors({});
+      } else {
+        // First time focusing, skip reset
+        hasFocusedOnce.current = true;
+      }
+    }, [user])
+  );
 
-      {user ? (
-        <>
-          {/* Name Row */}
-          <View style={s.detailsRow}>
-            <Txt style={s.labelTxt}>Name:</Txt>
-            {isEditing ? (
-              <View style={{ flex: 1 }}>
-                <View style={s.nameInputs}>
-                  <TextInput
-                    style={s.input}
-                    value={form.first_name}
-                    placeholder="First Name"
-                    placeholderTextColor="#B8C3CC"
-                    onChangeText={(text) =>
-                      setForm((prev) => ({ ...prev, first_name: text }))
-                    }
-                  />
-                  <TextInput
-                    style={s.input}
-                    value={form.last_name}
-                    placeholder="Last Name"
-                    placeholderTextColor="#B8C3CC"
-                    onChangeText={(text) =>
-                      setForm((prev) => ({ ...prev, last_name: text }))
-                    }
-                  />
-                </View>
-                {errors.name && <Txt style={s.inlineError}>{errors.name}</Txt>}
-              </View>
-            ) : (
-              <Txt style={s.txt}>{`${form.first_name} ${form.last_name}`}</Txt>
-            )}
+  return (
+    <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
+      <KeyboardAvoidingView
+        behavior={Platform.OS === "ios" ? "padding" : undefined}
+        style={{ flex: 1 }}
+      >
+        <View style={s.container}>
+          <View style={s.titleContainer}>
+            <Txt style={s.titleTxt}>Profile</Txt>
+            <Btn
+              btnText={isEditing ? "Save" : "Edit"}
+              isEnabled={true}
+              fontSize={14}
+              style={s.btn}
+              onPress={handleEditToggle}
+            />
           </View>
 
-          <View style={s.detailsRow}>
-            <Txt style={s.labelTxt}>Username:</Txt>
-            {isEditing ? (
-              <View style={{ flex: 1 }}>
-                <View style={s.usernameInputWrapper}>
-                  <TextInput
-                    style={s.input}
-                    value={form.username}
-                    placeholder="Username"
-                    placeholderTextColor="#B8C3CC"
-                    autoCorrect={false}
-                    autoCapitalize="none"
-                    onChangeText={(text) =>
-                      setForm((prev) => ({ ...prev, username: text }))
-                    }
-                  />
-                </View>
-                {errors.username && (
-                  <Txt style={s.inlineError}>Username {errors.username}</Txt>
+          {user ? (
+            <>
+              {/* Name Row */}
+              <View style={s.detailsRow}>
+                <Txt style={s.labelTxt}>Name:</Txt>
+                {isEditing ? (
+                  <View style={{ flex: 1 }}>
+                    <View style={s.nameInputs}>
+                      <TextInput
+                        style={s.input}
+                        value={form.first_name}
+                        placeholder="First Name"
+                        placeholderTextColor="#B8C3CC"
+                        onChangeText={(text) =>
+                          setForm((prev) => ({ ...prev, first_name: text }))
+                        }
+                      />
+                      <TextInput
+                        style={s.input}
+                        value={form.last_name}
+                        placeholder="Last Name"
+                        placeholderTextColor="#B8C3CC"
+                        onChangeText={(text) =>
+                          setForm((prev) => ({ ...prev, last_name: text }))
+                        }
+                      />
+                    </View>
+                    {errors.name && (
+                      <Txt style={s.inlineError}>{errors.name}</Txt>
+                    )}
+                  </View>
+                ) : (
+                  <Txt
+                    style={s.txt}
+                  >{`${form.first_name} ${form.last_name}`}</Txt>
                 )}
               </View>
-            ) : (
-              <Txt style={s.txt}>{form.username}</Txt>
-            )}
-          </View>
 
-          {/* Email */}
-          <View style={s.detailsRow}>
-            <Txt style={s.labelTxt}>Email:</Txt>
-            <Txt style={s.txt}>{user.email}</Txt>
-          </View>
+              <View style={s.detailsRow}>
+                <Txt style={s.labelTxt}>Username:</Txt>
+                {isEditing ? (
+                  <View style={{ flex: 1 }}>
+                    <View style={s.usernameInputWrapper}>
+                      <TextInput
+                        style={s.input}
+                        value={form.username}
+                        placeholder="Username"
+                        placeholderTextColor="#B8C3CC"
+                        autoCorrect={false}
+                        autoCapitalize="none"
+                        onChangeText={(text) =>
+                          setForm((prev) => ({ ...prev, username: text }))
+                        }
+                      />
+                    </View>
+                    {errors.username && (
+                      <Txt style={s.inlineError}>
+                        Username {errors.username}
+                      </Txt>
+                    )}
+                  </View>
+                ) : (
+                  <Txt style={s.txt}>{form.username}</Txt>
+                )}
+              </View>
 
-          {/* Member Since */}
-          <View style={s.detailsRow}>
-            <Txt style={s.labelTxt}>Member Since:</Txt>
-            <Txt style={s.txt}>{formatFullDate(user.created_at)}</Txt>
-          </View>
-        </>
-      ) : (
-        <Txt style={s.txt}>Loading user info...</Txt>
-      )}
+              {/* Email */}
+              <View style={s.detailsRow}>
+                <Txt style={s.labelTxt}>Email:</Txt>
+                <Txt style={s.txt}>{user.email}</Txt>
+              </View>
 
-      <View style={{ marginTop: 24 }}>
-        <Txt style={s.titleTxt}>Account Settings</Txt>
-        <Txt style={s.txt}>Options:</Txt>
-        <Txt style={s.txt}>• Change password</Txt>
-        <Txt style={s.labelTxt}>• Notification Settings</Txt>
-        <Txt style={s.labelTxt}>• Terms and Conditions</Txt>
-        <Txt style={s.labelTxt}>• Delete account</Txt>
-        <Button title="Logout" onPress={handleLogout} />
-      </View>
-    </View>
+              {/* Member Since */}
+              <View style={s.detailsRow}>
+                <Txt style={s.labelTxt}>Member Since:</Txt>
+                <Txt style={s.txt}>{formatFullDate(user.created_at)}</Txt>
+              </View>
+            </>
+          ) : (
+            <Txt style={s.txt}>Loading user info...</Txt>
+          )}
+
+          <View style={{ marginTop: 24 }}>
+            <Txt style={s.titleTxt}>Account Settings</Txt>
+            <Txt style={s.txt}>Options:</Txt>
+            <Txt style={s.txt}>• Change password</Txt>
+            <Txt style={s.labelTxt}>• Notification Settings</Txt>
+            <Txt style={s.labelTxt}>• Terms and Conditions</Txt>
+            <Txt style={s.labelTxt}>• Delete account</Txt>
+            <Button title="Logout" onPress={handleLogout} />
+          </View>
+        </View>
+      </KeyboardAvoidingView>
+    </TouchableWithoutFeedback>
   );
 }
 
