@@ -1,12 +1,13 @@
-import React, { useCallback, useContext, useEffect, useState } from "react";
-import { View, Button, StyleSheet, ScrollView } from "react-native";
-import { router, useFocusEffect, useLocalSearchParams } from "expo-router";
+import React, { useCallback, useState } from "react";
+import { View, StyleSheet, ScrollView } from "react-native";
+import { router, useFocusEffect } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with Auth
 import { Btn } from "../../../components/general/Buttons/Btn";
 import { PoolCard } from "../../../components/PoolCard/PoolCard";
+import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
@@ -17,7 +18,7 @@ export default function Pools() {
   useFocusEffect(
     useCallback(() => {
       const fetchPools = async () => {
-        setLoading(true)
+        setLoading(true);
         try {
           const response = await api.get("/pools");
           setPools(response.data);
@@ -27,7 +28,7 @@ export default function Pools() {
           setLoading(false);
         }
       };
-  
+
       fetchPools();
     }, [api])
   );
@@ -47,19 +48,25 @@ export default function Pools() {
       <View style={s.titleContainer}>
         <Txt style={s.titleText}>Leagues</Txt>
       </View>
-      <ScrollView showsVerticalScrollIndicator={false}>
-        {pools.map((pool) => (
-          <PoolCard key={pool.id} pool={pool} />
-        ))}
-      </ScrollView>
-        <View style={s.createLeagueContainer}>
-          <Btn
-            btnText={"Create a League"}
-            style={s.btn}
-            isEnabled={true}
-            onPress={() => router.push(`/pools/create/`)}
-          />
-        </View>
+
+      {pools.length === 0 ? (
+        <NoLeagues />
+      ) : (
+        <ScrollView showsVerticalScrollIndicator={false}>
+          {pools.map((pool) => (
+            <PoolCard key={pool.id} pool={pool} />
+          ))}
+        </ScrollView>
+      )}
+
+      <View style={s.createLeagueContainer}>
+        <Btn
+          btnText="Create a League"
+          style={s.btn}
+          isEnabled={true}
+          onPress={() => router.push(`/pools/create/`)}
+        />
+      </View>
     </View>
   );
 }
@@ -68,8 +75,6 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     padding: 8,
-    // justifyContent: "center",
-    // alignItems: "center",
     backgroundColor: "#061826",
   },
   titleContainer: {},
@@ -84,9 +89,8 @@ const s = StyleSheet.create({
   btn: {
     paddingVertical: 12,
     paddingHorizontal: 12,
-    // margin: 4,
   },
   createLeagueContainer: {
-    paddingVertical: 12
-  }
+    paddingVertical: 12,
+  },
 });
