@@ -48,7 +48,7 @@ export default function Profile() {
 
   return (
     <View style={s.container}>
-      <Txt style={s.txt}>Profile Screen</Txt>
+      <Txt style={s.titleTxt}>Profile Screen</Txt>
       <Txt style={s.txt}>User Info:</Txt>
       <Txt style={s.txt}>Name</Txt>
       <Txt style={s.txt}>Username</Txt>
@@ -71,11 +71,16 @@ export default function Profile() {
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    // justifyContent: 'center',
+    // alignItems: 'center',
+    backgroundColor: '#061826',
+    padding: 8,
   },
   txt: {
-    color: '#061826'
+    // color: '#061826'
+  },
+  titleTxt: {
+    color: "#F8F8F8",
+    fontSize: 24,
   },
 });
