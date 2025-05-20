@@ -71,8 +71,17 @@ export default function Profile() {
       setErrors({});
       setIsEditing(false);
     } catch (err) {
-      console.error("Update error:", err);
-      showError("Failed to update profile.");
+      const backendErrors = err?.response?.data?.errors;
+      if (backendErrors) {
+        // Merge backend errors into current error state
+        const mapped = {};
+        for (const [key, value] of Object.entries(backendErrors)) {
+          mapped[key] = value.join(", ");
+        }
+        setErrors(mapped);
+      } else {
+        showError("Failed to update profile.");
+      }
     }
   };
 
