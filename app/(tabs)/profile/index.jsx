@@ -8,6 +8,7 @@ import {
   KeyboardAvoidingView,
   Keyboard,
   Platform,
+  TouchableOpacity,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import api from "../../../utils/axiosConfig";
@@ -16,6 +17,7 @@ import { useToastMessage } from "../../../hooks/useToastMessage";
 import { Txt } from "../../../components/general/Txt";
 import { Btn } from "../../../components/general/Buttons/Btn";
 import { formatFullDate } from "../../../utils/dateUtils";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export default function Profile() {
   const { logout, token } = useContext(AuthContext);
@@ -242,14 +244,21 @@ export default function Profile() {
             <Txt style={s.txt}>Loading user info...</Txt>
           )}
 
-          <View style={{ marginTop: 24 }}>
+          <View style={s.settingsContainer}>
             <Txt style={s.titleTxt}>Account Settings</Txt>
-            <Txt style={s.txt}>Options:</Txt>
-            <Txt style={s.txt}>• Change password</Txt>
-            <Txt style={s.labelTxt}>• Notification Settings</Txt>
-            <Txt style={s.labelTxt}>• Terms and Conditions</Txt>
-            <Txt style={s.labelTxt}>• Delete account</Txt>
-            <Button title="Logout" onPress={handleLogout} />
+            <TouchableOpacity style={s.settingsRow} onPress={() => router.push("/profile/updatePassword")}>
+              <Txt style={s.txt}>Change password</Txt>
+            </TouchableOpacity>
+            
+
+            <TouchableOpacity style={s.logoutButton} onPress={handleLogout}>
+              <Txt style={s.logoutTxt}>Logout</Txt>
+              <FontAwesome6
+                name="arrow-right-from-bracket"
+                size={18}
+                color="#E06777"
+              />
+            </TouchableOpacity>
           </View>
         </View>
       </KeyboardAvoidingView>
@@ -291,7 +300,7 @@ const s = StyleSheet.create({
   txt: {
     color: "#F8F8F8",
     fontFamily: "Saira_600SemiBold",
-    flex: 1,
+    // flex: 1,
   },
   input: {
     fontFamily: "Saira_600SemiBold",
@@ -320,5 +329,25 @@ const s = StyleSheet.create({
     // marginTop: -4,
     marginBottom: 4,
     // marginLeft: 108, // aligns with label width + gap
+  },
+  settingsContainer: {
+    paddingTop: 24,
+  },
+  settingsRow: {
+    // paddingVertical: 16,
+    // flexDirection: "row",
+    // justifyContent: "space-between",
+    // alignItems: "center",
+    // backgroundColor: 'green'
+  },
+  logoutButton: {
+    paddingHorizontal: 8,
+    paddingVertical: 16,
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+  },
+  logoutTxt: {
+    color: "#E06777",
   },
 });
