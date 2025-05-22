@@ -44,6 +44,8 @@ export default function PoolDetails() {
   const [containerWidth, setContainerWidth] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
   // const [poolDetails, setPoolDetails] = useState(null);
+  const [isFetchingPools, setIsFetchingPools] = useState(false);
+  const [userPools, setUserPools] = useState([]);
 
   const {
     poolDetails,
@@ -56,8 +58,8 @@ export default function PoolDetails() {
     setMemberships,
     loading,
     setLoading,
-    userPools,
-    fetchUserPools,
+    // fetchUserPools,
+    // userPools,
     fetchAllPoolData,
     inviteToken,
   } = usePoolDetails(poolId);
@@ -69,6 +71,22 @@ export default function PoolDetails() {
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
   const latestBattle = battles[0];
+
+  const fetchUserPools = async () => {
+    try {
+      setIsFetchingPools(true);
+      const response = await api.get("/pools");
+      setUserPools(response.data);
+    } catch (err) {
+      console.error("Error fetching user pools", err.response || err);
+    } finally {
+      setIsFetchingPools(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchUserPools();
+  }, []);
 
   // useFocusEffect(
   //   useCallback(() => {
@@ -136,11 +154,12 @@ export default function PoolDetails() {
             style={s.titleContainer}
             onPress={() => {
               setModalVisible(true);
-              fetchUserPools();
+              // fetchUserPools();
             }}
           >
             <Txt style={s.titleText}>
               {/* This will need to become the Pool Name */}
+              {console.log(poolDetails)}
               {poolDetails.name}
             </Txt>
             <FontAwesome6 name="caret-down" size={24} color="#54D18C" />
@@ -208,6 +227,7 @@ export default function PoolDetails() {
           setModalVisible={setModalVisible}
           currentPoolId={poolId}
         />
+        {console.log(userPools)}
       </SafeAreaView>
     </SafeAreaProvider>
   );

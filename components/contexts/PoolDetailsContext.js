@@ -7,6 +7,7 @@ const PoolDetailsContext = createContext();
 export const PoolDetailsProvider = ({ children }) => {
   const [poolDetailsMap, setPoolDetailsMap] = useState({});
 
+
   const initPoolDetails = (poolId) => {
     setPoolDetailsMap((prev) => ({
       ...prev,
@@ -144,6 +145,7 @@ export const PoolDetailsProvider = ({ children }) => {
         poolDetailsMap,
         fetchAllPoolData,
         fetchStandings,
+        // fetchUserPools,
         setPoolDetailsMap,
       }}
     >
@@ -153,8 +155,14 @@ export const PoolDetailsProvider = ({ children }) => {
 };
 
 export const usePoolDetails = (poolId) => {
-  const { poolDetailsMap, fetchAllPoolData, fetchStandings, setPoolDetailsMap } =
-    useContext(PoolDetailsContext);
+  const {
+    poolDetailsMap,
+    fetchAllPoolData,
+    fetchStandings,
+    // fetchUserPools,      // ✅ Destructure here
+    userPools,
+    setPoolDetailsMap,
+  } = useContext(PoolDetailsContext);
 
   useEffect(() => {
     if (poolId && !poolDetailsMap[poolId]) {
@@ -177,6 +185,8 @@ export const usePoolDetails = (poolId) => {
     ...details,
     fetchAllPoolData,
     fetchStandings,
+    // fetchUserPools,     // ✅ Now available to components
+    // userPools,          // ✅ Also optional
     setPoolDetailsMap,
   };
 };
