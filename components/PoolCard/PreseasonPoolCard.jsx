@@ -17,7 +17,7 @@ export function PreseasonPoolCard({ pool }) {
         <Txt style={s.txt}>Week {pool.start_week}</Txt>
       </View>
 
-      <InviteUsersButton poolId={pool.id} inviteToken={pool.invite_token} />
+      <InviteUsersButton poolId={pool.id} inviteToken={pool.invite_token} textStyle={s.txt} />
     </View>
   );
 }

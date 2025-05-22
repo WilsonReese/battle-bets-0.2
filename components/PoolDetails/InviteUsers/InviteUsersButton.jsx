@@ -4,7 +4,7 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 import * as Clipboard from 'expo-clipboard';
 import { useToastMessage } from "../../../hooks/useToastMessage";
 
-export function InviteUsersButton({ poolId, inviteToken }) {
+export function InviteUsersButton({ poolId, inviteToken, style, textStyle, iconColor = "#54D18C", }) {
   const { showSuccess, showError } = useToastMessage();
 
   const handleCopyLink = async () => {
@@ -15,9 +15,9 @@ export function InviteUsersButton({ poolId, inviteToken }) {
 
   return (
     <>
-      <TouchableOpacity style={s.button} onPress={handleCopyLink}>
-        <Txt>Copy League Invitation Link</Txt>
-        <FontAwesome6 name="link" size={16} color="#54D18C" />
+      <TouchableOpacity style={[s.button, style]} onPress={handleCopyLink}>
+        <Txt style={textStyle}>Copy League Invitation Link</Txt>
+        <FontAwesome6 name="link" size={16} color={iconColor} />
       </TouchableOpacity>
     </>
   );
@@ -25,7 +25,7 @@ export function InviteUsersButton({ poolId, inviteToken }) {
 
 const s = StyleSheet.create({
   button: {
-    paddingHorizontal: 12,
+    // paddingHorizontal: 12,
     paddingVertical: 8,
     flexDirection: "row",
     justifyContent: 'center',

@@ -119,7 +119,7 @@ export function PoolCard({ pool }) {
 
 const s = StyleSheet.create({
   card: {
-    backgroundColor: "#0E293E",
+    backgroundColor: "#0F2638",
     marginVertical: 4,
     borderRadius: 8,
     paddingHorizontal: 12,
