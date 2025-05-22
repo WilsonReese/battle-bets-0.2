@@ -28,6 +28,7 @@ import { useToastMessage } from "../hooks/useToastMessage";
 import { Message } from "../components/general/Message";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDeepLinkHandler } from "../hooks/useDeepLinkHandler";
+import { PoolDetailsProvider } from "../components/contexts/PoolDetailsContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -61,7 +62,7 @@ function GlobalMessageRenderer() {
 
 export default function Layout() {
   // useDeepLinkHandler();
-  
+
   const [fontsLoaded] = useFonts({
     Saira_100Thin,
     Saira_200ExtraLight,
@@ -92,38 +93,40 @@ export default function Layout() {
       <MessageProvider>
         <BetProvider>
           <AuthProvider>
-          <DeepLinkWrapper />
-            <StandingsProvider>
-              <View style={s.container}>
-                <GlobalMessageRenderer />
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                    contentStyle: { backgroundColor: "transparent" },
-                  }}
-                >
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{
+            <DeepLinkWrapper />
+            <PoolDetailsProvider>
+              <StandingsProvider>
+                <View style={s.container}>
+                  <GlobalMessageRenderer />
+                  <Stack
+                    screenOptions={{
                       headerShown: false,
-                      headerTitle: () => (
-                        <Image
-                          source={require("@/assets/images/white_logo.png")}
-                          style={{ width: 140, height: 40 }}
-                          resizeMode="contain"
-                        />
-                      ),
-                      headerStyle: {
-                        backgroundColor: "#061826",
-                        alignItems: "flex-start",
-                      },
-                      headerTintColor: "#F8F8F8",
-                      headerShadowVisible: false,
+                      contentStyle: { backgroundColor: "transparent" },
                     }}
-                  />
-                </Stack>
-              </View>
-            </StandingsProvider>
+                  >
+                    <Stack.Screen
+                      name="(tabs)"
+                      options={{
+                        headerShown: false,
+                        headerTitle: () => (
+                          <Image
+                            source={require("@/assets/images/white_logo.png")}
+                            style={{ width: 140, height: 40 }}
+                            resizeMode="contain"
+                          />
+                        ),
+                        headerStyle: {
+                          backgroundColor: "#061826",
+                          alignItems: "flex-start",
+                        },
+                        headerTintColor: "#F8F8F8",
+                        headerShadowVisible: false,
+                      }}
+                    />
+                  </Stack>
+                </View>
+              </StandingsProvider>
+            </PoolDetailsProvider>
           </AuthProvider>
         </BetProvider>
       </MessageProvider>

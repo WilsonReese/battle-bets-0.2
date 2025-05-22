@@ -13,11 +13,25 @@ import api from "../../utils/axiosConfig";
 import { PreseasonPoolCard } from "./PreseasonPoolCard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { BattleUnlockedPoolCard } from "./BattleUnlockedPoolCard";
+import { usePoolDetails } from "../contexts/PoolDetailsContext";
+// import { usePoolDetails } from "../../hooks/usePoolDetails";
 
-export function PoolCard({ pool }) {
+export function PoolCard({ pool, }) {
   const { userLeaderboardEntries, fetchStandings } = useStandings();
   // const [hasStarted, setHasStarted] = useState(null);
   const [loading, setLoading] = useState(false);
+  const {
+  selectedSeason,
+  battles,
+  userBetslip,
+  setUserBetslip,
+  // userEntry,
+  standings,
+  memberships,
+  fetchAllPoolData,
+  // fetchStandings,
+} = usePoolDetails(pool.id);
+
 
   // Extract user's points and ranking
   const userEntry = userLeaderboardEntries[pool.id];
@@ -50,27 +64,31 @@ export function PoolCard({ pool }) {
   }
 
   return (
-    <View style={s.card}>
-      <TouchableOpacity
+    <TouchableOpacity style={s.card} onPress={() => router.push(`/pools/${pool.id}/`)}>
+      <View
         style={s.headingContainer}
         onPress={() => router.push(`/pools/${pool.id}/`)}
       >
         <Txt style={s.heading}>{pool.name}</Txt>
         <FontAwesome6 name="circle-right" size={18} color="#54D18C" />
-      </TouchableOpacity>
+      </View>
 
       {/* League Season has not started, show PreseasonPoolCard */}
-      {!pool.has_started && (
-        <PreseasonPoolCard
-          pool={pool} // Replace with real season object if available
+      {!pool.has_started && <PreseasonPoolCard pool={pool} />}
+
+      {/* League Season has started, show BattleUnlockedPoolCard or BattleLockedPoolCard */}
+      {pool.has_started && (
+        <BattleUnlockedPoolCard
+          pool={pool}
+          userEntry={userEntry}
+          latestBattle={battles[0]}
+          selectedSeason={selectedSeason}
+          userBetslip={userBetslip}
+          setUserBetslip={setUserBetslip}
+          setLoading={setLoading}
         />
       )}
-
-      {/* League Season has started */}
-      {pool.has_started && (
-        <BattleUnlockedPoolCard pool={pool} userEntry={userEntry}/>
-      )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

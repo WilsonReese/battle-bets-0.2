@@ -8,6 +8,7 @@ import { useAxiosWithAuth } from "../../../utils/axiosConfig"; // Use Axios with
 import { Btn } from "../../../components/general/Buttons/Btn";
 import { PoolCard } from "../../../components/PoolCard/PoolCard";
 import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
+import { usePoolDetails } from "../../../hooks/usePoolDetails";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
