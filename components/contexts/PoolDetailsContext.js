@@ -7,7 +7,6 @@ const PoolDetailsContext = createContext();
 export const PoolDetailsProvider = ({ children }) => {
   const [poolDetailsMap, setPoolDetailsMap] = useState({});
 
-
   const initPoolDetails = (poolId) => {
     setPoolDetailsMap((prev) => ({
       ...prev,
@@ -139,6 +138,36 @@ export const PoolDetailsProvider = ({ children }) => {
     }));
   };
 
+  const setUserBetslipForPool = (poolId, betslip) => {
+    setPoolDetailsMap((prev) => ({
+      ...prev,
+      [poolId]: {
+        ...prev[poolId],
+        userBetslip: betslip,
+      },
+    }));
+  };
+
+  const setBattlesForPool = (poolId, battles) => {
+    setPoolDetailsMap((prev) => ({
+      ...prev,
+      [poolId]: {
+        ...prev[poolId],
+        battles,
+      },
+    }));
+  };
+
+  const setLoadingForPool = (poolId, loading) => {
+    setPoolDetailsMap((prev) => ({
+      ...prev,
+      [poolId]: {
+        ...prev[poolId],
+        loading,
+      },
+    }));
+  };
+
   return (
     <PoolDetailsContext.Provider
       value={{
@@ -146,6 +175,9 @@ export const PoolDetailsProvider = ({ children }) => {
         fetchAllPoolData,
         fetchStandings,
         setPoolDetailsMap,
+        setUserBetslipForPool,
+        setBattlesForPool,
+        setLoadingForPool
       }}
     >
       {children}
@@ -160,6 +192,9 @@ export const usePoolDetails = (poolId) => {
     fetchStandings,
     userPools,
     setPoolDetailsMap,
+    setUserBetslipForPool,
+    setBattlesForPool, 
+    setLoadingForPool
   } = useContext(PoolDetailsContext);
 
   useEffect(() => {
@@ -184,5 +219,8 @@ export const usePoolDetails = (poolId) => {
     fetchAllPoolData,
     fetchStandings,
     setPoolDetailsMap,
+    setBattles: (battles) => setBattlesForPool(poolId, battles),
+    setUserBetslip: (betslip) => setUserBetslipForPool(poolId, betslip),
+    setLoading: (loading) => setLoadingForPool(poolId, loading),
   };
 };

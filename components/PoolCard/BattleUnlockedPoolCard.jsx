@@ -48,6 +48,7 @@ export function BattleUnlockedPoolCard({
       }
     }
   };
+
   return (
     <View style={s.detailsContainer}>
       <View style={s.overviewContainer}>
