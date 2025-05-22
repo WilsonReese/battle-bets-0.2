@@ -1,9 +1,6 @@
-import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
+import { StyleSheet, View, } from "react-native";
 import { Txt } from "../general/Txt";
-import { Btn } from "../general/Buttons/Btn";
-import { router } from "expo-router";
 import { InviteUsersButton } from "../PoolDetails/InviteUsers/InviteUsersButton";
-import * as Clipboard from "expo-clipboard";
 
 export function PreseasonPoolCard({ pool }) {
   return (
@@ -13,7 +10,7 @@ export function PreseasonPoolCard({ pool }) {
         <Txt style={s.txt}>{pool.membership_count}</Txt>
       </View>
       <View style={s.detailContainer}>
-        <Txt style={s.detailsHeadingTxt}>League Start: </Txt>
+        <Txt style={s.detailsHeadingTxt}>Season Start: </Txt>
         <Txt style={s.txt}>Week {pool.start_week}</Txt>
       </View>
 

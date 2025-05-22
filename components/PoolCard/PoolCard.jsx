@@ -12,6 +12,7 @@ import { useEffect, useState } from "react";
 import api from "../../utils/axiosConfig";
 import { PreseasonPoolCard } from "./PreseasonPoolCard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { BattleUnlockedPoolCard } from "./BattleUnlockedPoolCard";
 
 export function PoolCard({ pool }) {
   const { userLeaderboardEntries, fetchStandings } = useStandings();
@@ -67,51 +68,7 @@ export function PoolCard({ pool }) {
 
       {/* League Season has started */}
       {pool.has_started && (
-        <View style={s.detailsContainer}>
-          <View style={s.overviewContainer}>
-            <View style={s.headingTxtContainer}>
-              <Txt style={s.sectonHeadingTxt}>Season</Txt>
-            </View>
-            <View style={s.infoContainer}>
-              <View style={s.infoUnitContainer}>
-                <Txt style={s.infoTitleTxt}>Points: </Txt>
-                <Txt style={s.txt}>{userEntry?.total_points || "N/A"}</Txt>
-              </View>
-              <View style={s.infoUnitContainer}>
-                <Txt style={s.infoTitleTxt}>Rank: </Txt>
-                <Txt style={s.txt}>{userEntry?.ranking || "N/A"}</Txt>
-              </View>
-            </View>
-            <View>
-              <Btn
-                btnText={`Go to ${pool.name}`}
-                style={s.btn}
-                isEnabled={true}
-                fontSize={14}
-                onPress={() => router.push(`/pools/${pool.id}/`)}
-              />
-            </View>
-          </View>
-
-          <View style={s.currentBattleContainer}>
-            <View style={s.headingTxtContainer}>
-              <Txt style={s.sectonHeadingTxt}>Current Battle</Txt>
-            </View>
-            <View style={s.infoContainer}>
-              <Txt style={s.txt}>0/12 betslips submitted</Txt>
-              <Txt style={s.txt}>Make bets before games start</Txt>
-            </View>
-            <View>
-              <Btn
-                btnText={`Go to ${pool.name}`}
-                style={s.btn}
-                isEnabled={true}
-                fontSize={14}
-                onPress={() => router.push(`/pools/${pool.id}/`)}
-              />
-            </View>
-          </View>
-        </View>
+        <BattleUnlockedPoolCard pool={pool} userEntry={userEntry}/>
       )}
     </View>
   );
