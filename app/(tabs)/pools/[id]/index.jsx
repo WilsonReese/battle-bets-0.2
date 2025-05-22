@@ -27,7 +27,8 @@ import { format } from "date-fns";
 import { PreviousBattles } from "../../../../components/PreviousBattles/PreviousBattles.jsx";
 import { MembershipsTable } from "../../../../components/PoolDetails/MembershipsTable/MembershipsTable.jsx";
 import { AuthContext } from "../../../../components/contexts/AuthContext.js";
-import { usePoolDetails } from "../../../../hooks/usePoolDetails.js";
+import { usePoolDetails } from "../../../../components/contexts/PoolDetailsContext.js";
+// import { usePoolDetails } from "../../../../hooks/usePoolDetails.js";
 import { LeaveLeagueButton } from "../../../../components/PoolDetails/LeaveLeagueButton/LeaveLeagueButton.jsx";
 import { useToastMessage } from "../../../../hooks/useToastMessage.js";
 import { InviteUsersButton } from "../../../../components/PoolDetails/InviteUsers/InviteUsersButton.jsx";
@@ -41,72 +42,73 @@ import { LeagueSettings } from "../../../../components/PoolDetails/LeagueSetting
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
   const [containerWidth, setContainerWidth] = useState(null);
+  const [modalVisible, setModalVisible] = useState(false);
   // const [poolDetails, setPoolDetails] = useState(null);
 
   const {
-    inviteToken,
     poolDetails,
-    fetchPoolDetails,
     selectedSeason,
     battles,
     setBattles,
-    memberships,
-    setMemberships,
     userBetslip,
     setUserBetslip,
-    fetchSeasons,
-    fetchBattles,
-    fetchPoolMemberships,
+    memberships,
+    setMemberships,
     loading,
     setLoading,
-    fetchUserPools,
     userPools,
+    fetchUserPools,
+    fetchAllPoolData,
+    inviteToken,
   } = usePoolDetails(poolId);
 
-  const { userLeaderboardEntries, fetchStandings } = useStandings();
+  // const { userLeaderboardEntries, fetchStandings } = useStandings();
   const { currentUserId } = useContext(AuthContext);
   const userMembership = memberships.find(
     (m) => String(m.user.id) === String(currentUserId)
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
-  const [modalVisible, setModalVisible] = useState(false);
-  
+  const latestBattle = battles[0];
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     if (poolId) {
+  //       fetchPoolDetails();
+  //     }
+  //   }, [poolId])
+  // );
+
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     fetchSeasons();
+  //   }, [])
+  // );
+
+  // useEffect(() => {
+  //   if (selectedSeason?.hasStarted) {
+  //     fetchBattles();
+  //   } else if (selectedSeason && !selectedSeason.hasStarted) {
+  //     setLoading(false); // only stop loading once season is confirmed
+  //   }
+  // }, [selectedSeason]);
+
+  // useEffect(() => {
+  //   if (poolId) {
+  //     fetchPoolMemberships(); // No more page param
+  //   }
+  // }, [poolId]);
+
+  // useEffect(() => {
+  //   if (selectedSeason && poolId) {
+  //     fetchStandings(poolId, selectedSeason.season.year);
+  //   }
+  // }, [memberships]);
 
   useFocusEffect(
     useCallback(() => {
-      if (poolId) {
-        fetchPoolDetails();
-      }
+      if (poolId) fetchAllPoolData(poolId);
     }, [poolId])
   );
-
-  useFocusEffect(
-    useCallback(() => {
-      fetchSeasons();
-    }, [])
-  );
-
-  useEffect(() => {
-    if (selectedSeason?.hasStarted) {
-      fetchBattles();
-    } else if (selectedSeason && !selectedSeason.hasStarted) {
-      setLoading(false); // only stop loading once season is confirmed
-    }
-  }, [selectedSeason]);
-
-  useEffect(() => {
-    if (poolId) {
-      fetchPoolMemberships(); // No more page param
-    }
-  }, [poolId]);
-
-  useEffect(() => {
-    if (selectedSeason && poolId) {
-      fetchStandings(poolId, selectedSeason.season.year);
-    }
-  }, [memberships]);
-
-  const latestBattle = battles[0];
 
   // Render loading spinner while data is being fetched
   if (loading) {
@@ -143,6 +145,7 @@ export default function PoolDetails() {
             </Txt>
             <FontAwesome6 name="caret-down" size={24} color="#54D18C" />
           </TouchableOpacity>
+
           {selectedSeason?.hasStarted && battles.length > 0 && (
             <View style={s.section}>
               <PaginatedFlatList
@@ -165,13 +168,13 @@ export default function PoolDetails() {
             </View>
           )}
           {selectedSeason?.hasStarted > 0 && (
-          <View style={s.section}>
-            <LeagueStandingsTable
-              leagueSeason={selectedSeason}
-              poolId={poolId}
-              containerWidth={containerWidth}
-            />
-          </View>
+            <View style={s.section}>
+              <LeagueStandingsTable
+                leagueSeason={selectedSeason}
+                poolId={poolId}
+                containerWidth={containerWidth}
+              />
+            </View>
           )}
 
           <View style={s.section}>
@@ -180,7 +183,7 @@ export default function PoolDetails() {
               memberships={memberships}
               setMemberships={setMemberships}
               poolId={poolId}
-              fetchPoolMemberships={fetchPoolMemberships}
+              fetchPoolMemberships={() => fetchAllPoolData(poolId)}
               isCurrentUserCommissioner={isCurrentUserCommissioner}
             />
             <InviteUsersButton poolId={poolId} inviteToken={inviteToken} />

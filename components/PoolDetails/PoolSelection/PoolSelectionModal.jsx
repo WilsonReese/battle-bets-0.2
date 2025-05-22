@@ -32,7 +32,7 @@ export function PoolSelectionModal({
               <FontAwesome6 name="x" size={18} color="#54D18C" />
             </TouchableOpacity>
             <ScrollView style={s.poolsContainer}>
-              {userPools.map((pool) => (
+              {userPools?.map((pool) => (
                 <TouchableOpacity
                   key={pool.id}
                   onPress={() => {

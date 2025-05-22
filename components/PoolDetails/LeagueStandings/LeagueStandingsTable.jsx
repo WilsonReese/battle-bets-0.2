@@ -5,17 +5,19 @@ import { useEffect } from "react";
 import { ScrollView } from "react-native-gesture-handler";
 import { LeagueStandingsRow } from "./LeagueStandingsRow";
 import { PaginatedFlatList } from "../../general/PaginatedFlatList";
+import { usePoolDetails } from "../../contexts/PoolDetailsContext";
 
-export function LeagueStandingsTable({ leagueSeason, poolId, containerWidth }) {
-  const { standings, fetchStandings, loading } = useStandings();
+export function LeagueStandingsTable({ poolId, containerWidth }) {
+  // const { standings, fetchStandings, loading } = useStandings();
+  const { selectedSeason, standings } = usePoolDetails(poolId);
 
-  useEffect(() => {
-    if (leagueSeason && poolId) {
-      fetchStandings(poolId, leagueSeason.season.year);
-    }
-  }, [leagueSeason, poolId]);
+  // useEffect(() => {
+  //   if (leagueSeason && poolId) {
+  //     fetchStandings(poolId, leagueSeason.season.year);
+  //   }
+  // }, [leagueSeason, poolId]);
 
-  const leaderboardEntries = standings[poolId]?.entries || [];
+  const leaderboardEntries = standings || [];
 
   return (
     <>
