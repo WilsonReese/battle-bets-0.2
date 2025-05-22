@@ -16,55 +16,37 @@ import { BattleUnlockedPoolCard } from "./BattleUnlockedPoolCard";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
 // import { usePoolDetails } from "../../hooks/usePoolDetails";
 
-export function PoolCard({ pool, }) {
-  const { userLeaderboardEntries, fetchStandings } = useStandings();
+export function PoolCard({ pool }) {
+  const [localLoading, setLocalLoading] = useState(false);
+
   // const [hasStarted, setHasStarted] = useState(null);
   const [loading, setLoading] = useState(false);
   const {
-  selectedSeason,
-  battles,
-  userBetslip,
-  setUserBetslip,
-  // userEntry,
-  standings,
-  memberships,
-  fetchAllPoolData,
-  // fetchStandings,
-} = usePoolDetails(pool.id);
-
-
-  // Extract user's points and ranking
-  const userEntry = userLeaderboardEntries[pool.id];
-
-  // useEffect to check if the season hasStarted
-  // useEffect(() => {
-  //   const fetchSeason = async () => {
-  //     setLoading(true);
-  //     try {
-  //       const res = await api.get(`/pools/${pool.id}/league_seasons`);
-  //       const season2024 = res.data.find((s) => s.season.year === 2024); // hard coded 2024
-  //       setHasStarted(season2024?.["has_started?"]);
-  //     } catch (e) {
-  //       console.error("Error fetching league season for pool", pool.id, e);
-  //     } finally {
-  //       setLoading(false);
-  //     }
-  //   };
-
-  //   fetchSeason();
-  // }, [pool.id]);
+    selectedSeason,
+    battles,
+    userBetslip,
+    setUserBetslip,
+    userEntry,
+    fetchAllPoolData,
+    loading: poolLoading,
+  } = usePoolDetails(pool.id);
 
   // useEffect to get standings
   useEffect(() => {
-    fetchStandings(pool.id, 2024); // Hard code: Fetch 2024 season data on mount
+    if (!selectedSeason && !poolLoading) {
+      fetchAllPoolData(pool.id);
+    }
   }, [pool.id]);
 
-  if (loading) {
-    return <ActivityIndicator size="small" color="#061826" />;
+  if (poolLoading || localLoading) {
+    return <ActivityIndicator size="small" color="#F8F8F8" />;
   }
 
   return (
-    <TouchableOpacity style={s.card} onPress={() => router.push(`/pools/${pool.id}/`)}>
+    <TouchableOpacity
+      style={s.card}
+      onPress={() => router.push(`/pools/${pool.id}/`)}
+    >
       <View
         style={s.headingContainer}
         onPress={() => router.push(`/pools/${pool.id}/`)}
