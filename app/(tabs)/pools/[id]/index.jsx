@@ -28,14 +28,12 @@ import { PreviousBattles } from "../../../../components/PreviousBattles/Previous
 import { MembershipsTable } from "../../../../components/PoolDetails/MembershipsTable/MembershipsTable.jsx";
 import { AuthContext } from "../../../../components/contexts/AuthContext.js";
 import { usePoolDetails } from "../../../../components/contexts/PoolDetailsContext.js";
-// import { usePoolDetails } from "../../../../hooks/usePoolDetails.js";
 import { LeaveLeagueButton } from "../../../../components/PoolDetails/LeaveLeagueButton/LeaveLeagueButton.jsx";
 import { useToastMessage } from "../../../../hooks/useToastMessage.js";
 import { InviteUsersButton } from "../../../../components/PoolDetails/InviteUsers/InviteUsersButton.jsx";
 import { PaginatedFlatList } from "../../../../components/general/PaginatedFlatList.jsx";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { PoolSelectionModal } from "../../../../components/PoolDetails/PoolSelection/PoolSelectionModal.jsx";
-import { useStandings } from "../../../../components/contexts/StandingsContext.js";
 import { LeagueStandingsTable } from "../../../../components/PoolDetails/LeagueStandings/LeagueStandingsTable.jsx";
 import { LeagueSettings } from "../../../../components/PoolDetails/LeagueSettings/LeagueSettings.jsx";
 

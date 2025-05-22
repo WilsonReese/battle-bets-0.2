@@ -7,14 +7,12 @@ import {
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
-import { useStandings } from "../contexts/StandingsContext";
 import { useEffect, useState } from "react";
 import api from "../../utils/axiosConfig";
 import { PreseasonPoolCard } from "./PreseasonPoolCard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { BattleUnlockedPoolCard } from "./BattleUnlockedPoolCard";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
-// import { usePoolDetails } from "../../hooks/usePoolDetails";
 
 export function PoolCard({ pool }) {
   const [localLoading, setLocalLoading] = useState(false);

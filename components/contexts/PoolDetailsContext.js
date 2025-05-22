@@ -145,7 +145,6 @@ export const PoolDetailsProvider = ({ children }) => {
         poolDetailsMap,
         fetchAllPoolData,
         fetchStandings,
-        // fetchUserPools,
         setPoolDetailsMap,
       }}
     >
@@ -159,7 +158,6 @@ export const usePoolDetails = (poolId) => {
     poolDetailsMap,
     fetchAllPoolData,
     fetchStandings,
-    // fetchUserPools,      // ✅ Destructure here
     userPools,
     setPoolDetailsMap,
   } = useContext(PoolDetailsContext);
@@ -185,8 +183,6 @@ export const usePoolDetails = (poolId) => {
     ...details,
     fetchAllPoolData,
     fetchStandings,
-    // fetchUserPools,     // ✅ Now available to components
-    // userPools,          // ✅ Also optional
     setPoolDetailsMap,
   };
 };

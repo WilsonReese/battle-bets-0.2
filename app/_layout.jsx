@@ -21,7 +21,6 @@ import {
   Saira_900Black,
 } from "@expo-google-fonts/saira";
 import { useEffect } from "react";
-import { StandingsProvider } from "../components/contexts/StandingsContext";
 import { GestureHandlerRootView } from "react-native-gesture-handler";
 import { MessageProvider } from "../components/contexts/MessageContext";
 import { useToastMessage } from "../hooks/useToastMessage";
@@ -95,7 +94,6 @@ export default function Layout() {
           <AuthProvider>
             <DeepLinkWrapper />
             <PoolDetailsProvider>
-              <StandingsProvider>
                 <View style={s.container}>
                   <GlobalMessageRenderer />
                   <Stack
@@ -125,7 +123,6 @@ export default function Layout() {
                     />
                   </Stack>
                 </View>
-              </StandingsProvider>
             </PoolDetailsProvider>
           </AuthProvider>
         </BetProvider>
