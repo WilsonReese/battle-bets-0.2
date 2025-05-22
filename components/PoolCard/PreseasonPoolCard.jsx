@@ -3,35 +3,28 @@ import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
 import { InviteUsersButton } from "../PoolDetails/InviteUsers/InviteUsersButton";
-import * as Clipboard from 'expo-clipboard';
+import * as Clipboard from "expo-clipboard";
 
 export function PreseasonPoolCard({ pool }) {
-
   return (
-    <View style={s.card}>
-      <Txt style={s.heading}>Preseason</Txt>
-      <Txt>Members: {pool.membership_count}</Txt>
-      <Txt>Start Week: Week {pool.start_week}</Txt>
-      <InviteUsersButton poolId={pool.id} inviteToken={pool.invite_token} />
-
-      <View style={s.btnContainer}>
-        <Btn
-          btnText={`Go to ${pool.name}`}
-          onPress={() => router.push(`/pools/${pool.id}/`)}
-          isEnabled={true}
-          style={s.btn}
-        />
+    <View style={s.container}>
+      <View style={s.detailContainer}>
+        <Txt style={s.detailsHeadingTxt}>Members: </Txt>
+        <Txt style={s.txt}>{pool.membership_count}</Txt>
       </View>
+      <View style={s.detailContainer}>
+        <Txt style={s.detailsHeadingTxt}>League Start: </Txt>
+        <Txt style={s.txt}>Week {pool.start_week}</Txt>
+      </View>
+
+      <InviteUsersButton poolId={pool.id} inviteToken={pool.invite_token} />
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  card: {
-    backgroundColor: "#DAE1E5",
-    marginVertical: 4,
-    borderRadius: 8,
-    padding: 12,
+  container: {
+    // paddingBottom: 8,
   },
   heading: {
     color: "#061826",
@@ -39,12 +32,19 @@ const s = StyleSheet.create({
     fontWeight: "600",
     marginBottom: 8,
   },
-  btnContainer: {
-    marginTop: 12,
-    gap: 8,
+  detailsHeadingTxt: {
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 14,
   },
-  btn: {
-    paddingVertical: 6,
-    paddingHorizontal: 12,
+  detailContainer: {
+    flexDirection: "row",
+    alignItems: "center",
   },
+  txt: {
+    fontSize: 14,
+  },
+  infoContainer: {
+    flexDirection: "row",
+  },
+  rightColumn: {},
 });

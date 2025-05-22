@@ -1,4 +1,9 @@
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import {
+  ActivityIndicator,
+  StyleSheet,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
@@ -6,6 +11,7 @@ import { useStandings } from "../contexts/StandingsContext";
 import { useEffect, useState } from "react";
 import api from "../../utils/axiosConfig";
 import { PreseasonPoolCard } from "./PreseasonPoolCard";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 
 export function PoolCard({ pool }) {
   const { userLeaderboardEntries, fetchStandings } = useStandings();
@@ -44,7 +50,13 @@ export function PoolCard({ pool }) {
 
   return (
     <View style={s.card}>
-      <Txt style={s.heading}>{pool.name}</Txt>
+      <TouchableOpacity
+        style={s.headingContainer}
+        onPress={() => router.push(`/pools/${pool.id}/`)}
+      >
+        <Txt style={s.heading}>{pool.name}</Txt>
+        <FontAwesome6 name="circle-right" size={18} color="#54D18C" />
+      </TouchableOpacity>
 
       {/* League Season has not started, show PreseasonPoolCard */}
       {!pool.has_started && (
@@ -58,7 +70,7 @@ export function PoolCard({ pool }) {
         <View style={s.detailsContainer}>
           <View style={s.overviewContainer}>
             <View style={s.headingTxtContainer}>
-              <Txt style={s.sectonHeadingTxt}>Overview</Txt>
+              <Txt style={s.sectonHeadingTxt}>Season</Txt>
             </View>
             <View style={s.infoContainer}>
               <View style={s.infoUnitContainer}>
@@ -107,14 +119,21 @@ export function PoolCard({ pool }) {
 
 const s = StyleSheet.create({
   card: {
-    backgroundColor: "#DAE1E5",
+    backgroundColor: "#0E293E",
     marginVertical: 4,
     borderRadius: 8,
     paddingHorizontal: 12,
     paddingVertical: 4,
   },
+  headingContainer: {
+    flexDirection: "row",
+    // backgroundColor: 'blue',
+    gap: 8,
+    alignItems: "center",
+    justifyContent: "space-between",
+  },
   heading: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     paddingVertical: 4,
     fontSize: 18,
@@ -141,13 +160,13 @@ const s = StyleSheet.create({
   },
 
   infoTitleTxt: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 14,
   },
 
   sectonHeadingTxt: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_300Light",
     letterSpacing: 2,
     fontSize: 14,
@@ -155,7 +174,7 @@ const s = StyleSheet.create({
   },
 
   txt: {
-    color: "#061826",
+    // color: "#061826",
     fontSize: 14,
   },
 
