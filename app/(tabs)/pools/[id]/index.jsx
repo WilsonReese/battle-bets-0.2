@@ -43,8 +43,6 @@ export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
   const [containerWidth, setContainerWidth] = useState(null);
   const [modalVisible, setModalVisible] = useState(false);
-  // const [poolDetails, setPoolDetails] = useState(null);
-  const [isFetchingPools, setIsFetchingPools] = useState(false);
   const [userPools, setUserPools] = useState([]);
 
   const {
@@ -58,13 +56,10 @@ export default function PoolDetails() {
     setMemberships,
     loading,
     setLoading,
-    // fetchUserPools,
-    // userPools,
     fetchAllPoolData,
     inviteToken,
   } = usePoolDetails(poolId);
 
-  // const { userLeaderboardEntries, fetchStandings } = useStandings();
   const { currentUserId } = useContext(AuthContext);
   const userMembership = memberships.find(
     (m) => String(m.user.id) === String(currentUserId)
@@ -74,53 +69,16 @@ export default function PoolDetails() {
 
   const fetchUserPools = async () => {
     try {
-      setIsFetchingPools(true);
       const response = await api.get("/pools");
       setUserPools(response.data);
     } catch (err) {
       console.error("Error fetching user pools", err.response || err);
-    } finally {
-      setIsFetchingPools(false);
-    }
+    } 
   };
 
-  useEffect(() => {
-    fetchUserPools();
-  }, []);
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     if (poolId) {
-  //       fetchPoolDetails();
-  //     }
-  //   }, [poolId])
-  // );
-
-  // useFocusEffect(
-  //   useCallback(() => {
-  //     fetchSeasons();
-  //   }, [])
-  // );
-
   // useEffect(() => {
-  //   if (selectedSeason?.hasStarted) {
-  //     fetchBattles();
-  //   } else if (selectedSeason && !selectedSeason.hasStarted) {
-  //     setLoading(false); // only stop loading once season is confirmed
-  //   }
-  // }, [selectedSeason]);
-
-  // useEffect(() => {
-  //   if (poolId) {
-  //     fetchPoolMemberships(); // No more page param
-  //   }
-  // }, [poolId]);
-
-  // useEffect(() => {
-  //   if (selectedSeason && poolId) {
-  //     fetchStandings(poolId, selectedSeason.season.year);
-  //   }
-  // }, [memberships]);
+  //   fetchUserPools();
+  // }, []);
 
   useFocusEffect(
     useCallback(() => {
@@ -154,12 +112,11 @@ export default function PoolDetails() {
             style={s.titleContainer}
             onPress={() => {
               setModalVisible(true);
-              // fetchUserPools();
+              fetchUserPools();
             }}
           >
             <Txt style={s.titleText}>
               {/* This will need to become the Pool Name */}
-              {console.log(poolDetails)}
               {poolDetails.name}
             </Txt>
             <FontAwesome6 name="caret-down" size={24} color="#54D18C" />
@@ -205,7 +162,7 @@ export default function PoolDetails() {
               fetchPoolMemberships={() => fetchAllPoolData(poolId)}
               isCurrentUserCommissioner={isCurrentUserCommissioner}
             />
-            <InviteUsersButton poolId={poolId} inviteToken={inviteToken} />
+            <InviteUsersButton poolId={poolId} inviteToken={poolDetails.invite_token} />
           </View>
 
           {/* <PreviousBattles battles={battles} /> */}
@@ -227,7 +184,6 @@ export default function PoolDetails() {
           setModalVisible={setModalVisible}
           currentPoolId={poolId}
         />
-        {console.log(userPools)}
       </SafeAreaView>
     </SafeAreaProvider>
   );
