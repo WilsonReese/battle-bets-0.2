@@ -13,6 +13,7 @@ import { PreseasonPoolCard } from "./PreseasonPoolCard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { BattleUnlockedPoolCard } from "./BattleUnlockedPoolCard";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
+import { BattleLockedPoolCard } from "./BattleLockedPoolCard";
 
 export function PoolCard({ pool }) {
   const [localLoading, setLocalLoading] = useState(false);
@@ -28,6 +29,8 @@ export function PoolCard({ pool }) {
     fetchAllPoolData,
     loading: poolLoading,
   } = usePoolDetails(pool.id);
+
+  const latestBattle = battles[0];
 
   // useEffect to get standings
   useEffect(() => {
@@ -56,16 +59,25 @@ export function PoolCard({ pool }) {
       {/* League Season has not started, show PreseasonPoolCard */}
       {!pool.has_started && <PreseasonPoolCard pool={pool} />}
 
-      {/* League Season has started, show BattleUnlockedPoolCard or BattleLockedPoolCard */}
-      {pool.has_started && (
+      {console.log("Latest Battle", latestBattle)}
+      {/* League Season has started and latest battle is unlocked show: BattleUnlockedPoolCard */}
+      {pool.has_started && !latestBattle.locked && (
         <BattleUnlockedPoolCard
           pool={pool}
           userEntry={userEntry}
-          latestBattle={battles[0]}
+          latestBattle={latestBattle}
           selectedSeason={selectedSeason}
           userBetslip={userBetslip}
           setUserBetslip={setUserBetslip}
           setLoading={setLoading}
+        />
+      )}
+
+      {/* League Season has started and latest battle is locked, show BattleLockedPoolCard */}
+      {pool.has_started && latestBattle.locked && (
+        <BattleLockedPoolCard
+          pool={pool}
+          userEntry={userEntry}
         />
       )}
     </TouchableOpacity>

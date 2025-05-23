@@ -50,7 +50,7 @@ export const BetProvider = ({ children, battleId }) => {
           game: bet.bet_option.game,
         }));
 
-        console.log("Transformed Bets from Backend:", transformedBets);
+        // console.log("Transformed Bets from Backend:", transformedBets);
 
         // Store the bets in AsyncStorage
         await AsyncStorage.setItem(
