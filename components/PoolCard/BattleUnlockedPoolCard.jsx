@@ -4,6 +4,7 @@ import { Btn } from "../general/Buttons/Btn";
 import { router } from "expo-router";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import api from "../../utils/axiosConfig";
+import { usePoolDetails } from "../contexts/PoolDetailsContext";
 
 export function BattleUnlockedPoolCard({
   pool,
@@ -14,6 +15,12 @@ export function BattleUnlockedPoolCard({
   setUserBetslip,
   setLoading,
 }) {
+  const { memberships } = usePoolDetails(pool.id);
+  const totalMembers = memberships.length;
+  const createdBetslips = latestBattle.betslip_count;
+    const participationRate = totalMembers > 0
+    ? (createdBetslips / totalMembers) * 100
+    : 0;
 
   const handleMyBetslip = async () => {
     if (userBetslip) {
@@ -70,7 +77,7 @@ export function BattleUnlockedPoolCard({
         <View style={s.infoContainer}>
           <View style={s.infoUnitContainer}>
             <Txt style={s.infoTitleTxt}>League Participation:</Txt>
-            <Txt style={s.txt}>0%</Txt>
+            <Txt style={s.txt}>{participationRate.toFixed(1)}%</Txt>
           </View>
           <TouchableOpacity style={s.infoUnitContainer} onPress={handleMyBetslip}>
             <Txt style={s.infoTitleTxt}>My Betslip:</Txt>
