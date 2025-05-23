@@ -16,6 +16,8 @@ export function BattleUnlockedPoolCard({
   setLoading,
 }) {
   const { memberships } = usePoolDetails(pool.id);
+
+  // Information to get League Participation Rate
   const totalMembers = memberships.length;
   const createdBetslips = latestBattle.betslip_count;
     const participationRate = totalMembers > 0
