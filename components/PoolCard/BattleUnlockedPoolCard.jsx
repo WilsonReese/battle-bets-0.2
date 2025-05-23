@@ -5,6 +5,8 @@ import { router } from "expo-router";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import api from "../../utils/axiosConfig";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
+import { useBetContext } from "../contexts/BetContext";
+import { useEffect } from "react";
 
 export function BattleUnlockedPoolCard({
   pool,
@@ -17,12 +19,14 @@ export function BattleUnlockedPoolCard({
 }) {
   const { memberships } = usePoolDetails(pool.id);
 
+  const { getTotalRemainingBudget, loadBets } = useBetContext();
+  const remaining = getTotalRemainingBudget(); // for current battle context
+
   // Information to get League Participation Rate
   const totalMembers = memberships.length;
   const createdBetslips = latestBattle.betslip_count;
-    const participationRate = totalMembers > 0
-    ? (createdBetslips / totalMembers) * 100
-    : 0;
+  const participationRate =
+    totalMembers > 0 ? (createdBetslips / totalMembers) * 100 : 0;
 
   const handleMyBetslip = async () => {
     if (userBetslip) {
@@ -58,6 +62,12 @@ export function BattleUnlockedPoolCard({
     }
   };
 
+  useEffect(() => {
+    if (userBetslip) {
+      loadBets(pool.id, selectedSeason.id, latestBattle.id, userBetslip.id);
+    }
+  }, [userBetslip?.id, latestBattle.id]);
+
   return (
     <View style={s.detailsContainer}>
       <View style={s.overviewContainer}>
@@ -81,9 +91,16 @@ export function BattleUnlockedPoolCard({
             <Txt style={s.infoTitleTxt}>League Participation:</Txt>
             <Txt style={s.txt}>{participationRate.toFixed(1)}%</Txt>
           </View>
-          <TouchableOpacity style={s.infoUnitContainer} onPress={handleMyBetslip}>
+          <TouchableOpacity
+            style={s.infoUnitContainer}
+            onPress={handleMyBetslip}
+          >
             <Txt style={s.infoTitleTxt}>My Betslip:</Txt>
-            <Txt style={s.txt}>$4500 to bet</Txt>
+              <Txt style={s.txt}>
+                ${remaining.spreadOU + remaining.moneyLine + remaining.prop} to
+                bet
+              </Txt>
+
             <FontAwesome6 name="pen-to-square" size={14} color="#54D18C" />
           </TouchableOpacity>
         </View>

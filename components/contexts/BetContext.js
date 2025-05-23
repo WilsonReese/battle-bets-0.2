@@ -29,14 +29,14 @@ export const BetProvider = ({ children, battleId }) => {
         recalculateTotals(parsedBets);
         return; // Exit early since bets were loaded from storage
       }
-  
+
       // Step 2: If no stored bets, fetch from backend
       const response = await api.get(
         `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`
       );
-  
+
       const { bets, status } = response.data;
-  
+
       if (status === "submitted") {
         const transformedBets = bets.map((bet) => ({
           id: bet.id,
@@ -47,22 +47,24 @@ export const BetProvider = ({ children, battleId }) => {
           betOptionID: bet.bet_option_id,
           shortTitle: bet.bet_option.title,
           payout: bet.bet_option.payout,
-          game: bet.bet_option.game
+          game: bet.bet_option.game,
         }));
-  
+
         console.log("Transformed Bets from Backend:", transformedBets);
-  
+
         // Store the bets in AsyncStorage
         await AsyncStorage.setItem(
           `bets-${battleId}`,
           JSON.stringify(transformedBets)
         );
-  
+
         // Update state with the transformed bets
         setBets(transformedBets);
         recalculateTotals(transformedBets);
       } else {
-        console.log(`Betslip for battle ${battleId} not submitted. No bets loaded.`);
+        console.log(
+          `Betslip for battle ${battleId} not submitted. No bets loaded.`
+        );
       }
     } catch (error) {
       console.error("Error loading bets:", error);
@@ -150,7 +152,15 @@ export const BetProvider = ({ children, battleId }) => {
     setTotalPropBet(totalPropBet);
   };
 
-  const addBet = ({ title, betAmount, payout, betType, betOptionID, shortTitle, game }) => {
+  const addBet = ({
+    title,
+    betAmount,
+    payout,
+    betType,
+    betOptionID,
+    shortTitle,
+    game,
+  }) => {
     const newBet = {
       id: uuid.v4(),
       name: title,
@@ -161,7 +171,7 @@ export const BetProvider = ({ children, battleId }) => {
       isNew: true, // Flag to indicate it's a new bet
       shortTitle: shortTitle,
       payout: payout,
-      game: game
+      game: game,
     };
     console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);
@@ -172,11 +182,11 @@ export const BetProvider = ({ children, battleId }) => {
   const removeBet = (id) => {
     const betToRemove = bets.find((bet) => bet.id === id);
     if (betToRemove) {
-          // Add the removed bet to betsToRemove only if it exists in the backend
+      // Add the removed bet to betsToRemove only if it exists in the backend
       if (!betToRemove.isNew) {
         setBetsToRemove((prev) => [...prev, betToRemove.id]);
       }
-      console.log('Removed Bet:', betToRemove)
+      console.log("Removed Bet:", betToRemove);
       setBets((prevBets) => prevBets.filter((bet) => bet.id !== id));
       updateTotalBetState(
         getBetOptionType(betToRemove.betType),
@@ -254,6 +264,14 @@ export const BetProvider = ({ children, battleId }) => {
     );
   };
 
+  const getTotalRemainingBudget = () => {
+    return {
+      spreadOU: spreadOUBudget - totalSpreadOUBet,
+      moneyLine: moneyLineBudget - totalMoneyLineBet,
+      prop: propBetBudget - totalPropBet,
+    };
+  };
+
   return (
     <BetContext.Provider
       value={{
@@ -285,10 +303,10 @@ export const BetProvider = ({ children, battleId }) => {
         storeBets,
         // loadBetsFromBackend,
         // submitBets,
+        getTotalRemainingBudget,
       }}
     >
       {children}
     </BetContext.Provider>
   );
 };
-
