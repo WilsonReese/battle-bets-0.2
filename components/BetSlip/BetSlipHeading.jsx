@@ -43,13 +43,13 @@ export function BetSlipHeading({
     <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
   );
 
-  useEffect(() => {
-    Animated.timing(rotation, {
-      toValue: isBetSlipShown ? 1 : 0,
-      duration: 150,
-      useNativeDriver: true,
-    }).start();
-  }, [isBetSlipShown]);
+  // useEffect(() => {
+  //   Animated.timing(rotation, {
+  //     toValue: isBetSlipShown ? 1 : 0,
+  //     duration: 150,
+  //     useNativeDriver: true,
+  //   }).start();
+  // }, [isBetSlipShown]);
 
   useEffect(() => {
     // Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
@@ -58,14 +58,14 @@ export function BetSlipHeading({
     setHasChanges(betsChanged || hasRemovals);
   }, [bets, betsToRemove, initialBetsSnapshot]);
 
-  const rotateInterpolate = rotation.interpolate({
-    inputRange: [0, 1],
-    outputRange: ["0deg", "180deg"],
-  });
+  // const rotateInterpolate = rotation.interpolate({
+  //   inputRange: [0, 1],
+  //   outputRange: ["0deg", "180deg"],
+  // });
 
-  const arrowStyle = {
-    transform: [{ rotate: rotateInterpolate }],
-  };
+  // const arrowStyle = {
+  //   transform: [{ rotate: rotateInterpolate }],
+  // };
 
   function calculateTotalPayout() {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
@@ -132,12 +132,12 @@ export function BetSlipHeading({
   return (
     <View style={s.container}>
       <View style={s.headingContainer}>
-        <TouchableOpacity style={s.titleContainer} onPress={toggleBetSlip}>
-          <Txt style={s.title}>Bet Slip</Txt>
-          <Animated.View style={arrowStyle}>
+        <View style={s.titleContainer}>
+          <Txt style={s.title}>Betslip</Txt>
+          {/* <Animated.View style={arrowStyle}>
             <FontAwesome6 name="chevron-up" size={16} color="#F8F8F8" />
-          </Animated.View>
-        </TouchableOpacity>
+          </Animated.View> */}
+        </View>
         <View style={s.btnContainer}>
           <Btn
             btnText={"Save "}
@@ -166,10 +166,10 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 12,
-    paddingVertical: 12,
-    backgroundColor: "#184EAD",
-    borderTopLeftRadius: 15,
-    borderTopRightRadius: 15,
+    paddingBottom: 12,
+    // backgroundColor: "#184EAD",
+    // borderTopLeftRadius: 15,
+    // borderTopRightRadius: 15,
   },
   titleContainer: {
     flexDirection: "row",
@@ -186,13 +186,6 @@ const s = StyleSheet.create({
     paddingVertical: 4,
     paddingHorizontal: 12,
   },
-  progressContainer: {
-    backgroundColor: "#184EAD",
-    flexDirection: "row",
-    // paddingVertical: 4,
-    // paddingHorizontal: 8,
-    justifyContent: "space-between",
-  },
   payoutContainer: {
     flexDirection: "row",
     justifyContent: "space-between",
@@ -202,13 +195,13 @@ const s = StyleSheet.create({
     // backgroundColor: "#0C9449",
   },
   payoutHeading: {
-    color: "#061826",
+    // color: "#061826",
     textTransform: "uppercase",
     fontFamily: "Saira_600SemiBold",
     // fontSize: 14
   },
   payoutText: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     fontSize: 18,
   },

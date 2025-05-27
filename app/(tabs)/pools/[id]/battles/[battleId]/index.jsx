@@ -1,4 +1,11 @@
-import { View, StyleSheet, ScrollView, ActivityIndicator, Animated, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  ActivityIndicator,
+  Animated,
+  Dimensions,
+} from "react-native";
 import { router, useLocalSearchParams } from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "@/components/general/Txt";
@@ -18,13 +25,18 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
 
 export default function BattleDetails() {
-  const { id: poolId, leagueSeasonId, battleId, betslipId } = useLocalSearchParams();
+  const {
+    id: poolId,
+    leagueSeasonId,
+    battleId,
+    betslipId,
+  } = useLocalSearchParams();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const scrollViewRef = useRef(null);
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
-  
+
   // BetSlip information
   // const { height } = Dimensions.get("window");
   // const betSlipHeight = (height * 3) / 5;
@@ -113,20 +125,20 @@ export default function BattleDetails() {
                 <View style={{ height: 152 }}></View>
               </ScrollView>
             </View>
-              <BetSlip
-                poolId={poolId}
-                isBetSlipShown={isBetSlipShown}
-                setIsBetSlipShown={setIsBetSlipShown}
-                scrollViewRef={scrollViewRef}
-                leagueSeasonId={leagueSeasonId}
-                betslipId={betslipId}
-                battleId={battleId}
-                // height={height}
-                // betSlipHeight={betSlipHeight}
-                // betSlipHeadingHeight={betSlipHeadingHeight}
-                // animatedHeight={animatedHeight}
-                // toggleBetSlip={toggleBetSlip}
-              />
+            <BetSlip
+              poolId={poolId}
+              isBetSlipShown={isBetSlipShown}
+              setIsBetSlipShown={setIsBetSlipShown}
+              scrollViewRef={scrollViewRef}
+              leagueSeasonId={leagueSeasonId}
+              betslipId={betslipId}
+              battleId={battleId}
+              // height={height}
+              // betSlipHeight={betSlipHeight}
+              // betSlipHeadingHeight={betSlipHeadingHeight}
+              // animatedHeight={animatedHeight}
+              // toggleBetSlip={toggleBetSlip}
+            />
           </>
         )}
       </SafeAreaView>

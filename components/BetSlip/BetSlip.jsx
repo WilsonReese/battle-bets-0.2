@@ -28,15 +28,15 @@ export function BetSlip({
   // toggleBetSlip,
 }) {
   const sheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["12%", "70%",], []);
+  const snapPoints = useMemo(() => ["15.5%"], []);
+  const screenHeight = Dimensions.get("window").height;
 
   return (
     <BottomSheet
       ref={sheetRef}
       index={0} // Start partially open
       snapPoints={snapPoints}
-      // maxDynamicContentSize={600}
-      // enablePanDownToClose
+      maxDynamicContentSize={screenHeight * 0.6}
       onClose={() => setIsBetSlipShown(false)}
       onChange={(index) => setIsBetSlipShown(index !== -1)}
       backgroundStyle={s.sheetBackground}
@@ -53,7 +53,9 @@ export function BetSlip({
           battleId={battleId}
         />
       </BottomSheetView>
-      <BottomSheetScrollView contentContainerStyle={s.content}>
+      <BottomSheetScrollView
+        contentContainerStyle={s.content}
+      >
         {/* <BetSlipDetails toggleBetSlip={toggleBetSlip} /> */}
         <BetSlipDetails />
       </BottomSheetScrollView>
@@ -78,5 +80,11 @@ const s = StyleSheet.create({
     shadowOpacity: 0.4,
     shadowRadius: 3.84,
     elevation: 5,
+  },
+  sheetBackground: {
+    backgroundColor: '#1D394E',
+  },
+  handle: {
+    backgroundColor: '#F8F8F8'
   },
 });
