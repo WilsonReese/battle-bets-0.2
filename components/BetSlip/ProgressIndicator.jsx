@@ -4,7 +4,7 @@ import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 
-export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipShown, scrollViewRef}) {
+export function ProgressIndicator({ betOptionTypeProp, isBetSlipShown, scrollViewRef}) {
   const { getBetOptionLongTitle, getTotalBetAmount, getBudget, setBetOptionType, betOptionType } =
     useBetContext();
   const title = getBetOptionLongTitle(betOptionTypeProp);
@@ -15,7 +15,7 @@ export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipS
   const handlePress = () => {
     setBetOptionType(betOptionTypeProp);
     if (isBetSlipShown) {
-      toggleBetSlip();
+      // toggleBetSlip();
     }
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };

@@ -17,6 +17,7 @@ export const BetProvider = ({ children, battleId }) => {
   const [totalPropBet, setTotalPropBet] = useState(0);
   const [betOptionType, setBetOptionType] = useState("spreadOU"); // sets SpreadOU as initial bet option type state
   const [betsToRemove, setBetsToRemove] = useState([]); // State for tracking bets to remove
+  const [initialBetsSnapshot, setInitialBetsSnapshot] = useState([]);
 
   const loadBets = async (poolId, leagueSeasonId, battleId, betslipId) => {
     try {
@@ -60,6 +61,7 @@ export const BetProvider = ({ children, battleId }) => {
 
         // Update state with the transformed bets
         setBets(transformedBets);
+        setInitialBetsSnapshot(transformedBets);
         recalculateTotals(transformedBets);
       } else {
         console.log(
@@ -304,6 +306,11 @@ export const BetProvider = ({ children, battleId }) => {
         // loadBetsFromBackend,
         // submitBets,
         getTotalRemainingBudget,
+
+
+        // New 5.27.2025
+        initialBetsSnapshot,
+        setInitialBetsSnapshot
       }}
     >
       {children}

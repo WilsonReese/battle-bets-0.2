@@ -4,26 +4,26 @@ import { Txt } from "../general/Txt";
 import { useBetContext } from "../contexts/BetContext";
 import { ProgressIndicator } from "../BetSlip/ProgressIndicator";
 
-export function BudgetRow({ isBetSlipShown, scrollViewRef, toggleBetSlip }) {
+export function BudgetRow({ isBetSlipShown, scrollViewRef, }) {
   return (
     <View style={s.container}>
       <View style={s.progressIndicatorsContainer}>
         <ProgressIndicator
           betOptionTypeProp={"spreadOU"}
           isBetSlipShown={isBetSlipShown}
-          toggleBetSlip={toggleBetSlip}
+          // toggleBetSlip={toggleBetSlip}
           scrollViewRef={scrollViewRef}
         />
         <ProgressIndicator
           betOptionTypeProp={"moneyLine"}
           isBetSlipShown={isBetSlipShown}
-          toggleBetSlip={toggleBetSlip}
+          // toggleBetSlip={toggleBetSlip}
           scrollViewRef={scrollViewRef}
         />
         <ProgressIndicator
           betOptionTypeProp={"prop"}
           isBetSlipShown={isBetSlipShown}
-          toggleBetSlip={toggleBetSlip}
+          // toggleBetSlip={toggleBetSlip}
           scrollViewRef={scrollViewRef}
         />
       </View>
