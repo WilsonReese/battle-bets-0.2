@@ -18,6 +18,7 @@ export const BetProvider = ({ children, battleId }) => {
   const [betOptionType, setBetOptionType] = useState("spreadOU"); // sets SpreadOU as initial bet option type state
   const [betsToRemove, setBetsToRemove] = useState([]); // State for tracking bets to remove
   const [initialBetsSnapshot, setInitialBetsSnapshot] = useState([]);
+  const [budgetsByBattle, setBudgetsByBattle] = useState({});
 
   const loadBets = async (
     poolId,
@@ -55,6 +56,11 @@ export const BetProvider = ({ children, battleId }) => {
       setBets(transformedBets);
       setInitialBetsSnapshot(transformedBets);
       recalculateTotals(transformedBets);
+      const calculatedBudget = calculateRemainingBudget(transformedBets);
+      setBudgetsByBattle((prev) => ({
+        ...prev,
+        [battleId]: calculatedBudget,
+      }));
     } catch (error) {
       console.error("Error loading bets from backend:", error);
     }
@@ -275,6 +281,43 @@ export const BetProvider = ({ children, battleId }) => {
     };
   };
 
+  const calculateRemainingBudget = (bets) => {
+    let spreadOU = 0;
+    let moneyLine = 0;
+    let prop = 0;
+
+    bets.forEach((bet) => {
+      const type = getBetOptionType(bet.betType);
+      switch (type) {
+        case "spreadOU":
+          spreadOU += bet.betAmount;
+          break;
+        case "moneyLine":
+          moneyLine += bet.betAmount;
+          break;
+        case "prop":
+          prop += bet.betAmount;
+          break;
+      }
+    });
+
+    return {
+      spreadOU: spreadOUBudget - spreadOU,
+      moneyLine: moneyLineBudget - moneyLine,
+      prop: propBetBudget - prop,
+    };
+  };
+
+  const getBudgetForBattle = (battleId) => {
+    return (
+      budgetsByBattle[battleId] || {
+        spreadOU: spreadOUBudget,
+        moneyLine: moneyLineBudget,
+        prop: propBetBudget,
+      }
+    );
+  };
+
   return (
     <BetContext.Provider
       value={{
@@ -313,6 +356,7 @@ export const BetProvider = ({ children, battleId }) => {
         setInitialBetsSnapshot,
         convertToCamelCase,
         transformBackendBets,
+        getBudgetForBattle,
       }}
     >
       {children}

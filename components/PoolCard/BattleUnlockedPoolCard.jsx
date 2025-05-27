@@ -1,12 +1,12 @@
 import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
-import { router } from "expo-router";
+import { router, useFocusEffect } from "expo-router";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import api from "../../utils/axiosConfig";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { useBetContext } from "../contexts/BetContext";
-import { useEffect } from "react";
+import { useCallback, useEffect } from "react";
 
 export function BattleUnlockedPoolCard({
   pool,
@@ -19,8 +19,8 @@ export function BattleUnlockedPoolCard({
 }) {
   const { memberships } = usePoolDetails(pool.id);
 
-  const { getTotalRemainingBudget, loadBets } = useBetContext();
-  const remaining = getTotalRemainingBudget(); // for current battle context
+  const { getBudgetForBattle, loadBets } = useBetContext();
+  const remaining = getBudgetForBattle(latestBattle.id);
 
   // Information to get League Participation Rate
   const totalMembers = memberships.length;
@@ -62,11 +62,19 @@ export function BattleUnlockedPoolCard({
     }
   };
 
-  useEffect(() => {
-    if (userBetslip) {
-      loadBets(pool.id, selectedSeason.id, latestBattle.id, userBetslip.id);
-    }
-  }, [userBetslip?.id, latestBattle.id]);
+  useFocusEffect(
+    useCallback(() => {
+      if (userBetslip) {
+        loadBets(
+          pool.id,
+          selectedSeason.id,
+          latestBattle.id,
+          userBetslip.id,
+          true // forceBackend = true to guarantee up-to-date budget
+        );
+      }
+    }, [userBetslip?.id, latestBattle.id])
+  );
 
   return (
     <View style={s.detailsContainer}>
@@ -96,10 +104,10 @@ export function BattleUnlockedPoolCard({
             onPress={handleMyBetslip}
           >
             <Txt style={s.infoTitleTxt}>My Betslip:</Txt>
-              <Txt style={s.txt}>
-                ${remaining.spreadOU + remaining.moneyLine + remaining.prop} to
-                bet
-              </Txt>
+            <Txt style={s.txt}>
+              ${remaining.spreadOU + remaining.moneyLine + remaining.prop} to
+              bet
+            </Txt>
 
             <FontAwesome6 name="pen-to-square" size={14} color="#54D18C" />
           </TouchableOpacity>
