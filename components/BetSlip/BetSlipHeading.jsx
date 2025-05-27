@@ -35,6 +35,7 @@ export function BetSlipHeading({
     betsToRemove,
     setBetsToRemove,
     convertToCamelCase,
+    transformBackendBets,
   } = useBetContext();
   const [hasChanges, setHasChanges] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -108,17 +109,7 @@ export function BetSlipHeading({
         `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`
       );
 
-      const normalizedBets = res.data.bets.map((bet) => ({
-        id: bet.id,
-        name: bet.bet_option.long_title,
-        betAmount: parseFloat(bet.bet_amount),
-        toWinAmount: parseFloat(bet.to_win_amount),
-        betType: convertToCamelCase(bet.bet_option.category),
-        betOptionID: bet.bet_option_id,
-        shortTitle: bet.bet_option.title,
-        payout: bet.bet_option.payout,
-        game: bet.bet_option.game,
-      }));
+      const normalizedBets = transformBackendBets(res.data.bets);
 
       await AsyncStorage.setItem(
         `bets-${battleId}`,

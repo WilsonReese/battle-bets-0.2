@@ -46,17 +46,7 @@ export const BetProvider = ({ children, battleId }) => {
 
       const { bets, status } = response.data;
 
-      const transformedBets = bets.map((bet) => ({
-        id: bet.id,
-        name: bet.bet_option.long_title,
-        betAmount: parseFloat(bet.bet_amount),
-        toWinAmount: parseFloat(bet.to_win_amount),
-        betType: convertToCamelCase(bet.bet_option.category),
-        betOptionID: bet.bet_option_id,
-        shortTitle: bet.bet_option.title,
-        payout: bet.bet_option.payout,
-        game: bet.bet_option.game,
-      }));
+      const transformedBets = transformBackendBets(bets);
 
       await AsyncStorage.setItem(
         `bets-${battleId}`,
@@ -68,6 +58,20 @@ export const BetProvider = ({ children, battleId }) => {
     } catch (error) {
       console.error("Error loading bets from backend:", error);
     }
+  };
+
+  const transformBackendBets = (bets) => {
+    return bets.map((bet) => ({
+      id: bet.id,
+      name: bet.bet_option.long_title,
+      betAmount: parseFloat(bet.bet_amount),
+      toWinAmount: parseFloat(bet.to_win_amount),
+      betType: convertToCamelCase(bet.bet_option.category),
+      betOptionID: bet.bet_option_id,
+      shortTitle: bet.bet_option.title,
+      payout: bet.bet_option.payout,
+      game: bet.bet_option.game,
+    }));
   };
 
   // Store bets in AsyncStorage
@@ -307,7 +311,8 @@ export const BetProvider = ({ children, battleId }) => {
         // New 5.27.2025
         initialBetsSnapshot,
         setInitialBetsSnapshot,
-        convertToCamelCase
+        convertToCamelCase,
+        transformBackendBets,
       }}
     >
       {children}
