@@ -58,7 +58,7 @@ export default function BattleDetails() {
     const initializeBattleData = async () => {
       setLoading(true);
       await fetchGames();
-      await loadBets(poolId, leagueSeasonId, battleId, betslipId);
+      await loadBets(poolId, leagueSeasonId, battleId, betslipId, true); // force backend
       setLoading(false);
     };
 

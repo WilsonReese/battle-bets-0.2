@@ -19,57 +19,54 @@ export const BetProvider = ({ children, battleId }) => {
   const [betsToRemove, setBetsToRemove] = useState([]); // State for tracking bets to remove
   const [initialBetsSnapshot, setInitialBetsSnapshot] = useState([]);
 
-  const loadBets = async (poolId, leagueSeasonId, battleId, betslipId) => {
+  const loadBets = async (
+    poolId,
+    leagueSeasonId,
+    battleId,
+    betslipId,
+    forceBackend = false
+  ) => {
     try {
-      // Step 1: Check AsyncStorage for existing bets
-      const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
-      if (storedBets) {
-        const parsedBets = JSON.parse(storedBets);
-        console.log("Loaded bets from storage:", parsedBets);
-        setBets(parsedBets);
-        recalculateTotals(parsedBets);
-        return; // Exit early since bets were loaded from storage
+      if (!forceBackend) {
+        const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
+        if (storedBets) {
+          const parsedBets = JSON.parse(storedBets);
+          console.log("Loaded bets from storage:", parsedBets);
+          setBets(parsedBets);
+          setInitialBetsSnapshot(parsedBets);
+          recalculateTotals(parsedBets);
+          return;
+        }
       }
 
-      // Step 2: If no stored bets, fetch from backend
+      // If forceBackend OR no stored bets
       const response = await api.get(
         `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`
       );
 
       const { bets, status } = response.data;
 
-      if (status === "submitted") {
-        const transformedBets = bets.map((bet) => ({
-          id: bet.id,
-          name: bet.bet_option.long_title,
-          betAmount: parseFloat(bet.bet_amount),
-          toWinAmount: parseFloat(bet.to_win_amount),
-          betType: convertToCamelCase(bet.bet_option.category),
-          betOptionID: bet.bet_option_id,
-          shortTitle: bet.bet_option.title,
-          payout: bet.bet_option.payout,
-          game: bet.bet_option.game,
-        }));
+      const transformedBets = bets.map((bet) => ({
+        id: bet.id,
+        name: bet.bet_option.long_title,
+        betAmount: parseFloat(bet.bet_amount),
+        toWinAmount: parseFloat(bet.to_win_amount),
+        betType: convertToCamelCase(bet.bet_option.category),
+        betOptionID: bet.bet_option_id,
+        shortTitle: bet.bet_option.title,
+        payout: bet.bet_option.payout,
+        game: bet.bet_option.game,
+      }));
 
-        // console.log("Transformed Bets from Backend:", transformedBets);
-
-        // Store the bets in AsyncStorage
-        await AsyncStorage.setItem(
-          `bets-${battleId}`,
-          JSON.stringify(transformedBets)
-        );
-
-        // Update state with the transformed bets
-        setBets(transformedBets);
-        setInitialBetsSnapshot(transformedBets);
-        recalculateTotals(transformedBets);
-      } else {
-        console.log(
-          `Betslip for battle ${battleId} not submitted. No bets loaded.`
-        );
-      }
+      await AsyncStorage.setItem(
+        `bets-${battleId}`,
+        JSON.stringify(transformedBets)
+      );
+      setBets(transformedBets);
+      setInitialBetsSnapshot(transformedBets);
+      recalculateTotals(transformedBets);
     } catch (error) {
-      console.error("Error loading bets:", error);
+      console.error("Error loading bets from backend:", error);
     }
   };
 
@@ -307,10 +304,10 @@ export const BetProvider = ({ children, battleId }) => {
         // submitBets,
         getTotalRemainingBudget,
 
-
         // New 5.27.2025
         initialBetsSnapshot,
-        setInitialBetsSnapshot
+        setInitialBetsSnapshot,
+        convertToCamelCase
       }}
     >
       {children}
