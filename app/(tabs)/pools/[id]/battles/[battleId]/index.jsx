@@ -26,13 +26,10 @@ export default function BattleDetails() {
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
   
   // BetSlip information
-  const { height } = Dimensions.get("window");
-  const betSlipHeight = (height * 3) / 5;
-  const betSlipHeadingHeight = 94; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
-  const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
-  
-  // const [bets, setBets] = useState([]);
-  // const { setBets } = useBetContext();
+  // const { height } = Dimensions.get("window");
+  // const betSlipHeight = (height * 3) / 5;
+  // const betSlipHeadingHeight = 94; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
+  // const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
 
   // Function to fetch games for the current battle
   const fetchGames = async () => {
@@ -46,31 +43,14 @@ export default function BattleDetails() {
     }
   };
 
-  const toggleBetSlip = () => {
-    Animated.timing(animatedHeight, {
-      toValue: isBetSlipShown ? betSlipHeadingHeight : betSlipHeight,
-      duration: 250,
-      useNativeDriver: false,
-    }).start(() => {
-      setIsBetSlipShown(!isBetSlipShown);
-    });
-  };
-
-  // Function to load bets from AsyncStorage
-  // const loadBets = async () => {
-  //   try {
-  //     const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
-
-  //     if (storedBets) {
-  //       console.log(`Loading bets for battle ${battleId}`);
-  //       await loadStoredBets(battleId); // Load bets for this battle
-  //     } else {
-  //       console.log("No stored bets, loading from backend...");
-  //       await loadBetsFromBackend(poolId, battleId, betslipId);
-  //     }
-  //   } catch (error) {
-  //     console.error("Error loading bets:", error);
-  //   }
+  // const toggleBetSlip = () => {
+  //   Animated.timing(animatedHeight, {
+  //     toValue: isBetSlipShown ? betSlipHeadingHeight : betSlipHeight,
+  //     duration: 250,
+  //     useNativeDriver: false,
+  //   }).start(() => {
+  //     setIsBetSlipShown(!isBetSlipShown);
+  //   });
   // };
 
   // useEffect to trigger fetching games and loading bets on mount
@@ -83,10 +63,6 @@ export default function BattleDetails() {
     };
 
     initializeBattleData();
-    // return () => {
-    //   console.log(`Clearing bets for battle ${battleId}`);
-    //   setBets([]);
-    // };
   }, [battleId]);
 
   // useEffect to store bets in AsyncStorage whenever they change
@@ -125,7 +101,7 @@ export default function BattleDetails() {
               <BudgetRow
                 isBetSlipShown={isBetSlipShown}
                 scrollViewRef={scrollViewRef}
-                toggleBetSlip={toggleBetSlip}
+                // toggleBetSlip={toggleBetSlip}
               ></BudgetRow>
               {/* <Txt>Pool {poolId}</Txt>
               <Txt>Betlslip {betslipId}</Txt> */}
@@ -137,7 +113,6 @@ export default function BattleDetails() {
                 <View style={{ height: 152 }}></View>
               </ScrollView>
             </View>
-            <View>
               <BetSlip
                 poolId={poolId}
                 isBetSlipShown={isBetSlipShown}
@@ -146,13 +121,12 @@ export default function BattleDetails() {
                 leagueSeasonId={leagueSeasonId}
                 betslipId={betslipId}
                 battleId={battleId}
-                height={height}
-                betSlipHeight={betSlipHeight}
-                betSlipHeadingHeight={betSlipHeadingHeight}
-                animatedHeight={animatedHeight}
-                toggleBetSlip={toggleBetSlip}
+                // height={height}
+                // betSlipHeight={betSlipHeight}
+                // betSlipHeadingHeight={betSlipHeadingHeight}
+                // animatedHeight={animatedHeight}
+                // toggleBetSlip={toggleBetSlip}
               />
-            </View>
           </>
         )}
       </SafeAreaView>

@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { useMemo, useRef } from "react";
 import {
   StyleSheet,
   Animated,
@@ -8,6 +8,10 @@ import {
 } from "react-native";
 import { BetSlipHeading } from "./BetSlipHeading";
 import { BetSlipDetails } from "./BetSlipDetails";
+import BottomSheet, {
+  BottomSheetScrollView,
+  BottomSheetView,
+} from "@gorhom/bottom-sheet";
 
 export function BetSlip({
   poolId,
@@ -19,26 +23,41 @@ export function BetSlip({
   battleId,
   height,
   betSlipHeight,
-  betSlipHeadingHeight, 
+  betSlipHeadingHeight,
   animatedHeight,
-  toggleBetSlip
+  // toggleBetSlip,
 }) {
+  const sheetRef = useRef(null);
+  const snapPoints = useMemo(() => ["12%", "70%",], []);
 
   return (
-    <Animated.View style={[s.container, { height: animatedHeight }]}>
-      <View>
+    <BottomSheet
+      ref={sheetRef}
+      index={0} // Start partially open
+      snapPoints={snapPoints}
+      // maxDynamicContentSize={600}
+      // enablePanDownToClose
+      onClose={() => setIsBetSlipShown(false)}
+      onChange={(index) => setIsBetSlipShown(index !== -1)}
+      backgroundStyle={s.sheetBackground}
+      handleIndicatorStyle={s.handle}
+    >
+      <BottomSheetView>
         <BetSlipHeading
           poolId={poolId}
           isBetSlipShown={isBetSlipShown}
-          toggleBetSlip={toggleBetSlip}
+          // toggleBetSlip={toggleBetSlip}
           scrollViewRef={scrollViewRef}
           leagueSeasonId={leagueSeasonId}
           betslipId={betslipId}
           battleId={battleId}
         />
-      </View>
-      <BetSlipDetails toggleBetSlip={toggleBetSlip} />
-    </Animated.View>
+      </BottomSheetView>
+      <BottomSheetScrollView contentContainerStyle={s.content}>
+        {/* <BetSlipDetails toggleBetSlip={toggleBetSlip} /> */}
+        <BetSlipDetails />
+      </BottomSheetScrollView>
+    </BottomSheet>
   );
 }
 
