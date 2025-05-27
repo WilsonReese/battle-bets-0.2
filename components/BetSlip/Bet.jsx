@@ -29,7 +29,7 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
             {/* <Txt style={s.betNameText}>{bet.name}</Txt> */}
-            <BetDetails name={bet.shortTitle} multiplier={bet.payout} matchup={matchup} time={gameTime}/>
+            <BetDetails name={bet.shortTitle} multiplier={bet.payout} matchup={matchup} time={gameTime} betNameColor={'#F8F8F8'}/>
           </View>
           <View style={s.betAmountContainer}>
             <BetAmount betAmount={bet.betAmount} toWinAmount={bet.toWinAmount}/>
@@ -56,6 +56,8 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
 const s = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
+    borderBottomWidth: .5,
+    borderColor: '#0F2638'
   },
   betItem: {
     justifyContent: "space-between",
@@ -80,20 +82,10 @@ const s = StyleSheet.create({
     // marginRight: 20,
     // backgroundColor: 'green'
   },
-  betNameText: {
-    fontSize: 14,
-    // fontFamily: "Saira_600SemiBold",
-    color: "#061826",
-  },
   betAmountContainer: {
     flex: 2,
     alignItems: 'flex-end'
     // backgroundColor: 'blue'
-  },
-  betAmountText: {
-    fontSize: 14,
-    // fontFamily: "Saira_600SemiBold",
-    color: "#061826",
   },
   betSelectorContainer: {
     marginBottom: 4,

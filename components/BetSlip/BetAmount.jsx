@@ -27,7 +27,7 @@ const s = StyleSheet.create({
     // backgroundColor: 'red',
   },
   txt: {
-    color: "#061826",
+    // color: "#061826",
     fontSize: 13,
   },
   boldTxt: {

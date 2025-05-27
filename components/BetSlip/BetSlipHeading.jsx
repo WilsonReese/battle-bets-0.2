@@ -16,6 +16,7 @@ import api from "../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import isEqual from "lodash.isequal";
+import { useToastMessage } from "../../hooks/useToastMessage";
 
 export function BetSlipHeading({
   poolId,
@@ -39,9 +40,7 @@ export function BetSlipHeading({
   } = useBetContext();
   const [hasChanges, setHasChanges] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
-  const arrowSubmitIcon = (
-    <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
-  );
+  const { showError, showSuccess } = useToastMessage();
 
   // useEffect(() => {
   //   Animated.timing(rotation, {
@@ -120,10 +119,10 @@ export function BetSlipHeading({
       setBetsToRemove([]);
       setHasChanges(false);
 
-      Alert.alert("Saved", "Your bets have been saved.");
+      showSuccess("Saved.");
     } catch (error) {
       console.error("Error saving bets:", error.response || error);
-      Alert.alert("Error", "Failed to save bets.");
+      showError("Failed to save bets.");
     } finally {
       setIsSubmitting(false);
     }
@@ -140,8 +139,8 @@ export function BetSlipHeading({
         </View>
         <View style={s.btnContainer}>
           <Btn
-            btnText={"Save "}
-            icon={arrowSubmitIcon}
+            btnText={"Save"}
+            fontSize={14}
             style={s.btn}
             isEnabled={hasChanges && !isSubmitting}
             onPress={handleSaveBets} // Call the handleSubmitBets function when pressed

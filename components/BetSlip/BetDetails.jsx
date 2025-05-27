@@ -54,6 +54,6 @@ const s = StyleSheet.create({
 	},
   smallTxt: {
     fontSize: 10,
-		color: '#6E7880'
+		color: '#C7CDD1'
   },
 });

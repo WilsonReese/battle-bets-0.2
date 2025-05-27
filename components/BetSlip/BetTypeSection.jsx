@@ -18,7 +18,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
           key={bet.id}
           bet={bet}
           isSelectorVisible={isSelectorVisible}
-          backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"}
+          backgroundColor={index % 2 === 0 ? "#1D394E" : "#1D394E"}
         />
       ));
   }
@@ -30,7 +30,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
   }
 
   useEffect(() => {
-    setBetAmountBtnAction(isSelectorVisible ? "Save" : "Edit");
+    setBetAmountBtnAction(isSelectorVisible ? "Collapse" : "Expand");
   }, [isSelectorVisible]);
 
   return (
@@ -39,7 +39,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
       <View style={s.payoutContainer}>
         <SmallBtn
           isEnabled={true}
-          text={`${betAmountBtnAction} Bets`}
+          text={betAmountBtnAction}
           style={s.btns}
           onPress={() => setIsSelectorVisible(!isSelectorVisible)}
         />
