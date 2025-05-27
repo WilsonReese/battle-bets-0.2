@@ -59,14 +59,7 @@ export function BetSlipHeading({
     setIsSubmitting(true);
 
     try {
-      // 1. Make API request to create bets in the backend
-      // const response = await api.post(`pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`, {
-      //   bets: bets.map(bet => ({
-      //     bet_option_id: bet.betOptionID,
-      //     bet_amount: bet.betAmount,
-      //   })),
-      // });
-      // console.log("Bets submitted, response:", response.data);
+
       // Categorize the bets: new, updated, and removed
       const newBets = bets.filter((bet) => bet.isNew);
       const updatedBets = bets.filter(
@@ -147,26 +140,6 @@ export function BetSlipHeading({
         </View>
       </View>
 
-      {/* <View style={s.progressContainer}>
-        <ProgressIndicator
-          betOptionTypeProp={"spreadOU"}
-          toggleBetSlip={toggleBetSlip}
-          isBetSlipShown={isBetSlipShown}
-          scrollViewRef={scrollViewRef}
-        />
-        <ProgressIndicator
-          betOptionTypeProp={"moneyLine"}
-          toggleBetSlip={toggleBetSlip}
-          isBetSlipShown={isBetSlipShown}
-          scrollViewRef={scrollViewRef}
-        />
-        <ProgressIndicator
-          betOptionTypeProp={"prop"}
-          toggleBetSlip={toggleBetSlip}
-          isBetSlipShown={isBetSlipShown}
-          scrollViewRef={scrollViewRef}
-        />
-      </View> */}
       <View style={s.payoutContainer}>
         <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
         <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
@@ -231,41 +204,3 @@ const s = StyleSheet.create({
     fontSize: 18,
   },
 });
-
-// const handleSubmitBets = async () => {
-//   if (isSubmitting) return;
-//   setIsSubmitting(true);
-
-//   try {
-//     const newBets = bets.filter((bet) => !bet.id); // Bets without an ID are new
-//     const updatedBets = bets.filter((bet) => bet.id && !betsToRemove.includes(bet.id));
-//     const removedBetIds = betsToRemove; // Bets to remove
-
-//     const payload = {
-//       new_bets: newBets.map(({ betOptionID, betAmount }) => ({
-//         bet_option_id: betOptionID,
-//         bet_amount: betAmount,
-//       })),
-//       updated_bets: updatedBets.map(({ id, betOptionID, betAmount }) => ({
-//         id,
-//         bet_option_id: betOptionID,
-//         bet_amount: betAmount,
-//       })),
-//       removed_bet_ids: removedBetIds,
-//     };
-
-//     const response = await api.patch(
-//       `/pools/${poolId}/battles/${battleId}/betslips/${betslipId}/bets`,
-//       { bets: payload }
-//     );
-
-//     console.log("Bets successfully updated:", response.data);
-//     Alert.alert("Success", "Bets updated successfully!");
-//     router.push(`/pools/${poolId}`);
-//   } catch (error) {
-//     console.error("Error updating bets:", error.response || error);
-//     Alert.alert("Error", "Failed to update bets.");
-//   } finally {
-//     setIsSubmitting(false);
-//   }
-// };
