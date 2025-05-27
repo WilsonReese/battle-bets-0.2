@@ -25,12 +25,12 @@ const s = StyleSheet.create({
     // backgroundColor: 'green'
   },
   text: {
-    color: "#061826",
+    // color: "#061826",
     textTransform: 'uppercase',
     fontSize: 14,
   },
   amountText: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: 'Saira_600SemiBold',
   }
 });

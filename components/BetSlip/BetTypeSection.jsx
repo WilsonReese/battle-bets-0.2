@@ -4,6 +4,8 @@ import { Bet } from "./Bet";
 import { PayoutByType } from "./PayoutByType";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { useEffect, useState } from "react";
+import { Btn } from "../general/Buttons/Btn";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export function BetTypeSection({ betTypes, toggleBetSlip }) {
   const { bets, setBetOptionType, getBetOptionType } = useBetContext();
@@ -18,7 +20,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
           key={bet.id}
           bet={bet}
           isSelectorVisible={isSelectorVisible}
-          backgroundColor={index % 2 === 0 ? "#1D394E" : "#1D394E"}
+          backgroundColor={index % 2 === 0 ? "#1D394E" : "#0F2638"}
         />
       ));
   }
@@ -30,16 +32,17 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
   }
 
   useEffect(() => {
-    setBetAmountBtnAction(isSelectorVisible ? "Collapse" : "Expand");
+    setBetAmountBtnAction(isSelectorVisible ? <FontAwesome6 name="minus" size={14} color="#F8F8F8" /> : <FontAwesome6 name="plus" size={14} color="#F8F8F8" />);
   }, [isSelectorVisible]);
 
   return (
     <View style={s.container}>
       {renderBets(betTypes)}
       <View style={s.payoutContainer}>
-        <SmallBtn
+        <Btn
           isEnabled={true}
-          text={betAmountBtnAction}
+          btnText={betAmountBtnAction}
+          fontSize={12}
           style={s.btns}
           onPress={() => setIsSelectorVisible(!isSelectorVisible)}
         />
@@ -55,11 +58,11 @@ const s = StyleSheet.create({
   },
   btns: {
     height: 24,
-    width: 100,
+    width: 40,
     marginHorizontal: 4,
-    backgroundColor: "#F8F8F8",
-    borderWidth: 1,
-    borderColor: "#184EAD",
+    // borderWidth: 1,
+    // borderColor: "#184EAD",
+    backgroundColor: '#54D18C'
   },
   // btnContainer: {
   //   flexDirection: "row",

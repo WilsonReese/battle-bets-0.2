@@ -28,7 +28,7 @@ export function BetSlip({
   // toggleBetSlip,
 }) {
   const sheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["15.5%"], []);
+  const snapPoints = useMemo(() => ["15.5%", "60%"], []);
   const screenHeight = Dimensions.get("window").height;
 
   return (

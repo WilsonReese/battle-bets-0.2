@@ -56,8 +56,8 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
 const s = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
-    borderBottomWidth: .5,
-    borderColor: '#0F2638'
+    // borderBottomWidth: .5,
+    // borderColor: '#0F2638'
   },
   betItem: {
     justifyContent: "space-between",

@@ -149,7 +149,7 @@ export function BetSlipHeading({
       </View>
 
       <View style={s.payoutContainer}>
-        <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
+        <Txt style={s.payoutHeading}>Max Payout</Txt>
         <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
       </View>
     </View>
@@ -191,7 +191,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 4,
-    // backgroundColor: "#0C9449",
+    backgroundColor: "#0F2638",
   },
   payoutHeading: {
     // color: "#061826",
