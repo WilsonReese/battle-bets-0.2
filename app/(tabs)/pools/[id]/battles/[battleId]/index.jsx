@@ -29,6 +29,7 @@ import { LoadingIndicator } from "../../../../../../components/general/LoadingIn
 import api from "../../../../../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
+import { ConfirmLeaveBetSelectionModal } from "../../../../../../components/BetSelection/ConfirmLeaveBetSelectionModal";
 
 export default function BattleDetails() {
   const {
@@ -41,9 +42,11 @@ export default function BattleDetails() {
   const [betslipHasChanges, setBetslipHasChanges] = useState(false);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [showLeaveModal, setShowLeaveModal] = useState(false);
 
   const scrollViewRef = useRef(null);
   const sheetRef = useRef(null);
+  const pendingNavEvent = useRef(null);
   const navigation = useNavigation();
 
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
@@ -104,23 +107,11 @@ export default function BattleDetails() {
         if (!betslipHasChanges) return;
 
         e.preventDefault();
-
-        Alert.alert(
-          "Unsaved Changes",
-          "You have unsaved bets. If you leave, your changes will be lost.",
-          [
-            { text: "Cancel", style: "cancel", onPress: () => {} },
-            {
-              text: "Leave",
-              style: "destructive",
-              onPress: () => navigation.dispatch(e.data.action),
-            },
-          ]
-        );
+        pendingNavEvent.current = e; // Store the navigation event
+        setShowLeaveModal(true); // Show custom modal
       };
 
       const unsubscribe = navigation.addListener("beforeRemove", beforeRemove);
-
       return () => unsubscribe();
     }, [betslipHasChanges, navigation])
   );
@@ -172,6 +163,16 @@ export default function BattleDetails() {
               // animatedHeight={animatedHeight}
               // toggleBetSlip={toggleBetSlip}
             />
+            {showLeaveModal && (
+              <ConfirmLeaveBetSelectionModal
+                visible={showLeaveModal}
+                onCancel={() => setShowLeaveModal(false)}
+                onConfirm={() => {
+                  setShowLeaveModal(false);
+                  navigation.dispatch(pendingNavEvent.current.data.action);
+                }}
+              />
+            )}
           </>
         )}
       </SafeAreaView>
