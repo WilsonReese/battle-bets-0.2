@@ -28,38 +28,15 @@ export function BattleUnlockedPoolCard({
   const participationRate =
     totalMembers > 0 ? (createdBetslips / totalMembers) * 100 : 0;
 
-  const handleMyBetslip = async () => {
-    if (userBetslip) {
-      router.push(
-        `/pools/${pool.id}/battles/${latestBattle.id}/?betslipId=${userBetslip.id}`
-      );
-    } else {
-      try {
-        setLoading?.(true);
-
-        const res = await api.post(
-          `/pools/${pool.id}/league_seasons/${selectedSeason.id}/battles/${latestBattle.id}/betslips`,
-          {
-            betslip: {
-              name: null,
-              status: "created",
-            },
-          }
-        );
-
-        const betslipId = res.data.id;
-        setUserBetslip(res.data); // cache if needed
-
-        router.push(
-          `/pools/${pool.id}/battles/${latestBattle.id}/?betslipId=${betslipId}`
-        );
-      } catch (error) {
-        console.error("Failed to create betslip:", error);
-        Alert.alert("Error", "Unable to create betslip.");
-      } finally {
-        setLoading?.(false);
-      }
+  const handleMyBetslip = () => {
+    if (!userBetslip) {
+      Alert.alert("No betslip found", "Please refresh or try again later.");
+      return;
     }
+
+    router.push(
+      `/pools/${pool.id}/battles/${latestBattle.id}/?betslipId=${userBetslip.id}`
+    );
   };
 
   useFocusEffect(

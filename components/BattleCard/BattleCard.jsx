@@ -16,43 +16,21 @@ export function BattleCard({
   setUserBetslip,
   setLoading,
 }) {
-  const handleMakeBets = async (battle, poolId, season) => {
-    try {
-      const response = await api.post(
-        `/pools/${poolId}/league_seasons/${season.id}/battles/${battle.id}/betslips`,
-        {
-          betslip: {
-            name: null, // Name can be null or set to a default value
-            status: "created",
-          },
-        }
-      );
+  const battleEndDate = format(new Date(battle.end_date), "MMMM d");
 
-      // Get the created betslip's ID from the response
-      const betslipId = response.data.id;
-
-      // Reset state to show loading immediately on return
-      setBattles([]);
-      setUserBetslip(null);
-      setLoading(true);
-
-      // After betslip is created, navigate to the betslip or battle page
-      router.push({
-        pathname: `pools/${poolId}/battles/${battle.id}/`,
-        params: { betslipId }, // Pass the betslipId as a query parameter
-      });
-    } catch (error) {
-      if (error.response) {
-        console.error("Error creating betslip:", error.response.status);
-        console.error("Response Data:", error.response.data);
-      } else {
-        console.error("Unknown Error:", error);
-      }
-      Alert.alert("Error", "Failed to create betslip. Please try again.");
+  const handleEditBets = () => {
+    if (!userBetslip) {
+      Alert.alert("No betslip found", "Please refresh or try again.");
+      return;
     }
+
+    router.push(
+      `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`
+    );
   };
 
-  const battleEndDate = format(new Date(battle.end_date), "MMMM d");
+  console.log('User Betslip Locked?', userBetslip.locked)
+  console.log('User Betslip Status?', userBetslip.status)
 
   return (
     <View style={s.container}>
@@ -66,35 +44,38 @@ export function BattleCard({
       {/* Betslip has not been created */}
       {!userBetslip && (
         <View>
+          <Txt>No betslip</Txt>
+        </View>
+      )}
+
+      {/* Betslip has been created but not filled out */}
+      {userBetslip.status == "created" && (
+        <View>
           <View style={s.btnContainer}>
             <Btn
               btnText={"Make Bets"}
               style={s.btn}
               // isEnabled={true}
               isEnabled={!battle.locked}
-              onPress={() => handleMakeBets(battle, poolId, season)}
+              onPress={handleEditBets}
             />
           </View>
           <View style={s.submitBetsNoticeContainer}>
             <Txt style={s.txtItalic}>
-              Submit your betslip by 11 AM on {battleEndDate}
+              Save your betslip by 11 AM on {battleEndDate}
             </Txt>
           </View>
         </View>
       )}
 
-      {/* Betslip has been created but not submitted */}
-      {userBetslip && userBetslip.status == "created" && (
+      {/* Betslip has been filled out but the battle isn't locked */}
+      {(userBetslip.status === "filled_out" && !userBetslip.locked) && (
         <View style={s.btnContainer}>
           <Btn
             btnText={"Edit Bets"}
             style={s.btn}
             isEnabled={!battle.locked}
-            onPress={() =>
-              router.push(
-                `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`
-              )
-            }
+            onPress={handleEditBets}
           />
           <View style={s.notSubmittedIndicatorContainer}>
             <StatusIcon isPositive={false} />
@@ -110,8 +91,8 @@ export function BattleCard({
         </View>
       )}
 
-      {/* Betslip is submitted */}
-      {userBetslip && userBetslip.status == "submitted" && (
+      {/* NEED TO UPDATE THIS - Betslip locked */}
+      {userBetslip.locked && (
         <Leaderboard
           userBetslip={userBetslip}
           poolId={poolId}

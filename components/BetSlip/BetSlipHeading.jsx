@@ -104,7 +104,13 @@ export function BetSlipHeading({
         payload
       );
 
-      // 3. Re-fetch from backend to get clean, authoritative bet data
+      // 3. Update betslip status to filled_out
+      await api.patch(
+        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}`,
+        { betslip: { status: "filled_out" } }
+      );
+
+      // 4. Re-fetch from backend to get clean, authoritative bet data
       const res = await api.get(
         `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`
       );
@@ -124,7 +130,7 @@ export function BetSlipHeading({
       setTimeout(() => {
         closeAllBetSelectors();
       }, 0);
-      
+
       showSuccess("Betslip saved.");
     } catch (error) {
       console.error("Error saving bets:", error.response || error);
