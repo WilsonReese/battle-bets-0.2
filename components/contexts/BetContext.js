@@ -19,6 +19,21 @@ export const BetProvider = ({ children, battleId }) => {
   const [betsToRemove, setBetsToRemove] = useState([]); // State for tracking bets to remove
   const [initialBetsSnapshot, setInitialBetsSnapshot] = useState([]);
   const [budgetsByBattle, setBudgetsByBattle] = useState({});
+  const [openBetSelectorIds, setOpenBetSelectorIds] = useState(new Set());
+
+  const closeAllBetSelectors = () => setOpenBetSelectorIds(new Set());
+
+  const toggleBetSelector = (betId) => {
+    setOpenBetSelectorIds((prev) => {
+      const next = new Set(prev);
+      if (next.has(betId)) {
+        next.delete(betId);
+      } else {
+        next.add(betId);
+      }
+      return next;
+    });
+  };
 
   const loadBets = async (
     poolId,
@@ -357,6 +372,9 @@ export const BetProvider = ({ children, battleId }) => {
         convertToCamelCase,
         transformBackendBets,
         getBudgetForBattle,
+        openBetSelectorIds,
+        closeAllBetSelectors,
+        toggleBetSelector,
       }}
     >
       {children}

@@ -37,6 +37,7 @@ export function BetSlipHeading({
     setBetsToRemove,
     convertToCamelCase,
     transformBackendBets,
+    closeAllBetSelectors,
   } = useBetContext();
   const [hasChanges, setHasChanges] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
@@ -119,6 +120,11 @@ export function BetSlipHeading({
       setBetsToRemove([]);
       setHasChanges(false);
 
+      // Delay closing selectors until after bets re-render
+      setTimeout(() => {
+        closeAllBetSelectors();
+      }, 0);
+      
       showSuccess("Betslip saved.");
     } catch (error) {
       console.error("Error saving bets:", error.response || error);

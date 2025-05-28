@@ -8,11 +8,11 @@ import { BetDetails } from "./BetDetails";
 import { format } from "date-fns";
 import { BetAmount } from "./BetAmount";
 
-export function Bet({ bet, backgroundColor, }) {
+export function Bet({ bet, backgroundColor }) {
   const { minBet, maxBet } = BETTING_RULES[bet.betType];
-  const { removeBet } = useBetContext();
+  const { removeBet, openBetSelectorIds, toggleBetSelector } = useBetContext();
 
-  const [isBetSelectorOpen, setIsBetSelectorOpen] = useState(false);
+  const isBetSelectorOpen = openBetSelectorIds.has(bet.id);
   const animatedHeight = useRef(new Animated.Value(0)).current;
 
   const matchup = `${bet.game.away_team.name} at ${bet.game.home_team.name}`;
@@ -34,7 +34,7 @@ export function Bet({ bet, backgroundColor, }) {
           { backgroundColor },
           isBetSelectorOpen && s.betItemEditMode,
         ]}
-        onPress={() => setIsBetSelectorOpen(!isBetSelectorOpen)}
+        onPress={() => toggleBetSelector(bet.id)}
       >
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
@@ -55,24 +55,29 @@ export function Bet({ bet, backgroundColor, }) {
           </View>
         </View>
       </TouchableOpacity>
-      {isBetSelectorOpen ? (
-        <Animated.View
-          style={[
-            s.betSelectorContainer,
-            { height: animatedHeight, overflow: "hidden" },
-          ]}
-        >
-          <BetSelector
-            betId={bet.id}
-            closeSelection={() => {
-              removeBet(bet.id);
-            }}
-            minBet={minBet}
-            maxBet={maxBet}
-            payout={bet.toWinAmount / bet.betAmount}
-          />
-        </Animated.View>
-      ) : null}
+      <Animated.View
+        style={[
+          s.betSelectorContainer,
+          {
+            height: animatedHeight,
+            overflow: "hidden",
+            opacity: animatedHeight.interpolate({
+              inputRange: [0, 54],
+              outputRange: [0, 1],
+            }),
+          },
+        ]}
+      >
+        <BetSelector
+          betId={bet.id}
+          closeSelection={() => {
+            removeBet(bet.id);
+          }}
+          minBet={minBet}
+          maxBet={maxBet}
+          payout={bet.toWinAmount / bet.betAmount}
+        />
+      </Animated.View>
     </View>
   );
 }
