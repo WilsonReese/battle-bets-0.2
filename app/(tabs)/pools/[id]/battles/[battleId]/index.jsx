@@ -34,7 +34,10 @@ export default function BattleDetails() {
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
+
   const scrollViewRef = useRef(null);
+  const sheetRef = useRef(null);
+
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
 
   // BetSlip information
@@ -55,15 +58,10 @@ export default function BattleDetails() {
     }
   };
 
-  // const toggleBetSlip = () => {
-  //   Animated.timing(animatedHeight, {
-  //     toValue: isBetSlipShown ? betSlipHeadingHeight : betSlipHeight,
-  //     duration: 250,
-  //     useNativeDriver: false,
-  //   }).start(() => {
-  //     setIsBetSlipShown(!isBetSlipShown);
-  //   });
-  // };
+  const closeBetSlip = () => {
+    sheetRef.current?.collapse(); // or .close() if you want to hide it completely
+    setIsBetSlipShown(false);
+  };
 
   // useEffect to trigger fetching games and loading bets on mount
   useEffect(() => {
@@ -113,7 +111,7 @@ export default function BattleDetails() {
               <BudgetRow
                 isBetSlipShown={isBetSlipShown}
                 scrollViewRef={scrollViewRef}
-                // toggleBetSlip={toggleBetSlip}
+                closeBetSlip={closeBetSlip}
               ></BudgetRow>
               {/* <Txt>Pool {poolId}</Txt>
               <Txt>Betlslip {betslipId}</Txt> */}
@@ -126,6 +124,7 @@ export default function BattleDetails() {
               </ScrollView>
             </View>
             <BetSlip
+              ref={sheetRef}
               poolId={poolId}
               isBetSlipShown={isBetSlipShown}
               setIsBetSlipShown={setIsBetSlipShown}

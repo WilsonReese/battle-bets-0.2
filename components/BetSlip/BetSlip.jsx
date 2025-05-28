@@ -1,4 +1,4 @@
-import React, { useMemo, useRef } from "react";
+import React, { forwardRef, useMemo, useRef } from "react";
 import {
   StyleSheet,
   Animated,
@@ -13,7 +13,7 @@ import BottomSheet, {
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 
-export function BetSlip({
+export const BetSlip = forwardRef(({
   poolId,
   isBetSlipShown,
   setIsBetSlipShown,
@@ -21,19 +21,14 @@ export function BetSlip({
   leagueSeasonId,
   betslipId,
   battleId,
-  height,
-  betSlipHeight,
-  betSlipHeadingHeight,
-  animatedHeight,
-  // toggleBetSlip,
-}) {
-  const sheetRef = useRef(null);
+}, ref) => {
+  // const sheetRef = useRef(null);
   const snapPoints = useMemo(() => ["15.5%", "80%"], []);
   const screenHeight = Dimensions.get("window").height;
 
   return (
     <BottomSheet
-      ref={sheetRef}
+      ref={ref}
       index={0} // Start partially open
       snapPoints={snapPoints}
       maxDynamicContentSize={screenHeight * 0.4}
@@ -61,7 +56,7 @@ export function BetSlip({
       </BottomSheetScrollView>
     </BottomSheet>
   );
-}
+})
 
 const s = StyleSheet.create({
   container: {

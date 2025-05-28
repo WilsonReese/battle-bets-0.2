@@ -14,6 +14,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
   function renderBets(betTypes) {
     return bets
       .filter((bet) => betTypes.includes(bet.betType))
+      .sort((a, b) => a.addedAt - b.addedAt)
       .map((bet, index) => (
         <Bet
           key={bet.id}

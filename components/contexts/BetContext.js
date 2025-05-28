@@ -92,6 +92,7 @@ export const BetProvider = ({ children, battleId }) => {
       shortTitle: bet.bet_option.title,
       payout: bet.bet_option.payout,
       game: bet.bet_option.game,
+      addedAt: new Date(bet.created_at).getTime() || Date.now() + index,
     }));
   };
 
@@ -196,6 +197,7 @@ export const BetProvider = ({ children, battleId }) => {
       shortTitle: shortTitle,
       payout: payout,
       game: game,
+      addedAt: Date.now(), // Track when the bet was added
     };
     console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);
