@@ -1,4 +1,4 @@
-import { Pressable, StyleSheet } from "react-native";
+import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../Txt";
 
 export function IncrementBtn({ isEnabled, icon, style, onPress }) {
@@ -9,23 +9,30 @@ export function IncrementBtn({ isEnabled, icon, style, onPress }) {
   return (
     <Pressable
       style={({ pressed }) => [
-        s.btnIncrement,
-        checkIfEnabled(),
-        isEnabled && pressed && { opacity: 0.5 },
+        s.pressableArea,
+        isEnabled && pressed && { opacity: 0.6 },
         style,
       ]}
       onPress={isEnabled ? onPress : null}
     >
-      <Txt>{icon}</Txt>
+      <View style={[s.btnIncrement, checkIfEnabled()]}>
+        <Txt>{icon}</Txt>
+      </View>
     </Pressable>
   );
 }
 
 const s = StyleSheet.create({
-  btnIncrement: {
+  pressableArea: {
+    paddingVertical: 5, // makes the touch target larger
+    paddingHorizontal: 15,
     borderRadius: 50,
-    height: 35,
-    width: 35,
+    // backgroundColor: 'blue'
+  },
+  btnIncrement: {
+    height: 25,
+    width: 25,
+    borderRadius: 50,
     alignItems: "center",
     justifyContent: "center",
   },
@@ -34,15 +41,10 @@ const s = StyleSheet.create({
   },
   enabled: {
     backgroundColor: "#54D18C",
-    //shadow
     shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: 1,
-    },
+    shadowOffset: { width: 0, height: 1 },
     shadowOpacity: 0.22,
     shadowRadius: 2.22,
-
     elevation: 3,
   },
 });

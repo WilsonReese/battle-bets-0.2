@@ -42,8 +42,8 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
     }
   };
 
-  const minusSign = <FontAwesome6 name="minus" size={18} color="#F8F8F8" />;
-  const plusSign = <FontAwesome6 name="plus" size={18} color="#F8F8F8" />;
+  const minusSign = <FontAwesome6 name="minus" size={14} color="#F8F8F8" />;
+  const plusSign = <FontAwesome6 name="plus" size={14} color="#F8F8F8" />;
   const closeIcon = (
     <FontAwesome6 name="circle-xmark" size={24} color="#F8F8F8" />
   );
@@ -108,7 +108,7 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 12,
-    flex: 3,
+    flex: 3.3,
   },
   toWinText: {
     fontSize: 12,
