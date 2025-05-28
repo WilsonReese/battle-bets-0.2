@@ -21,6 +21,8 @@ export const BetSlip = forwardRef(({
   leagueSeasonId,
   betslipId,
   battleId,
+  betslipHasChanges,
+  setBetslipHasChanges,
 }, ref) => {
   // const sheetRef = useRef(null);
   const snapPoints = useMemo(() => ["15.5%", "80%"], []);
@@ -46,6 +48,8 @@ export const BetSlip = forwardRef(({
           leagueSeasonId={leagueSeasonId}
           betslipId={betslipId}
           battleId={battleId}
+          betslipHasChanges={betslipHasChanges}
+          setBetslipHasChanges={setBetslipHasChanges}
         />
       </BottomSheetView>
       <BottomSheetScrollView

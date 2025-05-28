@@ -39,7 +39,7 @@ export default function PoolDetailsLayout() {
           name="battles"
           options={{
             title: "Battles",
-            headerShown: true,
+            headerShown: false,
             headerLeft: () => null,
             headerBackTitleVisible: false,
             headerBackTitle: "Back",

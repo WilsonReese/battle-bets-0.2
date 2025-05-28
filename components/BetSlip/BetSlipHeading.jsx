@@ -26,6 +26,8 @@ export function BetSlipHeading({
   leagueSeasonId,
   betslipId,
   battleId,
+  betslipHasChanges,
+  setBetslipHasChanges,
 }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
   const {
@@ -39,33 +41,16 @@ export function BetSlipHeading({
     transformBackendBets,
     closeAllBetSelectors,
   } = useBetContext();
-  const [hasChanges, setHasChanges] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showError, showSuccess } = useToastMessage();
 
-  // useEffect(() => {
-  //   Animated.timing(rotation, {
-  //     toValue: isBetSlipShown ? 1 : 0,
-  //     duration: 150,
-  //     useNativeDriver: true,
-  //   }).start();
-  // }, [isBetSlipShown]);
 
   useEffect(() => {
     // Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
     const betsChanged = !isEqual(bets, initialBetsSnapshot);
     const hasRemovals = betsToRemove.length > 0;
-    setHasChanges(betsChanged || hasRemovals);
+    setBetslipHasChanges(betsChanged || hasRemovals);
   }, [bets, betsToRemove, initialBetsSnapshot]);
-
-  // const rotateInterpolate = rotation.interpolate({
-  //   inputRange: [0, 1],
-  //   outputRange: ["0deg", "180deg"],
-  // });
-
-  // const arrowStyle = {
-  //   transform: [{ rotate: rotateInterpolate }],
-  // };
 
   function calculateTotalPayout() {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
@@ -124,7 +109,7 @@ export function BetSlipHeading({
       setBets(normalizedBets);
       setInitialBetsSnapshot(normalizedBets);
       setBetsToRemove([]);
-      setHasChanges(false);
+      setBetslipHasChanges(false);
 
       // Delay closing selectors until after bets re-render
       setTimeout(() => {
@@ -145,16 +130,13 @@ export function BetSlipHeading({
       <View style={s.headingContainer}>
         <View style={s.titleContainer}>
           <Txt style={s.title}>Betslip</Txt>
-          {/* <Animated.View style={arrowStyle}>
-            <FontAwesome6 name="chevron-up" size={16} color="#F8F8F8" />
-          </Animated.View> */}
         </View>
         <View style={s.btnContainer}>
           <Btn
             btnText={"Save"}
             fontSize={14}
             style={s.btn}
-            isEnabled={hasChanges && !isSubmitting}
+            isEnabled={betslipHasChanges && !isSubmitting}
             onPress={handleSaveBets} // Call the handleSubmitBets function when pressed
           />
         </View>

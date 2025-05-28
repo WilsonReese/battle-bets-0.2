@@ -5,8 +5,14 @@ import {
   ActivityIndicator,
   Animated,
   Dimensions,
+  Alert,
 } from "react-native";
-import { router, useLocalSearchParams } from "expo-router";
+import {
+  router,
+  useFocusEffect,
+  useLocalSearchParams,
+  useNavigation,
+} from "expo-router";
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "@/components/general/Txt";
 import { LogoHeader } from "@/components/LogoHeader/LogoHeader.jsx";
@@ -14,7 +20,7 @@ import { SpreadAndOUInstructions } from "@/components/bet_instructions/SpreadAnd
 import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "@/utils/game-data.js";
 import { BetSlip } from "@/components/BetSlip/BetSlip.jsx";
-import { useEffect, useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   BetProvider,
   useBetContext,
@@ -32,11 +38,13 @@ export default function BattleDetails() {
     betslipId,
   } = useLocalSearchParams();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
+  const [betslipHasChanges, setBetslipHasChanges] = useState(false);
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
 
   const scrollViewRef = useRef(null);
   const sheetRef = useRef(null);
+  const navigation = useNavigation();
 
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
 
@@ -90,6 +98,33 @@ export default function BattleDetails() {
     storeUpdatedBets();
   }, [bets, battleId]);
 
+  useFocusEffect(
+    React.useCallback(() => {
+      const beforeRemove = (e) => {
+        if (!betslipHasChanges) return;
+
+        e.preventDefault();
+
+        Alert.alert(
+          "Unsaved Changes",
+          "You have unsaved bets. If you leave, your changes will be lost.",
+          [
+            { text: "Cancel", style: "cancel", onPress: () => {} },
+            {
+              text: "Leave",
+              style: "destructive",
+              onPress: () => navigation.dispatch(e.data.action),
+            },
+          ]
+        );
+      };
+
+      const unsubscribe = navigation.addListener("beforeRemove", beforeRemove);
+
+      return () => unsubscribe();
+    }, [betslipHasChanges, navigation])
+  );
+
   function renderGameCards() {
     return games.map((game) => (
       <View key={game.id}>
@@ -113,14 +148,11 @@ export default function BattleDetails() {
                 scrollViewRef={scrollViewRef}
                 closeBetSlip={closeBetSlip}
               ></BudgetRow>
-              {/* <Txt>Pool {poolId}</Txt>
-              <Txt>Betlslip {betslipId}</Txt> */}
-              {/* <SpreadAndOUInstructions /> */}
               <ScrollView ref={scrollViewRef} style={s.scrollView}>
                 {/* This function renders each of the games */}
                 {renderGameCards()}
                 {/*This is an empty view that allows the scroll to go down to the bottom */}
-                <View style={{ height: 152 }}></View>
+                <View style={{ height: 108 }}></View>
               </ScrollView>
             </View>
             <BetSlip
@@ -132,6 +164,8 @@ export default function BattleDetails() {
               leagueSeasonId={leagueSeasonId}
               betslipId={betslipId}
               battleId={battleId}
+              betslipHasChanges={betslipHasChanges}
+              setBetslipHasChanges={setBetslipHasChanges}
               // height={height}
               // betSlipHeight={betSlipHeight}
               // betSlipHeadingHeight={betSlipHeadingHeight}
