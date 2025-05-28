@@ -31,7 +31,7 @@ export function GameCard({ game }) {
 
 const s = StyleSheet.create({
   card: {
-    backgroundColor: "#DAE1E5",
+    backgroundColor: "#0F2638",
     marginVertical: 4,
     borderRadius: 8,
     paddingHorizontal: 8,

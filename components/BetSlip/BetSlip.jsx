@@ -28,7 +28,7 @@ export function BetSlip({
   // toggleBetSlip,
 }) {
   const sheetRef = useRef(null);
-  const snapPoints = useMemo(() => ["15.5%", "60%"], []);
+  const snapPoints = useMemo(() => ["15.5%", "80%"], []);
   const screenHeight = Dimensions.get("window").height;
 
   return (
@@ -36,7 +36,7 @@ export function BetSlip({
       ref={sheetRef}
       index={0} // Start partially open
       snapPoints={snapPoints}
-      maxDynamicContentSize={screenHeight * 0.6}
+      maxDynamicContentSize={screenHeight * 0.4}
       onClose={() => setIsBetSlipShown(false)}
       onChange={(index) => setIsBetSlipShown(index !== -1)}
       backgroundStyle={s.sheetBackground}

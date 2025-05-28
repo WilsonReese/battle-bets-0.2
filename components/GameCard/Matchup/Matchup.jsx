@@ -37,11 +37,11 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
     fontFamily: "Saira_600SemiBold",
     fontSize: 16,
-    color: "#061826"
+    // color: "#061826"
   },
   teamRecord: {
     fontSize: 14,
     fontFamily: "Saira_300Light",
-    color: "#061826"
+    // color: "#061826"
   }
 });
