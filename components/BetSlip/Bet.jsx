@@ -57,13 +57,14 @@ const s = StyleSheet.create({
   container: {
     paddingHorizontal: 8,
     // borderBottomWidth: .5,
-    // borderColor: '#0F2638'
+    borderColor: '#0F2638'
   },
   betItem: {
     justifyContent: "space-between",
     paddingHorizontal: 8,
     paddingVertical: 2,
     // borderWidth: 1,
+    borderRadius: 8,
   },
   betItemEditMode: {
     borderTopLeftRadius: 8,
@@ -88,6 +89,6 @@ const s = StyleSheet.create({
     // backgroundColor: 'blue'
   },
   betSelectorContainer: {
-    marginBottom: 4,
+    // marginBottom: 4,
   },
 });

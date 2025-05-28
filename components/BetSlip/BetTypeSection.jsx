@@ -20,7 +20,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
           key={bet.id}
           bet={bet}
           isSelectorVisible={isSelectorVisible}
-          backgroundColor={index % 2 === 0 ? "#1D394E" : "#0F2638"}
+          backgroundColor={index % 2 === 0 ? "#0F2638" : "#1D394E"}
         />
       ));
   }

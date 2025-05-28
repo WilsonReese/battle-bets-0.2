@@ -39,10 +39,10 @@ const s = StyleSheet.create({
     paddingVertical: 4,
     // borderTopWidth: 1,
     // borderTopColor: '#DAE1E5',
-    backgroundColor: '#425C70',
+    backgroundColor: '#1D394E',
     paddingHorizontal: 8,
     alignItems: 'center',
-    marginBottom: 4,
+    marginVertical: 4,
   },
   budget: {
     flexDirection: "row",

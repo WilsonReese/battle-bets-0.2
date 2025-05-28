@@ -119,7 +119,7 @@ export function BetSlipHeading({
       setBetsToRemove([]);
       setHasChanges(false);
 
-      showSuccess("Saved.");
+      showSuccess("Betslip saved.");
     } catch (error) {
       console.error("Error saving bets:", error.response || error);
       showError("Failed to save bets.");

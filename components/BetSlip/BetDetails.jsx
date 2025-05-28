@@ -36,7 +36,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     // paddingLeft: 4,
 		borderRadius: 4,
-		backgroundColor: '#54D18C',
+		backgroundColor: '#F8F8F8',
 		height: 20,
 		width: 40,
 	},
@@ -49,8 +49,10 @@ const s = StyleSheet.create({
 		color: "#061826",
   },
 	payoutTxt: {
-		color: "#061826",
-		fontSize: 12,
+		// color: "#061826",
+		fontSize: 11,
+    color: '#061826',
+    fontFamily: "Saira_600SemiBold",
 	},
   smallTxt: {
     fontSize: 10,
