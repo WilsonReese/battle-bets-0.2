@@ -28,9 +28,6 @@ export function BattleCard({
         }
       );
 
-      // console.log(`API Request URL: /pools/${poolId}/league_seasons/${season.id}/battles/${battle.id}/betslips`);
-
-
       // Get the created betslip's ID from the response
       const betslipId = response.data.id;
 
@@ -56,8 +53,6 @@ export function BattleCard({
   };
 
   const battleEndDate = format(new Date(battle.end_date), "MMMM d");
-
-  // console.log('Season:', season.id)
 
   return (
     <View style={s.container}>
