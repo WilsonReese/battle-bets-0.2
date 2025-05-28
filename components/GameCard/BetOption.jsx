@@ -45,8 +45,8 @@ const s = StyleSheet.create({
   },
   isSelected: {
     backgroundColor: "#54D18C",
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
     paddingBottom: 4,
   },
   shadow: {

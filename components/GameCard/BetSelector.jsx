@@ -85,13 +85,16 @@ const s = StyleSheet.create({
     alignItems: "center",
     justifyContent: "space-between",
     backgroundColor: "#F8F8F8",
+    marginHorizontal: 8,
+    // borderTopRightRadius: 
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
     paddingHorizontal: 8,
     paddingVertical: 4,
     // marginBottom: 4,
-    borderWidth: 1,
+    // borderWidth: 1,
     borderColor: "#54D18C",
+
   },
   text: {
     color: "#061826",
