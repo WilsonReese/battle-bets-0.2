@@ -1,5 +1,5 @@
-import React, { useEffect, useRef } from "react";
-import { StyleSheet, View, Animated } from "react-native";
+import React, { useEffect, useRef, useState } from "react";
+import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
@@ -8,29 +8,33 @@ import { BetDetails } from "./BetDetails";
 import { format } from "date-fns";
 import { BetAmount } from "./BetAmount";
 
-export function Bet({ bet, isSelectorVisible, backgroundColor }) {
+export function Bet({ bet, backgroundColor, }) {
   const { minBet, maxBet } = BETTING_RULES[bet.betType];
   const { removeBet } = useBetContext();
+
+  const [isBetSelectorOpen, setIsBetSelectorOpen] = useState(false);
   const animatedHeight = useRef(new Animated.Value(0)).current;
+
   const matchup = `${bet.game.away_team.name} at ${bet.game.home_team.name}`;
   const gameTime = format(new Date(bet.game.start_time), "h:mm a"); // Format time
 
   useEffect(() => {
     Animated.timing(animatedHeight, {
-      toValue: isSelectorVisible ? 54 : 0, // Adjust the height as needed
+      toValue: isBetSelectorOpen ? 54 : 0, // Adjust the height as needed
       duration: 200,
       useNativeDriver: false,
     }).start();
-  }, [isSelectorVisible]);
+  }, [isBetSelectorOpen]);
 
   return (
     <View style={[s.container]}>
-      <View
+      <TouchableOpacity
         style={[
           s.betItem,
           { backgroundColor },
-          isSelectorVisible && s.betItemEditMode,
+          isBetSelectorOpen && s.betItemEditMode,
         ]}
+        onPress={() => setIsBetSelectorOpen(!isBetSelectorOpen)}
       >
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
@@ -50,8 +54,8 @@ export function Bet({ bet, isSelectorVisible, backgroundColor }) {
             />
           </View>
         </View>
-      </View>
-      {isSelectorVisible ? (
+      </TouchableOpacity>
+      {isBetSelectorOpen ? (
         <Animated.View
           style={[
             s.betSelectorContainer,
@@ -78,6 +82,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
     // borderBottomWidth: .5,
     borderColor: "#0F2638",
+    paddingVertical: 4,
   },
   betItem: {
     justifyContent: "space-between",

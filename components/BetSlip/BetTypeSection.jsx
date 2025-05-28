@@ -9,7 +9,6 @@ import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export function BetTypeSection({ betTypes, toggleBetSlip }) {
   const { bets, setBetOptionType, getBetOptionType } = useBetContext();
-  const [isSelectorVisible, setIsSelectorVisible] = useState(false);
   const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
 
   function renderBets(betTypes) {
@@ -19,8 +18,7 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
         <Bet
           key={bet.id}
           bet={bet}
-          isSelectorVisible={isSelectorVisible}
-          backgroundColor={index % 2 === 0 ? "#0F2638" : "#1D394E"}
+          backgroundColor={index % 2 === 0 ? "#0F2638" : "#0F2638"}
         />
       ));
   }
@@ -31,23 +29,12 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
       .reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
   }
 
-  useEffect(() => {
-    setBetAmountBtnAction(isSelectorVisible ? <FontAwesome6 name="minus" size={14} color="#F8F8F8" /> : <FontAwesome6 name="plus" size={14} color="#F8F8F8" />);
-  }, [isSelectorVisible]);
-
   return (
     <View style={s.container}>
       {renderBets(betTypes)}
-      <View style={s.payoutContainer}>
-        <Btn
-          isEnabled={true}
-          btnText={betAmountBtnAction}
-          fontSize={12}
-          style={s.btns}
-          onPress={() => setIsSelectorVisible(!isSelectorVisible)}
-        />
+      {/* <View style={s.payoutContainer}>
         <PayoutByType calculatePayout={() => calculatePayoutByType(betTypes)} />
-      </View>
+      </View> */}
     </View>
   );
 }

@@ -6,8 +6,11 @@ import { useBetContext } from "../contexts/BetContext";
 
 export function BetSlipBudget({ betSectionTitle, budget, betOptionType }) {
   const checkmark = <View style={{paddingRight: 8}}><FontAwesome6 name="check" size={16} color="#54D18C"/></View>
-  const { getTotalBetAmount } = useBetContext(); // Use the context
+  const { getTotalBetAmount, getBudget } = useBetContext(); // Use the context
   const totalBetAmount = getTotalBetAmount(betOptionType)
+
+    // const totalBetAmount = getTotalBetAmount(betOptionTypeProp);
+  // const budget = getBudget(betOptionType);
 
 
   const [isBudgetUsed, setIsBudgetUsed] = useState(totalBetAmount === budget);
@@ -23,10 +26,7 @@ export function BetSlipBudget({ betSectionTitle, budget, betOptionType }) {
         <Txt style={s.titleText}>{betSectionTitle}</Txt>
       </View>
       <View style={s.budget}>
-        <Txt style={s.budgetText}>${totalBetAmount}</Txt>
-        <Txt style={s.text}> of </Txt>
-        <Txt style={s.budgetText}>${budget}</Txt>
-        <Txt style={s.text}> spent</Txt>
+        <Txt style={s.budgetText}>{`$${budget - totalBetAmount} left`}</Txt>
       </View>
     </View>
   );
@@ -56,8 +56,13 @@ const s = StyleSheet.create({
   },
   titleText: {
     // color: "#061826",
-    fontFamily: 'Saira_600SemiBold',
+    // fontFamily: 'Saira_600SemiBold',
+    // fontSize: 14,
+    // color: "#061826",
+    fontFamily: "Saira_300Light",
+    letterSpacing: 1,
     fontSize: 14,
+    textTransform: "uppercase"
   }, 
   text: {
     // color: "#061826",
@@ -65,7 +70,7 @@ const s = StyleSheet.create({
   },
   budgetText: {
     // color: "#061826",
-    fontFamily: "Saira_600SemiBold",
+    // fontFamily: "Saira_600SemiBold",
     fontSize: 14,
   },
 });
