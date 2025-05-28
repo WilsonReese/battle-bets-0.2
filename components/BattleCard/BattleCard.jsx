@@ -37,8 +37,8 @@ export function BattleCard({
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>Battle on {battleEndDate}</Txt>
         <Txt style={s.txt}>
-          {battle.betslip_count}{" "}
-          {battle.betslip_count === 1 ? "Player" : "Players"}
+          {battle.filled_out_betslip_count}{" "}
+          {battle.filled_out_betslip_count === 1 ? "Player" : "Players"}
         </Txt>
       </View>
       {/* Betslip has not been created */}
