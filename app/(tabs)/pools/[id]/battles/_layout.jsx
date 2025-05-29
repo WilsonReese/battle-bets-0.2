@@ -45,6 +45,20 @@ export default function BattlesLayout() {
             },
           }}
         />
+        <Stack.Screen
+          name="[battleId]/battleLeaderboard"
+          options={{
+            title: "Battle Leaderboard",
+            headerShown: true,
+            headerLeft: () => null,
+            headerBackTitleVisible: true,
+            headerBackTitle: "Back",
+            headerBackTitleStyle: {
+              color: "blue",
+              fontFamily: "Saira_400Regular",
+            },
+          }}
+        />
       </Stack>
     </View>
   );

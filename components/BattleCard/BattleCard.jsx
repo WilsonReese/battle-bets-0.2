@@ -10,6 +10,7 @@ import { CreatedBetslipBattleCard } from "./CreatedBetslipBattleCard";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { CountdownTimer } from "./CountdownTimer";
 import { FilledOutUnlockedBattleCard } from "./FilledOutUnlockedBattleCard";
+import { LockedBattleCard } from "./LockedBattleCard";
 
 export function BattleCard({
   userBetslip,
@@ -44,14 +45,26 @@ export function BattleCard({
 
   console.log("User Betslip Locked?", userBetslip.locked);
   console.log("User Betslip Status?", userBetslip.status);
+  console.log("Battle", battle);
 
   return (
     // OnPress will need to be adjusted to account for when we aren't editing bets anymore
     <TouchableOpacity style={s.container} onPress={handleEditBets}>
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>{battleEndDate}</Txt>
-        <Txt style={s.txt}>League Participation: {participationRate.toFixed(1)}%</Txt>
+        <Txt style={s.txt}>
+          League Participation: {participationRate.toFixed(1)}%
+        </Txt>
       </View>
+      {/* <TouchableOpacity
+        onPress={() =>
+          router.push(
+            `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`
+          )
+        }
+      >
+        <Txt>Leaderboard</Txt>
+      </TouchableOpacity> */}
 
       {/* Betslip has not been created */}
       {!userBetslip && (
@@ -81,12 +94,13 @@ export function BattleCard({
 
       {/* Betslip locked */}
       {userBetslip.locked && (
-        <Leaderboard
-          userBetslip={userBetslip}
-          poolId={poolId}
-          leagueSeasonId={season.id}
-          battle={battle}
-        />
+        <LockedBattleCard userBetslip={userBetslip} battle={battle} poolId={poolId}/>
+        // <Leaderboard
+        //   userBetslip={userBetslip}
+        //   poolId={poolId}
+        //   leagueSeasonId={season.id}
+        //   battle={battle}
+        // />
       )}
     </TouchableOpacity>
   );
