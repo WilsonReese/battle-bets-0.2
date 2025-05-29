@@ -49,22 +49,22 @@ export function BattleCard({
 
   return (
     // OnPress will need to be adjusted to account for when we aren't editing bets anymore
-    <TouchableOpacity style={s.container} onPress={handleEditBets}>
+    <TouchableOpacity
+      style={s.container}
+      onPress={() =>
+        battle.locked
+          ? router.push(
+              `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`
+            )
+          : handleEditBets()
+      }
+    >
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>{battleEndDate}</Txt>
         <Txt style={s.txt}>
           League Participation: {participationRate.toFixed(1)}%
         </Txt>
       </View>
-      {/* <TouchableOpacity
-        onPress={() =>
-          router.push(
-            `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`
-          )
-        }
-      >
-        <Txt>Leaderboard</Txt>
-      </TouchableOpacity> */}
 
       {/* Betslip has not been created */}
       {!userBetslip && (
@@ -94,7 +94,11 @@ export function BattleCard({
 
       {/* Betslip locked */}
       {userBetslip.locked && (
-        <LockedBattleCard userBetslip={userBetslip} battle={battle} poolId={poolId}/>
+        <LockedBattleCard
+          userBetslip={userBetslip}
+          battle={battle}
+          poolId={poolId}
+        />
         // <Leaderboard
         //   userBetslip={userBetslip}
         //   poolId={poolId}
