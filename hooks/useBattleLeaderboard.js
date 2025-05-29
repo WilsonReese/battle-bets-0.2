@@ -22,19 +22,19 @@ export function useBattleLeaderboard(poolId, leagueSeasonId, battleId) {
           return b.max_payout_remaining - a.max_payout_remaining;
         });
 
-        // Assign ranks with tie logic (skip ranks for ties)
+        // Assign ranks and hitRate
         const ranked = [];
         let currentRank = 1;
         let tieCount = 0;
 
         for (let i = 0; i < sorted.length; i++) {
-          const current = sorted[i];
+          const betslip = sorted[i];
           const prev = sorted[i - 1];
 
           const isTied =
             i > 0 &&
-            current.earnings === prev.earnings &&
-            current.max_payout_remaining === prev.max_payout_remaining;
+            betslip.earnings === prev.earnings &&
+            betslip.max_payout_remaining === prev.max_payout_remaining;
 
           if (!isTied) {
             currentRank = currentRank + tieCount;
@@ -43,7 +43,18 @@ export function useBattleLeaderboard(poolId, leagueSeasonId, battleId) {
             tieCount++;
           }
 
-          ranked.push({ ...current, rank: currentRank });
+          const totalBets = betslip.bets?.length ?? 0;
+          const successfulBets = betslip.bets?.filter(
+            (b) => b.bet_option?.success === true
+          ).length ?? 0;
+
+          const hitRate = totalBets > 0 ? (successfulBets / totalBets) * 100 : null;
+
+          ranked.push({
+            ...betslip,
+            rank: currentRank,
+            hitRate: hitRate?.toFixed(0), // as a clean integer percentage string like "80"
+          });
         }
 
         setBetslips(ranked);

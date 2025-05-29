@@ -24,7 +24,7 @@ export function LockedBattleCard({
 
   const { getBudgetForBattle } = useBetContext();
   const remaining = getBudgetForBattle(battle.id);
-  const userRankedBetslip = betslips.find(b => b.id === userBetslip.id);
+  const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
 
   console.log("User Betslip", userBetslip);
   console.log("Remaining Budget", remaining);
@@ -68,8 +68,14 @@ export function LockedBattleCard({
         <View style={s.bottomSection}>
           <View style={s.betDetailsContainer}>
             <View>
-              <Txt style={s.betInfoTxt}>Rank: {userRankedBetslip?.rank ?? "—"}</Txt>
-              <Txt style={s.betInfoTxt}>100% Hit Rate</Txt>
+              <Txt style={s.betInfoTxt}>
+                Rank: {userRankedBetslip?.rank ?? "—"}
+              </Txt>
+              <Txt style={s.betInfoTxt}>
+                Hit Rate: {userRankedBetslip?.hitRate != null
+                  ? `${userRankedBetslip.hitRate}%`
+                  : "N/A"}
+              </Txt>
             </View>
             <View>
               <Txt style={s.betInfoTxt}>${userBetslip.earnings} Won</Txt>
