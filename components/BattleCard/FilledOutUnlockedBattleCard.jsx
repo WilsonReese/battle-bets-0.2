@@ -5,27 +5,35 @@ import { Btn } from "../general/Buttons/Btn";
 import { CountdownTimer } from "./CountdownTimer";
 import { StatusIcon } from "../general/StatusIcon";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { useBetContext } from "../contexts/BetContext";
 
 export function FilledOutUnlockedBattleCard({
   battle,
   handleEditBets,
   battleEndDateTime,
+  userBetslip,
 }) {
+  
+  const { getBudgetForBattle } = useBetContext();
+  const remaining = getBudgetForBattle(battle.id);
+
+  console.log("User Betslip", userBetslip);
+  console.log("Remaining Budget", remaining);
   return (
     <View style={s.container}>
       <View style={s.timerContainer}>
-        <Txt style={s.countdownHeadingTxt}>Bets due</Txt>
+        <Txt style={s.countdownHeadingTxt}>Bets close</Txt>
         <CountdownTimer targetDate={battleEndDateTime} version="small" />
       </View>
       <View style={s.betslipInfoContainer}>
         <Txt style={s.countdownHeadingTxt}>Betslip</Txt>
         <View style={s.betslipElement}>
           <Txt style={s.betInfoTxt}>To Bet:</Txt>
-          <Txt style={s.dollarTxt}>$2000</Txt>
+          <Txt style={s.dollarTxt}>${remaining.spreadOU + remaining.moneyLine + remaining.prop}</Txt>
         </View>
-        <View style={[s.betslipElement, {marginTop: -4}]}>
+        <View style={[s.betslipElement, { marginTop: -4 }]}>
           <Txt style={s.betInfoTxt}>Max:</Txt>
-          <Txt style={s.dollarTxt}>$23000</Txt>
+          <Txt style={s.dollarTxt}>${userBetslip.max_payout_remaining}</Txt>
         </View>
       </View>
       <View style={s.iconContainer}>
@@ -79,7 +87,7 @@ const s = StyleSheet.create({
   },
   betslipElement: {
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
     gap: 8,
   },
 });

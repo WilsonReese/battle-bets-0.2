@@ -26,7 +26,7 @@ export function CreatedBetslipBattleCard({
     // </View>
     <View style={s.container}>
       <View style={s.countdownContainer}>
-        <Txt style={s.countdownHeadingTxt}>Bets due</Txt>
+        <Txt style={s.countdownHeadingTxt}>Bets close</Txt>
         <CountdownTimer targetDate={battleEndDateTime} version="large" />
       </View>
       <View style={s.iconContainer}>

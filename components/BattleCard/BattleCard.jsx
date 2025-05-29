@@ -75,6 +75,7 @@ export function BattleCard({
           battle={battle}
           handleEditBets={handleEditBets}
           battleEndDateTime={battleEndDateTime}
+          userBetslip={userBetslip}
         />
       )}
 
