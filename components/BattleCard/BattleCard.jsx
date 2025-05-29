@@ -6,6 +6,9 @@ import { format } from "date-fns";
 import api from "../../utils/axiosConfig";
 import { router } from "expo-router";
 import { StatusIcon } from "../general/StatusIcon";
+import { CreatedBetslipBattleCard } from "./CreatedBetslipBattleCard";
+import { usePoolDetails } from "../contexts/PoolDetailsContext";
+import { CountdownTimer } from "./CountdownTimer";
 
 export function BattleCard({
   userBetslip,
@@ -17,6 +20,15 @@ export function BattleCard({
   setLoading,
 }) {
   const battleEndDate = format(new Date(battle.end_date), "MMMM d");
+  const battleEndDateTime = new Date(battle.end_date);
+  battleEndDateTime.setHours(10, 55, 0, 0); // Set to 10:55 AM
+
+  const { memberships } = usePoolDetails(poolId);
+
+  const totalMembers = memberships.length;
+  const filledOutBetslips = battle.filled_out_betslip_count;
+  const participationRate =
+    totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
 
   const handleEditBets = () => {
     if (!userBetslip) {
@@ -29,18 +41,17 @@ export function BattleCard({
     );
   };
 
-  console.log('User Betslip Locked?', userBetslip.locked)
-  console.log('User Betslip Status?', userBetslip.status)
+  console.log("User Betslip Locked?", userBetslip.locked);
+  console.log("User Betslip Status?", userBetslip.status);
 
   return (
     <View style={s.container}>
       <View style={s.headingContainer}>
-        <Txt style={s.headingTxt}>Battle on {battleEndDate}</Txt>
-        <Txt style={s.txt}>
-          {battle.filled_out_betslip_count}{" "}
-          {battle.filled_out_betslip_count === 1 ? "Player" : "Players"}
-        </Txt>
+        <Txt style={s.headingTxt}>{battleEndDate}</Txt>
+        <Txt style={s.txt}>League Participation: {participationRate}%</Txt>
       </View>
+        <CountdownTimer targetDate={battleEndDateTime} version={'large'}/>
+
       {/* Betslip has not been created */}
       {!userBetslip && (
         <View>
@@ -48,28 +59,17 @@ export function BattleCard({
         </View>
       )}
 
-      {/* Betslip has been created but not filled out */}
+      {/* Betslip has not been filled out yet */}
       {userBetslip.status == "created" && (
-        <View>
-          <View style={s.btnContainer}>
-            <Btn
-              btnText={"Make Bets"}
-              style={s.btn}
-              // isEnabled={true}
-              isEnabled={!battle.locked}
-              onPress={handleEditBets}
-            />
-          </View>
-          <View style={s.submitBetsNoticeContainer}>
-            <Txt style={s.txtItalic}>
-              Save your betslip by 11 AM on {battleEndDate}
-            </Txt>
-          </View>
-        </View>
+        <CreatedBetslipBattleCard
+          battle={battle}
+          handleEditBets={handleEditBets}
+          battleEndDate={battleEndDate}
+        />
       )}
 
       {/* Betslip has been filled out but the battle isn't locked */}
-      {(userBetslip.status === "filled_out" && !userBetslip.locked) && (
+      {userBetslip.status === "filled_out" && !userBetslip.locked && (
         <View style={s.btnContainer}>
           <Btn
             btnText={"Edit Bets"}
@@ -140,7 +140,7 @@ const s = StyleSheet.create({
   txt: {
     // fontFamily: "Saira_300Light",
     // color: "#061826",
-    fontSize: 16,
+    fontSize: 14,
   },
   txtItalic: {
     fontFamily: "Saira_400Regular_Italic",
