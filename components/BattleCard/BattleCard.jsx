@@ -21,7 +21,7 @@ export function BattleCard({
 }) {
   const battleEndDate = format(new Date(battle.end_date), "MMMM d");
   const battleEndDateTime = new Date(battle.end_date);
-  battleEndDateTime.setHours(10, 55, 0, 0); // Set to 10:55 AM
+  battleEndDateTime.setHours(10, 55, 0, 0); // Hard Coded: Set to 10:55 AM
 
   const { memberships } = usePoolDetails(poolId);
 
@@ -50,7 +50,6 @@ export function BattleCard({
         <Txt style={s.headingTxt}>{battleEndDate}</Txt>
         <Txt style={s.txt}>League Participation: {participationRate}%</Txt>
       </View>
-        <CountdownTimer targetDate={battleEndDateTime} version={'large'}/>
 
       {/* Betslip has not been created */}
       {!userBetslip && (
@@ -64,7 +63,7 @@ export function BattleCard({
         <CreatedBetslipBattleCard
           battle={battle}
           handleEditBets={handleEditBets}
-          battleEndDate={battleEndDate}
+          battleEndDateTime={battleEndDateTime}
         />
       )}
 
@@ -112,7 +111,8 @@ const s = StyleSheet.create({
     // borderWidth: 1,
     // borderColor: "#3A454D",
     borderRadius: 8,
-    paddingVertical: 4,
+    paddingTop: 8,
+    paddingBottom: 12,
     paddingHorizontal: 12,
     backgroundColor: "#0F2638",
   },
@@ -128,7 +128,8 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    paddingVertical: 4,
+    // backgroundColor: 'green'
+    // paddingBottom: 4,
   },
   headingTxt: {
     // color: "#061826",

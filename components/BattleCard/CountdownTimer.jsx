@@ -74,7 +74,7 @@ const s = StyleSheet.create({
   containerLarge: {
     flexDirection: "row",
     paddingHorizontal: 24,
-    backgroundColor: 'blue'
+    // backgroundColor: 'blue'
   },
   countdownElementLarge: {
     flex: 1,
