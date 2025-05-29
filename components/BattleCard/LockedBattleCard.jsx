@@ -72,15 +72,24 @@ export function LockedBattleCard({
                 Rank: {userRankedBetslip?.rank ?? "—"}
               </Txt>
               <Txt style={s.betInfoTxt}>
-                Hit Rate: {userRankedBetslip?.hitRate != null
+                Hit Rate:{" "}
+                {userRankedBetslip?.hitRate != null
                   ? `${userRankedBetslip.hitRate}%`
-                  : "N/A"}
+                  : "—"}
               </Txt>
             </View>
             <View>
-              <Txt style={s.betInfoTxt}>${userBetslip.earnings} Won</Txt>
               <Txt style={s.betInfoTxt}>
-                ${userBetslip.max_payout_remaining} Max
+                Won:{" "}
+                {userRankedBetslip?.earnings != null
+                  ? `$${userRankedBetslip.earnings}`
+                  : "—"}
+              </Txt>
+              <Txt style={s.betInfoTxt}>
+                Max:{" "}
+                {userRankedBetslip?.max_payout_remaining != null
+                  ? `$${userRankedBetslip.max_payout_remaining}`
+                  : "—"}
               </Txt>
             </View>
           </View>
