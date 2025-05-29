@@ -1,4 +1,4 @@
-import { Alert, StyleSheet, View } from "react-native";
+import { Alert, StyleSheet, TouchableOpacity, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { Leaderboard } from "../Leaderboard/Leaderboard";
@@ -9,6 +9,7 @@ import { StatusIcon } from "../general/StatusIcon";
 import { CreatedBetslipBattleCard } from "./CreatedBetslipBattleCard";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { CountdownTimer } from "./CountdownTimer";
+import { FilledOutUnlockedBattleCard } from "./FilledOutUnlockedBattleCard";
 
 export function BattleCard({
   userBetslip,
@@ -45,10 +46,11 @@ export function BattleCard({
   console.log("User Betslip Status?", userBetslip.status);
 
   return (
-    <View style={s.container}>
+    // OnPress will need to be adjusted to account for when we aren't editing bets anymore
+    <TouchableOpacity style={s.container} onPress={handleEditBets}>
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>{battleEndDate}</Txt>
-        <Txt style={s.txt}>League Participation: {participationRate}%</Txt>
+        <Txt style={s.txt}>League Participation: {participationRate.toFixed(1)}%</Txt>
       </View>
 
       {/* Betslip has not been created */}
@@ -58,8 +60,8 @@ export function BattleCard({
         </View>
       )}
 
-      {/* Betslip has not been filled out yet */}
-      {userBetslip.status == "created" && (
+      {/* Betslip has not been filled out yet and the battle isn't locked */}
+      {userBetslip.status == "created" && !userBetslip.locked && (
         <CreatedBetslipBattleCard
           battle={battle}
           handleEditBets={handleEditBets}
@@ -69,28 +71,14 @@ export function BattleCard({
 
       {/* Betslip has been filled out but the battle isn't locked */}
       {userBetslip.status === "filled_out" && !userBetslip.locked && (
-        <View style={s.btnContainer}>
-          <Btn
-            btnText={"Edit Bets"}
-            style={s.btn}
-            isEnabled={!battle.locked}
-            onPress={handleEditBets}
-          />
-          <View style={s.notSubmittedIndicatorContainer}>
-            <StatusIcon isPositive={false} />
-            <Txt style={[s.txtItalic, { marginLeft: 4 }]}>
-              Betslip Not Submitted
-            </Txt>
-          </View>
-          <View style={s.submitBetsNoticeContainer}>
-            <Txt style={s.txtItalic}>
-              Submit your betslip by 11 AM on {battleEndDate}
-            </Txt>
-          </View>
-        </View>
+        <FilledOutUnlockedBattleCard
+          battle={battle}
+          handleEditBets={handleEditBets}
+          battleEndDateTime={battleEndDateTime}
+        />
       )}
 
-      {/* NEED TO UPDATE THIS - Betslip locked */}
+      {/* Betslip locked */}
       {userBetslip.locked && (
         <Leaderboard
           userBetslip={userBetslip}
@@ -99,7 +87,7 @@ export function BattleCard({
           battle={battle}
         />
       )}
-    </View>
+    </TouchableOpacity>
   );
 }
 

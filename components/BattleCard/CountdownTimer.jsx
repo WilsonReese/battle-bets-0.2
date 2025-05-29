@@ -38,9 +38,27 @@ export function CountdownTimer({ targetDate, version = "small" }) {
   return (
     <>
       {version === "small" && (
-        <Txt style={{ fontSize: 14 }}>
-          {`${timeLeft.days}d ${timeLeft.hours}h ${timeLeft.minutes}m ${timeLeft.seconds}s`}
-        </Txt>
+        <View style={s.containerSmall}>
+          <View style={s.countdownElementSmall}>
+            <Txt style={s.countdownTxtSmall}>{timeLeft.days}</Txt>
+            <Txt style={s.timeUnitTxtSmall}>days</Txt>
+          </View>
+
+          <View style={s.countdownElementSmall}>
+            <Txt style={s.countdownTxtSmall}>{timeLeft.hours}</Txt>
+            <Txt style={s.timeUnitTxtSmall}>hours</Txt>
+          </View>
+
+          <View style={s.countdownElementSmall}>
+            <Txt style={s.countdownTxtSmall}>{timeLeft.minutes}</Txt>
+            <Txt style={s.timeUnitTxtSmall}>minutes</Txt>
+          </View>
+
+          <View style={s.countdownElementSmall}>
+            <Txt style={s.countdownTxtSmall}>{timeLeft.seconds}</Txt>
+            <Txt style={s.timeUnitTxtSmall}>seconds</Txt>
+          </View>
+        </View>
       )}
 
       {version === "large" && (
@@ -73,7 +91,7 @@ export function CountdownTimer({ targetDate, version = "small" }) {
 const s = StyleSheet.create({
   containerLarge: {
     flexDirection: "row",
-    paddingHorizontal: 24,
+    paddingHorizontal: 4,
     // backgroundColor: 'blue'
   },
   countdownElementLarge: {
@@ -87,5 +105,24 @@ const s = StyleSheet.create({
   },
   timeUnitTxtLarge: {
     fontSize: 12,
+  },
+
+
+  containerSmall: {
+    flexDirection: "row",
+    // paddingHorizontal: 24,
+    // backgroundColor: 'blue'
+  },
+  countdownElementSmall: {
+    flex: 1,
+    alignItems: "center",
+  },
+  countdownTxtSmall: {
+    fontFamily: "Saira_600SemiBold",
+    fontSize: 16,
+    marginBottom: -4,
+  },
+  timeUnitTxtSmall: {
+    fontSize: 10,
   },
 });
