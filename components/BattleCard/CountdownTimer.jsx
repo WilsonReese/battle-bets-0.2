@@ -111,10 +111,13 @@ const s = StyleSheet.create({
   containerSmall: {
     flexDirection: "row",
     // paddingHorizontal: 24,
-    // backgroundColor: 'blue'
+    // backgroundColor: 'orange',
+    // alignItems: 'flex-start'
+    // justifyContent: 'flex-start',
+    gap: 20,
   },
   countdownElementSmall: {
-    flex: 1,
+    // flex: 1,
     alignItems: "center",
   },
   countdownTxtSmall: {
