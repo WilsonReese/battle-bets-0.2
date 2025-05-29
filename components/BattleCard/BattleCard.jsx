@@ -32,20 +32,24 @@ export function BattleCard({
   const participationRate =
     totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
 
+    console.log('Season', season)
+
   const handleEditBets = () => {
     if (!userBetslip) {
       Alert.alert("No betslip found", "Please refresh or try again.");
       return;
     }
 
-    router.push(
-      `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`
-    );
+    router.push({
+      pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
+      params: { leagueSeasonId: season.id },
+    });
   };
 
   console.log("User Betslip Locked?", userBetslip.locked);
   console.log("User Betslip Status?", userBetslip.status);
-  console.log("Battle", battle);
+  console.log("Battle", battle.id);
+  console.log("Pool", poolId);
 
   return (
     // OnPress will need to be adjusted to account for when we aren't editing bets anymore
