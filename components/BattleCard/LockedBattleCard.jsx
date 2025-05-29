@@ -15,7 +15,7 @@ export function LockedBattleCard({
   userBetslip,
   poolId,
 }) {
-  const { betslips, loading } = useBattleLeaderboard(
+  const { betslips } = useBattleLeaderboard(
     poolId,
     battle.league_season_id,
     battle.id
@@ -24,12 +24,13 @@ export function LockedBattleCard({
 
   const { getBudgetForBattle } = useBetContext();
   const remaining = getBudgetForBattle(battle.id);
+  const userRankedBetslip = betslips.find(b => b.id === userBetslip.id);
 
   console.log("User Betslip", userBetslip);
   console.log("Remaining Budget", remaining);
+  console.log("Betslips", betslips);
   return (
     <View style={s.container}>
-
       {/* Leaderboard section */}
       <View style={s.leaderboardContainer}>
         <Txt style={s.headingTxt}>Leaderboard</Txt>
@@ -39,31 +40,49 @@ export function LockedBattleCard({
           <Txt style={[s.headerRowTxt, s.column]}>Won</Txt>
           <Txt style={[s.headerRowTxt, s.column]}>Max</Txt>
         </View>
-        {topThree.map((b, index) => (
-          <View key={b.id} style={s.leaderboardRow}>
-            <Txt style={[s.placeTxt, s.placeColumn]}>{index + 1}</Txt>
-            <Txt style={[s.playerTxt, s.playerColumn]}>@{b.name}</Txt>
-            <Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
-            <Txt style={[s.placeTxt, s.column]}>${b.max_payout_remaining}</Txt>
-          </View>
-        ))}
+        {topThree.map((b, index) => {
+          const prev = topThree[index - 1];
+          const shouldShowRank = !prev || b.rank !== prev.rank;
+
+          return (
+            <View key={b.id} style={s.leaderboardRow}>
+              <Txt style={[s.placeTxt, s.placeColumn]}>
+                {shouldShowRank ? b.rank : ""}
+              </Txt>
+              <Txt style={[s.playerTxt, s.playerColumn]}>@{b.name}</Txt>
+              <Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
+              <Txt style={[s.placeTxt, s.column]}>
+                ${b.max_payout_remaining}
+              </Txt>
+            </View>
+          );
+        })}
       </View>
 
       {/* Vertical Line Separator */}
-      <View style={{width: .5, height: 60, backgroundColor: '#284357', alignSelf: 'center' }}></View>
+      {/* <View style={{width: .5, height: 60, backgroundColor: '#284357', alignSelf: 'center' }}></View> */}
 
       {/* Betslip Section */}
       <View style={s.betslipContainer}>
-        <Txt style={s.headingTxt}>Betslip</Txt>
-        <Txt style={s.betInfoTxt}>1st Place</Txt>
-        <Txt style={s.betInfoTxt}>${userBetslip.earnings} Won</Txt>
-        <Txt style={s.betInfoTxt}>${userBetslip.max_payout_remaining} Max</Txt>
-        <Txt style={s.betInfoTxt}>100% Hit Rate</Txt>
-      </View>
-
-      {/* Arrow Icon */}
-      <View style={{alignSelf: 'center'}}>
-        <FontAwesome6 name="circle-right" size={18} color="#54D18C" />
+        <Txt style={s.headingTxt}>My Betslip</Txt>
+        <View style={s.bottomSection}>
+          <View style={s.betDetailsContainer}>
+            <View>
+              <Txt style={s.betInfoTxt}>Rank: {userRankedBetslip?.rank ?? "—"}</Txt>
+              <Txt style={s.betInfoTxt}>100% Hit Rate</Txt>
+            </View>
+            <View>
+              <Txt style={s.betInfoTxt}>${userBetslip.earnings} Won</Txt>
+              <Txt style={s.betInfoTxt}>
+                ${userBetslip.max_payout_remaining} Max
+              </Txt>
+            </View>
+          </View>
+          {/* Arrow Icon */}
+          <View style={s.arrowIcon}>
+            <FontAwesome6 name="circle-right" size={18} color="#54D18C" />
+          </View>
+        </View>
       </View>
     </View>
   );
@@ -71,7 +90,7 @@ export function LockedBattleCard({
 
 const s = StyleSheet.create({
   container: {
-    flexDirection: "row",
+    // flexDirection: "row",
     justifyContent: "space-between",
     // alignItems: "center",
     paddingTop: 8,
@@ -84,6 +103,7 @@ const s = StyleSheet.create({
     fontSize: 10,
     textTransform: "uppercase",
     color: "#B8C3CC",
+    paddingBottom: 2,
     // paddingTop: 8,
     // alignSelf: "center",
   },
@@ -107,12 +127,13 @@ const s = StyleSheet.create({
   },
   column: {
     flex: 1.5,
-    textAlign: 'center'
+    textAlign: "center",
     // justifyContent: 'center'
   },
   placeColumn: {
     flex: 0.5,
-    alignSelf: 'center'
+    textAlign: "center",
+    // paddingRight: 20,
   },
   playerColumn: {
     flex: 3.5,
@@ -123,19 +144,6 @@ const s = StyleSheet.create({
     // borderRightWidth: 0.5,
     // borderColor: "#284357",
   },
-
-  // Betslip container text
-  betslipContainer: {
-    flex: 1.1,
-    // backgroundColor: 'blue',
-  },
-  betInfoTxt: {
-    // fontFamily: "Saira_600SemiBold",
-    fontSize: 12,
-  },
-  dollarTxt: {
-    fontSize: 14,
-  },
   placeTxt: {
     width: 40,
     fontSize: 12,
@@ -144,5 +152,36 @@ const s = StyleSheet.create({
     // flex: 1,
     fontSize: 12,
     fontFamily: "Saira_400Regular_Italic",
+  },
+
+  // Betslip Styling
+  betslipContainer: {
+    flex: 1.1,
+    // backgroundColor: 'blue',
+  },
+  bottomSection: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+  },
+  betDetailsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    flex: 1,
+    // backgroundColor: 'pink'
+  },
+  betInfoTxt: {
+    // fontFamily: "Saira_600SemiBold",
+    fontSize: 12,
+  },
+  dollarTxt: {
+    fontSize: 14,
+  },
+
+  // Arrow Styling
+  arrowIcon: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "flex-end",
+    // backgroundColor: 'cyan'
   },
 });
