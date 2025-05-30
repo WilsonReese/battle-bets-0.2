@@ -32,7 +32,7 @@ export function BattleCard({
   const participationRate =
     totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
 
-    console.log('Season', season)
+  console.log("Season", season);
 
   const handleEditBets = () => {
     if (!userBetslip) {
@@ -40,10 +40,9 @@ export function BattleCard({
       return;
     }
 
-    router.push({
-      pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
-      params: { leagueSeasonId: season.id },
-    });
+    router.push(
+      `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`
+    );
   };
 
   console.log("User Betslip Locked?", userBetslip.locked);
@@ -53,16 +52,19 @@ export function BattleCard({
 
   return (
     // OnPress will need to be adjusted to account for when we aren't editing bets anymore
+
     <TouchableOpacity
       style={s.container}
       onPress={() =>
         battle.locked
-          ? router.push(
-              `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`
-            )
+          ? router.push({
+              pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
+              params: { leagueSeasonId: season.id },
+            })
           : handleEditBets()
       }
     >
+      {console.log("Battle Locked?", battle.locked)}
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>{battleEndDate}</Txt>
         <Txt style={s.txt}>
