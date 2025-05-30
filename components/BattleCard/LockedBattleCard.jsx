@@ -59,9 +59,6 @@ export function LockedBattleCard({
         })}
       </View>
 
-      {/* Vertical Line Separator */}
-      {/* <View style={{width: .5, height: 60, backgroundColor: '#284357', alignSelf: 'center' }}></View> */}
-
       {/* Betslip Section */}
       <View style={s.betslipContainer}>
         <Txt style={s.headingTxt}>My Betslip</Txt>
@@ -160,7 +157,7 @@ const s = StyleSheet.create({
     // borderColor: "#284357",
   },
   placeTxt: {
-    width: 40,
+    // width: 40,
     fontSize: 12,
   },
   playerTxt: {
