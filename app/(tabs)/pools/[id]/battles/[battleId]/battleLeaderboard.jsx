@@ -1,5 +1,5 @@
 import { useLocalSearchParams } from "expo-router";
-import React, { useEffect, useMemo, useRef, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
   View,
   StyleSheet,
@@ -11,12 +11,14 @@ import { Txt } from "../../../../../../components/general/Txt";
 import { useBattleLeaderboard } from "../../../../../../hooks/useBattleLeaderboard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { LockedBetslip } from "../../../../../../components/Leaderboard/LockedBetslip";
+import { AuthContext } from "../../../../../../components/contexts/AuthContext";
 
 export default function BattleLeaderboard() {
   const { id: poolId, battleId, leagueSeasonId } = useLocalSearchParams();
   const screenHeight = Dimensions.get("window").height;
   const bottomSheetHeight = screenHeight * 0.55;
   const [selectedBetslip, setSelectedBetslip] = useState(null);
+  const { currentUserId } = useContext(AuthContext);
 
   const sheetRef = useRef(null);
   const snapPoints = useMemo(() => ["60%"], []);
@@ -55,16 +57,30 @@ export default function BattleLeaderboard() {
                   selectedBetslip?.id === b.id && s.selectedRow,
                 ]}
                 onPress={() => {
-                  setSelectedBetslip(b);
-                  setTimeout(() => {
-                    sheetRef.current?.snapToIndex(0);
-                  }, 10);
+                  if (selectedBetslip?.id === b.id) {
+                    // If tapping the currently selected betslip, toggle the sheet closed
+                    setSelectedBetslip(null);
+                    sheetRef.current?.close();
+                  } else {
+                    // If tapping a different betslip, set and open the sheet
+                    setSelectedBetslip(b);
+                    requestAnimationFrame(() => {
+                      setTimeout(() => {
+                        sheetRef.current?.snapToIndex(0);
+                      }, 0);
+                    });
+                  }
                 }}
               >
                 <Txt style={[s.placeTxt, s.placeColumn]}>
                   {shouldShowRank ? b.rank : ""}
                 </Txt>
-                <Txt style={[s.playerTxt, s.playerColumn]}>@{b.name}</Txt>
+                <View style={[s.playerColumn]}>
+                  <Txt style={s.playerTxt}>@{b.name}</Txt>
+                  {b.user_id == currentUserId && (
+                    <FontAwesome6 name="user-large" size={10} color="#54D18C" />
+                  )}
+                </View>
                 <Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
                 <Txt style={[s.placeTxt, s.column]}>
                   ${b.max_payout_remaining}
@@ -146,6 +162,11 @@ const s = StyleSheet.create({
   },
   playerColumn: {
     flex: 4.5,
+
+    // These show the correct user icon
+    flexDirection: "row",
+    alignItems: "center",
+    gap: 6,
   },
   leaderboardRow: {
     flexDirection: "row",
