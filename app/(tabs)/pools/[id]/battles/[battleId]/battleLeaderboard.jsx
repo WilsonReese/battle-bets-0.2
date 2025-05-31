@@ -1,12 +1,17 @@
 import { useLocalSearchParams } from "expo-router";
-import React from "react";
-import { View, StyleSheet, ScrollView } from "react-native";
+import React, { useMemo, useRef, useState } from "react";
+import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
 import { Txt } from "../../../../../../components/general/Txt";
 import { useBattleLeaderboard } from "../../../../../../hooks/useBattleLeaderboard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { LockedBetslip } from "../../../../../../components/Leaderboard/LockedBetslip";
 
 export default function BattleLeaderboard() {
   const { id: poolId, battleId, leagueSeasonId } = useLocalSearchParams();
+
+  const sheetRef = useRef(null);
+  const [selectedBetslip, setSelectedBetslip] = useState(null);
+  const snapPoints = useMemo(() => ["25%", "70%"], []);
 
   const { betslips } = useBattleLeaderboard(poolId, leagueSeasonId, battleId);
 
@@ -32,7 +37,16 @@ export default function BattleLeaderboard() {
             const shouldShowRank = !prev || b.rank !== prev.rank;
 
             return (
-              <View key={b.id} style={s.leaderboardRow}>
+              <TouchableOpacity
+                key={b.id}
+                style={s.leaderboardRow}
+                onPress={() => {
+                  setSelectedBetslip(b);
+                  setTimeout(() => {
+                    sheetRef.current?.snapToIndex(0);
+                  }, 10); // even 10ms is usually enough
+                }}
+              >
                 <Txt style={[s.placeTxt, s.placeColumn]}>
                   {shouldShowRank ? b.rank : ""}
                 </Txt>
@@ -45,13 +59,22 @@ export default function BattleLeaderboard() {
                   {b?.hitRate != null ? `${b.hitRate}%` : "—"}
                 </Txt>
                 <View style={[s.iconColumn]}>
-                  <FontAwesome6 name="circle-chevron-right" size={14} color="#54D18C" />
+                  <FontAwesome6
+                    name="circle-chevron-right"
+                    size={14}
+                    color="#54D18C"
+                  />
                 </View>
-              </View>
+              </TouchableOpacity>
             );
           })}
         </View>
       </ScrollView>
+      <LockedBetslip
+        sheetRef={sheetRef}
+        selectedBetslip={selectedBetslip}
+        snapPoints={snapPoints}
+      />
     </View>
   );
 }
@@ -95,11 +118,11 @@ const s = StyleSheet.create({
     flex: 1.5,
     textAlign: "center",
     // justifyContent: 'center'
-    alignItems: 'center'
+    alignItems: "center",
   },
   iconColumn: {
     flex: 1,
-    alignItems: 'center'
+    alignItems: "center",
   },
   placeColumn: {
     flex: 0.5,
@@ -107,7 +130,7 @@ const s = StyleSheet.create({
     // paddingRight: 20,
   },
   playerColumn: {
-    flex: 3.5,
+    flex: 4.5,
   },
   leaderboardRow: {
     flexDirection: "row",
