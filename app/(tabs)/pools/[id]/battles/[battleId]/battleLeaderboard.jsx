@@ -1,6 +1,12 @@
 import { useLocalSearchParams } from "expo-router";
 import React, { useEffect, useMemo, useRef, useState } from "react";
-import { View, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from "react-native";
+import {
+  View,
+  StyleSheet,
+  ScrollView,
+  TouchableOpacity,
+  Dimensions,
+} from "react-native";
 import { Txt } from "../../../../../../components/general/Txt";
 import { useBattleLeaderboard } from "../../../../../../hooks/useBattleLeaderboard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -10,9 +16,9 @@ export default function BattleLeaderboard() {
   const { id: poolId, battleId, leagueSeasonId } = useLocalSearchParams();
   const screenHeight = Dimensions.get("window").height;
   const bottomSheetHeight = screenHeight * 0.55;
+  const [selectedBetslip, setSelectedBetslip] = useState(null);
 
   const sheetRef = useRef(null);
-  const [selectedBetslip, setSelectedBetslip] = useState(null);
   const snapPoints = useMemo(() => ["60%"], []);
 
   const { betslips } = useBattleLeaderboard(poolId, leagueSeasonId, battleId);
@@ -23,7 +29,10 @@ export default function BattleLeaderboard() {
   return (
     <View style={s.container}>
       <Txt>Battle Leaderboard for Pool(?) {poolId}</Txt>
-      <ScrollView contentContainerStyle={{ paddingBottom: bottomSheetHeight }} showsVerticalScrollIndicator={false}>
+      <ScrollView
+        contentContainerStyle={{ paddingBottom: bottomSheetHeight }}
+        showsVerticalScrollIndicator={false}
+      >
         <View style={s.leaderboardContainer}>
           <Txt style={s.headingTxt}>Leaderboard</Txt>
           <View style={s.leaderboardHeaderRow}>
@@ -41,12 +50,15 @@ export default function BattleLeaderboard() {
             return (
               <TouchableOpacity
                 key={b.id}
-                style={s.leaderboardRow}
+                style={[
+                  s.leaderboardRow,
+                  selectedBetslip?.id === b.id && s.selectedRow,
+                ]}
                 onPress={() => {
                   setSelectedBetslip(b);
                   setTimeout(() => {
                     sheetRef.current?.snapToIndex(0);
-                  }, 10); // even 10ms is usually enough
+                  }, 10);
                 }}
               >
                 <Txt style={[s.placeTxt, s.placeColumn]}>
@@ -76,6 +88,7 @@ export default function BattleLeaderboard() {
         sheetRef={sheetRef}
         selectedBetslip={selectedBetslip}
         maxHeight={bottomSheetHeight}
+        onClose={() => setSelectedBetslip(null)}
       />
     </View>
   );
@@ -142,6 +155,9 @@ const s = StyleSheet.create({
     // borderRightWidth: 0.5,
     borderBottomWidth: 0.5,
     borderColor: "#284357",
+  },
+  selectedRow: {
+    backgroundColor: "#1D394E", // or whatever highlight color works with your theme
   },
   placeTxt: {
     // width: 40,

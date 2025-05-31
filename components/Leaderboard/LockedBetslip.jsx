@@ -7,7 +7,12 @@ import BottomSheet, {
 
 const screenHeight = Dimensions.get("window").height;
 
-export function LockedBetslip({ sheetRef, selectedBetslip, maxHeight }) {
+export function LockedBetslip({
+  sheetRef,
+  selectedBetslip,
+  maxHeight,
+  onClose,
+}) {
   // if (!selectedBetslip) return null;
 
   return (
@@ -17,6 +22,11 @@ export function LockedBetslip({ sheetRef, selectedBetslip, maxHeight }) {
       // snapPoints={snapPoints}
       maxDynamicContentSize={maxHeight}
       enablePanDownToClose={true}
+      onChange={(index) => {
+        if (index === -1) {
+          onClose(); // <- triggers clearing the selection
+        }
+      }}
       backgroundStyle={s.sheetBackground}
       handleIndicatorStyle={s.handle}
     >
