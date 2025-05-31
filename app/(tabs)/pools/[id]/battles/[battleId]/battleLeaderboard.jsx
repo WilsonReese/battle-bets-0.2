@@ -102,7 +102,7 @@ export default function BattleLeaderboard() {
       </ScrollView>
       <LockedBetslip
         sheetRef={sheetRef}
-        selectedBetslip={selectedBetslip}
+        betslip={selectedBetslip}
         maxHeight={bottomSheetHeight}
         onClose={() => setSelectedBetslip(null)}
       />
