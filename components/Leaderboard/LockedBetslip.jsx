@@ -1,23 +1,26 @@
-import { StyleSheet, View } from "react-native";
+import { Dimensions, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import BottomSheet, {
   BottomSheetScrollView,
   BottomSheetView,
 } from "@gorhom/bottom-sheet";
 
-export function LockedBetslip({ sheetRef, selectedBetslip, snapPoints }) {
+const screenHeight = Dimensions.get("window").height;
+
+export function LockedBetslip({ sheetRef, selectedBetslip, maxHeight }) {
   // if (!selectedBetslip) return null;
 
   return (
     <BottomSheet
       ref={sheetRef}
       index={-1}
-      snapPoints={snapPoints}
+      // snapPoints={snapPoints}
+      maxDynamicContentSize={maxHeight}
       enablePanDownToClose={true}
       backgroundStyle={s.sheetBackground}
       handleIndicatorStyle={s.handle}
     >
-      <BottomSheetView>
+      <>
         {selectedBetslip ? (
           <>
             <Txt>@{selectedBetslip.name}'s Betslip</Txt>
@@ -27,15 +30,49 @@ export function LockedBetslip({ sheetRef, selectedBetslip, snapPoints }) {
               <Txt>Money Line</Txt>
               <Txt>Bets placed</Txt>
               <Txt>Prop Bets</Txt>
+              <Txt>Spreads and Over/Unders</Txt>
               <Txt>Bets placed</Txt>
+              <Txt>Money Line</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Prop Bets</Txt>
+              <Txt>Spreads and Over/Unders</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Money Line</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Prop Bets</Txt>
+              <Txt>Spreads and Over/Unders</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Money Line</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Prop Bets</Txt>
+              <Txt>Spreads and Over/Unders</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Money Line</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Prop Bets</Txt>
+              <Txt>Spreads and Over/Unders</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Money Line</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Prop Bets</Txt>
+              <Txt>Spreads and Over/Unders</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Money Line</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Prop Bets</Txt>
+              <Txt>Spreads and Over/Unders</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Money Line</Txt>
+              <Txt>Bets placed</Txt>
+              <Txt>Prop Bets</Txt>
             </BottomSheetScrollView>
           </>
         ) : (
           <Txt style={{ textAlign: "center", padding: 16 }}>
-            Select a betslip to view details.
+            Select a betslip.
           </Txt>
         )}
-      </BottomSheetView>
+      </>
     </BottomSheet>
   );
 }
@@ -45,6 +82,9 @@ const s = StyleSheet.create({
     backgroundColor: "#1D394E",
   },
   handle: {
-    backgroundColor: '#F8F8F8'
+    backgroundColor: "#F8F8F8",
   },
+  // container: {
+  //   padding: 12,
+  // }
 });

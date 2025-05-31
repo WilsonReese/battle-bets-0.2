@@ -1,6 +1,6 @@
 import { useLocalSearchParams } from "expo-router";
-import React, { useMemo, useRef, useState } from "react";
-import { View, StyleSheet, ScrollView, TouchableOpacity } from "react-native";
+import React, { useEffect, useMemo, useRef, useState } from "react";
+import { View, StyleSheet, ScrollView, TouchableOpacity, Dimensions } from "react-native";
 import { Txt } from "../../../../../../components/general/Txt";
 import { useBattleLeaderboard } from "../../../../../../hooks/useBattleLeaderboard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -8,10 +8,12 @@ import { LockedBetslip } from "../../../../../../components/Leaderboard/LockedBe
 
 export default function BattleLeaderboard() {
   const { id: poolId, battleId, leagueSeasonId } = useLocalSearchParams();
+  const screenHeight = Dimensions.get("window").height;
+  const bottomSheetHeight = screenHeight * 0.55;
 
   const sheetRef = useRef(null);
   const [selectedBetslip, setSelectedBetslip] = useState(null);
-  const snapPoints = useMemo(() => ["25%", "70%"], []);
+  const snapPoints = useMemo(() => ["60%"], []);
 
   const { betslips } = useBattleLeaderboard(poolId, leagueSeasonId, battleId);
 
@@ -21,7 +23,7 @@ export default function BattleLeaderboard() {
   return (
     <View style={s.container}>
       <Txt>Battle Leaderboard for Pool(?) {poolId}</Txt>
-      <ScrollView>
+      <ScrollView contentContainerStyle={{ paddingBottom: bottomSheetHeight }} showsVerticalScrollIndicator={false}>
         <View style={s.leaderboardContainer}>
           <Txt style={s.headingTxt}>Leaderboard</Txt>
           <View style={s.leaderboardHeaderRow}>
@@ -73,7 +75,7 @@ export default function BattleLeaderboard() {
       <LockedBetslip
         sheetRef={sheetRef}
         selectedBetslip={selectedBetslip}
-        snapPoints={snapPoints}
+        maxHeight={bottomSheetHeight}
       />
     </View>
   );
