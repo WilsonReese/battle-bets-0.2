@@ -101,7 +101,18 @@ export function LockedBetslip({ sheetRef, betslip, maxHeight, onClose }) {
             <BottomSheetScrollView>
               {/* This gives a space above the top bet category */}
               <View style={{ paddingVertical: 4 }}>
-                {renderPlacedBetsByCategory(betslip)}
+                {betslip.bets && betslip.bets.length > 0 ? (
+                  renderPlacedBetsByCategory(betslip)
+                ) : (
+                  <Txt
+                    style={{
+                      textAlign: "center",
+                      padding: 16,
+                    }}
+                  >
+                    No bets placed for this battle.
+                  </Txt>
+                )}
               </View>
             </BottomSheetScrollView>
           </>
