@@ -11,7 +11,7 @@ import { PlacedBet } from "./PlacedBet";
 const screenHeight = Dimensions.get("window").height;
 
 export function LockedBetslip({ sheetRef, betslip, maxHeight, onClose }) {
-  // const snapPoints = useMemo(() => ["20%"], []);
+  // const snapPoints = useMemo(() => ["40%"], []);
   console.log("Betslip:", betslip);
 
   function renderPlacedBetsByCategory(betslip) {
@@ -58,8 +58,9 @@ export function LockedBetslip({ sheetRef, betslip, maxHeight, onClose }) {
     <BottomSheet
       ref={sheetRef}
       index={-1}
-      // snapPoints={snapPoints}
-      maxDynamicContentSize={maxHeight}
+      snapPoints={[maxHeight]}
+      enableDynamicSizing={false}
+      // maxDynamicContentSize={maxHeight}
       enablePanDownToClose={true}
       onChange={(index) => {
         if (index === -1) {

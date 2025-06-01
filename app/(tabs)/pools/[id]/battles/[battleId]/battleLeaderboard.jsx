@@ -23,7 +23,7 @@ export default function BattleLeaderboard() {
     battleEndDate,
   } = useLocalSearchParams();
   const screenHeight = Dimensions.get("window").height;
-  const bottomSheetHeight = screenHeight * 0.55;
+  const bottomSheetHeight = screenHeight * 0.54;
   const [selectedBetslip, setSelectedBetslip] = useState(null);
   const { currentUserId } = useContext(AuthContext);
 
