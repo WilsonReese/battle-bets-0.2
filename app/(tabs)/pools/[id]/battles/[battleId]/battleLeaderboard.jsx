@@ -12,9 +12,16 @@ import { useBattleLeaderboard } from "../../../../../../hooks/useBattleLeaderboa
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { LockedBetslip } from "../../../../../../components/Leaderboard/LockedBetslip";
 import { AuthContext } from "../../../../../../components/contexts/AuthContext";
+import { formatDate } from "date-fns";
 
 export default function BattleLeaderboard() {
-  const { id: poolId, battleId, leagueSeasonId } = useLocalSearchParams();
+  const {
+    id: poolId,
+    battleId,
+    leagueSeasonId,
+    poolName,
+    battleEndDate,
+  } = useLocalSearchParams();
   const screenHeight = Dimensions.get("window").height;
   const bottomSheetHeight = screenHeight * 0.55;
   const [selectedBetslip, setSelectedBetslip] = useState(null);
@@ -30,13 +37,15 @@ export default function BattleLeaderboard() {
 
   return (
     <View style={s.container}>
-      <Txt>Battle Leaderboard for Pool(?) {poolId}</Txt>
+      <Txt style={s.pageTitle}>
+        {poolName} - {battleEndDate}
+      </Txt>
+      <Txt style={s.headingTxt}>Leaderboard</Txt>
       <ScrollView
         contentContainerStyle={{ paddingBottom: bottomSheetHeight }}
         showsVerticalScrollIndicator={false}
       >
         <View style={s.leaderboardContainer}>
-          <Txt style={s.headingTxt}>Leaderboard</Txt>
           <View style={s.leaderboardHeaderRow}>
             <Txt style={[s.headerRowTxt, s.placeColumn]}> </Txt>
             <Txt style={[s.headerRowTxt, s.playerColumn]}>Player</Txt>
@@ -116,14 +125,18 @@ const s = StyleSheet.create({
     backgroundColor: "#061826",
     padding: 8,
   },
+  pageTitle: {
+    fontSize: 20,
+    fontFamily: "Saira_600SemiBold",
+  },
   headingTxt: {
     // color: "#061826",
     // fontFamily: "Saira_300Light",
     letterSpacing: 2,
-    fontSize: 10,
+    fontSize: 14,
     textTransform: "uppercase",
     color: "#B8C3CC",
-    paddingBottom: 2,
+    paddingBottom: 8,
     // paddingTop: 8,
     // alignSelf: "center",
   },

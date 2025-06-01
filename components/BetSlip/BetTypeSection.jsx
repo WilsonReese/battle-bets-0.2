@@ -24,12 +24,6 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
       ));
   }
 
-  function calculatePayoutByType(betTypes) {
-    return bets
-      .filter((bet) => betTypes.includes(bet.betType))
-      .reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
-  }
-
   return (
     <View style={s.container}>
       {renderBets(betTypes)}
@@ -52,12 +46,6 @@ const s = StyleSheet.create({
     // borderColor: "#184EAD",
     backgroundColor: '#54D18C'
   },
-  // btnContainer: {
-  //   flexDirection: "row",
-  //   justifyContent: "center",
-  //   alignItems: "center",
-  //   paddingVertical: 4,
-  // },
   payoutContainer: {
     flexDirection: "row",
     justifyContent: "space-between",

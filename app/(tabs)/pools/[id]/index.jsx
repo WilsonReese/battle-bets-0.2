@@ -131,6 +131,7 @@ export default function PoolDetails() {
                     key={battle.id}
                     userBetslip={userBetslip}
                     poolId={poolId}
+                    poolName={poolDetails.name}
                     season={selectedSeason}
                     battle={battle}
                     setBattles={setBattles}

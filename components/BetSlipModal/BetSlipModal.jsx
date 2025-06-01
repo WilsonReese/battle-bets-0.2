@@ -1,7 +1,7 @@
 import { Modal, Pressable, ScrollView, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetOptionHeading } from "./BetOptionHeading";
-import { PlacedBet } from "./PlacedBet";
+import { PlacedBet } from "../Leaderboard/PlacedBet";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { TouchableOpacity } from "react-native";
 

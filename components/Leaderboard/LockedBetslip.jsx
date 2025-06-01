@@ -6,24 +6,60 @@ import BottomSheet, {
 } from "@gorhom/bottom-sheet";
 import { useMemo } from "react";
 import { getOrdinalSuffix } from "../../utils/formatting";
+import { PlacedBet } from "./PlacedBet";
 
 const screenHeight = Dimensions.get("window").height;
 
-export function LockedBetslip({
-  sheetRef,
-  betslip,
-  maxHeight,
-  onClose,
-}) {
-  const snapPoints = useMemo(() => ["60%"], []);
-  console.log('Betslip:', betslip)
+export function LockedBetslip({ sheetRef, betslip, maxHeight, onClose }) {
+  // const snapPoints = useMemo(() => ["20%"], []);
+  console.log("Betslip:", betslip);
+
+  function renderPlacedBetsByCategory(betslip) {
+    if (!betslip || !betslip.bets) return null;
+
+    const categories = [
+      {
+        key: "spread_and_ou",
+        title: "Spread and Over/Under",
+        filter: (bet) =>
+          bet.bet_option.category === "spread" ||
+          bet.bet_option.category === "ou",
+      },
+      {
+        key: "money_line",
+        title: "Money Line",
+        filter: (bet) => bet.bet_option.category === "money_line",
+      },
+      {
+        key: "prop",
+        title: "Prop Bets",
+        filter: (bet) => bet.bet_option.category === "prop",
+      },
+    ];
+
+    return categories.map(({ key, title, filter }) => {
+      const filteredBets = betslip.bets.filter(filter);
+      if (filteredBets.length === 0) return null;
+
+      return (
+        <View key={key}>
+          <Txt style={s.categoryTitleTxt}>{title}</Txt>
+          <View style={{ paddingVertical: 0 }}>
+            {filteredBets.map((bet, index) => (
+              <PlacedBet key={bet.id} bet={bet} />
+            ))}
+          </View>
+        </View>
+      );
+    });
+  }
 
   return (
     <BottomSheet
       ref={sheetRef}
       index={-1}
-      snapPoints={snapPoints}
-      // maxDynamicContentSize={maxHeight}
+      // snapPoints={snapPoints}
+      maxDynamicContentSize={maxHeight}
       enablePanDownToClose={true}
       onChange={(index) => {
         if (index === -1) {
@@ -55,21 +91,22 @@ export function LockedBetslip({
                 <Txt style={s.statCategoryTxt}>Max</Txt>
               </View>
               <View style={s.statContainer}>
-                <Txt>{betslip?.hitRate != null ? `${betslip.hitRate}%` : "—"}</Txt>
+                <Txt>
+                  {betslip?.hitRate != null ? `${betslip.hitRate}%` : "—"}
+                </Txt>
                 <Txt style={s.statCategoryTxt}>Hit Rate</Txt>
               </View>
             </View>
             <BottomSheetScrollView>
-              <Txt>Spreads and Over/Unders</Txt>
-              <Txt>Bets placed</Txt>
-              <Txt>Money Line</Txt>
-              <Txt>Bets placed</Txt>
-              <Txt>Prop Bets</Txt>
+              {/* This gives a space above the top bet category */}
+              <View style={{ paddingVertical: 4 }}>
+                {renderPlacedBetsByCategory(betslip)}
+              </View>
             </BottomSheetScrollView>
           </>
         ) : (
           <Txt style={{ textAlign: "center", padding: 16 }}>
-            Select a betslip.
+            {/* Select a betslip. */}
           </Txt>
         )}
       </>
@@ -138,5 +175,15 @@ const s = StyleSheet.create({
     paddingBottom: 2,
     // paddingTop: 8,
     // alignSelf: "center",
+  },
+
+  // Betslip Details Section
+  categoryTitleTxt: {
+    fontFamily: "Saira_300Light",
+    letterSpacing: 1,
+    fontSize: 14,
+    textTransform: "uppercase",
+    paddingHorizontal: 12,
+    paddingVertical: 8,
   },
 });

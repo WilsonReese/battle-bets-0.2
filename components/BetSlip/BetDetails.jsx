@@ -7,7 +7,7 @@ export function BetDetails({ name, matchup, time, multiplier, betNameColor, payo
 		<View style={s.container}>
 			<View style={s.betDetailsContainer}>
 				<View>
-					<Txt style={[s.smallTxt]}>{matchup}</Txt>
+					<Txt style={[s.smallTxt, { color: betNameColor || s.betNameTxt.color }]}>{matchup}</Txt>
 				</View>
 				<View>
 					<Txt style={[s.betNameTxt, { color: betNameColor || s.betNameTxt.color }]}>{name}</Txt>

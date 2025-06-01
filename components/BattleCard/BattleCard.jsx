@@ -17,6 +17,7 @@ export function BattleCard({
   poolId,
   season,
   battle,
+  poolName,
   setBattles,
   setUserBetslip,
   setLoading,
@@ -59,7 +60,7 @@ export function BattleCard({
         battle.locked
           ? router.push({
               pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
-              params: { leagueSeasonId: season.id },
+              params: { leagueSeasonId: season.id, poolName: poolName, battleEndDate: battleEndDate},
             })
           : handleEditBets()
       }
