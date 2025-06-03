@@ -59,12 +59,12 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
               </Txt>
               {/* <MaterialCommunityIcons name="podium" size={14} color="#54D18C" /> */}
             </View>
-            <View style={s.infoUnitContainer}>
+            <View style={[s.infoUnitContainer, s.betslipAmounts]}>
               <Txt style={s.txt}>Won: ${userBetslip.earnings}</Txt>
               <Txt style={s.txt}>Max: ${userBetslip.max_payout_remaining}</Txt>
             </View>
           </View>
-          <FontAwesome6 name="circle-chevron-right" size={14} color="#54D18C" />
+          {/* <FontAwesome6 name="circle-chevron-right" size={14} color="#54D18C" /> */}
         </TouchableOpacity>
       </View>
     </View>
@@ -113,6 +113,9 @@ const s = StyleSheet.create({
   betslipTouchable: {
     flexDirection: "row",
     alignItems: "center",
+    gap: 8,
+  },
+  betslipAmounts: {
     gap: 8,
   },
 });
