@@ -140,7 +140,7 @@ export const logoMap = {
   ole_miss: require('@/assets/teamLogos/ole_miss.png'),
   south_carolina: require('@/assets/teamLogos/south_carolina.png'),
   tennessee: require('@/assets/teamLogos/tennessee.png'),
-  texas_am: require('@/assets/teamLogos/texas_a&m.png'),
+  texas_am: require('@/assets/teamLogos/texas_am.png'),
   texas: require('@/assets/teamLogos/texas.png'),
   vanderbilt: require('@/assets/teamLogos/vanderbilt.png'),
 };
