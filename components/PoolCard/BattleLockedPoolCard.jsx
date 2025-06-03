@@ -47,6 +47,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
                 leagueSeasonId: selectedSeason.id,
                 poolName: pool.name,
                 battleEndDate: battleEndDate,
+                battleStatus: battle.status,
               },
             })
           }

@@ -49,7 +49,7 @@ export function BattleCard({
 
   console.log("User Betslip Locked?", userBetslip.locked);
   console.log("User Betslip Status?", userBetslip.status);
-  console.log("Battle", battle.id);
+  console.log("Battle", battle);
   console.log("Pool", poolId);
 
   if (battle.status === "not_started") {
@@ -69,6 +69,7 @@ export function BattleCard({
                 leagueSeasonId: season.id,
                 poolName: poolName,
                 battleEndDate: battleEndDate,
+                battleStatus: battle.status,
               },
             })
           : handleEditBets()

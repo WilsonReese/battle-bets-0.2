@@ -21,11 +21,15 @@ export default function BattleLeaderboard() {
     leagueSeasonId,
     poolName,
     battleEndDate,
+    battleStatus,
   } = useLocalSearchParams();
   const screenHeight = Dimensions.get("window").height;
   const bottomSheetHeight = screenHeight * 0.54;
   const [selectedBetslip, setSelectedBetslip] = useState(null);
   const { currentUserId } = useContext(AuthContext);
+
+  const battleCompleted = battleStatus === "completed";
+  const totalPointsIncrease = 10;
 
   const sheetRef = useRef(null);
   const snapPoints = useMemo(() => ["60%"], []);
@@ -34,6 +38,7 @@ export default function BattleLeaderboard() {
 
   console.log("Betslips on Leaderboard: ", betslips);
   console.log("Params:", useLocalSearchParams());
+  console.log("Battle Status", battleStatus);
 
   return (
     <View style={s.container}>
@@ -85,10 +90,17 @@ export default function BattleLeaderboard() {
                   {shouldShowRank ? b.rank : ""}
                 </Txt>
                 <View style={[s.playerColumn]}>
-                  <Txt style={s.playerTxt}>@{b.name}</Txt>
+                  <Txt style={s.playerTxt}>@{b.name}
+                    <Txt> </Txt>
                   {b.user_id == currentUserId && (
                     <FontAwesome6 name="user-large" size={10} color="#54D18C" />
                   )}
+                  {battleCompleted ? (
+                    <Txt style={s.seasonScoreTxt}> (+{totalPointsIncrease})</Txt>
+                  ) : (
+                    ""
+                  )}
+                  </Txt>
                 </View>
                 <Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
                 <Txt style={[s.placeTxt, s.column]}>
@@ -165,8 +177,9 @@ const s = StyleSheet.create({
     alignItems: "center",
   },
   iconColumn: {
-    flex: 1,
+    flex: .5,
     alignItems: "center",
+    paddingRight: 4,
   },
   placeColumn: {
     flex: 0.5,
@@ -179,6 +192,7 @@ const s = StyleSheet.create({
     // These show the correct user icon
     flexDirection: "row",
     alignItems: "center",
+    flexWrap: 'wrap',
     gap: 6,
   },
   leaderboardRow: {
@@ -201,5 +215,9 @@ const s = StyleSheet.create({
     // flex: 1,
     fontSize: 14,
     fontFamily: "Saira_600SemiBold",
+  },
+  seasonScoreTxt: {
+    fontSize: 12,
+    color: "#54D18C",
   },
 });
