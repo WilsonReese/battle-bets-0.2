@@ -34,6 +34,7 @@ export function BattleCard({
     totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
 
   console.log("Season", season);
+  console.log("Battle status", battle.status);
 
   const handleEditBets = () => {
     if (!userBetslip) {
@@ -51,6 +52,10 @@ export function BattleCard({
   console.log("Battle", battle.id);
   console.log("Pool", poolId);
 
+  if (battle.status === "not_started") {
+    return null; // Do not render anything
+  }
+
   return (
     // OnPress will need to be adjusted to account for when we aren't editing bets anymore
 
@@ -60,7 +65,11 @@ export function BattleCard({
         battle.locked
           ? router.push({
               pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
-              params: { leagueSeasonId: season.id, poolName: poolName, battleEndDate: battleEndDate},
+              params: {
+                leagueSeasonId: season.id,
+                poolName: poolName,
+                battleEndDate: battleEndDate,
+              },
             })
           : handleEditBets()
       }
@@ -73,39 +82,56 @@ export function BattleCard({
         </Txt>
       </View>
 
-      {/* Betslip has not been created */}
-      {!userBetslip && (
+      {/* === BATTLE IN PROGRESS === */}
+      {battle.status === "in_progress" && (
+        <>
+          {/* Betslip has not been created */}
+          {!userBetslip && (
+            <View>
+              <Txt>No betslip</Txt>
+            </View>
+          )}
+
+          {/* Betslip has not been filled out yet and the battle isn't locked */}
+          {userBetslip.status == "created" && !userBetslip.locked && (
+            <CreatedBetslipBattleCard
+              battle={battle}
+              handleEditBets={handleEditBets}
+              battleEndDateTime={battleEndDateTime}
+            />
+          )}
+
+          {/* Betslip has been filled out but the battle isn't locked */}
+          {userBetslip.status === "filled_out" && !userBetslip.locked && (
+            <FilledOutUnlockedBattleCard
+              battle={battle}
+              handleEditBets={handleEditBets}
+              battleEndDateTime={battleEndDateTime}
+              userBetslip={userBetslip}
+            />
+          )}
+
+          {/* Betslip locked */}
+          {userBetslip.locked && (
+            <LockedBattleCard
+              userBetslip={userBetslip}
+              battle={battle}
+              poolId={poolId}
+            />
+          )}
+        </>
+      )}
+
+      {/* === COMPLETED === */}
+      {battle.status === "completed" && (
         <View>
-          <Txt>No betslip</Txt>
+          <Txt style={s.txtItalic}>Battle Complete</Txt>
+          <LockedBattleCard
+            userBetslip={userBetslip}
+            battle={battle}
+            poolId={poolId}
+          />
         </View>
-      )}
-
-      {/* Betslip has not been filled out yet and the battle isn't locked */}
-      {userBetslip.status == "created" && !userBetslip.locked && (
-        <CreatedBetslipBattleCard
-          battle={battle}
-          handleEditBets={handleEditBets}
-          battleEndDateTime={battleEndDateTime}
-        />
-      )}
-
-      {/* Betslip has been filled out but the battle isn't locked */}
-      {userBetslip.status === "filled_out" && !userBetslip.locked && (
-        <FilledOutUnlockedBattleCard
-          battle={battle}
-          handleEditBets={handleEditBets}
-          battleEndDateTime={battleEndDateTime}
-          userBetslip={userBetslip}
-        />
-      )}
-
-      {/* Betslip locked */}
-      {userBetslip.locked && (
-        <LockedBattleCard
-          userBetslip={userBetslip}
-          battle={battle}
-          poolId={poolId}
-        />
       )}
     </TouchableOpacity>
   );

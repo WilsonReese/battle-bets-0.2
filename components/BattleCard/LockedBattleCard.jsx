@@ -26,6 +26,9 @@ export function LockedBattleCard({
   const { getBudgetForBattle } = useBetContext();
   const remaining = getBudgetForBattle(battle.id);
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
+  const battleCompleted = battle.status === "completed";
+
+  const totalPointsIncrease = 10
 
   console.log("User Betslip", userBetslip);
   console.log("Remaining Budget", remaining);
@@ -50,7 +53,14 @@ export function LockedBattleCard({
               <Txt style={[s.placeTxt, s.placeColumn]}>
                 {shouldShowRank ? b.rank : ""}
               </Txt>
-              <Txt style={[s.playerTxt, s.playerColumn]}>@{b.name}</Txt>
+              <View style={[s.playerColumn, s.seasonScoreContainer]}>
+                <Txt style={[s.playerTxt]}>@{b.name}</Txt>
+                {battleCompleted ? (
+                  <Txt style={s.seasonScoreTxt}>(+{totalPointsIncrease})</Txt>
+                ) : (
+                  ""
+                )}
+              </View>
               <Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
               <Txt style={[s.placeTxt, s.column]}>
                 ${b.max_payout_remaining}
@@ -66,9 +76,16 @@ export function LockedBattleCard({
         <View style={s.bottomSection}>
           <View style={s.betDetailsContainer}>
             <View>
-              <Txt style={s.betInfoTxt}>
-                {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
-              </Txt>
+              <View style={s.seasonScoreContainer}>
+                <Txt style={s.betInfoTxt}>
+                  {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
+                </Txt>
+                {battleCompleted ? (
+                  <Txt style={s.seasonScoreTxt}>(+{totalPointsIncrease})</Txt>
+                ) : (
+                  ""
+                )}
+              </View>
               <Txt style={s.betInfoTxt}>
                 Hit Rate:{" "}
                 {userRankedBetslip?.hitRate != null
@@ -93,7 +110,11 @@ export function LockedBattleCard({
           </View>
           {/* Arrow Icon */}
           <View style={s.arrowIcon}>
-            <FontAwesome6 name="circle-chevron-right" size={18} color="#54D18C" />
+            <FontAwesome6
+              name="circle-chevron-right"
+              size={18}
+              color="#54D18C"
+            />
           </View>
         </View>
       </View>
@@ -188,6 +209,16 @@ const s = StyleSheet.create({
   },
   dollarTxt: {
     fontSize: 14,
+  },
+
+  // Completed Betslip
+  seasonScoreTxt: {
+    fontSize: "12",
+    color: "#54D18C",
+  },
+  seasonScoreContainer: {
+    flexDirection: "row",
+    gap: 4,
   },
 
   // Arrow Styling
