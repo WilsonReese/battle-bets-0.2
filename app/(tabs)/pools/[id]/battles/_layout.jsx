@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
+import { HeaderBackNavigation } from "../../../../../components/navigation/headerBackNavigation";
 
 export default function BattlesLayout() {
   return (
@@ -21,6 +22,7 @@ export default function BattlesLayout() {
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
           headerBackButtonMenuEnabled: false,
+          // headerLeft: () => <HeaderBackNavigation />,
           contentStyle: { backgroundColor: "transparent" },
         }}
       >
@@ -50,7 +52,7 @@ export default function BattlesLayout() {
           options={{
             title: "Battle Leaderboard",
             headerShown: true,
-            headerLeft: () => null,
+            headerLeft: () => <HeaderBackNavigation />,
             headerBackTitleVisible: true,
             headerBackTitle: "Back",
             headerBackTitleStyle: {
