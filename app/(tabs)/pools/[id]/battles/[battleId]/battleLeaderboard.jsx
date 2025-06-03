@@ -91,9 +91,11 @@ export default function BattleLeaderboard() {
                 </Txt>
                 <View style={[s.playerColumn]}>
                   <Txt style={s.playerTxt}>@{b.name}
-                    <Txt> </Txt>
                   {b.user_id == currentUserId && (
-                    <FontAwesome6 name="user-large" size={10} color="#54D18C" />
+                    <>
+                      <Txt> </Txt>
+                      <FontAwesome6 name="user-large" size={10} color="#54D18C" />
+                    </>
                   )}
                   {battleCompleted ? (
                     <Txt style={s.seasonScoreTxt}> (+{totalPointsIncrease})</Txt>
@@ -126,6 +128,8 @@ export default function BattleLeaderboard() {
         betslip={selectedBetslip}
         maxHeight={bottomSheetHeight}
         onClose={() => setSelectedBetslip(null)}
+        battleCompleted={battleCompleted}
+        totalPointsIncrease={totalPointsIncrease}
       />
     </View>
   );

@@ -10,7 +10,14 @@ import { PlacedBet } from "./PlacedBet";
 
 const screenHeight = Dimensions.get("window").height;
 
-export function LockedBetslip({ sheetRef, betslip, maxHeight, onClose }) {
+export function LockedBetslip({
+  sheetRef,
+  betslip,
+  maxHeight,
+  onClose,
+  battleCompleted,
+  totalPointsIncrease,
+}) {
   // const snapPoints = useMemo(() => ["40%"], []);
   console.log("Betslip:", betslip);
 
@@ -77,7 +84,17 @@ export function LockedBetslip({ sheetRef, betslip, maxHeight, onClose }) {
               <View style={s.titleContainer}>
                 <Txt style={s.title}>Betslip</Txt>
                 <View style={s.betslipNameContainer}>
-                  <Txt style={s.betslipNameTxt}>@{betslip.name}</Txt>
+                  <Txt style={s.betslipNameTxt}>
+                    @{betslip.name}
+                    {battleCompleted ? (
+                      <Txt style={s.seasonScoreTxt}>
+                        {" "}
+                        (+{totalPointsIncrease})
+                      </Txt>
+                    ) : (
+                      ""
+                    )}
+                  </Txt>
                 </View>
               </View>
               <View style={s.placeText}>
@@ -149,8 +166,8 @@ const s = StyleSheet.create({
   betslipNameContainer: {
     borderRadius: 8,
     backgroundColor: "#425C70",
-    paddingHorizontal: 12,
-    flex: 1,
+    paddingHorizontal: 8,
+    // flex: 1,
   },
   titleContainer: {
     flexDirection: "row",
@@ -169,6 +186,7 @@ const s = StyleSheet.create({
   },
   betslipNameTxt: {
     fontSize: 14,
+    maxWidth: 200,
     // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     // paddingRight: 8,
@@ -208,5 +226,9 @@ const s = StyleSheet.create({
     textTransform: "uppercase",
     paddingHorizontal: 12,
     paddingVertical: 8,
+  },
+  seasonScoreTxt: {
+    fontSize: 12,
+    color: "#54D18C",
   },
 });
