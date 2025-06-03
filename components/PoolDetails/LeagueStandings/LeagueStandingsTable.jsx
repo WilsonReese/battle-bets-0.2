@@ -14,7 +14,7 @@ export function LeagueStandingsTable({ poolId, containerWidth }) {
   return (
     <>
       <View>
-        <Txt style={s.title}>Standings</Txt>
+        <Txt style={s.title}>Season Standings</Txt>
       </View>
       <View style={s.headerContainer}>
         <View style={s.rankHeader}>

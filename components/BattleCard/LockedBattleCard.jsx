@@ -7,6 +7,7 @@ import { StatusIcon } from "../general/StatusIcon";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useBetContext } from "../contexts/BetContext";
 import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
+import { getOrdinalSuffix } from "../../utils/formatting";
 
 export function LockedBattleCard({
   battle,
@@ -66,7 +67,7 @@ export function LockedBattleCard({
           <View style={s.betDetailsContainer}>
             <View>
               <Txt style={s.betInfoTxt}>
-                Rank: {userRankedBetslip?.rank ?? "—"}
+                {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
               </Txt>
               <Txt style={s.betInfoTxt}>
                 Hit Rate:{" "}

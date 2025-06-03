@@ -1,8 +1,19 @@
-import { StyleSheet, View, TouchableOpacity, } from "react-native";
+import { StyleSheet, View, TouchableOpacity } from "react-native";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { Txt } from "../general/Txt";
+import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
+import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
+import { getOrdinalSuffix } from "../../utils/formatting";
 
-export function BattleLockedPoolCard({ userEntry }) {
+export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
+  const { betslips } = useBattleLeaderboard(
+    pool.id,
+    battle.league_season_id,
+    battle.id
+  );
+
+  const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
+
   return (
     <View style={s.detailsContainer}>
       <View style={s.overviewContainer}>
@@ -21,18 +32,22 @@ export function BattleLockedPoolCard({ userEntry }) {
 
       <View style={s.currentBattleContainer}>
         <Txt style={s.sectonHeadingTxt}>This Week</Txt>
-        <View style={s.infoContainer}>
-          <View style={s.infoUnitContainer}>
-            <Txt style={s.infoTitleTxt}>Rank</Txt>
-            <Txt style={s.txt}>???</Txt>
+        <TouchableOpacity style={s.betslipTouchable}>
+          <View style={s.infoContainer}>
+            <View style={s.infoUnitContainer}>
+              {/* <Txt style={s.txt}>Rank: {userRankedBetslip?.rank ?? "—"}</Txt> */}
+              <Txt style={s.txt}>
+                {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
+              </Txt>
+              {/* <MaterialCommunityIcons name="podium" size={14} color="#54D18C" /> */}
+            </View>
+            <View style={s.infoUnitContainer}>
+              <Txt style={s.txt}>Won: ${userBetslip.earnings}</Txt>
+              <Txt style={s.txt}>Max: ${userBetslip.max_payout_remaining}</Txt>
+            </View>
           </View>
-          <TouchableOpacity style={s.infoUnitContainer}>
-            <Txt style={s.infoTitleTxt}>Points</Txt>
-            <Txt style={s.txt}>Max</Txt>
-            <Txt style={s.txt}>View Bets</Txt>
-            <FontAwesome6 name="pen-to-square" size={14} color="#54D18C" />
-          </TouchableOpacity>
-        </View>
+          <FontAwesome6 name="circle-chevron-right" size={14} color="#54D18C" />
+        </TouchableOpacity>
       </View>
     </View>
   );
@@ -76,5 +91,10 @@ const s = StyleSheet.create({
   },
   txt: {
     fontSize: 14,
+  },
+  betslipTouchable: {
+    flexDirection: "row",
+    alignItems: 'center',
+    gap: 8,
   },
 });

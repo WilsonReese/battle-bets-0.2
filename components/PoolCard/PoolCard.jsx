@@ -77,7 +77,10 @@ export function PoolCard({ pool }) {
       {pool.has_started && latestBattle.locked && (
         <BattleLockedPoolCard
           pool={pool}
+          battle={latestBattle}
           userEntry={userEntry}
+          userBetslip={userBetslip}
+          
         />
       )}
     </TouchableOpacity>

@@ -106,12 +106,6 @@ export function BattleCard({
           battle={battle}
           poolId={poolId}
         />
-        // <Leaderboard
-        //   userBetslip={userBetslip}
-        //   poolId={poolId}
-        //   leagueSeasonId={season.id}
-        //   battle={battle}
-        // />
       )}
     </TouchableOpacity>
   );
