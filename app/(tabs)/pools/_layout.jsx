@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
+import { HeaderBackNavigation } from "../../../components/navigation/headerBackNavigation";
 
 export default function PoolsLayout() {
   return (
@@ -21,6 +22,10 @@ export default function PoolsLayout() {
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
           contentStyle: { backgroundColor: "transparent" },
+          gestureEnabled: true, // 👈 This enables swipe-to-go-back
+          gestureResponseDistance: {
+            horizontal: 200, // 👈 default is ~25 on iOS; increase to make easier
+          },
         }}
       >
         {/* Main pool screen with header shown */}
@@ -33,7 +38,11 @@ export default function PoolsLayout() {
         />
         <Stack.Screen
           name="create"
-          options={{ title: "Create Pool", headerShown: true }}
+          options={{
+            title: "Create Pool",
+            headerShown: true,
+            headerLeft: () => <HeaderBackNavigation />,
+          }}
         />
         <Stack.Screen
           name="[id]"

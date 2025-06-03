@@ -23,6 +23,10 @@ export default function PoolDetailsLayout() {
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
           contentStyle: { backgroundColor: "transparent" },
+          gestureEnabled: true, // 👈 This enables swipe-to-go-back
+          gestureResponseDistance: {
+            horizontal: 100, // 👈 default is ~25 on iOS; increase to make easier
+          },
         }}
       >
         {/* Pool overview page */}

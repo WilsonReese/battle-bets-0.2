@@ -94,35 +94,39 @@ export default function Layout() {
           <AuthProvider>
             <DeepLinkWrapper />
             <PoolDetailsProvider>
-                <View style={s.container}>
-                  <GlobalMessageRenderer />
-                  <Stack
-                    screenOptions={{
+              <View style={s.container}>
+                <GlobalMessageRenderer />
+                <Stack
+                  screenOptions={{
+                    headerShown: false,
+                    contentStyle: { backgroundColor: "transparent" },
+                    gestureEnabled: true, // 👈 This enables swipe-to-go-back
+                    gestureResponseDistance: {
+                      horizontal: 100, // 👈 default is ~25 on iOS; increase to make easier
+                    },
+                  }}
+                >
+                  <Stack.Screen
+                    name="(tabs)"
+                    options={{
                       headerShown: false,
-                      contentStyle: { backgroundColor: "transparent" },
+                      headerTitle: () => (
+                        <Image
+                          source={require("@/assets/images/white_logo.png")}
+                          style={{ width: 140, height: 40 }}
+                          resizeMode="contain"
+                        />
+                      ),
+                      headerStyle: {
+                        backgroundColor: "#061826",
+                        alignItems: "flex-start",
+                      },
+                      headerTintColor: "#F8F8F8",
+                      headerShadowVisible: false,
                     }}
-                  >
-                    <Stack.Screen
-                      name="(tabs)"
-                      options={{
-                        headerShown: false,
-                        headerTitle: () => (
-                          <Image
-                            source={require("@/assets/images/white_logo.png")}
-                            style={{ width: 140, height: 40 }}
-                            resizeMode="contain"
-                          />
-                        ),
-                        headerStyle: {
-                          backgroundColor: "#061826",
-                          alignItems: "flex-start",
-                        },
-                        headerTintColor: "#F8F8F8",
-                        headerShadowVisible: false,
-                      }}
-                    />
-                  </Stack>
-                </View>
+                  />
+                </Stack>
+              </View>
             </PoolDetailsProvider>
           </AuthProvider>
         </BetProvider>

@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { Image } from "react-native";
+import { HeaderBackNavigation } from "../../../components/navigation/headerBackNavigation";
 
 export default function ProfileLayout() {
   return (
@@ -7,6 +8,10 @@ export default function ProfileLayout() {
       screenOptions={{
         headerShown: false,
         contentStyle: { backgroundColor: "transparent" },
+        gestureEnabled: true, // 👈 This enables swipe-to-go-back
+        gestureResponseDistance: {
+          horizontal: 200, // 👈 default is ~25 on iOS; increase to make easier
+        },
       }}
     >
       <Stack.Screen
@@ -45,8 +50,10 @@ export default function ProfileLayout() {
               resizeMode="contain"
             />
           ),
+          headerLeft: () => <HeaderBackNavigation />,
           headerShadowVisible: false, // Hide header border
-        }} />
+        }}
+      />
     </Stack>
   );
 }

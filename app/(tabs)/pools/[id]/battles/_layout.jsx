@@ -24,6 +24,7 @@ export default function BattlesLayout() {
           headerBackButtonMenuEnabled: false,
           // headerLeft: () => <HeaderBackNavigation />,
           contentStyle: { backgroundColor: "transparent" },
+          gestureEnabled: true, // 👈 This enables swipe-to-go-back
         }}
       >
         {/* List of battles for the pool */}
@@ -39,8 +40,8 @@ export default function BattlesLayout() {
             title: "Battles",
             headerShown: true,
             headerLeft: () => <HeaderBackNavigation />,
-            headerBackTitleVisible: true,
-            headerBackTitle: "Back",
+            // headerBackTitleVisible: true,
+            // headerBackTitle: "Back",
             headerBackTitleStyle: {
               color: "blue",
               fontFamily: "Saira_400Regular",
@@ -53,8 +54,8 @@ export default function BattlesLayout() {
             title: "Battle Leaderboard",
             headerShown: true,
             headerLeft: () => <HeaderBackNavigation />,
-            headerBackTitleVisible: true,
-            headerBackTitle: "Back",
+            // headerBackTitleVisible: true,
+            // headerBackTitle: "Back",
             headerBackTitleStyle: {
               color: "blue",
               fontFamily: "Saira_400Regular",
