@@ -80,7 +80,9 @@ export function LockedBetslip({ sheetRef, betslip, maxHeight, onClose }) {
                   <Txt style={s.betslipNameTxt}>@{betslip.name}</Txt>
                 </View>
               </View>
-              <Txt>{getOrdinalSuffix(betslip.rank)} Place</Txt>
+              <View style={s.placeText}>
+                <Txt>{getOrdinalSuffix(betslip.rank)} Place</Txt>
+              </View>
             </View>
             <View style={s.betslipStatsContainer}>
               <View style={s.statContainer}>
@@ -139,6 +141,7 @@ const s = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 12,
     paddingBottom: 12,
+    gap: 8,
     // backgroundColor: "#184EAD",
     // borderTopLeftRadius: 15,
     // borderTopRightRadius: 15,
@@ -147,24 +150,32 @@ const s = StyleSheet.create({
     borderRadius: 8,
     backgroundColor: "#425C70",
     paddingHorizontal: 12,
+    flex: 1,
   },
   titleContainer: {
     flexDirection: "row",
     alignItems: "center",
     gap: 8,
+    flex: 3,
+    // backgroundColor: 'blue'
     // flex: 1,
   },
   title: {
     fontSize: 20,
     // color: "#061826",
     fontFamily: "Saira_600SemiBold",
+    // flex: 1,
     // paddingRight: 8,
   },
   betslipNameTxt: {
-    fontSize: 16,
+    fontSize: 14,
     // color: "#061826",
     fontFamily: "Saira_600SemiBold",
     // paddingRight: 8,
+  },
+  placeText: {
+    // flex: 1,
+    // backgroundColor: 'green'
   },
   betslipStatsContainer: {
     flexDirection: "row",
