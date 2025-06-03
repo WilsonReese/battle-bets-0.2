@@ -16,6 +16,8 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
   );
 
   const { selectedSeason } = usePoolDetails(pool.id);
+  const battleCompleted = battle.status === "completed";
+  const totalPointsIncrease = 10;
 
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
   const battleEndDate = format(new Date(battle.end_date), "MMMM d");
@@ -57,6 +59,11 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
               {/* <Txt style={s.txt}>Rank: {userRankedBetslip?.rank ?? "—"}</Txt> */}
               <Txt style={s.txt}>
                 {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
+                {battleCompleted ? (
+                  <Txt style={s.seasonScoreTxt}> (+{totalPointsIncrease})</Txt>
+                ) : (
+                  ""
+                )}
               </Txt>
               {/* <MaterialCommunityIcons name="podium" size={14} color="#54D18C" /> */}
             </View>
@@ -118,5 +125,9 @@ const s = StyleSheet.create({
   },
   betslipAmounts: {
     gap: 8,
+  },
+  seasonScoreTxt: {
+    fontSize: "12",
+    color: "#54D18C",
   },
 });
