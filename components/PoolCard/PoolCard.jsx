@@ -53,7 +53,7 @@ export function PoolCard({ pool }) {
         onPress={() => router.push(`/pools/${pool.id}/`)}
       >
         <Txt style={s.heading}>{pool.name}</Txt>
-        <FontAwesome6 name="circle-right" size={18} color="#54D18C" />
+        <FontAwesome6 name="circle-chevron-right" size={18} color="#54D18C" />
       </View>
 
       {/* League Season has not started, show PreseasonPoolCard */}

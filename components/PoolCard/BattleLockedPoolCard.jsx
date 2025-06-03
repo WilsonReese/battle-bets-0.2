@@ -4,6 +4,9 @@ import { Txt } from "../general/Txt";
 import MaterialCommunityIcons from "@expo/vector-icons/MaterialCommunityIcons";
 import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
 import { getOrdinalSuffix } from "../../utils/formatting";
+import { usePoolDetails } from "../contexts/PoolDetailsContext";
+import { format } from "date-fns";
+import { router } from "expo-router";
 
 export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
   const { betslips } = useBattleLeaderboard(
@@ -12,7 +15,10 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
     battle.id
   );
 
+  const { selectedSeason } = usePoolDetails(pool.id);
+
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
+  const battleEndDate = format(new Date(battle.end_date), "MMMM d");
 
   return (
     <View style={s.detailsContainer}>
@@ -32,7 +38,19 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
 
       <View style={s.currentBattleContainer}>
         <Txt style={s.sectonHeadingTxt}>This Week</Txt>
-        <TouchableOpacity style={s.betslipTouchable}>
+        <TouchableOpacity
+          style={s.betslipTouchable}
+          onPress={() =>
+            router.push({
+              pathname: `/pools/${pool.id}/battles/${battle.id}/battleLeaderboard`,
+              params: {
+                leagueSeasonId: selectedSeason.id,
+                poolName: pool.name,
+                battleEndDate: battleEndDate,
+              },
+            })
+          }
+        >
           <View style={s.infoContainer}>
             <View style={s.infoUnitContainer}>
               {/* <Txt style={s.txt}>Rank: {userRankedBetslip?.rank ?? "—"}</Txt> */}
@@ -94,7 +112,7 @@ const s = StyleSheet.create({
   },
   betslipTouchable: {
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
     gap: 8,
   },
 });

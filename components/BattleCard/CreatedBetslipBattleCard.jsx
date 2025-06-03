@@ -30,7 +30,7 @@ export function CreatedBetslipBattleCard({
         <CountdownTimer targetDate={battleEndDateTime} version="large" />
       </View>
       <View style={s.iconContainer}>
-        <FontAwesome6 name="circle-right" size={18} color="#54D18C" />
+        <FontAwesome6 name="circle-chevron-right" size={18} color="#54D18C" />
       </View>
     </View>
   );
