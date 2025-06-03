@@ -38,7 +38,7 @@ export default function BattlesLayout() {
           options={{
             title: "Battles",
             headerShown: true,
-            headerLeft: () => null,
+            headerLeft: () => <HeaderBackNavigation />,
             headerBackTitleVisible: true,
             headerBackTitle: "Back",
             headerBackTitleStyle: {

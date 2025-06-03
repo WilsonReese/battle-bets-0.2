@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
+import { HeaderBackNavigation } from "../../../../components/navigation/headerBackNavigation";
 
 export default function PoolDetailsLayout() {
   return (
@@ -27,7 +28,11 @@ export default function PoolDetailsLayout() {
         {/* Pool overview page */}
         <Stack.Screen
           name="index"
-          options={{ title: "Pool Overview", headerShown: true }} // Changes green on Pool Details
+          options={{
+            title: "Pool Overview",
+            headerShown: true,
+            headerLeft: () => <HeaderBackNavigation />,
+          }} // Changes green on Pool Details
         />
 
         {/* Specific pool picks and standings */}
@@ -40,7 +45,7 @@ export default function PoolDetailsLayout() {
           options={{
             title: "Battles",
             headerShown: false,
-            headerLeft: () => null,
+            // headerLeft: () => <HeaderBackNavigation />,
             headerBackTitleVisible: false,
             headerBackTitle: "Back",
             headerBackTitleStyle: {
