@@ -14,7 +14,7 @@ export function HeaderBackNavigation({  }) {
 
 const s = StyleSheet.create({
   container: {
-    backgroundColor: 'green',
+    // backgroundColor: 'green',
     paddingRight: 20,
     paddingVertical: 2,
   },
