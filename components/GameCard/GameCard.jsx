@@ -5,6 +5,8 @@ import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
 
 export function GameCard({ game }) {
+
+  console.log("Game", game)
   
   return (
     // Game Card
