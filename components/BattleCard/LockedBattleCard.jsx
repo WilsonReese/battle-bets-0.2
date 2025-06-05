@@ -28,7 +28,7 @@ export function LockedBattleCard({
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
   const battleCompleted = battle.status === "completed";
 
-  const totalPointsIncrease = 10;
+  // const totalPointsIncrease = 10;
 
   console.log("User Betslip", userBetslip);
   console.log("Remaining Budget", remaining);
@@ -57,7 +57,7 @@ export function LockedBattleCard({
                 <Txt style={[s.playerTxt]}>
                   @{b.name}
                   {battleCompleted ? (
-                    <Txt style={s.seasonScoreTxt}> (+{totalPointsIncrease})</Txt>
+                    <Txt style={s.seasonScoreTxt}> (+{b.league_points})</Txt>
                   ) : (
                     ""
                   )}
@@ -83,7 +83,7 @@ export function LockedBattleCard({
                   {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
                 </Txt>
                 {battleCompleted ? (
-                  <Txt style={s.seasonScoreTxt}>(+{totalPointsIncrease})</Txt>
+                  <Txt style={s.seasonScoreTxt}>(+{userBetslip.league_points})</Txt>
                 ) : (
                   ""
                 )}

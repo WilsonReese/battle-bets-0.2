@@ -16,7 +16,6 @@ export function LockedBetslip({
   maxHeight,
   onClose,
   battleCompleted,
-  totalPointsIncrease,
 }) {
   // const snapPoints = useMemo(() => ["40%"], []);
   console.log("Betslip:", betslip);
@@ -89,7 +88,7 @@ export function LockedBetslip({
                     {battleCompleted ? (
                       <Txt style={s.seasonScoreTxt}>
                         {" "}
-                        (+{totalPointsIncrease})
+                        (+{betslip.league_points})
                       </Txt>
                     ) : (
                       ""

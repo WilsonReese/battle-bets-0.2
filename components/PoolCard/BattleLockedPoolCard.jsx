@@ -17,7 +17,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
 
   const { selectedSeason } = usePoolDetails(pool.id);
   const battleCompleted = battle.status === "completed";
-  const totalPointsIncrease = 10;
+  // const totalPointsIncrease = userBetslip.league_points;
 
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
   const battleEndDate = format(new Date(battle.end_date), "MMMM d");
@@ -60,7 +60,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
               <Txt style={s.txt}>
                 {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
                 {battleCompleted ? (
-                  <Txt style={s.seasonScoreTxt}> (+{totalPointsIncrease})</Txt>
+                  <Txt style={s.seasonScoreTxt}> (+{userBetslip.league_points})</Txt>
                 ) : (
                   ""
                 )}

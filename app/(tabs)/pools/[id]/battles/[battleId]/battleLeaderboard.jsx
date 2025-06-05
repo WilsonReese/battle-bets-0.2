@@ -29,7 +29,7 @@ export default function BattleLeaderboard() {
   const { currentUserId } = useContext(AuthContext);
 
   const battleCompleted = battleStatus === "completed";
-  const totalPointsIncrease = 10;
+  // const totalPointsIncrease = 10;
 
   const sheetRef = useRef(null);
   const snapPoints = useMemo(() => ["60%"], []);
@@ -98,7 +98,7 @@ export default function BattleLeaderboard() {
                     </>
                   )}
                   {battleCompleted ? (
-                    <Txt style={s.seasonScoreTxt}> (+{totalPointsIncrease})</Txt>
+                    <Txt style={s.seasonScoreTxt}> (+{b.league_points})</Txt>
                   ) : (
                     ""
                   )}
@@ -123,13 +123,13 @@ export default function BattleLeaderboard() {
           })}
         </View>
       </ScrollView>
+      {console.log('SelectedBetslip:',selectedBetslip)}
       <LockedBetslip
         sheetRef={sheetRef}
         betslip={selectedBetslip}
         maxHeight={bottomSheetHeight}
         onClose={() => setSelectedBetslip(null)}
         battleCompleted={battleCompleted}
-        totalPointsIncrease={totalPointsIncrease}
       />
     </View>
   );
