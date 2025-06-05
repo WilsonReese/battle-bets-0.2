@@ -47,7 +47,6 @@ export const BetProvider = ({ children, battleId }) => {
         const storedBets = await AsyncStorage.getItem(`bets-${battleId}`);
         if (storedBets) {
           const parsedBets = JSON.parse(storedBets);
-          console.log("Loaded bets from storage:", parsedBets);
           setBets(parsedBets);
           setInitialBetsSnapshot(parsedBets);
           recalculateTotals(parsedBets);
@@ -105,10 +104,8 @@ export const BetProvider = ({ children, battleId }) => {
           `bets-${battleId}`,
           JSON.stringify(betsToStore)
         );
-        // console.log(`Stored Bets for battle ${battleId}`);
       } else {
         await AsyncStorage.removeItem(`bets-${battleId}`);
-        // console.log(`Cleared Bets for battle ${battleId}`);
       }
     } catch (error) {
       console.error("Failed to store bets:", error);
@@ -199,7 +196,6 @@ export const BetProvider = ({ children, battleId }) => {
       game: game,
       addedAt: Date.now(), // Track when the bet was added
     };
-    console.log("Bet Context, New Bet:", newBet);
     setBets((prevBets) => [...prevBets, newBet]);
     updateTotalBetState(getBetOptionType(betType), betAmount, "add");
     return newBet;
@@ -212,7 +208,6 @@ export const BetProvider = ({ children, battleId }) => {
       if (!betToRemove.isNew) {
         setBetsToRemove((prev) => [...prev, betToRemove.id]);
       }
-      console.log("Removed Bet:", betToRemove);
       setBets((prevBets) => prevBets.filter((bet) => bet.id !== id));
       updateTotalBetState(
         getBetOptionType(betToRemove.betType),
@@ -220,7 +215,6 @@ export const BetProvider = ({ children, battleId }) => {
         "remove"
       );
     }
-    // console.log('Bet removed:', betToRemove)
   };
 
   const updateBet = (id, newBetAmount, payout) => {

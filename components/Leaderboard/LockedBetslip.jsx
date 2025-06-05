@@ -18,7 +18,6 @@ export function LockedBetslip({
   battleCompleted,
 }) {
   // const snapPoints = useMemo(() => ["40%"], []);
-  console.log("Betslip:", betslip);
 
   function renderPlacedBetsByCategory(betslip) {
     if (!betslip || !betslip.bets) return null;

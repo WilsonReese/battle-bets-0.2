@@ -30,9 +30,7 @@ export function LockedBattleCard({
 
   // const totalPointsIncrease = 10;
 
-  console.log("User Betslip", userBetslip);
-  console.log("Remaining Budget", remaining);
-  console.log("Betslips", betslips);
+
   return (
     <View style={s.container}>
       {/* Leaderboard section */}

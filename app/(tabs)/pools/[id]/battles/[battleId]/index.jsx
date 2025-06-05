@@ -90,7 +90,6 @@ export default function BattleDetails() {
   useEffect(() => {
     const storeUpdatedBets = async () => {
       if (bets.length > 0) {
-        // console.log(`Storing bets for battle ${battleId}`);
         await storeBets(battleId, bets);
       } else {
         console.log(`No bets to store for battle ${battleId}`);

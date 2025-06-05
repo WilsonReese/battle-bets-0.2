@@ -62,7 +62,6 @@ export function BetSlipModal({ betslip, visible, onClose }) {
               bet={bet}
               backgroundColor={index % 2 === 0 ? "#F8F8F8" : "#DAE1E5"}
               />
-              // console.log('Bet:', bet)
             ))}
           </View>
           <View style={s.betTypePayoutContainer}>

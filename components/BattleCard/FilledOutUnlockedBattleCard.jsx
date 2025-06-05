@@ -17,8 +17,6 @@ export function FilledOutUnlockedBattleCard({
   const { getBudgetForBattle } = useBetContext();
   const remaining = getBudgetForBattle(battle.id);
 
-  console.log("User Betslip", userBetslip);
-  console.log("Remaining Budget", remaining);
   return (
     <View style={s.container}>
       <View style={s.timerContainer}>

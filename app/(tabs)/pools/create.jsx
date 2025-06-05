@@ -63,7 +63,6 @@ export default function CreatePool() {
 
     try {
       if (isEditMode) {
-        console.log("Start Week: ", selectedWeek.value);
         await api.patch(`/pools/${poolId}`, {
           name: leagueName,
           start_week: selectedWeek.value,
@@ -100,8 +99,6 @@ export default function CreatePool() {
           (ls) => ls.season.year === 2024
         );
         setCurrentSeason(current);
-
-        console.log("Current Season: ", current);
 
         if (current) {
           const weekOption = WEEKS.find((w) => w.value === current.start_week);
@@ -142,7 +139,7 @@ export default function CreatePool() {
             <View>
               <View style={s.labelWithIcon}>
                 <Txt style={s.formText}>
-                  Start Week {console.log("Locked?", isStartWeekLocked)}
+                  Start Week
                 </Txt>
                 {isStartWeekLocked && (
                   <FontAwesome6 name="lock" size={14} color="#B8C3CC" />

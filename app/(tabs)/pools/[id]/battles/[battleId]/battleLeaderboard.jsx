@@ -36,10 +36,6 @@ export default function BattleLeaderboard() {
 
   const { betslips } = useBattleLeaderboard(poolId, leagueSeasonId, battleId);
 
-  console.log("Betslips on Leaderboard: ", betslips);
-  console.log("Params:", useLocalSearchParams());
-  console.log("Battle Status", battleStatus);
-
   return (
     <View style={s.container}>
       <Txt style={s.pageTitle}>
@@ -123,7 +119,6 @@ export default function BattleLeaderboard() {
           })}
         </View>
       </ScrollView>
-      {console.log('SelectedBetslip:',selectedBetslip)}
       <LockedBetslip
         sheetRef={sheetRef}
         betslip={selectedBetslip}

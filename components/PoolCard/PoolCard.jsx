@@ -59,7 +59,6 @@ export function PoolCard({ pool }) {
       {/* League Season has not started, show PreseasonPoolCard */}
       {!pool.has_started && <PreseasonPoolCard pool={pool} />}
 
-      {console.log("Latest Battle", latestBattle)}
       {/* League Season has started and latest battle is unlocked show: BattleUnlockedPoolCard */}
       {pool.has_started && !latestBattle.locked && (
         <BattleUnlockedPoolCard

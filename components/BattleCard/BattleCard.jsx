@@ -33,9 +33,6 @@ export function BattleCard({
   const participationRate =
     totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
 
-  console.log("Season", season);
-  console.log("Battle status", battle.status);
-
   const handleEditBets = () => {
     if (!userBetslip) {
       Alert.alert("No betslip found", "Please refresh or try again.");
@@ -46,11 +43,6 @@ export function BattleCard({
       `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`
     );
   };
-
-  console.log("User Betslip Locked?", userBetslip.locked);
-  console.log("User Betslip Status?", userBetslip.status);
-  console.log("Battle", battle);
-  console.log("Pool", poolId);
 
   if (battle.status === "not_started") {
     return null; // Do not render anything
@@ -76,6 +68,7 @@ export function BattleCard({
       }
     >
       {console.log("Battle Locked?", battle.locked)}
+      {console.log("Battle Current?", battle.current)}
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>{battleEndDate}</Txt>
         <Txt style={s.txt}>
