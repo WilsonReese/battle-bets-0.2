@@ -31,6 +31,7 @@ export function PoolCard({ pool }) {
   } = usePoolDetails(pool.id);
 
   const latestBattle = battles[0];
+  const currentBattle = battles.find(b => b.current === true) || battles[0];
 
   // useEffect to get standings
   useEffect(() => {
@@ -60,11 +61,11 @@ export function PoolCard({ pool }) {
       {!pool.has_started && <PreseasonPoolCard pool={pool} />}
 
       {/* League Season has started and latest battle is unlocked show: BattleUnlockedPoolCard */}
-      {pool.has_started && !latestBattle.locked && (
+      {pool.has_started && !currentBattle.locked && (
         <BattleUnlockedPoolCard
           pool={pool}
           userEntry={userEntry}
-          latestBattle={latestBattle}
+          currentBattle={currentBattle}
           selectedSeason={selectedSeason}
           userBetslip={userBetslip}
           setUserBetslip={setUserBetslip}
@@ -73,10 +74,10 @@ export function PoolCard({ pool }) {
       )}
 
       {/* League Season has started and latest battle is locked, show BattleLockedPoolCard */}
-      {pool.has_started && latestBattle.locked && (
+      {pool.has_started && currentBattle.locked && (
         <BattleLockedPoolCard
           pool={pool}
-          battle={latestBattle}
+          battle={currentBattle}
           userEntry={userEntry}
           userBetslip={userBetslip}
           

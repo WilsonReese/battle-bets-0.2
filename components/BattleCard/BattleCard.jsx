@@ -67,7 +67,7 @@ export function BattleCard({
           : handleEditBets()
       }
     >
-      {console.log("Battle Locked?", battle.locked)}
+      
       {console.log("Battle Current?", battle.current)}
       <View style={s.headingContainer}>
         <Txt style={s.headingTxt}>{battleEndDate}</Txt>

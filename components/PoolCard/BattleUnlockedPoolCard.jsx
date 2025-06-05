@@ -12,7 +12,7 @@ export function BattleUnlockedPoolCard({
   pool,
   userEntry,
   selectedSeason,
-  latestBattle,
+  currentBattle,
   userBetslip,
   setUserBetslip,
   setLoading,
@@ -20,11 +20,11 @@ export function BattleUnlockedPoolCard({
   const { memberships } = usePoolDetails(pool.id);
 
   const { getBudgetForBattle, loadBets } = useBetContext();
-  const remaining = getBudgetForBattle(latestBattle.id);
+  const remaining = getBudgetForBattle(currentBattle.id);
 
   // Information to get League Participation Rate
   const totalMembers = memberships.length;
-  const filledOutBetslips = latestBattle.filled_out_betslip_count;
+  const filledOutBetslips = currentBattle.filled_out_betslip_count;
   const participationRate =
     totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
 
@@ -35,7 +35,7 @@ export function BattleUnlockedPoolCard({
     }
 
     router.push(
-      `/pools/${pool.id}/battles/${latestBattle.id}/?betslipId=${userBetslip.id}`
+      `/pools/${pool.id}/battles/${currentBattle.id}/?betslipId=${userBetslip.id}`
     );
   };
 
@@ -45,13 +45,15 @@ export function BattleUnlockedPoolCard({
         loadBets(
           pool.id,
           selectedSeason.id,
-          latestBattle.id,
+          currentBattle.id,
           userBetslip.id,
           true // forceBackend = true to guarantee up-to-date budget
         );
       }
-    }, [userBetslip?.id, latestBattle.id])
+    }, [userBetslip?.id, currentBattle.id])
   );
+
+  console.log('Current Battle: ', currentBattle)
 
   return (
     <View style={s.detailsContainer}>
@@ -70,7 +72,7 @@ export function BattleUnlockedPoolCard({
       </View>
 
       <View style={s.currentBattleContainer}>
-        <Txt style={s.sectonHeadingTxt}>This Week</Txt>
+        <Txt style={s.sectonHeadingTxt}>Week {currentBattle.week}</Txt>
         <View style={s.infoContainer}>
           <View style={s.infoUnitContainer}>
             <Txt style={s.infoTitleTxt}>League Participation:</Txt>

@@ -59,12 +59,19 @@ export const PoolDetailsProvider = ({ children }) => {
       const battlesRes = await api.get(
         `/pools/${poolId}/league_seasons/${selectedSeason.id}/battles`
       );
-      const latestBattle = battlesRes.data?.[0];
+
+      // const latestBattle = battlesRes.data?.[0];
+      const currentBattle = battlesRes.data?.find((b) => b.current === true);
+
+      if (!currentBattle) {
+        console.warn("⚠️ No current battle found");
+        // You might want to show an error or fallback here
+      }
 
       let userBetslip = null;
-      if (latestBattle) {
+      if (currentBattle) {
         const betslipRes = await api.get(
-          `/pools/${poolId}/league_seasons/${selectedSeason.id}/battles/${latestBattle.id}/betslips?user_only=true`
+          `/pools/${poolId}/league_seasons/${selectedSeason.id}/battles/${currentBattle.id}/betslips?user_only=true`
         );
         userBetslip = betslipRes.data;
       }
@@ -177,7 +184,7 @@ export const PoolDetailsProvider = ({ children }) => {
         setPoolDetailsMap,
         setUserBetslipForPool,
         setBattlesForPool,
-        setLoadingForPool
+        setLoadingForPool,
       }}
     >
       {children}
@@ -193,8 +200,8 @@ export const usePoolDetails = (poolId) => {
     userPools,
     setPoolDetailsMap,
     setUserBetslipForPool,
-    setBattlesForPool, 
-    setLoadingForPool
+    setBattlesForPool,
+    setLoadingForPool,
   } = useContext(PoolDetailsContext);
 
   useEffect(() => {
