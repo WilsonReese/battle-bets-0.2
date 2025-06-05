@@ -74,6 +74,7 @@ export function BattleCard({
         <Txt style={s.txt}>
           League Participation: {participationRate.toFixed(1)}%
         </Txt>
+        {/* <Txt>{battle.current ? 'true' : 'false'}</Txt> */}
       </View>
 
       {/* === BATTLE IN PROGRESS === */}
