@@ -48,7 +48,13 @@ export function useBattleLeaderboard(poolId, leagueSeasonId, battleId) {
             (b) => b.bet_option?.success === true
           ).length ?? 0;
 
-          const hitRate = totalBets > 0 ? (successfulBets / totalBets) * 100 : null;
+          const failedBets = betslip.bets?.filter(
+            (b) => b.bet_option?.success === false
+          ).length ?? 0;
+
+          
+
+          const hitRate = (successfulBets + failedBets) > 0 ? (successfulBets / (successfulBets + failedBets)) * 100 : null;
 
           ranked.push({
             ...betslip,
