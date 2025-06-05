@@ -20,7 +20,6 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
   // const totalPointsIncrease = userBetslip.league_points;
 
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
-  const battleEndDate = format(new Date(battle.end_date), "MMMM d");
 
   return (
     <View style={s.detailsContainer}>
@@ -39,7 +38,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
       </View>
 
       <View style={s.currentBattleContainer}>
-        <Txt style={s.sectonHeadingTxt}>This Week</Txt>
+        <Txt style={s.sectonHeadingTxt}>Week {battle.week}</Txt>
         <TouchableOpacity
           style={s.betslipTouchable}
           onPress={() =>
@@ -48,7 +47,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
               params: {
                 leagueSeasonId: selectedSeason.id,
                 poolName: pool.name,
-                battleEndDate: battleEndDate,
+                battleWeek: battle.week,
                 battleStatus: battle.status,
               },
             })

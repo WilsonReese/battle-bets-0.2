@@ -63,7 +63,8 @@ export default function PoolDetails() {
     (m) => String(m.user.id) === String(currentUserId)
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
-  const latestBattle = battles[0];
+
+  console.log('Battles: ', battles)
 
   const fetchUserPools = async () => {
     try {
@@ -123,7 +124,7 @@ export default function PoolDetails() {
           {selectedSeason?.hasStarted && battles.length > 0 && (
             <View style={s.section}>
               <PaginatedFlatList
-                data={battles}
+                data={battles.filter(b => b.status !== "not_started")}
                 itemsPerPage={1}
                 containerWidth={containerWidth}
                 renderItemRow={(battle) => (

@@ -60,7 +60,7 @@ export function BattleCard({
               params: {
                 leagueSeasonId: season.id,
                 poolName: poolName,
-                battleEndDate: battleEndDate,
+                battleWeek: battle.week,
                 battleStatus: battle.status,
               },
             })
@@ -70,7 +70,7 @@ export function BattleCard({
       
       {console.log("Battle Current?", battle.current)}
       <View style={s.headingContainer}>
-        <Txt style={s.headingTxt}>{battleEndDate}</Txt>
+        <Txt style={s.headingTxt}>Week {battle.week}</Txt>
         <Txt style={s.txt}>
           League Participation: {participationRate.toFixed(1)}%
         </Txt>

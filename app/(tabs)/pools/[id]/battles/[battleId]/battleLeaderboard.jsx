@@ -20,7 +20,7 @@ export default function BattleLeaderboard() {
     battleId,
     leagueSeasonId,
     poolName,
-    battleEndDate,
+    battleWeek,
     battleStatus,
   } = useLocalSearchParams();
   const screenHeight = Dimensions.get("window").height;
@@ -39,7 +39,7 @@ export default function BattleLeaderboard() {
   return (
     <View style={s.container}>
       <Txt style={s.pageTitle}>
-        {poolName} - {battleEndDate}
+        {poolName} - Week {battleWeek}
       </Txt>
       <Txt style={s.headingTxt}>Leaderboard</Txt>
       <ScrollView
