@@ -11,21 +11,21 @@ import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
 
 export default function Pools() {
   const [pools, setPools] = useState([]);
-  const [loading, setLoading] = useState(true);
+  const [isScreenLoading, setIsScreenLoading] = useState(true);
   const api = useAxiosWithAuth(); // Use the custom Axios instance
 
   // Fetch pools from the backend API
   useFocusEffect(
     useCallback(() => {
       const fetchPools = async () => {
-        setLoading(true);
+        setIsScreenLoading(true);
         try {
           const response = await api.get("/pools");
           setPools(response.data);
-          setLoading(false);
+          setIsScreenLoading(false);
         } catch (error) {
           console.error("Error fetching pools:", error);
-          setLoading(false);
+          setIsScreenLoading(false);
         }
       };
 
@@ -34,7 +34,7 @@ export default function Pools() {
   );
 
   // Render loading state or pool list
-  if (loading) {
+  if (isScreenLoading) {
     return (
       <View style={s.container}>
         <LoadingIndicator color="light" contentToLoad="pools" />
@@ -45,6 +45,7 @@ export default function Pools() {
   return (
     <View style={s.container}>
       <StatusBar style="light" />
+      
       <View style={s.titleContainer}>
         <Txt style={s.titleText}>Leagues</Txt>
       </View>

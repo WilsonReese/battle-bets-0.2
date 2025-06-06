@@ -9,7 +9,7 @@ import { format } from "date-fns";
 import { router } from "expo-router";
 
 export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
-  const { betslips } = useBattleLeaderboard(
+  const { loading, betslips } = useBattleLeaderboard(
     pool.id,
     battle.league_season_id,
     battle.id
@@ -18,6 +18,10 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
   const { selectedSeason } = usePoolDetails(pool.id);
   const battleCompleted = battle.status === "completed";
   // const totalPointsIncrease = userBetslip.league_points;
+
+  if (loading) {
+    return null;
+  }
 
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
 
@@ -59,7 +63,10 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
               <Txt style={s.txt}>
                 {getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
                 {battleCompleted ? (
-                  <Txt style={s.seasonScoreTxt}> (+{userBetslip.league_points})</Txt>
+                  <Txt style={s.seasonScoreTxt}>
+                    {" "}
+                    (+{userBetslip.league_points})
+                  </Txt>
                 ) : (
                   ""
                 )}

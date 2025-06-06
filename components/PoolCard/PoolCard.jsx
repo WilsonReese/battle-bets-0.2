@@ -14,12 +14,13 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { BattleUnlockedPoolCard } from "./BattleUnlockedPoolCard";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { BattleLockedPoolCard } from "./BattleLockedPoolCard";
+import { SkeletonPoolCard } from "./SkeletonPoolCard";
 
 export function PoolCard({ pool }) {
   const [localLoading, setLocalLoading] = useState(false);
 
   // const [hasStarted, setHasStarted] = useState(null);
-  const [loading, setLoading] = useState(false);
+  // const [loading, setLoading] = useState(false);
   const {
     selectedSeason,
     battles,
@@ -30,7 +31,6 @@ export function PoolCard({ pool }) {
     loading: poolLoading,
   } = usePoolDetails(pool.id);
 
-  const latestBattle = battles[0];
   const currentBattle = battles.find((b) => b.current === true) || battles[0];
 
   // useEffect to get standings
@@ -40,9 +40,7 @@ export function PoolCard({ pool }) {
     }, [pool.id])
   );
 
-  if (poolLoading || localLoading) {
-    return <ActivityIndicator size="small" color="#F8F8F8" />;
-  }
+  if (poolLoading) return <SkeletonPoolCard />;
 
   return (
     <TouchableOpacity
@@ -69,7 +67,7 @@ export function PoolCard({ pool }) {
           selectedSeason={selectedSeason}
           userBetslip={userBetslip}
           setUserBetslip={setUserBetslip}
-          setLoading={setLoading}
+          // setLoading={setLoading}
         />
       )}
 
