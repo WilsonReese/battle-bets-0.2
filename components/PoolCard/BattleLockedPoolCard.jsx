@@ -7,6 +7,7 @@ import { getOrdinalSuffix } from "../../utils/formatting";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { format } from "date-fns";
 import { router } from "expo-router";
+import { SkeletonBattleDetails } from "./SkeletonBattleDetails";
 
 export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
   const { loading, betslips } = useBattleLeaderboard(
@@ -20,7 +21,11 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
   // const totalPointsIncrease = userBetslip.league_points;
 
   if (loading) {
-    return null;
+    return (
+      <View style={{ paddingVertical: 8 }}>
+        <SkeletonBattleDetails />
+      </View>
+    );
   }
 
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
