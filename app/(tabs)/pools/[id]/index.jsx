@@ -36,6 +36,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { PoolSelectionModal } from "../../../../components/PoolDetails/PoolSelection/PoolSelectionModal.jsx";
 import { LeagueStandingsTable } from "../../../../components/PoolDetails/LeagueStandings/LeagueStandingsTable.jsx";
 import { LeagueSettings } from "../../../../components/PoolDetails/LeagueSettings/LeagueSettings.jsx";
+import { SkeletonBattleCard } from "../../../../components/BattleCard/SkeletonBattleCard.jsx";
 
 export default function PoolDetails() {
   const { id: poolId } = useLocalSearchParams();
@@ -64,7 +65,7 @@ export default function PoolDetails() {
   );
   const isCurrentUserCommissioner = userMembership?.is_commissioner;
 
-  console.log('Battles: ', battles)
+  console.log("Battles: ", battles);
 
   const fetchUserPools = async () => {
     try {
@@ -72,7 +73,7 @@ export default function PoolDetails() {
       setUserPools(response.data);
     } catch (err) {
       console.error("Error fetching user pools", err.response || err);
-    } 
+    }
   };
 
   // useEffect(() => {
@@ -121,10 +122,10 @@ export default function PoolDetails() {
             <FontAwesome6 name="caret-down" size={24} color="#54D18C" />
           </TouchableOpacity>
 
-          {selectedSeason?.hasStarted && battles.length > 0 && (
+          {selectedSeason?.hasStarted && battles.length > 0 ? (
             <View style={s.section}>
               <PaginatedFlatList
-                data={battles.filter(b => b.status !== "not_started")}
+                data={battles.filter((b) => b.status !== "not_started")}
                 itemsPerPage={1}
                 containerWidth={containerWidth}
                 renderItemRow={(battle) => (
@@ -142,6 +143,8 @@ export default function PoolDetails() {
                 )}
               />
             </View>
+          ) : (
+            <SkeletonBattleCard />
           )}
           {selectedSeason?.hasStarted > 0 && (
             <View style={s.section}>
@@ -162,7 +165,10 @@ export default function PoolDetails() {
               fetchPoolMemberships={() => fetchAllPoolData(poolId)}
               isCurrentUserCommissioner={isCurrentUserCommissioner}
             />
-            <InviteUsersButton poolId={poolId} inviteToken={poolDetails.invite_token} />
+            <InviteUsersButton
+              poolId={poolId}
+              inviteToken={poolDetails.invite_token}
+            />
           </View>
 
           {/* <PreviousBattles battles={battles} /> */}

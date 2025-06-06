@@ -33,6 +33,8 @@ export function PoolCard({ pool }) {
 
   const currentBattle = battles.find((b) => b.current === true) || battles[0];
 
+  console.log('Selected Season: ', selectedSeason)
+
   // useEffect to get standings
   useFocusEffect(
     useCallback(() => {

@@ -8,6 +8,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useBetContext } from "../contexts/BetContext";
 import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
 import { getOrdinalSuffix } from "../../utils/formatting";
+import { SkeletonBattleCard } from "./SkeletonBattleCard";
 
 export function LockedBattleCard({
   battle,
@@ -16,7 +17,7 @@ export function LockedBattleCard({
   userBetslip,
   poolId,
 }) {
-  const { betslips } = useBattleLeaderboard(
+  const { loading, betslips } = useBattleLeaderboard(
     poolId,
     battle.league_season_id,
     battle.id
@@ -29,6 +30,10 @@ export function LockedBattleCard({
   const battleCompleted = battle.status === "completed";
 
   // const totalPointsIncrease = 10;
+
+  if (loading) {return (
+    <SkeletonBattleCard />
+  )}
 
 
   return (
