@@ -28,6 +28,7 @@ export function BetSlipHeading({
   battleId,
   betslipHasChanges,
   setBetslipHasChanges,
+  setSuppressLeaveModal
 }) {
   const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
   const {
@@ -43,7 +44,6 @@ export function BetSlipHeading({
   } = useBetContext();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const { showError, showSuccess } = useToastMessage();
-
 
   useEffect(() => {
     // Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
@@ -61,6 +61,19 @@ export function BetSlipHeading({
     setIsSubmitting(true);
 
     try {
+      // 🧠 Step 0: Check if battle is locked
+      const battleRes = await api.get(
+        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}`
+      );
+
+      const battle = battleRes.data;
+      if (battle.locked) {
+        showError("Did not save the updated betslip. Battle is locked.");
+        setSuppressLeaveModal(true)
+        router.replace(`/pools/${poolId}`);
+        return;
+      }
+
       // 1. Prepare payload
       const newBets = bets.filter((bet) => bet.isNew);
       const updatedBets = bets.filter(

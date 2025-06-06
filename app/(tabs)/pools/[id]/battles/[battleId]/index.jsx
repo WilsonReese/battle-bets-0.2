@@ -45,6 +45,8 @@ export default function BattleDetails() {
   const [games, setGames] = useState([]);
   const [loading, setLoading] = useState(true);
   const [showLeaveModal, setShowLeaveModal] = useState(false);
+  const [suppressLeaveModal, setSuppressLeaveModal] = useState(false);
+  const suppressLeaveModalRef = useRef(false);
 
   const scrollViewRef = useRef(null);
   const sheetRef = useRef(null);
@@ -126,8 +128,10 @@ export default function BattleDetails() {
 
   useFocusEffect(
     React.useCallback(() => {
+      suppressLeaveModalRef.current = false; // ✅ reset on screen focus
+      
       const beforeRemove = (e) => {
-        if (!betslipHasChanges) return;
+        if (suppressLeaveModalRef.current || !betslipHasChanges) return;
 
         e.preventDefault();
         pendingNavEvent.current = e; // Store the navigation event
@@ -180,6 +184,7 @@ export default function BattleDetails() {
               battleId={battleId}
               betslipHasChanges={betslipHasChanges}
               setBetslipHasChanges={setBetslipHasChanges}
+              setSuppressLeaveModal={() => (suppressLeaveModalRef.current = true)}
               // height={height}
               // betSlipHeight={betSlipHeight}
               // betSlipHeadingHeight={betSlipHeadingHeight}
