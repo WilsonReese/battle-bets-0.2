@@ -6,8 +6,8 @@ import {
 } from "react-native";
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
-import { router } from "expo-router";
-import { useEffect, useState } from "react";
+import { router, useFocusEffect } from "expo-router";
+import { useCallback, useEffect, useState } from "react";
 import api from "../../utils/axiosConfig";
 import { PreseasonPoolCard } from "./PreseasonPoolCard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -31,14 +31,14 @@ export function PoolCard({ pool }) {
   } = usePoolDetails(pool.id);
 
   const latestBattle = battles[0];
-  const currentBattle = battles.find(b => b.current === true) || battles[0];
+  const currentBattle = battles.find((b) => b.current === true) || battles[0];
 
   // useEffect to get standings
-  useEffect(() => {
-    if (!selectedSeason && !poolLoading) {
+  useFocusEffect(
+    useCallback(() => {
       fetchAllPoolData(pool.id);
-    }
-  }, [pool.id]);
+    }, [pool.id])
+  );
 
   if (poolLoading || localLoading) {
     return <ActivityIndicator size="small" color="#F8F8F8" />;
@@ -80,7 +80,6 @@ export function PoolCard({ pool }) {
           battle={currentBattle}
           userEntry={userEntry}
           userBetslip={userBetslip}
-          
         />
       )}
     </TouchableOpacity>

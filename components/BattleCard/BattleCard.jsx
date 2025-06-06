@@ -33,15 +33,21 @@ export function BattleCard({
   const participationRate =
     totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
 
+  console.log('Battle: ', battle)
+
   const handleEditBets = () => {
     if (!userBetslip) {
       Alert.alert("No betslip found", "Please refresh or try again.");
       return;
     }
 
-    router.push(
-      `/pools/${poolId}/battles/${battle.id}/?betslipId=${userBetslip.id}`
-    );
+    router.push({
+      pathname: `/pools/${poolId}/battles/${battle.id}`,
+      params: {
+        betslipId: userBetslip.id,
+        leagueSeasonId: battle.league_season_id,
+      },
+    });
   };
 
   if (battle.status === "not_started") {

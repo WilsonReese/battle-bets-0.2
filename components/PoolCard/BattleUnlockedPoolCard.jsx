@@ -34,26 +34,30 @@ export function BattleUnlockedPoolCard({
       return;
     }
 
-    router.push(
-      `/pools/${pool.id}/battles/${currentBattle.id}/?betslipId=${userBetslip.id}`
-    );
+    router.push({
+      pathname: `/pools/${pool.id}/battles/${currentBattle.id}`,
+      params: {
+        betslipId: userBetslip.id,
+        leagueSeasonId: selectedSeason.id,
+      },
+    });
   };
 
   useFocusEffect(
     useCallback(() => {
-      if (userBetslip) {
+      if (!currentBattle.locked && userBetslip) {
         loadBets(
           pool.id,
           selectedSeason.id,
           currentBattle.id,
           userBetslip.id,
-          true // forceBackend = true to guarantee up-to-date budget
+          true
         );
       }
     }, [userBetslip?.id, currentBattle.id])
   );
 
-  console.log('Current Battle: ', currentBattle)
+  console.log("Current Battle: ", currentBattle);
 
   return (
     <View style={s.detailsContainer}>

@@ -30,6 +30,7 @@ import api from "../../../../../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
 import { ConfirmLeaveBetSelectionModal } from "../../../../../../components/BetSelection/ConfirmLeaveBetSelectionModal";
+import { useToastMessage } from "../../../../../../hooks/useToastMessage";
 
 export default function BattleDetails() {
   const {
@@ -38,6 +39,7 @@ export default function BattleDetails() {
     battleId,
     betslipId,
   } = useLocalSearchParams();
+  const { showError, showSuccess } = useToastMessage();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
   const [betslipHasChanges, setBetslipHasChanges] = useState(false);
   const [games, setGames] = useState([]);
@@ -78,8 +80,30 @@ export default function BattleDetails() {
   useEffect(() => {
     const initializeBattleData = async () => {
       setLoading(true);
-      await fetchGames();
-      await loadBets(poolId, leagueSeasonId, battleId, betslipId, true); // force backend
+
+      try {
+        const [gamesRes, battleRes] = await Promise.all([
+          api.get(`/games`, { params: { battle_id: battleId } }),
+          // api.get(`/betslips/${betslipId}`),
+          api.get(`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}`),
+          // api.get(`/battles/${battleId}`),
+        ]);
+
+        const battle = battleRes.data;
+        // const betslip = betslipRes.data;
+
+        if (battle.locked) {
+          showError('Battle is locked. Redirected to the pool.');
+          router.replace(`/pools/${poolId}`);
+          return;
+        }
+
+        setGames(gamesRes.data);
+        await loadBets(poolId, leagueSeasonId, battleId, betslipId, true);
+      } catch (error) {
+        console.error("Error initializing battle data:", error);
+      }
+
       setLoading(false);
     };
 
