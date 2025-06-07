@@ -48,7 +48,8 @@ export default function CreatePool() {
   const { poolId } = useLocalSearchParams();
   const isEditMode = !!poolId;
   const [currentSeason, setCurrentSeason] = useState(null);
-  const isStartWeekLocked = currentSeason?.["has_started?"];
+  const [currentLeagueSeason, setCurrentLeagueSeason] = useState(null);
+  const isStartWeekLocked = currentLeagueSeason?.["has_started?"];
 
   const handleSelectWeek = (week) => {
     setSelectedWeek(week);
@@ -62,17 +63,16 @@ export default function CreatePool() {
     }
 
     try {
+      const payload = { name: leagueName };
+      if (!isStartWeekLocked) {
+        payload.start_week = selectedWeek.value;
+      }
+
       if (isEditMode) {
-        await api.patch(`/pools/${poolId}`, {
-          name: leagueName,
-          start_week: selectedWeek.value,
-        });
+        await api.patch(`/pools/${poolId}`, payload);
         showSuccess("League updated successfully.");
       } else {
-        await api.post("/pools", {
-          name: leagueName,
-          start_week: selectedWeek.value,
-        });
+        await api.post("/pools", payload);
         showSuccess("League created successfully.");
       }
 
@@ -88,22 +88,42 @@ export default function CreatePool() {
 
   useEffect(() => {
     const loadData = async () => {
-      if (isEditMode) {
-        const poolRes = await api.get(`/pools/${poolId}`);
-        const leagueSeasonsRes = await api.get(
-          `/pools/${poolId}/league_seasons`
+      try {
+        const res = await api.get("/seasons", { params: { limit: 1 } });
+        const season = res.data;
+        setCurrentSeason(season);
+
+        // Default to latest valid week
+        const defaultSelectableWeek = [...WEEKS].find(
+          (week) => week.value > season.current_week
         );
 
-        setLeagueName(poolRes.data.name);
-        const current = leagueSeasonsRes.data.find(
-          (ls) => ls.season.year === 2024
-        );
-        setCurrentSeason(current);
-
-        if (current) {
-          const weekOption = WEEKS.find((w) => w.value === current.start_week);
-          if (weekOption) setSelectedWeek(weekOption);
+        if (!isEditMode && defaultSelectableWeek) {
+          setSelectedWeek(defaultSelectableWeek);
         }
+
+        if (isEditMode) {
+          const poolRes = await api.get(`/pools/${poolId}`);
+          const leagueSeasonsRes = await api.get(
+            `/pools/${poolId}/league_seasons`
+          );
+
+          setLeagueName(poolRes.data.name);
+
+          const matchingLeagueSeason = leagueSeasonsRes.data.find(
+            (ls) => ls.season_id === season.id
+          );
+          setCurrentLeagueSeason(matchingLeagueSeason);
+
+          if (matchingLeagueSeason) {
+            const weekOption = WEEKS.find(
+              (w) => w.value === matchingLeagueSeason.start_week
+            );
+            if (weekOption) setSelectedWeek(weekOption);
+          }
+        }
+      } catch (err) {
+        console.error("Error loading data:", err);
       }
     };
 
@@ -138,9 +158,7 @@ export default function CreatePool() {
 
             <View>
               <View style={s.labelWithIcon}>
-                <Txt style={s.formText}>
-                  Start Week
-                </Txt>
+                <Txt style={s.formText}>Start Week</Txt>
                 {isStartWeekLocked && (
                   <FontAwesome6 name="lock" size={14} color="#B8C3CC" />
                 )}
@@ -192,7 +210,9 @@ export default function CreatePool() {
         handleIndicatorStyle={{ backgroundColor: "#061826" }} // the top little "handle" bar
       >
         <BottomSheetScrollView style={s.sheetContainer}>
-          {WEEKS.map((week) => (
+          {WEEKS.filter(
+            (week) => currentSeason && week.value > currentSeason.current_week
+          ).map((week) => (
             <TouchableOpacity
               key={week.value}
               style={s.radioItem}
