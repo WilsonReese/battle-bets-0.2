@@ -1,8 +1,4 @@
 export const nameMap = {
-  // "Alabama": "alabama",
-  // "Penn State": "penn_state",
-  // "Mississippi State": "mississippi_state",
-
   "Boston College": "boston_college",
   "California": "california",
   "Clemson": "clemson",

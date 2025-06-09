@@ -3,14 +3,14 @@ import { logoMap, nameMap } from "../../../utils/teamLogoMap";
 
 export function TeamLogo({ teamName, size = 22 }) {
   const slug = nameMap[teamName];
-  const logo = slug ? logoMap[slug] : null;
+  const logo = slug && logoMap[slug];
 
-  if (!logo) return null;
+  const source = logo || require("@/assets/teamLogos/team.png");
 
   return (
     <Image
-      source={logo}
-      style={{ width: size, height: size,}}
+      source={source}
+      style={{ width: size, height: size }}
       resizeMode="contain"
     />
   );

@@ -89,7 +89,7 @@ const filteredGames = games.filter((game) => {
   return (
     <View style={s.container}>
       {/* Games */}
-      <ScrollView>
+      <ScrollView showsVerticalScrollIndicator={false}>
         {games.length === 0 ? (
           <Txt>No games found for this week.</Txt>
         ) : (
