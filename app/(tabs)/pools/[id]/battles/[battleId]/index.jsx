@@ -141,7 +141,7 @@ export default function BattleDetails() {
   function renderGameCards() {
     return games.map((game) => (
       <View key={game.id}>
-        <GameCard game={game} />
+        <GameCard game={game} type={'betSelection'} />
       </View>
     ));
   }

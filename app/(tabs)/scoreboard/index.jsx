@@ -10,6 +10,8 @@ import { Txt } from "../../../components/general/Txt";
 import api from "../../../utils/axiosConfig";
 import { useSeason } from "../../../components/contexts/SeasonContext";
 import { useFocusEffect } from "expo-router";
+import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
+import { GameCard } from "../../../components/GameCard/GameCard";
 
 export default function Scoreboard() {
   const { currentSeason, loading: seasonLoading } = useSeason();
@@ -24,9 +26,6 @@ export default function Scoreboard() {
         setLoadingGames(true);
 
         try {
-          console.log("Season Year:", currentSeason.year);
-          console.log("Week:", currentSeason.current_week);
-
           const res = await api.get("/games", {
             params: {
               week: currentSeason.current_week,
@@ -34,7 +33,6 @@ export default function Scoreboard() {
             },
           });
 
-          console.log("Response", res.data);
           setGames(res.data);
         } catch (err) {
           console.error("Failed to load games:", err);
@@ -49,33 +47,31 @@ export default function Scoreboard() {
 
   if (seasonLoading || loadingGames) {
     return (
-      <View style={styles.loadingContainer}>
-        <ActivityIndicator size="large" color="#F8F8F8" />
-        <Txt style={{ marginTop: 10 }}>Loading scoreboard...</Txt>
+      <View style={s.container}>
+        <LoadingIndicator color="light" contentToLoad="scoreboard" />
       </View>
     );
   }
 
-  console.log("Games:", games);
-
   return (
-    <ScrollView style={styles.container}>
+    <ScrollView style={s.container}>
       {games.length === 0 ? (
         <Txt>No games found for this week.</Txt>
       ) : (
         games.map((game) => (
-          <View key={game.id} style={styles.gameCard}>
-            <Txt>
-              {game.away_team.name} at {game.home_team.name}
-            </Txt>
-          </View>
+          // <View key={game.id} style={s.gameCard}>
+          //   <Txt>
+          //     {game.away_team.name} at {game.home_team.name}
+          //   </Txt>
+          // </View>
+          <GameCard key={game.id} game={game} type={'scoreboard'} />
         ))
       )}
     </ScrollView>
   );
 }
 
-const styles = StyleSheet.create({
+const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#061826",
@@ -92,5 +88,6 @@ const styles = StyleSheet.create({
     padding: 12,
     borderRadius: 8,
     marginBottom: 12,
+    borderWidth: 1,
   },
 });

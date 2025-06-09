@@ -3,28 +3,23 @@ import { Datetime } from "./Datetime/Datetime";
 import { Matchup } from "./Matchup/Matchup";
 import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
+import { ScoreboardGameCard } from "./Scoreboard/ScoreboardGameCard";
 
-export function GameCard({ game }) {
-
+export function GameCard({ game, type }) {
   return (
     // Game Card
     <View style={s.card}>
-      <View style={s.gameDetails}>
-        <View style={{height: 4}}/>
-        {/* <Datetime date={game.start_time} time={game.time} /> */}
-        {/* <Txt style={{ fontSize: 12, color: "black" }}>Collapisble Arrow</Txt> */}
-      </View>
-      <View>
-        <Matchup
-          homeTeam={game.home_team.name}
-          homeRecord={game.homeRecord}
-          awayTeam={game.away_team.name}
-          awayRecord={game.awayRecord}
-        />
-        <BetOptions
-          game={game}
-        />
-      </View>
+      <View style={{ height: 4 }} />
+      {type === "betSelection" && (
+        <View>
+          <Matchup
+            homeTeam={game.home_team.name}
+            awayTeam={game.away_team.name}
+          />
+          <BetOptions game={game} />
+        </View>
+      )}
+      {type === "scoreboard" && <ScoreboardGameCard game={game}/>}
     </View>
   );
 }

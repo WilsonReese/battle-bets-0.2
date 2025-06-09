@@ -2,20 +2,16 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import { TeamLogo } from "./TeamLogo";
 
-export function Matchup({ homeTeam, homeRecord, awayTeam, awayRecord }) {
+export function Matchup({ homeTeam, awayTeam }) {
   return (
     <View style={s.matchup}>
       <View style={s.team}>
-        {/* <View style={s.icon}></View> */}
         <TeamLogo teamName={awayTeam} size={32}/>
         <Txt style={s.teamName}>{awayTeam}</Txt>
-        {/* <Txt style={s.teamRecord}>({awayRecord})</Txt> */}
       </View>
       <View style={s.team}>
-        {/* <View style={s.icon}></View> */}
         <TeamLogo teamName={homeTeam} size={32}/>
         <Txt style={s.teamName}>{homeTeam}</Txt>
-        {/* <Txt style={s.teamRecord}>({homeRecord})</Txt> */}
       </View>
     </View>
   );
