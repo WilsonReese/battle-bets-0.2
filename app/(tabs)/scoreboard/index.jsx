@@ -12,11 +12,31 @@ import { useSeason } from "../../../components/contexts/SeasonContext";
 import { useFocusEffect } from "expo-router";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { GameCard } from "../../../components/GameCard/GameCard";
+import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter";
 
 export default function Scoreboard() {
+  const CONFERENCES = ["SEC", "Big 12", "Big Ten", "ACC", "Other"];
+
   const { currentSeason, loading: seasonLoading } = useSeason();
   const [games, setGames] = useState([]);
   const [loadingGames, setLoadingGames] = useState(true);
+  const [selectedConferences, setSelectedConferences] = useState(CONFERENCES); // default: all selected
+
+  const toggleConference = (conf) => {
+    setSelectedConferences((prev) =>
+      prev.includes(conf) ? prev.filter((c) => c !== conf) : [...prev, conf]
+    );
+  };
+
+  const filteredGames = games.filter((game) => {
+    const homeConf = game.home_team.conference || "Other";
+    const awayConf = game.away_team.conference || "Other";
+
+    return (
+      selectedConferences.includes(homeConf) ||
+      selectedConferences.includes(awayConf)
+    );
+  });
 
   useFocusEffect(
     useCallback(() => {
@@ -45,6 +65,8 @@ export default function Scoreboard() {
     }, [currentSeason])
   );
 
+  console.log("Games: ", games);
+
   if (seasonLoading || loadingGames) {
     return (
       <View style={s.container}>
@@ -64,14 +86,16 @@ export default function Scoreboard() {
         {games.length === 0 ? (
           <Txt>No games found for this week.</Txt>
         ) : (
-          games.map((game) => (
-            // <View key={game.id} style={s.gameCard}>
-            //   <Txt>
-            //     {game.away_team.name} at {game.home_team.name}
-            //   </Txt>
-            // </View>
-            <GameCard key={game.id} game={game} type={"scoreboard"} />
-          ))
+          <>
+            <ConferenceFilter
+              selected={selectedConferences}
+              onToggle={toggleConference}
+              conferences={CONFERENCES}
+            />
+            {filteredGames.map((game) => (
+              <GameCard key={game.id} game={game} type={"scoreboard"} />
+            ))}
+          </>
         )}
       </ScrollView>
     </View>

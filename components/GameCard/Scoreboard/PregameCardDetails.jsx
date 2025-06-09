@@ -8,6 +8,7 @@ export function PregameCardDetails({ game }) {
       <Txt style={s.timeTxt}>{format(new Date(game.start_time), "h:mm a")}</Txt>
       {/* <Txt style={s.txt}>-</Txt> */}
       <Txt style={s.dateTxt}>{format(new Date(game.start_time), "MMMM d")}</Txt>
+      <Txt>{game.away_team.conference}</Txt>
     </View>
   );
 }

@@ -4,6 +4,7 @@ import { TeamLogo } from "./TeamLogo";
 
 export function Matchup({ homeTeam, awayTeam, format = 'betSelection' }) {
   return (
+    // Either shows the bet selection matchup or the scoreboard matchup
     <View style={format === 'betSelection' ? s.matchupBetSelection : s.matchupScoreboard}>
       <View style={s.team}>
         <TeamLogo teamName={awayTeam} size={32}/>
