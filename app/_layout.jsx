@@ -28,6 +28,7 @@ import { Message } from "../components/general/Message";
 import { useSafeAreaInsets } from "react-native-safe-area-context";
 import { useDeepLinkHandler } from "../hooks/useDeepLinkHandler";
 import { PoolDetailsProvider } from "../components/contexts/PoolDetailsContext";
+import { SeasonProvider } from "../components/contexts/SeasonContext";
 
 SplashScreen.preventAutoHideAsync();
 
@@ -90,46 +91,48 @@ export default function Layout() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
       <MessageProvider>
-        <BetProvider>
-          <AuthProvider>
-            <DeepLinkWrapper />
-            <PoolDetailsProvider>
-              <View style={s.container}>
-                <GlobalMessageRenderer />
-                <Stack
-                  screenOptions={{
-                    headerShown: false,
-                    contentStyle: { backgroundColor: "transparent" },
-                    gestureEnabled: true, // 👈 This enables swipe-to-go-back
-                    gestureResponseDistance: {
-                      horizontal: 100, // 👈 default is ~25 on iOS; increase to make easier
-                    },
-                  }}
-                >
-                  <Stack.Screen
-                    name="(tabs)"
-                    options={{
+        <SeasonProvider>
+          <BetProvider>
+            <AuthProvider>
+              <DeepLinkWrapper />
+              <PoolDetailsProvider>
+                <View style={s.container}>
+                  <GlobalMessageRenderer />
+                  <Stack
+                    screenOptions={{
                       headerShown: false,
-                      headerTitle: () => (
-                        <Image
-                          source={require("@/assets/images/white_logo.png")}
-                          style={{ width: 140, height: 40 }}
-                          resizeMode="contain"
-                        />
-                      ),
-                      headerStyle: {
-                        backgroundColor: "#061826",
-                        alignItems: "flex-start",
+                      contentStyle: { backgroundColor: "transparent" },
+                      gestureEnabled: true, // 👈 This enables swipe-to-go-back
+                      gestureResponseDistance: {
+                        horizontal: 100, // 👈 default is ~25 on iOS; increase to make easier
                       },
-                      headerTintColor: "#F8F8F8",
-                      headerShadowVisible: false,
                     }}
-                  />
-                </Stack>
-              </View>
-            </PoolDetailsProvider>
-          </AuthProvider>
-        </BetProvider>
+                  >
+                    <Stack.Screen
+                      name="(tabs)"
+                      options={{
+                        headerShown: false,
+                        headerTitle: () => (
+                          <Image
+                            source={require("@/assets/images/white_logo.png")}
+                            style={{ width: 140, height: 40 }}
+                            resizeMode="contain"
+                          />
+                        ),
+                        headerStyle: {
+                          backgroundColor: "#061826",
+                          alignItems: "flex-start",
+                        },
+                        headerTintColor: "#F8F8F8",
+                        headerShadowVisible: false,
+                      }}
+                    />
+                  </Stack>
+                </View>
+              </PoolDetailsProvider>
+            </AuthProvider>
+          </BetProvider>
+        </SeasonProvider>
       </MessageProvider>
     </GestureHandlerRootView>
   );

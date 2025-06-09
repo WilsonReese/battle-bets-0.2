@@ -272,7 +272,7 @@ const s = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: "#061826",
-    padding: 16,
+    padding: 8,
   },
   titleContainer: {
     flexDirection: "row",
