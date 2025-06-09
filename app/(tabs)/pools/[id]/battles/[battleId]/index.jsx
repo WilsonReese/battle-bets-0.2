@@ -31,6 +31,7 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
 import { ConfirmLeaveBetSelectionModal } from "../../../../../../components/BetSelection/ConfirmLeaveBetSelectionModal";
 import { useToastMessage } from "../../../../../../hooks/useToastMessage";
+import { useSeason } from "../../../../../../components/contexts/SeasonContext";
 
 export default function BattleDetails() {
   const {
@@ -47,6 +48,7 @@ export default function BattleDetails() {
   const [showLeaveModal, setShowLeaveModal] = useState(false);
   const [suppressLeaveModal, setSuppressLeaveModal] = useState(false);
   const suppressLeaveModalRef = useRef(false);
+  const { currentSeason, loading: seasonLoading } = useSeason();
 
   const scrollViewRef = useRef(null);
   const sheetRef = useRef(null);
@@ -61,18 +63,6 @@ export default function BattleDetails() {
   // const betSlipHeadingHeight = 94; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
   // const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
 
-  // Function to fetch games for the current battle
-  const fetchGames = async () => {
-    try {
-      const response = await api.get(`/games`, {
-        params: { battle_id: battleId },
-      });
-      setGames(response.data);
-    } catch (error) {
-      console.error("Error fetching games:", error);
-    }
-  };
-
   const closeBetSlip = () => {
     sheetRef.current?.collapse(); // or .close() if you want to hide it completely
     setIsBetSlipShown(false);
@@ -85,17 +75,22 @@ export default function BattleDetails() {
 
       try {
         const [gamesRes, battleRes] = await Promise.all([
-          api.get(`/games`, { params: { battle_id: battleId } }),
-          // api.get(`/betslips/${betslipId}`),
-          api.get(`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}`),
-          // api.get(`/battles/${battleId}`),
+          api.get(`/games`, {
+            params: {
+              week: currentSeason.current_week,
+              season_year: currentSeason.year,
+            },
+          }),
+          api.get(
+            `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}`
+          ),
         ]);
 
         const battle = battleRes.data;
         // const betslip = betslipRes.data;
 
         if (battle.locked) {
-          showError('Battle is locked. Redirected to the pool.');
+          showError("Battle is locked. Redirected to the pool.");
           router.replace(`/pools/${poolId}`);
           return;
         }
@@ -110,7 +105,7 @@ export default function BattleDetails() {
     };
 
     initializeBattleData();
-  }, [battleId]);
+  }, [currentSeason, battleId]);
 
   // useEffect to store bets in AsyncStorage whenever they change
   useEffect(() => {
@@ -129,7 +124,7 @@ export default function BattleDetails() {
   useFocusEffect(
     React.useCallback(() => {
       suppressLeaveModalRef.current = false; // ✅ reset on screen focus
-      
+
       const beforeRemove = (e) => {
         if (suppressLeaveModalRef.current || !betslipHasChanges) return;
 
@@ -154,7 +149,7 @@ export default function BattleDetails() {
   return (
     <SafeAreaProvider>
       <SafeAreaView style={s.container}>
-        {loading ? (
+        {loading || seasonLoading ? (
           <View style={s.loadingContainer}>
             <LoadingIndicator color="light" contentToLoad="games" />
           </View>
@@ -184,7 +179,9 @@ export default function BattleDetails() {
               battleId={battleId}
               betslipHasChanges={betslipHasChanges}
               setBetslipHasChanges={setBetslipHasChanges}
-              setSuppressLeaveModal={() => (suppressLeaveModalRef.current = true)}
+              setSuppressLeaveModal={() =>
+                (suppressLeaveModalRef.current = true)
+              }
               // height={height}
               // betSlipHeight={betSlipHeight}
               // betSlipHeadingHeight={betSlipHeadingHeight}
