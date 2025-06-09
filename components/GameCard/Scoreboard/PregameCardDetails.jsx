@@ -14,11 +14,11 @@ export function PregameCardDetails({ game }) {
 
 const s = StyleSheet.create({
   container: {
-    flexDirection: 'row',
-    gap: 8,
-    alignItems: 'center',
+    // flexDirection: 'row',
+    // gap: 8,
+    alignItems: 'flex-end',
     justifyContent: 'center',
-    paddingBottom: 6, 
+    // paddingBottom: 6, 
   },
   dateTxt: {
     fontSize: 12,

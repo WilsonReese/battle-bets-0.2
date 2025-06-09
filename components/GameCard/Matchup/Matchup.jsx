@@ -2,9 +2,9 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import { TeamLogo } from "./TeamLogo";
 
-export function Matchup({ homeTeam, awayTeam }) {
+export function Matchup({ homeTeam, awayTeam, format = 'betSelection' }) {
   return (
-    <View style={s.matchup}>
+    <View style={format === 'betSelection' ? s.matchupBetSelection : s.matchupScoreboard}>
       <View style={s.team}>
         <TeamLogo teamName={awayTeam} size={32}/>
         <Txt style={s.teamName}>{awayTeam}</Txt>
@@ -18,8 +18,11 @@ export function Matchup({ homeTeam, awayTeam }) {
 }
 
 const s = StyleSheet.create({
-  matchup: {
+  matchupBetSelection: {
     flexDirection: "row",
+  },
+  matchupScoreboard: {
+    gap: 4,
   },
   team: {
     flexDirection: "row",

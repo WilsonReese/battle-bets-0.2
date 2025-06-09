@@ -10,12 +10,13 @@ export function ScoreboardGameCard({ game }) {
     <View>
       {/* Show the details for the pre-game of the card */}
       {status === "pregame" && (
-        <View style={{paddingBottom: 4}}>
-          <PregameCardDetails game={game}/>
+        <View style={s.container}>
           <Matchup
             homeTeam={game.home_team.name}
             awayTeam={game.away_team.name}
+            format={'scoreboard'}
           />
+          <PregameCardDetails game={game}/>
         </View>
       )}
     </View>
@@ -25,5 +26,8 @@ export function ScoreboardGameCard({ game }) {
 const s = StyleSheet.create({
   container: {
     paddingBottom: 4,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    paddingRight: 4,
   }
 });

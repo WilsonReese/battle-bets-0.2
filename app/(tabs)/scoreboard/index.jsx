@@ -54,20 +54,27 @@ export default function Scoreboard() {
   }
 
   return (
-    <ScrollView style={s.container}>
-      {games.length === 0 ? (
-        <Txt>No games found for this week.</Txt>
-      ) : (
-        games.map((game) => (
-          // <View key={game.id} style={s.gameCard}>
-          //   <Txt>
-          //     {game.away_team.name} at {game.home_team.name}
-          //   </Txt>
-          // </View>
-          <GameCard key={game.id} game={game} type={'scoreboard'} />
-        ))
-      )}
-    </ScrollView>
+    <View style={s.container}>
+      <View>
+        <Txt>Conferences Filter</Txt>
+      </View>
+
+      {/* Games */}
+      <ScrollView>
+        {games.length === 0 ? (
+          <Txt>No games found for this week.</Txt>
+        ) : (
+          games.map((game) => (
+            // <View key={game.id} style={s.gameCard}>
+            //   <Txt>
+            //     {game.away_team.name} at {game.home_team.name}
+            //   </Txt>
+            // </View>
+            <GameCard key={game.id} game={game} type={"scoreboard"} />
+          ))
+        )}
+      </ScrollView>
+    </View>
   );
 }
 
