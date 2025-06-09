@@ -15,12 +15,16 @@ import { GameCard } from "../../../components/GameCard/GameCard";
 import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter";
 
 export default function Scoreboard() {
-  const CONFERENCES = ["SEC", "Big 12", "Big Ten", "ACC", "Other"];
+  const MAIN_CONFERENCES = ["SEC", "Big 12", "Big Ten", "ACC"];
+  const FILTER_CONFERENCES = [...MAIN_CONFERENCES, "Other"];
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const [games, setGames] = useState([]);
   const [loadingGames, setLoadingGames] = useState(true);
-  const [selectedConferences, setSelectedConferences] = useState(CONFERENCES); // default: all selected
+  const [selectedConferences, setSelectedConferences] = useState([]);
+
+  const normalizeConf = (conf) =>
+    MAIN_CONFERENCES.includes(conf) ? conf : "Other";
 
   const toggleConference = (conf) => {
     setSelectedConferences((prev) =>
@@ -28,15 +32,22 @@ export default function Scoreboard() {
     );
   };
 
-  const filteredGames = games.filter((game) => {
-    const homeConf = game.home_team.conference || "Other";
-    const awayConf = game.away_team.conference || "Other";
+const handleClearFilters = () => {
+  setSelectedConferences([]); // empty = all games shown
+};
 
-    return (
-      selectedConferences.includes(homeConf) ||
-      selectedConferences.includes(awayConf)
-    );
-  });
+const filteredGames = games.filter((game) => {
+  const homeConf = normalizeConf(game.home_team.conference);
+  const awayConf = normalizeConf(game.away_team.conference);
+
+  // If none selected, treat as "all selected"
+  if (selectedConferences.length === 0) return true;
+
+  return (
+    selectedConferences.includes(homeConf) ||
+    selectedConferences.includes(awayConf)
+  );
+});
 
   useFocusEffect(
     useCallback(() => {
@@ -90,7 +101,8 @@ export default function Scoreboard() {
             <ConferenceFilter
               selected={selectedConferences}
               onToggle={toggleConference}
-              conferences={CONFERENCES}
+              onClear={handleClearFilters}
+              conferences={FILTER_CONFERENCES}
             />
             {filteredGames.map((game) => (
               <GameCard key={game.id} game={game} type={"scoreboard"} />

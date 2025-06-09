@@ -1,7 +1,8 @@
 import { ScrollView, TouchableOpacity, View, Text, StyleSheet } from "react-native";
 
-export function ConferenceFilter({ selected, onToggle, conferences }) {
+export function ConferenceFilter({ selected, onToggle, onClear, conferences }) {
   return (
+    <>
     <ScrollView horizontal showsHorizontalScrollIndicator={false} style={s.pillRow}>
       {conferences.map((conf) => {
         const isSelected = selected.includes(conf);
@@ -17,7 +18,16 @@ export function ConferenceFilter({ selected, onToggle, conferences }) {
           </TouchableOpacity>
         );
       })}
+      
+      {/* Clear Filters Button */}
     </ScrollView>
+      <TouchableOpacity
+        onPress={onClear}
+        style={[s.pill, s.clearPill]}
+      >
+        <Text style={[s.pillText, s.clearPillText]}>Clear Filters</Text>
+      </TouchableOpacity>
+    </>
   );
 }
 
