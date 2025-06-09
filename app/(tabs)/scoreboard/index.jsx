@@ -1,10 +1,11 @@
 import React from 'react';
 import { View, Text, StyleSheet } from 'react-native';
+import { Txt } from '../../../components/general/Txt';
 
 export default function Scoreboard() {
   return (
     <View style={styles.container}>
-      <Text>Scoreboard Screen</Text>
+      <Txt>Game</Txt>
     </View>
   );
 }
@@ -12,8 +13,7 @@ export default function Scoreboard() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#f8f8f8',
+    backgroundColor: "#061826",
+    padding: 16,
   },
 });
