@@ -88,10 +88,6 @@ const filteredGames = games.filter((game) => {
 
   return (
     <View style={s.container}>
-      <View>
-        <Txt>Conferences Filter</Txt>
-      </View>
-
       {/* Games */}
       <ScrollView>
         {games.length === 0 ? (
