@@ -3,15 +3,11 @@ import { Txt } from "../../general/Txt";
 import { Matchup } from "../Matchup/Matchup";
 import { PregameCardDetails } from "./PregameCardDetails";
 import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
+import { BoxScoreGameCard } from "./BoxScoreGameCard";
 
 export function ScoreboardGameCard({ game }) {
-  const sampleGame = sampleCompletedGame.data.NCAAFB[0];
-  const homeAPI = sampleGame.full_box.home_team;
-  const awayAPI = sampleGame.full_box.away_team;
-  const statusAPI = sampleGame.full_box.current.Quarter
-
-  
-  const status = "postgame";
+  const sampleGameData = sampleCompletedGame.data.NCAAFB[0];
+  const status = "inProgress";
 
   return (
     <View>
@@ -29,18 +25,13 @@ export function ScoreboardGameCard({ game }) {
 
       {status === "inProgress" && (
         <View style={s.container}>
-          <Txt>{game.home_team.name}</Txt>
-          <Txt>{game.away_team.name}</Txt>
+          <BoxScoreGameCard game={game} sampleGameData={sampleGameData} status={'inProgress'}/>
         </View>
       )}
 
       {status === "postgame" && (
         <View style={s.container}>
-          <Txt>{statusAPI}</Txt>
-          <Txt>{game.home_team.name}</Txt>
-          <Txt>{homeAPI.score}</Txt>
-          <Txt>{game.away_team.name}</Txt>
-          <Txt>{awayAPI.score}</Txt>
+          <BoxScoreGameCard game={game} sampleGameData={sampleGameData} status={sampleGameData.status}/>
         </View>
       )}
     </View>
