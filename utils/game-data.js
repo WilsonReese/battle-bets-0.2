@@ -177,3 +177,7 @@ export const GAME_DATA = [
     ],
   },
 ];
+
+export const BOX_SCORE_DATA = [
+  {}
+]
