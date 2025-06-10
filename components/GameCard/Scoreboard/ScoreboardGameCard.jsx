@@ -5,8 +5,8 @@ import { PregameCardDetails } from "./PregameCardDetails";
 import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 
-export function ScoreboardGameCard({ game }) {
-  const sampleGameData = sampleCompletedGame.data.NCAAFB[0];
+export function ScoreboardGameCard({ game, sampleGameData }) {
+  // const sampleGameData = sampleCompletedGame.data.NCAAFB[0];
   const status = "inProgress";
 
   return (

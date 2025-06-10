@@ -5,7 +5,7 @@ export default function ScoreboardLayout() {
   return (
     <Stack>
       <Stack.Screen 
-              name="index"
+        name="index"
         headerShown={false}
         options={{
           title: "Scoreboard",

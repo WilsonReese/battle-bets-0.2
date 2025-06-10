@@ -9,11 +9,13 @@ import {
 import { Txt } from "../../../components/general/Txt";
 import api from "../../../utils/axiosConfig";
 import { useSeason } from "../../../components/contexts/SeasonContext";
-import { useFocusEffect } from "expo-router";
+import { useFocusEffect, useRouter } from "expo-router";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { GameCard } from "../../../components/GameCard/GameCard";
 import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter";
 import { useConferences } from "../../../hooks/useConferences";
+import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
+import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
 
 export default function Scoreboard() {
   const {
@@ -24,11 +26,21 @@ export default function Scoreboard() {
     FILTER_CONFERENCES,
   } = useConferences();
 
+  const sampleGameData = sampleCompletedGame.data.NCAAFB[0];
+
   const { currentSeason, loading: seasonLoading } = useSeason();
+  const { setSelectedGame, setSelectedGameData } = useScoreboard();
+  const router = useRouter();
   const [games, setGames] = useState([]);
   const [loadingGames, setLoadingGames] = useState(true);
 
   const filteredGames = filterGames(games);
+
+  const handlePress = (game) => {
+    setSelectedGame(game);
+    setSelectedGameData(sampleGameData)
+    router.push(`/scoreboard/${game.id}`);
+  };
 
   useFocusEffect(
     useCallback(() => {
@@ -84,7 +96,7 @@ export default function Scoreboard() {
         ) : (
           <>
             {filteredGames.map((game) => (
-              <GameCard key={game.id} game={game} type={"scoreboard"} />
+              <GameCard key={game.id} game={game} type={"scoreboard"} onPress={handlePress} sampleGameData={sampleGameData} />
             ))}
           </>
         )}
