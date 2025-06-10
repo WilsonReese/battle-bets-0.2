@@ -22,7 +22,7 @@ export function GameCard({ game, type, onPress, sampleGameData }) {
         </View>
       )}
       {type === "scoreboard" && (
-        <TouchableOpacity style={s.card} onPress={onPress}>
+        <TouchableOpacity style={s.card} onPress={() => onPress(game)}>
           <View style={{ height: 4 }} />
           <ScoreboardGameCard game={game} sampleGameData={sampleGameData}/>
         </TouchableOpacity>

@@ -12,8 +12,8 @@ export default function GameDetails() {
   return (
     <View style={s.container}>
       <Txt>Box Score Screen</Txt>
-      {/* <Txt>{selectedGame.home_team.name}</Txt>
-      <Txt>{selectedGameData.full_box.away_team.score}</Txt> */}
+      <Txt>{selectedGameData.full_box.away_team.score}</Txt>
+      <Txt>{selectedGame.home_team.name}</Txt>
     </View>
   );
 }
