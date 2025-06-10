@@ -70,19 +70,19 @@ export default function Scoreboard() {
   return (
     <View style={s.container}>
       {/* Games */}
+      <View style={s.conferenceFilterContainer}>
+        <ConferenceFilter
+          selected={selectedConferences}
+          onToggle={toggleConference}
+          onClear={clearConferences}
+          conferences={FILTER_CONFERENCES}
+        />
+      </View>
       <ScrollView showsVerticalScrollIndicator={false}>
         {games.length === 0 ? (
           <Txt>No games found for this week.</Txt>
         ) : (
           <>
-            <View style={s.conferenceFilterContainer}>
-              <ConferenceFilter
-                selected={selectedConferences}
-                onToggle={toggleConference}
-                onClear={clearConferences}
-                conferences={FILTER_CONFERENCES}
-              />
-            </View>
             {filteredGames.map((game) => (
               <GameCard key={game.id} game={game} type={"scoreboard"} />
             ))}

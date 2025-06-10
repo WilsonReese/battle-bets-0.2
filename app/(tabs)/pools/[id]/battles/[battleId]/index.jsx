@@ -240,6 +240,6 @@ const s = StyleSheet.create({
     // marginBottom:
   },
   conferenceFilterContainer: {
-    paddingTop: 8,    
+    paddingVertical: 8,    
   }
 });
