@@ -46,7 +46,7 @@ const s = StyleSheet.create({
   },
 
   separatorLine: {
-    height: 1,
-    backgroundColor: "#3A454D",
+    // height: .5,
+    backgroundColor: "#425C70",
   },
 });

@@ -68,12 +68,6 @@ export default function BattleDetails() {
 
   const { bets, storeBets, loadBets } = useBetContext(); // Access context function
 
-  // BetSlip information
-  // const { height } = Dimensions.get("window");
-  // const betSlipHeight = (height * 3) / 5;
-  // const betSlipHeadingHeight = 94; // Define the height of the BetSlipHeading component (this controls how much of the betSlip is shown)
-  // const animatedHeight = useRef(new Animated.Value(betSlipHeight)).current;
-
   const closeBetSlip = () => {
     sheetRef.current?.collapse(); // or .close() if you want to hide it completely
     setIsBetSlipShown(false);
@@ -176,16 +170,13 @@ export default function BattleDetails() {
               ></BudgetRow>
               <View style={s.conferenceFilterContainer}>
                 <ConferenceFilter
-                  // selected={selectedConferences}
-                  // onToggle={toggleConference}
-                  // onClear={handleClearFilters}
-                  // conferences={FILTER_CONFERENCES}
                   selected={selectedConferences}
                   onToggle={toggleConference}
                   onClear={clearConferences}
                   conferences={FILTER_CONFERENCES}
                 />
               </View>
+              {/* <View style={{height: .5, backgroundColor: '#425C70', marginHorizontal: -8, marginTop: 8,}}/> */}
               <ScrollView ref={scrollViewRef} style={s.scrollView}>
                 {/* This function renders each of the games */}
                 {renderGameCards()}
@@ -207,11 +198,6 @@ export default function BattleDetails() {
               setSuppressLeaveModal={() =>
                 (suppressLeaveModalRef.current = true)
               }
-              // height={height}
-              // betSlipHeight={betSlipHeight}
-              // betSlipHeadingHeight={betSlipHeadingHeight}
-              // animatedHeight={animatedHeight}
-              // toggleBetSlip={toggleBetSlip}
             />
             {showLeaveModal && (
               <ConfirmLeaveBetSelectionModal

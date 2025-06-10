@@ -23,39 +23,10 @@ export default function Scoreboard() {
     filterGames,
     FILTER_CONFERENCES,
   } = useConferences();
-  // const MAIN_CONFERENCES = ["SEC", "Big 12", "Big Ten", "ACC"];
-  // const FILTER_CONFERENCES = [...MAIN_CONFERENCES, "Other"];
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const [games, setGames] = useState([]);
   const [loadingGames, setLoadingGames] = useState(true);
-  // const [selectedConferences, setSelectedConferences] = useState([]);
-
-  // const normalizeConf = (conf) =>
-  //   MAIN_CONFERENCES.includes(conf) ? conf : "Other";
-
-  // const toggleConference = (conf) => {
-  //   setSelectedConferences((prev) =>
-  //     prev.includes(conf) ? prev.filter((c) => c !== conf) : [...prev, conf]
-  //   );
-  // };
-
-  // const handleClearFilters = () => {
-  //   setSelectedConferences([]); // empty = all games shown
-  // };
-
-  // const filteredGames = games.filter((game) => {
-  //   const homeConf = normalizeConf(game.home_team.conference);
-  //   const awayConf = normalizeConf(game.away_team.conference);
-
-  //   // If none selected, treat as "all selected"
-  //   if (selectedConferences.length === 0) return true;
-
-  //   return (
-  //     selectedConferences.includes(homeConf) ||
-  //     selectedConferences.includes(awayConf)
-  //   );
-  // });
 
   const filteredGames = filterGames(games);
 
@@ -106,10 +77,6 @@ export default function Scoreboard() {
           <>
             <View style={s.conferenceFilterContainer}>
               <ConferenceFilter
-                // selected={selectedConferences}
-                // onToggle={toggleConference}
-                // onClear={handleClearFilters}
-                // conferences={FILTER_CONFERENCES}
                 selected={selectedConferences}
                 onToggle={toggleConference}
                 onClear={clearConferences}
