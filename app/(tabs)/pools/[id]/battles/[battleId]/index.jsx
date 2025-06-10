@@ -32,6 +32,8 @@ import { BudgetRow } from "../../../../../../components/BetSelection/BudgetRow";
 import { ConfirmLeaveBetSelectionModal } from "../../../../../../components/BetSelection/ConfirmLeaveBetSelectionModal";
 import { useToastMessage } from "../../../../../../hooks/useToastMessage";
 import { useSeason } from "../../../../../../components/contexts/SeasonContext";
+import { useConferences } from "../../../../../../hooks/useConferences";
+import { ConferenceFilter } from "../../../../../../components/GameCard/ConferenceFilter";
 
 export default function BattleDetails() {
   const {
@@ -40,6 +42,15 @@ export default function BattleDetails() {
     battleId,
     betslipId,
   } = useLocalSearchParams();
+
+  const {
+    selectedConferences,
+    toggleConference,
+    clearConferences,
+    filterGames,
+    FILTER_CONFERENCES,
+  } = useConferences();
+
   const { showError, showSuccess } = useToastMessage();
   const [isBetSlipShown, setIsBetSlipShown] = useState(true);
   const [betslipHasChanges, setBetslipHasChanges] = useState(false);
@@ -138,10 +149,12 @@ export default function BattleDetails() {
     }, [betslipHasChanges, navigation])
   );
 
+  const filteredGames = filterGames(games);
+
   function renderGameCards() {
-    return games.map((game) => (
+    return filteredGames.map((game) => (
       <View key={game.id}>
-        <GameCard game={game} type={'betSelection'} />
+        <GameCard game={game} type={"betSelection"} />
       </View>
     ));
   }
@@ -161,6 +174,18 @@ export default function BattleDetails() {
                 scrollViewRef={scrollViewRef}
                 closeBetSlip={closeBetSlip}
               ></BudgetRow>
+              <View style={s.conferenceFilterContainer}>
+                <ConferenceFilter
+                  // selected={selectedConferences}
+                  // onToggle={toggleConference}
+                  // onClear={handleClearFilters}
+                  // conferences={FILTER_CONFERENCES}
+                  selected={selectedConferences}
+                  onToggle={toggleConference}
+                  onClear={clearConferences}
+                  conferences={FILTER_CONFERENCES}
+                />
+              </View>
               <ScrollView ref={scrollViewRef} style={s.scrollView}>
                 {/* This function renders each of the games */}
                 {renderGameCards()}
@@ -228,4 +253,7 @@ const s = StyleSheet.create({
     paddingHorizontal: 4,
     // marginBottom:
   },
+  conferenceFilterContainer: {
+    paddingTop: 8,    
+  }
 });

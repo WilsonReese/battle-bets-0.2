@@ -51,7 +51,7 @@ export function ConferenceFilter({ selected, onToggle, onClear, conferences }) {
 const s = StyleSheet.create({
   pillRow: {
     flexDirection: "row",
-    paddingBottom: 8,
+    // paddingBottom: 8,
     paddingHorizontal: 4,
     gap: 8,
     alignItems: "center",

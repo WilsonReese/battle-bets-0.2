@@ -13,41 +13,51 @@ import { useFocusEffect } from "expo-router";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { GameCard } from "../../../components/GameCard/GameCard";
 import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter";
+import { useConferences } from "../../../hooks/useConferences";
 
 export default function Scoreboard() {
-  const MAIN_CONFERENCES = ["SEC", "Big 12", "Big Ten", "ACC"];
-  const FILTER_CONFERENCES = [...MAIN_CONFERENCES, "Other"];
+  const {
+    selectedConferences,
+    toggleConference,
+    clearConferences,
+    filterGames,
+    FILTER_CONFERENCES,
+  } = useConferences();
+  // const MAIN_CONFERENCES = ["SEC", "Big 12", "Big Ten", "ACC"];
+  // const FILTER_CONFERENCES = [...MAIN_CONFERENCES, "Other"];
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const [games, setGames] = useState([]);
   const [loadingGames, setLoadingGames] = useState(true);
-  const [selectedConferences, setSelectedConferences] = useState([]);
+  // const [selectedConferences, setSelectedConferences] = useState([]);
 
-  const normalizeConf = (conf) =>
-    MAIN_CONFERENCES.includes(conf) ? conf : "Other";
+  // const normalizeConf = (conf) =>
+  //   MAIN_CONFERENCES.includes(conf) ? conf : "Other";
 
-  const toggleConference = (conf) => {
-    setSelectedConferences((prev) =>
-      prev.includes(conf) ? prev.filter((c) => c !== conf) : [...prev, conf]
-    );
-  };
+  // const toggleConference = (conf) => {
+  //   setSelectedConferences((prev) =>
+  //     prev.includes(conf) ? prev.filter((c) => c !== conf) : [...prev, conf]
+  //   );
+  // };
 
-const handleClearFilters = () => {
-  setSelectedConferences([]); // empty = all games shown
-};
+  // const handleClearFilters = () => {
+  //   setSelectedConferences([]); // empty = all games shown
+  // };
 
-const filteredGames = games.filter((game) => {
-  const homeConf = normalizeConf(game.home_team.conference);
-  const awayConf = normalizeConf(game.away_team.conference);
+  // const filteredGames = games.filter((game) => {
+  //   const homeConf = normalizeConf(game.home_team.conference);
+  //   const awayConf = normalizeConf(game.away_team.conference);
 
-  // If none selected, treat as "all selected"
-  if (selectedConferences.length === 0) return true;
+  //   // If none selected, treat as "all selected"
+  //   if (selectedConferences.length === 0) return true;
 
-  return (
-    selectedConferences.includes(homeConf) ||
-    selectedConferences.includes(awayConf)
-  );
-});
+  //   return (
+  //     selectedConferences.includes(homeConf) ||
+  //     selectedConferences.includes(awayConf)
+  //   );
+  // });
+
+  const filteredGames = filterGames(games);
 
   useFocusEffect(
     useCallback(() => {
@@ -94,12 +104,18 @@ const filteredGames = games.filter((game) => {
           <Txt>No games found for this week.</Txt>
         ) : (
           <>
-            <ConferenceFilter
-              selected={selectedConferences}
-              onToggle={toggleConference}
-              onClear={handleClearFilters}
-              conferences={FILTER_CONFERENCES}
-            />
+            <View style={s.conferenceFilterContainer}>
+              <ConferenceFilter
+                // selected={selectedConferences}
+                // onToggle={toggleConference}
+                // onClear={handleClearFilters}
+                // conferences={FILTER_CONFERENCES}
+                selected={selectedConferences}
+                onToggle={toggleConference}
+                onClear={clearConferences}
+                conferences={FILTER_CONFERENCES}
+              />
+            </View>
             {filteredGames.map((game) => (
               <GameCard key={game.id} game={game} type={"scoreboard"} />
             ))}
@@ -121,6 +137,9 @@ const s = StyleSheet.create({
     backgroundColor: "#061826",
     justifyContent: "center",
     alignItems: "center",
+  },
+  conferenceFilterContainer: {
+    paddingBottom: 8,
   },
   gameCard: {
     backgroundColor: "#061826",
