@@ -15,11 +15,12 @@ export default function GameDetails() {
   const homeTeam = selectedGame.home_team;
 
   // Box Score or Bets Toggle
-  const [infoMode, setInfoMode] = useState("boxScore"); 
+  const [infoMode, setInfoMode] = useState("boxScore");
 
   // Selected Team for Box Score Toggle
-  const [selectedTeam, setSelectedTeam] = useState(awayTeam.name);
+  const [selectedTeam, setSelectedTeam] = useState(awayTeam.name); // makes it default to the away team being selected
 
+  const [selectedBetGroup, setSelectedBetGroup] = useState("Your Bets");
 
   return (
     // Macro Game Data
@@ -40,7 +41,7 @@ export default function GameDetails() {
         <View style={s.detailsCard}>
           {infoMode === "boxScore" && (
             <>
-              <View style={{alignItems: 'center'}}>
+              <View style={{ alignItems: "center" }}>
                 <DataToggle
                   optionLeft={awayTeam.name}
                   optionRight={homeTeam.name}
@@ -62,6 +63,8 @@ export default function GameDetails() {
               <DataToggle
                 optionLeft={"Your Bets"}
                 optionRight={"League Bets"}
+                selected={selectedBetGroup}
+                onSelect={setSelectedBetGroup}
               />
               <Txt>Betting information needs to be accessed here</Txt>
             </>

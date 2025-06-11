@@ -8,14 +8,14 @@ import Animated, {
 import { useEffect } from "react";
 
 const TOGGLE_WIDTH = Dimensions.get("window").width * 0.9
-const PILL_WIDTH = TOGGLE_WIDTH / 2 - 3;
+const PILL_WIDTH = TOGGLE_WIDTH / 2 - 3; // the -3 makes the width slightly smaller so it fits inside the container
 
 export function DataToggle({ optionLeft, optionRight, selected, onSelect }) {
   const isLeftSelected = selected === optionLeft;
-  const offset = useSharedValue(isLeftSelected ? 50 : PILL_WIDTH);
+  const offset = useSharedValue(isLeftSelected ? 3 : PILL_WIDTH + 3);
 
   useEffect(() => {
-    offset.value = withTiming(isLeftSelected ? 3 : PILL_WIDTH + 3, { duration: 200 });
+    offset.value = withTiming(isLeftSelected ? 3 : PILL_WIDTH + 3, { duration: 200 }); // the 3s help with the offset of where the pill is in the container
   }, [selected]);
 
   const animatedStyle = useAnimatedStyle(() => ({
