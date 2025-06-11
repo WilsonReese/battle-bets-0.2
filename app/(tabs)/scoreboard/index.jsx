@@ -30,7 +30,7 @@ export default function Scoreboard() {
   } = useConferences();
 
   const sampleGameData = sampleGame.response[0];
-  const sampleTeamStatsData = sampleTeamStats.response[0];
+  const sampleTeamStatsData = sampleTeamStats.response[1]; // this is just one team's data, need to get both
 
   console.log("sampleTeamStatsData:", sampleTeamStatsData);
 
