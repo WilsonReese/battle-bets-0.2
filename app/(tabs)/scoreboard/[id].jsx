@@ -8,6 +8,7 @@ import {
 } from "../../../components/BoxScore/BoxScoreOrBetsToggle";
 import { useState } from "react";
 import { DataToggle } from "../../../components/BoxScore/DataToggle";
+import { TeamData } from "../../../components/BoxScore/TeamData";
 
 export default function GameDetails() {
   const { selectedGame, selectedGameData } = useScoreboard();
@@ -49,12 +50,8 @@ export default function GameDetails() {
                   onSelect={setSelectedTeam}
                 />
               </View>
-              <Txt>Box Score Details</Txt>
-              <Txt>Toggle Teams</Txt>
-              <Txt>Team Stats</Txt>
-              <Txt>Passing</Txt>
-              <Txt>Rushing</Txt>
-              <Txt>Receiving</Txt>
+              {selectedTeam === awayTeam.name && <TeamData stats={selectedGameData.full_box.away_team.team_stats}/>}
+              {selectedTeam === homeTeam.name && <TeamData stats={selectedGameData.full_box.home_team.team_stats}/>}
             </>
           )}
 
