@@ -12,6 +12,10 @@ import { DataToggle } from "../../../components/BoxScore/DataToggle";
 export default function GameDetails() {
   const { selectedGame, selectedGameData } = useScoreboard();
   const [infoMode, setInfoMode] = useState("boxScore"); // default
+  const [selectedTeam, setSelectedTeam] = useState("Total");
+
+  const awayTeam = selectedGame.away_team
+  const homeTeam = selectedGame.home_team
 
   return (
     // Macro Game Data
@@ -29,28 +33,34 @@ export default function GameDetails() {
       </View>
 
       <ScrollView style={s.scrollView}>
-        {infoMode === "boxScore" && (
-          <>
-            <DataToggle />
-            <Txt>
-              {selectedGame.away_team.name} OR {selectedGame.home_team.name}
-            </Txt>
-            <Txt>Box Score Details</Txt>
-            <Txt>Toggle Teams</Txt>
-            <Txt>Team Stats</Txt>
-            <Txt>Passing</Txt>
-            <Txt>Rushing</Txt>
-            <Txt>Receiving</Txt>
-          </>
-        )}
+        <View style={s.detailsCard}>
+          {infoMode === "boxScore" && (
+            <>
+              <DataToggle
+                optionLeft={awayTeam.name}
+                optionRight={homeTeam.name}
+                selected={selectedTeam}
+                onSelect={setSelectedTeam}
+              />
+              <Txt>Box Score Details</Txt>
+              <Txt>Toggle Teams</Txt>
+              <Txt>Team Stats</Txt>
+              <Txt>Passing</Txt>
+              <Txt>Rushing</Txt>
+              <Txt>Receiving</Txt>
+            </>
+          )}
 
-        {infoMode === "bets" && (
-          <>
-            <Txt>Bet Details</Txt>
-            <Txt>My Bets vs League Bets Toggle</Txt>
-            <Txt>Betting information needs to be accessed here</Txt>
-          </>
-        )}
+          {infoMode === "bets" && (
+            <>
+              <DataToggle
+                optionLeft={'Your Bets'}
+                optionRight={'League Bets'}
+              />
+              <Txt>Betting information needs to be accessed here</Txt>
+            </>
+          )}
+        </View>
       </ScrollView>
     </View>
   );
@@ -71,7 +81,10 @@ const s = StyleSheet.create({
     paddingTop: 8,
     paddingBottom: 4,
   },
-  scrollView: {
-    backgroundColor: 'blue'
+  detailsCard: {
+    backgroundColor: "#0F2638",
+    marginTop: 8,
+    padding: 8,
+    borderRadius: 8,
   },
 });
