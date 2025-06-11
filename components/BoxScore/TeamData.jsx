@@ -1,6 +1,5 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Txt } from "../general/Txt";
-import { useLiveGameDataForDate } from "../../hooks/useLiveGameData";
 
 export function TeamData({ stats }) {
 

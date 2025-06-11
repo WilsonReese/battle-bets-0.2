@@ -15,7 +15,7 @@ import { GameCard } from "../../../components/GameCard/GameCard";
 import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter";
 import { useConferences } from "../../../hooks/useConferences";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
-import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
+import sampleGame from "@/utils/sampleGame.json";
 import axios from "axios";
 
 export default function Scoreboard() {
@@ -27,29 +27,9 @@ export default function Scoreboard() {
     FILTER_CONFERENCES,
   } = useConferences();
 
-  // const testRollingApi = async () => {
-  //   try {
-  //     const res = await axios.get(
-  //       "http://rest.datafeeds.rolling-insights.com/api/v1/schedule-week/2024-08-31/NCAAFB",
-  //       {
-  //         params: {
-  //           RSC_token: "900d36c1-e107-4852-9633-0ebef5ced2e6", // 🔐 your real token
-  //           team_id: '205'
-  //         },
-  //         headers: {
-  //           Accept: "application/json", // optional, good practice
-  //         },
-  //       }
-  //     );
-  //     console.log("✅ Success:", res.data);
-  //   } catch (err) {
-  //     console.error("❌ Error:", err?.response?.data || err.message);
-  //   }
-  // };
+  const sampleGameData = sampleGame.response[0];
 
-  // testRollingApi();
-
-  const sampleGameData = sampleCompletedGame.data.NCAAFB[0];
+  console.log('sampleGameData:', sampleGameData)
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const { setSelectedGame, setSelectedGameData } = useScoreboard();

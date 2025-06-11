@@ -6,7 +6,7 @@ import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 
 export function ScoreboardGameCard({ game, sampleGameData }) {
-  const status = "inProgress";
+  const status = "postgame";
 
   return (
     <View>
@@ -30,7 +30,7 @@ export function ScoreboardGameCard({ game, sampleGameData }) {
 
       {status === "postgame" && (
         <View style={s.container}>
-          <BoxScoreGameCard game={game} sampleGameData={sampleGameData} status={sampleGameData.status}/>
+          <BoxScoreGameCard game={game} sampleGameData={sampleGameData} status={sampleGameData.game.status.long}/>
         </View>
       )}
     </View>

@@ -13,27 +13,27 @@ export function BoxScoreGameCard({ game, sampleGameData, status }) {
   const yardLine = 25;
   const yardLineTerritory = "KSU";
 
-  const homeAPI = sampleGameData.full_box.home_team;
-  const awayAPI = sampleGameData.full_box.away_team;
-  const statusAPI = sampleGameData.game_status;
+  // const homeAPI = sampleGameData.full_box.home_team;
+  // const awayAPI = sampleGameData.full_box.away_team;
+  const statusAPI = sampleGameData.game.status.long;
 
-  const homeScore = homeAPI.score;
-  const awayScore = awayAPI.score;
-  const isFinal = statusAPI === "Final";
+  const homeScore = sampleGameData.scores.home.total;
+  const awayScore = sampleGameData.scores.away.total;
+  const isFinal = statusAPI === "Finished";
 
   const homeWon = homeScore > awayScore;
   const awayWon = awayScore > homeScore;
 
   const getScoreStyle = (won) => [
     s.scoreElement,
-    isFinal && won && status === "completed" && s.winningScoreTxt,
-    isFinal && !won && status === "completed" && s.losingTxt,
+    isFinal && won && status === "Finished" && s.winningScoreTxt,
+    isFinal && !won && status === "Finished" && s.losingTxt,
   ];
 
   const getTeamTxtStyle = (won) => [
     s.teamTxt,
-    isFinal && won && status === "completed" && s.winningTeamTxt,
-    isFinal && !won && status === "completed" && s.losingTxt,
+    isFinal && won && status === "Finished" && s.winningTeamTxt,
+    isFinal && !won && status === "Finished" && s.losingTxt,
   ];
 
   return (
@@ -82,7 +82,7 @@ export function BoxScoreGameCard({ game, sampleGameData, status }) {
         </View>
       )}
 
-      {status === "completed" && (
+      {status === "Finished" && (
         <View style={s.statusContainer}>
           <View style={s.iconWrapper}>
             {awayWon ? (
@@ -92,7 +92,7 @@ export function BoxScoreGameCard({ game, sampleGameData, status }) {
             )}
           </View>
 
-          {status === "completed" && <Txt style={s.statusTxt}>{statusAPI}</Txt>}
+          {status === "Finished" && <Txt style={s.statusTxt}>Final</Txt>}
 
           <View style={s.iconWrapper}>
             {homeWon ? (
