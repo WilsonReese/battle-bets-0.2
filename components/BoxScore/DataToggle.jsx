@@ -1,59 +1,77 @@
-import { StyleSheet, TouchableOpacity, View } from "react-native";
+import { Dimensions, StyleSheet, TouchableOpacity, View,  } from "react-native";
 import { Txt } from "../general/Txt";
+import Animated, {
+  useSharedValue,
+  useAnimatedStyle,
+  withTiming,
+} from "react-native-reanimated";
+import { useEffect } from "react";
+
+const TOGGLE_WIDTH = Dimensions.get("window").width * 0.9
+const PILL_WIDTH = TOGGLE_WIDTH / 2 - 3;
 
 export function DataToggle({ optionLeft, optionRight, selected, onSelect }) {
   const isLeftSelected = selected === optionLeft;
-  const newSelected = isLeftSelected ? optionRight : optionLeft;
+  const offset = useSharedValue(isLeftSelected ? 50 : PILL_WIDTH);
+
+  useEffect(() => {
+    offset.value = withTiming(isLeftSelected ? 3 : PILL_WIDTH + 3, { duration: 200 });
+  }, [selected]);
+
+  const animatedStyle = useAnimatedStyle(() => ({
+    transform: [{ translateX: offset.value }],
+  }));
 
   const handleToggle = () => {
+    const newSelected = isLeftSelected ? optionRight : optionLeft;
     onSelect(newSelected);
   };
 
   return (
-    <TouchableOpacity style={s.container} onPress={handleToggle}>
-      <View style={[s.toggle, isLeftSelected ? s.selected : null]}>
-        <Txt style={isLeftSelected ? s.selectedTxt : s.unselectedTxt}>
-          {optionLeft}
-        </Txt>
-      </View>
-      <View style={[s.toggle, !isLeftSelected ? s.selected : null]}>
-        <Txt style={!isLeftSelected ? s.selectedTxt : s.unselectedTxt}>
-          {optionRight}
-        </Txt>
+    <TouchableOpacity style={s.container} onPress={handleToggle} activeOpacity={0.9}>
+      <Animated.View style={[s.pill, animatedStyle]} />
+      <View style={s.labelsContainer}>
+        <View style={s.label}>
+          <Txt style={isLeftSelected ? s.selectedTxt : s.unselectedTxt}>
+            {optionLeft}
+          </Txt>
+        </View>
+        <View style={s.label}>
+          <Txt style={!isLeftSelected ? s.selectedTxt : s.unselectedTxt}>
+            {optionRight}
+          </Txt>
+        </View>
       </View>
     </TouchableOpacity>
   );
 }
 
+
 const s = StyleSheet.create({
   container: {
-    // paddingVertical: 8,
-    flexDirection: "row",
-    alignItems: "center",
-    justifyContent: "center",
-    padding: 4,
+    width: TOGGLE_WIDTH,
+    height: 36,
     backgroundColor: "#1D394E",
     borderRadius: 50,
-    marginHorizontal: 8,
-    // marginVertical: 4,
+    overflow: "hidden",
+    justifyContent: "center",
   },
-  toggle: {
-    paddingHorizontal: 8,
-    paddingVertical: 2,
-    flex: 1,
-    alignItems: "center",
-  },
-  selected: {
+  pill: {
+    position: "absolute",
+    width: PILL_WIDTH,
+    height: 30,
     backgroundColor: "#54D18C",
     borderRadius: 50,
-    shadowColor: "#000",
-    shadowOffset: {
-      width: 0,
-      height: -3,
-    },
-    shadowOpacity: 0.4,
-    shadowRadius: 3.84,
-    elevation: 5,
+    zIndex: 0,
+  },
+  labelsContainer: {
+    flexDirection: "row",
+    zIndex: 1,
+  },
+  label: {
+    width: PILL_WIDTH,
+    alignItems: "center",
+    justifyContent: "center",
   },
   selectedTxt: {
     color: "#F8F8F8",

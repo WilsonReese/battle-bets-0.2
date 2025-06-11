@@ -11,11 +11,15 @@ import { DataToggle } from "../../../components/BoxScore/DataToggle";
 
 export default function GameDetails() {
   const { selectedGame, selectedGameData } = useScoreboard();
-  const [infoMode, setInfoMode] = useState("boxScore"); // default
-  const [selectedTeam, setSelectedTeam] = useState("Total");
+  const awayTeam = selectedGame.away_team;
+  const homeTeam = selectedGame.home_team;
 
-  const awayTeam = selectedGame.away_team
-  const homeTeam = selectedGame.home_team
+  // Box Score or Bets Toggle
+  const [infoMode, setInfoMode] = useState("boxScore"); 
+
+  // Selected Team for Box Score Toggle
+  const [selectedTeam, setSelectedTeam] = useState(awayTeam.name);
+
 
   return (
     // Macro Game Data
@@ -36,12 +40,14 @@ export default function GameDetails() {
         <View style={s.detailsCard}>
           {infoMode === "boxScore" && (
             <>
-              <DataToggle
-                optionLeft={awayTeam.name}
-                optionRight={homeTeam.name}
-                selected={selectedTeam}
-                onSelect={setSelectedTeam}
-              />
+              <View style={{alignItems: 'center'}}>
+                <DataToggle
+                  optionLeft={awayTeam.name}
+                  optionRight={homeTeam.name}
+                  selected={selectedTeam}
+                  onSelect={setSelectedTeam}
+                />
+              </View>
               <Txt>Box Score Details</Txt>
               <Txt>Toggle Teams</Txt>
               <Txt>Team Stats</Txt>
@@ -54,8 +60,8 @@ export default function GameDetails() {
           {infoMode === "bets" && (
             <>
               <DataToggle
-                optionLeft={'Your Bets'}
-                optionRight={'League Bets'}
+                optionLeft={"Your Bets"}
+                optionRight={"League Bets"}
               />
               <Txt>Betting information needs to be accessed here</Txt>
             </>
