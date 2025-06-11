@@ -16,6 +16,8 @@ import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter"
 import { useConferences } from "../../../hooks/useConferences";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
 import sampleGame from "@/utils/sampleGame.json";
+import sampleTeamStats from "@/utils/sampleTeamStats.json";
+import samplePlayerStats from "@/utils/samplePlayerStats.json";
 import axios from "axios";
 
 export default function Scoreboard() {
@@ -28,11 +30,17 @@ export default function Scoreboard() {
   } = useConferences();
 
   const sampleGameData = sampleGame.response[0];
+  const sampleTeamStatsData = sampleTeamStats.response[0];
 
-  console.log('sampleGameData:', sampleGameData)
+  console.log("sampleTeamStatsData:", sampleTeamStatsData);
 
   const { currentSeason, loading: seasonLoading } = useSeason();
-  const { setSelectedGame, setSelectedGameData } = useScoreboard();
+  const {
+    setSelectedGame,
+    setSelectedGameData,
+    setSelectedTeamStats,
+    setSelectedPlayerStats,
+  } = useScoreboard();
   const router = useRouter();
   const [games, setGames] = useState([]);
   const [loadingGames, setLoadingGames] = useState(true);
@@ -41,7 +49,8 @@ export default function Scoreboard() {
 
   const handlePress = (game) => {
     setSelectedGame(game);
-    setSelectedGameData(sampleGameData)
+    setSelectedGameData(sampleGameData);
+    setSelectedTeamStats(sampleTeamStatsData)
     router.push(`/scoreboard/${game.id}`);
   };
 
@@ -99,7 +108,13 @@ export default function Scoreboard() {
         ) : (
           <>
             {filteredGames.map((game) => (
-              <GameCard key={game.id} game={game} type={"scoreboard"} onPress={handlePress} sampleGameData={sampleGameData} />
+              <GameCard
+                key={game.id}
+                game={game}
+                type={"scoreboard"}
+                onPress={handlePress}
+                sampleGameData={sampleGameData}
+              />
             ))}
           </>
         )}
