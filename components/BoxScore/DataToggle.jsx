@@ -46,10 +46,14 @@ const s = StyleSheet.create({
   selected: {
     backgroundColor: "#54D18C",
     borderRadius: 50,
-    zIndex: 1,
-  },
-  unselected: {
-    zIndex: 0,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: -3,
+    },
+    shadowOpacity: 0.4,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
   selectedTxt: {
     color: "#F8F8F8",
