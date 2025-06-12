@@ -4,14 +4,15 @@ import { Matchup } from "../Matchup/Matchup";
 import { PregameCardDetails } from "./PregameCardDetails";
 import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
+import { useScoreboard } from "../../contexts/ScoreboardContext";
 
-export function ScoreboardGameCard({ game, sampleGameData }) {
-  const status = "postgame";
+export function ScoreboardGameCard({ game, sampleGameData, status }) {
+  const { gameStatus } = useScoreboard();
 
   return (
     <View>
       {/* Show the details for the pre-game of the card */}
-      {status === "pregame" && (
+      {gameStatus === "pregame" && (
         <View style={s.container}>
           <Matchup
             homeTeam={game.home_team.name}
@@ -22,15 +23,23 @@ export function ScoreboardGameCard({ game, sampleGameData }) {
         </View>
       )}
 
-      {status === "inProgress" && (
+      {gameStatus === "inProgress" && (
         <View style={s.container}>
-          <BoxScoreGameCard game={game} sampleGameData={sampleGameData} status={'inProgress'}/>
+          <BoxScoreGameCard
+            game={game}
+            sampleGameData={sampleGameData}
+            status={"inProgress"}
+          />
         </View>
       )}
 
-      {status === "postgame" && (
+      {gameStatus === "postgame" && (
         <View style={s.container}>
-          <BoxScoreGameCard game={game} sampleGameData={sampleGameData} status={sampleGameData.game.status.long}/>
+          <BoxScoreGameCard
+            game={game}
+            sampleGameData={sampleGameData}
+            status={sampleGameData.game.status.long}
+          />
         </View>
       )}
     </View>

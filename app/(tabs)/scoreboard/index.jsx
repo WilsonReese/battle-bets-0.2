@@ -34,6 +34,7 @@ export default function Scoreboard() {
   const sampleAwayTeamStats = sampleTeamStats.response[1];
   const sampleHomePlayerStats = samplePlayerStats.response[0]
   const sampleAwayPlayerStats = samplePlayerStats.response[1]
+  // const gameStatus = "inProgress"
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const {
@@ -43,6 +44,7 @@ export default function Scoreboard() {
     setSelectedAwayTeamStats,
     setSelectedHomePlayerStats,
     setSelectedAwayPlayerStats,
+    gameStatus
   } = useScoreboard();
   const router = useRouter();
   const [games, setGames] = useState([]);
@@ -120,6 +122,7 @@ export default function Scoreboard() {
                 type={"scoreboard"}
                 onPress={handlePress}
                 sampleGameData={sampleGameData}
+                status={gameStatus}
               />
             ))}
           </>

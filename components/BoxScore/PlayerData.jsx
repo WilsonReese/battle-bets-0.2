@@ -68,9 +68,7 @@ export function PlayerData({ stats }) {
   const renderStatGroup = (groupName) => {
     const group = normalizedGroups[groupName];
     if (!group) {
-      return (
-        <Txt key={groupName}>No stats for {groupName.replace(/_/g, " ")}</Txt>
-      );
+      return null;
     }
 
     const statLabelMap = DISPLAY_STATS[groupName];
@@ -96,7 +94,7 @@ export function PlayerData({ stats }) {
         {/* Player Rows */}
         {group.players.map((player) => {
           const [firstName, ...rest] = player.player.name.split(" ");
-          const lastName = rest.join(" ");
+          const lastName = rest.length > 0 ? rest.join(" ") : "Statistic";
 
           return (
             <View key={player.player.id} style={s.row}>
@@ -132,19 +130,19 @@ const s = StyleSheet.create({
   },
   statCategoryTitle: {
     fontSize: 16,
-    fontFamily: 'Saira_600SemiBold',
+    fontFamily: "Saira_600SemiBold",
     paddingVertical: 4,
     color: "#54D18C",
   },
   row: {
     flexDirection: "row",
-    alignItems: 'center',
+    alignItems: "center",
     paddingVertical: 1,
   },
   headerRow: {
     borderBottomWidth: 0.5,
     borderColor: "#425C70",
-    alignItems: 'center',
+    alignItems: "center",
     paddingTop: 4,
     paddingBottom: 0,
     marginBottom: 4,
@@ -160,7 +158,7 @@ const s = StyleSheet.create({
     minWidth: 20,
   },
   playerNameContainer: {
-    // paddingLeft: 4,
+    paddingLeft: 2,
   },
   firstName: {
     fontSize: 9,
@@ -173,14 +171,14 @@ const s = StyleSheet.create({
   lastName: {
     fontSize: 14,
     color: "#F8F8F8",
-    fontFamily: 'Saira_600SemiBold',
+    fontFamily: "Saira_600SemiBold",
     // textTransform: "uppercase",
   },
   headerCell: {
     color: "#F8F8F8",
     flex: 1,
     // fontFamily: 'Saira_400Regular',
-    fontFamily: 'Saira_600SemiBold',
+    fontFamily: "Saira_600SemiBold",
     fontSize: 12,
   },
 });

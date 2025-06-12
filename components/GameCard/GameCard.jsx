@@ -5,7 +5,7 @@ import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
 import { ScoreboardGameCard } from "./Scoreboard/ScoreboardGameCard";
 
-export function GameCard({ game, type, onPress, sampleGameData }) {
+export function GameCard({ game, type, onPress, sampleGameData, status }) {
   return (
     // Game Card
     <>
@@ -22,9 +22,13 @@ export function GameCard({ game, type, onPress, sampleGameData }) {
         </View>
       )}
       {type === "scoreboard" && (
-        <TouchableOpacity style={s.card} onPress={() => onPress(game)}>
+        <TouchableOpacity
+          style={s.card}
+          onPress={() => onPress(game)}
+          disabled={status === "pregame" ? true : false}
+        >
           <View style={{ height: 4 }} />
-          <ScoreboardGameCard game={game} sampleGameData={sampleGameData}/>
+          <ScoreboardGameCard game={game} sampleGameData={sampleGameData} />
         </TouchableOpacity>
       )}
     </>

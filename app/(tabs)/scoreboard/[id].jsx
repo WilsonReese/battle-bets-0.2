@@ -38,6 +38,7 @@ export default function GameDetails() {
         <ScoreboardGameCard
           game={selectedGame}
           sampleGameData={selectedGameData}
+          status={'inProgress'}
         />
       </View>
 
@@ -64,8 +65,8 @@ export default function GameDetails() {
                 awayStats={selectedAwayTeamStats.statistics}
                 homeStats={selectedHomeTeamStats.statistics}
                 selectedTeam={selectedTeam}
-                  awayTeamName={awayTeam.name}
-  homeTeamName={homeTeam.name}
+                awayTeamName={awayTeam.name}
+                homeTeamName={homeTeam.name}
               />
 
               {/* Player Stats */}

@@ -168,14 +168,6 @@ const s = StyleSheet.create({
     // paddingVertical: 4,
     // color: "#54D18C",
   },
-  // bar: {
-  //   height: 8,
-  //   flex: 1,
-  //   // backgroundColor: '#061826',
-  //   borderRadius: 50,
-  //   flexDirection: "row",
-  //   gap: 6,
-  // },
   bar: {
     height: 8,
     flex: 1,
@@ -189,13 +181,9 @@ const s = StyleSheet.create({
     gap: 0,
   },
   awayPortion: {
-    // flex: 1,
-    // backgroundColor: '#54D18C',
     borderRadius: 50,
   },
   homePortion: {
-    // flex: 2,
-    // backgroundColor: '#F8F8F8',
     borderRadius: 50,
   },
   selectedPortion: {
