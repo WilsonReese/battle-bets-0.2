@@ -30,15 +30,15 @@ export default function Scoreboard() {
   } = useConferences();
 
   const sampleGameData = sampleGame.response[0];
-  const sampleTeamStatsData = sampleTeamStats.response[1]; // this is just one team's data, need to get both
-
-  console.log("sampleTeamStatsData:", sampleTeamStatsData);
+  const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
+  const sampleAwayTeamStats = sampleTeamStats.response[1];
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const {
     setSelectedGame,
     setSelectedGameData,
-    setSelectedTeamStats,
+    setSelectedHomeTeamStats,
+    setSelectedAwayTeamStats,
     setSelectedPlayerStats,
   } = useScoreboard();
   const router = useRouter();
@@ -50,7 +50,8 @@ export default function Scoreboard() {
   const handlePress = (game) => {
     setSelectedGame(game);
     setSelectedGameData(sampleGameData);
-    setSelectedTeamStats(sampleTeamStatsData)
+    setSelectedHomeTeamStats(sampleHomeTeamStats)
+    setSelectedAwayTeamStats(sampleAwayTeamStats)
     router.push(`/scoreboard/${game.id}`);
   };
 

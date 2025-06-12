@@ -6,7 +6,8 @@ const ScoreboardContext = createContext();
 export const ScoreboardProvider = ({ children }) => {
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedGameData, setSelectedGameData] = useState(null);
-  const [selectedTeamStats, setSelectedTeamStats] = useState(null);
+  const [selectedHomeTeamStats, setSelectedHomeTeamStats] = useState(null);
+  const [selectedAwayTeamStats, setSelectedAwayTeamStats] = useState(null);
   const [selectedPlayerStats, setSelectedPlayerStats] = useState(null);
 
   return (
@@ -16,10 +17,12 @@ export const ScoreboardProvider = ({ children }) => {
         setSelectedGame,
         selectedGameData,
         setSelectedGameData,
-        selectedTeamStats,
-        setSelectedTeamStats,
+        selectedHomeTeamStats,
+        setSelectedHomeTeamStats,
         selectedPlayerStats,
         setSelectedPlayerStats,
+        selectedAwayTeamStats,
+        setSelectedAwayTeamStats,
       }}
     >
       {children}
