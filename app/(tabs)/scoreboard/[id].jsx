@@ -61,11 +61,11 @@ export default function GameDetails() {
 
               {/* Team Stats */}
               {selectedTeam === awayTeam.name && (
-                <TeamData stats={selectedAwayTeamStats.statistics} />
+                <TeamData awayStats={selectedAwayTeamStats.statistics} homeStats={selectedHomeTeamStats.statistics}/>
               )}
-              {selectedTeam === homeTeam.name && (
+              {/* {selectedTeam === homeTeam.name && (
                 <TeamData stats={selectedHomeTeamStats.statistics} />
-              )}
+              )} */}
 
               {/* Player Stats */}
               {selectedTeam === awayTeam.name && (
@@ -110,9 +110,9 @@ const s = StyleSheet.create({
     paddingBottom: 4,
   },
   detailsCard: {
-    backgroundColor: "#0F2638",
+    // backgroundColor: "#0F2638",
     marginTop: 8,
-    padding: 4,
+    // padding: 4,
     borderRadius: 8,
   },
 });

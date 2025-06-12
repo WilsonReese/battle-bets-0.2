@@ -51,7 +51,7 @@ const s = StyleSheet.create({
   container: {
     width: TOGGLE_WIDTH,
     height: 36,
-    backgroundColor: "#1D394E",
+    backgroundColor: "#0F2638",
     borderRadius: 50,
     overflow: "hidden",
     justifyContent: "center",

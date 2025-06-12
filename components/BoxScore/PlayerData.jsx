@@ -124,7 +124,7 @@ export function PlayerData({ stats }) {
 
 const s = StyleSheet.create({
   statCategoryContainer: {
-    backgroundColor: "#1D394E",
+    backgroundColor: "#0F2638",
     borderRadius: 8,
     paddingHorizontal: 8,
     paddingBottom: 4,
