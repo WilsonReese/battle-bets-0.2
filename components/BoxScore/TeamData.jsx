@@ -1,19 +1,31 @@
 import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Txt } from "../general/Txt";
 
+function parseTimeToSeconds(timeStr) {
+  const [minutes, seconds] = timeStr.split(":").map(Number);
+  return minutes * 60 + seconds;
+}
+
 export function TeamData({ awayStats, homeStats }) {
-  const awayTOP = awayStats.posession.total
-  const homeTOP = homeStats.posession.total
-  const combinedTOP = 0
+  const awaySeconds = parseTimeToSeconds(awayStats.posession.total);
+  const homeSeconds = parseTimeToSeconds(homeStats.posession.total);
+  const totalSeconds = awaySeconds + homeSeconds;
+
+  const awayFlex = awaySeconds / totalSeconds;
+  const homeFlex = homeSeconds / totalSeconds;
 
   return (
     <View style={s.container}>
-      <Txt>Time of Possession</Txt>
-      <Txt>{awayStats.posession.total}</Txt>
-      <Txt>{homeStats.posession.total}</Txt>
+      <View style={s.statValuesRow}>
+        <Txt>{awayStats.posession.total}</Txt>
+        <Txt>Time of Possession</Txt>
+        <Txt>{homeStats.posession.total}</Txt>
+      </View>
       <View style={s.bar}>
-        <View style={[s.awayPortion, s.selectedPortion, {flex: 1}]}></View>
-        <View style={[s.homePortion, s.unselectedPortion, {flex: 2}]}></View>
+        <View style={[s.awayPortion, s.selectedPortion, { flex: awayFlex }]} />
+        <View
+          style={[s.homePortion, s.unselectedPortion, { flex: homeFlex }]}
+        />
       </View>
     </View>
   );
@@ -33,7 +45,7 @@ const s = StyleSheet.create({
     flex: 1,
     // backgroundColor: '#061826',
     borderRadius: 50,
-    flexDirection: 'row',
+    flexDirection: "row",
     gap: 6,
   },
   awayPortion: {
@@ -47,10 +59,14 @@ const s = StyleSheet.create({
     borderRadius: 50,
   },
   selectedPortion: {
-    backgroundColor: '#54D18C',
+    backgroundColor: "#54D18C",
   },
   unselectedPortion: {
-    backgroundColor: '#B8C3CC',
+    backgroundColor: "#B8C3CC",
+  },
+  statValuesRow: {
+    flexDirection: 'row',
+    justifyContent: 'space-between'
   },
 });
 
