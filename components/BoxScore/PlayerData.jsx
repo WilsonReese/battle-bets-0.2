@@ -6,11 +6,11 @@ const STAT_GROUPS = [
   "passing",
   "rushing",
   "receiving",
-  "defensive",
   "kick_returns",
+  "punt_returns",
   "kicking",
   "punting",
-  "punt_returns",
+  "defensive",
 ];
 
 const DISPLAY_STATS = {
@@ -56,6 +56,12 @@ const DISPLAY_STATS = {
   },
 };
 
+const STAT_GROUP_LABELS = {
+  defensive: "Defense",
+  kick_returns: "Kick Returns",
+  punt_returns: "Punt Returns",
+};
+
 export function PlayerData({ stats }) {
   const normalizedGroups = usePlayerStats(stats);
 
@@ -78,7 +84,7 @@ export function PlayerData({ stats }) {
         <View style={[s.row, s.headerRow]}>
           {/* <Txt style={[s.cell, s.firstHeaderCell]}>Player</Txt> */}
           <Txt style={[s.statCategoryTitle, s.firstColumnCell]}>
-            {group.name}
+            {STAT_GROUP_LABELS[groupName] || group.name}
           </Txt>
           {statKeys.map((key) => (
             <Txt key={key} style={[s.cell, s.headerCell]}>
@@ -147,17 +153,11 @@ const s = StyleSheet.create({
     flex: 1,
     fontSize: 14,
     color: "#C7CDD1",
-    // fontFamily: 'Saira_600SemiBold',
-    // paddingRight: 6,
     textAlign: "center",
   },
   firstColumnCell: {
-    // fontWeight: "bold",
-    // color: "#F8F8F8",
     flex: 3.5,
-    // backgroundColor: 'blue'
-    // width: 200,
-    // textAlign: "left",
+    minWidth: 20,
   },
   playerNameContainer: {
     // paddingLeft: 4,
@@ -167,11 +167,13 @@ const s = StyleSheet.create({
     fontWeight: "500",
     color: "#C7CDD1",
     marginBottom: -6,
+    textTransform: "uppercase",
   },
   lastName: {
     fontSize: 14,
     color: "#F8F8F8",
-    fontFamily: 'Saira_600SemiBold'
+    fontFamily: 'Saira_600SemiBold',
+    // textTransform: "uppercase",
   },
   headerCell: {
     color: "#F8F8F8",
