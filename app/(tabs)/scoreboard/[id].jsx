@@ -46,7 +46,7 @@ export default function GameDetails() {
         <BoxScoreOrBetsToggle selected={infoMode} onSelect={setInfoMode} />
       </View>
 
-      <ScrollView style={s.scrollView} showsVerticalScrollIndicator={false} >
+      <ScrollView style={s.scrollView} showsVerticalScrollIndicator={false}>
         <View style={s.detailsCard}>
           {infoMode === "boxScore" && (
             <>
@@ -60,12 +60,13 @@ export default function GameDetails() {
               </View>
 
               {/* Team Stats */}
-              {selectedTeam === awayTeam.name && (
-                <TeamData awayStats={selectedAwayTeamStats.statistics} homeStats={selectedHomeTeamStats.statistics}/>
-              )}
-              {/* {selectedTeam === homeTeam.name && (
-                <TeamData stats={selectedHomeTeamStats.statistics} />
-              )} */}
+              <TeamData
+                awayStats={selectedAwayTeamStats.statistics}
+                homeStats={selectedHomeTeamStats.statistics}
+                selectedTeam={selectedTeam}
+                  awayTeamName={awayTeam.name}
+  homeTeamName={homeTeam.name}
+              />
 
               {/* Player Stats */}
               {selectedTeam === awayTeam.name && (

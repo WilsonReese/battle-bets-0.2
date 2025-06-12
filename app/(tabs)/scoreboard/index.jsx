@@ -17,7 +17,7 @@ import { useConferences } from "../../../hooks/useConferences";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
 import sampleGame from "@/utils/sampleGame.json";
 import sampleTeamStats from "@/utils/sampleTeamStats.json";
-import samplePlayerStats3 from "@/utils/samplePlayerStats3.json";
+import samplePlayerStats from "@/utils/samplePlayerStats.json";
 import axios from "axios";
 
 export default function Scoreboard() {
@@ -32,8 +32,8 @@ export default function Scoreboard() {
   const sampleGameData = sampleGame.response[0];
   const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
   const sampleAwayTeamStats = sampleTeamStats.response[1];
-  const sampleHomePlayerStats = samplePlayerStats3.response[0]
-  const sampleAwayPlayerStats = samplePlayerStats3.response[1]
+  const sampleHomePlayerStats = samplePlayerStats.response[0]
+  const sampleAwayPlayerStats = samplePlayerStats.response[1]
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const {

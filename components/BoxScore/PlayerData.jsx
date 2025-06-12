@@ -168,6 +168,7 @@ const s = StyleSheet.create({
     color: "#C7CDD1",
     marginBottom: -6,
     textTransform: "uppercase",
+    letterSpacing: 1.5,
   },
   lastName: {
     fontSize: 14,
