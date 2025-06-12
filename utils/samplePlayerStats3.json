@@ -1,0 +1,4737 @@
+{
+  "get": "games/statistics/players",
+  "parameters": {
+    "id": "9624"
+  },
+  "errors": [],
+  "results": 2,
+  "response": [
+    {
+      "team": {
+        "id": 43,
+        "name": "UNLV",
+        "logo": "https://media.api-sports.io/american-football/teams/43.png"
+      },
+      "groups": [
+        {
+          "name": "Passing",
+          "players": [
+            {
+              "player": {
+                "id": 6859,
+                "name": "Jayden Maiava",
+                "image": "https://media.api-sports.io/american-football/players/6859.png"
+              },
+              "statistics": [
+                {
+                  "name": "comp att",
+                  "value": "19/33"
+                },
+                {
+                  "name": "yards",
+                  "value": "261"
+                },
+                {
+                  "name": "average",
+                  "value": "7.9"
+                },
+                {
+                  "name": "passing touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "interceptions",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": null
+                },
+                {
+                  "name": "rating",
+                  "value": null
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6856,
+                "name": "Doug Brumfield",
+                "image": "https://media.api-sports.io/american-football/players/6856.png"
+              },
+              "statistics": [
+                {
+                  "name": "comp att",
+                  "value": "2/4"
+                },
+                {
+                  "name": "yards",
+                  "value": "15"
+                },
+                {
+                  "name": "average",
+                  "value": "3.8"
+                },
+                {
+                  "name": "passing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": null
+                },
+                {
+                  "name": "rating",
+                  "value": null
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Rushing",
+          "players": [
+            {
+              "player": {
+                "id": 36504,
+                "name": "Jai'Den Thomas",
+                "image": "https://media.api-sports.io/american-football/players/36504.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "13"
+                },
+                {
+                  "name": "yards",
+                  "value": "50"
+                },
+                {
+                  "name": "average",
+                  "value": "3.8"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "21"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6859,
+                "name": "Jayden Maiava",
+                "image": "https://media.api-sports.io/american-football/players/6859.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "7"
+                },
+                {
+                  "name": "yards",
+                  "value": "29"
+                },
+                {
+                  "name": "average",
+                  "value": "4.1"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "24"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 9184,
+                "name": "Vincent Davis",
+                "image": "https://media.api-sports.io/american-football/players/9184.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "5"
+                },
+                {
+                  "name": "yards",
+                  "value": "18"
+                },
+                {
+                  "name": "average",
+                  "value": "3.6"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "9"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6867,
+                "name": "Jordan YoungeHumphrey",
+                "image": "https://media.api-sports.io/american-football/players/6867.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "4"
+                },
+                {
+                  "name": "yards",
+                  "value": "17"
+                },
+                {
+                  "name": "average",
+                  "value": "4.3"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "10"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 13191,
+                "name": "Donavyn Lester",
+                "image": "https://media.api-sports.io/american-football/players/13191.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "5"
+                },
+                {
+                  "name": "yards",
+                  "value": "16"
+                },
+                {
+                  "name": "average",
+                  "value": "3.2"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "9"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36505,
+                "name": "Timothy Conerly",
+                "image": "https://media.api-sports.io/american-football/players/36505.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "4"
+                },
+                {
+                  "name": "average",
+                  "value": "4.0"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "4"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36506,
+                "name": "Jacob De Jesus",
+                "image": "https://media.api-sports.io/american-football/players/36506.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "2"
+                },
+                {
+                  "name": "average",
+                  "value": "2.0"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "2"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6863,
+                "name": "Courtney Reese",
+                "image": "https://media.api-sports.io/american-football/players/6863.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "3"
+                },
+                {
+                  "name": "yards",
+                  "value": "1"
+                },
+                {
+                  "name": "average",
+                  "value": "0.3"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "2"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6856,
+                "name": "Doug Brumfield",
+                "image": "https://media.api-sports.io/american-football/players/6856.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "-10"
+                },
+                {
+                  "name": "average",
+                  "value": "-10.0"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "0"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Receiving",
+          "players": [
+            {
+              "player": {
+                "id": 6876,
+                "name": "Ricky White",
+                "image": "https://media.api-sports.io/american-football/players/6876.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "12"
+                },
+                {
+                  "name": "yards",
+                  "value": "165"
+                },
+                {
+                  "name": "average",
+                  "value": "13.8"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "48"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36506,
+                "name": "Jacob De Jesus",
+                "image": "https://media.api-sports.io/american-football/players/36506.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "3"
+                },
+                {
+                  "name": "yards",
+                  "value": "62"
+                },
+                {
+                  "name": "average",
+                  "value": "20.7"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "48"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6871,
+                "name": "Senika McKie",
+                "image": "https://media.api-sports.io/american-football/players/6871.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "3"
+                },
+                {
+                  "name": "yards",
+                  "value": "26"
+                },
+                {
+                  "name": "average",
+                  "value": "8.7"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "14"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6869,
+                "name": "Zyell Griffin",
+                "image": "https://media.api-sports.io/american-football/players/6869.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "2"
+                },
+                {
+                  "name": "yards",
+                  "value": "14"
+                },
+                {
+                  "name": "average",
+                  "value": "7.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "12"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6884,
+                "name": "Shelton Zeon III",
+                "image": "https://media.api-sports.io/american-football/players/6884.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "9"
+                },
+                {
+                  "name": "average",
+                  "value": "9.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "9"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Fumbles",
+          "players": [
+            {
+              "player": {
+                "id": 6859,
+                "name": "Jayden Maiava",
+                "image": "https://media.api-sports.io/american-football/players/6859.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "lost",
+                  "value": "0"
+                },
+                {
+                  "name": "rec",
+                  "value": "0"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36504,
+                "name": "Jai'Den Thomas",
+                "image": "https://media.api-sports.io/american-football/players/36504.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "lost",
+                  "value": "0"
+                },
+                {
+                  "name": "rec",
+                  "value": "0"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6949,
+                "name": "Jerrae Williams",
+                "image": "https://media.api-sports.io/american-football/players/6949.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "0"
+                },
+                {
+                  "name": "lost",
+                  "value": "0"
+                },
+                {
+                  "name": "rec",
+                  "value": "1"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6920,
+                "name": "Fisher Camac",
+                "image": "https://media.api-sports.io/american-football/players/6920.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "0"
+                },
+                {
+                  "name": "lost",
+                  "value": "0"
+                },
+                {
+                  "name": "rec",
+                  "value": "1"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6950,
+                "name": "Kris Williams",
+                "image": "https://media.api-sports.io/american-football/players/6950.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "0"
+                },
+                {
+                  "name": "lost",
+                  "value": "0"
+                },
+                {
+                  "name": "rec",
+                  "value": "1"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Interceptions",
+          "players": [
+            {
+              "player": {
+                "id": 6936,
+                "name": "Johnathan Baldwin",
+                "image": "https://media.api-sports.io/american-football/players/6936.png"
+              },
+              "statistics": [
+                {
+                  "name": "total interceptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "36"
+                },
+                {
+                  "name": "intercepted touch downs",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Defensive",
+          "players": [
+            {
+              "player": {
+                "id": 6933,
+                "name": "Fred Thompkins",
+                "image": "https://media.api-sports.io/american-football/players/6933.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "10"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "4"
+                },
+                {
+                  "name": "sacks",
+                  "value": "1"
+                },
+                {
+                  "name": "tfl",
+                  "value": "2"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36531,
+                "name": "Jett Elad",
+                "image": "https://media.api-sports.io/american-football/players/36531.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "8"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "4"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "1"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6949,
+                "name": "Jerrae Williams",
+                "image": "https://media.api-sports.io/american-football/players/6949.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "8"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "sacks",
+                  "value": "1"
+                },
+                {
+                  "name": "tfl",
+                  "value": "2"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6945,
+                "name": "Cameron Oliver",
+                "image": "https://media.api-sports.io/american-football/players/6945.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "7"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "6"
+                },
+                {
+                  "name": "sacks",
+                  "value": "1"
+                },
+                {
+                  "name": "tfl",
+                  "value": "2.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "1"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6936,
+                "name": "Johnathan Baldwin",
+                "image": "https://media.api-sports.io/american-football/players/6936.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "7"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "4"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6551,
+                "name": "Alex Whitmore",
+                "image": "https://media.api-sports.io/american-football/players/6551.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "6"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 16557,
+                "name": "Jackson Woodard",
+                "image": "https://media.api-sports.io/american-football/players/16557.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "5"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 19960,
+                "name": "Jaxen Turner",
+                "image": "https://media.api-sports.io/american-football/players/19960.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6942,
+                "name": "Ricky Johnson",
+                "image": "https://media.api-sports.io/american-football/players/6942.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "4"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6932,
+                "name": "Elijah Shelton",
+                "image": "https://media.api-sports.io/american-football/players/6932.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "1.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6908,
+                "name": "Darius Johnson",
+                "image": "https://media.api-sports.io/american-football/players/6908.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6950,
+                "name": "Kris Williams",
+                "image": "https://media.api-sports.io/american-football/players/6950.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6907,
+                "name": "Naki Fahina",
+                "image": "https://media.api-sports.io/american-football/players/6907.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6905,
+                "name": "Jalen Dixon",
+                "image": "https://media.api-sports.io/american-football/players/6905.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6921,
+                "name": "Keith Conley Jr.",
+                "image": "https://media.api-sports.io/american-football/players/6921.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6913,
+                "name": "Tatuo Martinson",
+                "image": "https://media.api-sports.io/american-football/players/6913.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 24556,
+                "name": "Cooper Webb",
+                "image": "https://media.api-sports.io/american-football/players/24556.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6876,
+                "name": "Ricky White",
+                "image": "https://media.api-sports.io/american-football/players/6876.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6948,
+                "name": "Davone Walden Jr.",
+                "image": "https://media.api-sports.io/american-football/players/6948.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 6928,
+                "name": "Tyray O'Dell",
+                "image": "https://media.api-sports.io/american-football/players/6928.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36536,
+                "name": "Rashod Tanner",
+                "image": "https://media.api-sports.io/american-football/players/36536.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36534,
+                "name": "Cameren Jenkins",
+                "image": "https://media.api-sports.io/american-football/players/36534.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36526,
+                "name": "Blesyng AlualuTuiolemotu",
+                "image": "https://media.api-sports.io/american-football/players/36526.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36529,
+                "name": "Thomas Anderson",
+                "image": "https://media.api-sports.io/american-football/players/36529.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kick_returns",
+          "players": [
+            {
+              "player": {
+                "id": 36506,
+                "name": "Jacob De Jesus",
+                "image": "https://media.api-sports.io/american-football/players/36506.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "4"
+                },
+                {
+                  "name": "yards",
+                  "value": "101"
+                },
+                {
+                  "name": "average",
+                  "value": "25.3"
+                },
+                {
+                  "name": "lg",
+                  "value": "36"
+                },
+                {
+                  "name": "td",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": "0"
+                },
+                {
+                  "name": "exp return td",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Punt_returns",
+          "players": [
+            {
+              "player": {
+                "id": 36506,
+                "name": "Jacob De Jesus",
+                "image": "https://media.api-sports.io/american-football/players/36506.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "22"
+                },
+                {
+                  "name": "average",
+                  "value": "22.0"
+                },
+                {
+                  "name": "lg",
+                  "value": "22"
+                },
+                {
+                  "name": "td",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kicking",
+          "players": [
+            {
+              "player": {
+                "id": 29148,
+                "name": "Jose Pizano",
+                "image": "https://media.api-sports.io/american-football/players/29148.png"
+              },
+              "statistics": [
+                {
+                  "name": "field goals",
+                  "value": "4/5"
+                },
+                {
+                  "name": "pct",
+                  "value": "80.0"
+                },
+                {
+                  "name": "long",
+                  "value": "36"
+                },
+                {
+                  "name": "extra point",
+                  "value": "4/4"
+                },
+                {
+                  "name": "points",
+                  "value": "16"
+                },
+                {
+                  "name": "field goals from 1 19 yards",
+                  "value": "0"
+                },
+                {
+                  "name": "field goals from 20 29 yards",
+                  "value": "1"
+                },
+                {
+                  "name": "field goals from 30 39 yards",
+                  "value": "3"
+                },
+                {
+                  "name": "field goals from 40 49 yards",
+                  "value": "0"
+                },
+                {
+                  "name": "field goals from 50 yards",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Punting",
+          "players": [
+            {
+              "player": {
+                "id": 6954,
+                "name": "Marshall Nichols",
+                "image": "https://media.api-sports.io/american-football/players/6954.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "5"
+                },
+                {
+                  "name": "yards",
+                  "value": "212"
+                },
+                {
+                  "name": "average",
+                  "value": "42.4"
+                },
+                {
+                  "name": "touchbacks",
+                  "value": "0"
+                },
+                {
+                  "name": "in20",
+                  "value": null
+                },
+                {
+                  "name": "lg",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "team": {
+        "id": 60,
+        "name": "Vanderbilt",
+        "logo": "https://media.api-sports.io/american-football/teams/60.png"
+      },
+      "groups": [
+        {
+          "name": "Passing",
+          "players": [
+            {
+              "player": {
+                "id": 8820,
+                "name": "AJ Swann",
+                "image": "https://media.api-sports.io/american-football/players/8820.png"
+              },
+              "statistics": [
+                {
+                  "name": "comp att",
+                  "value": "17/35"
+                },
+                {
+                  "name": "yards",
+                  "value": "335"
+                },
+                {
+                  "name": "average",
+                  "value": "9.6"
+                },
+                {
+                  "name": "passing touch downs",
+                  "value": "3"
+                },
+                {
+                  "name": "interceptions",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": null
+                },
+                {
+                  "name": "rating",
+                  "value": null
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8819,
+                "name": "Ken Seals",
+                "image": "https://media.api-sports.io/american-football/players/8819.png"
+              },
+              "statistics": [
+                {
+                  "name": "comp att",
+                  "value": "1/2"
+                },
+                {
+                  "name": "yards",
+                  "value": "2"
+                },
+                {
+                  "name": "average",
+                  "value": "1.0"
+                },
+                {
+                  "name": "passing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": null
+                },
+                {
+                  "name": "rating",
+                  "value": null
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Rushing",
+          "players": [
+            {
+              "player": {
+                "id": 8830,
+                "name": "Patrick Smith",
+                "image": "https://media.api-sports.io/american-football/players/8830.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "13"
+                },
+                {
+                  "name": "yards",
+                  "value": "43"
+                },
+                {
+                  "name": "average",
+                  "value": "3.3"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "12"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8820,
+                "name": "AJ Swann",
+                "image": "https://media.api-sports.io/american-football/players/8820.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "11"
+                },
+                {
+                  "name": "yards",
+                  "value": "27"
+                },
+                {
+                  "name": "average",
+                  "value": "2.5"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "13"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 37116,
+                "name": "Sedrick Alexander",
+                "image": "https://media.api-sports.io/american-football/players/37116.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "7"
+                },
+                {
+                  "name": "yards",
+                  "value": "14"
+                },
+                {
+                  "name": "average",
+                  "value": "2.0"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "6"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8827,
+                "name": "Chase Gillespie",
+                "image": "https://media.api-sports.io/american-football/players/8827.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "3"
+                },
+                {
+                  "name": "yards",
+                  "value": "4"
+                },
+                {
+                  "name": "average",
+                  "value": "1.3"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "4"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8838,
+                "name": "Jayden McGowan",
+                "image": "https://media.api-sports.io/american-football/players/8838.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "3"
+                },
+                {
+                  "name": "average",
+                  "value": "3.0"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "3"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8819,
+                "name": "Ken Seals",
+                "image": "https://media.api-sports.io/american-football/players/8819.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "2"
+                },
+                {
+                  "name": "yards",
+                  "value": "-3"
+                },
+                {
+                  "name": "average",
+                  "value": "-1.5"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "2"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8843,
+                "name": "Justin Ball",
+                "image": "https://media.api-sports.io/american-football/players/8843.png"
+              },
+              "statistics": [
+                {
+                  "name": "total rushes",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "-5"
+                },
+                {
+                  "name": "average",
+                  "value": "-5.0"
+                },
+                {
+                  "name": "rushing touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest rush",
+                  "value": "0"
+                },
+                {
+                  "name": "two pt",
+                  "value": "1"
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Receiving",
+          "players": [
+            {
+              "player": {
+                "id": 37121,
+                "name": "London Humphreys",
+                "image": "https://media.api-sports.io/american-football/players/37121.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "3"
+                },
+                {
+                  "name": "yards",
+                  "value": "102"
+                },
+                {
+                  "name": "average",
+                  "value": "34.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "56"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8839,
+                "name": "Will Sheppard",
+                "image": "https://media.api-sports.io/american-football/players/8839.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "5"
+                },
+                {
+                  "name": "yards",
+                  "value": "97"
+                },
+                {
+                  "name": "average",
+                  "value": "19.4"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "33"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8838,
+                "name": "Jayden McGowan",
+                "image": "https://media.api-sports.io/american-football/players/8838.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "5"
+                },
+                {
+                  "name": "yards",
+                  "value": "81"
+                },
+                {
+                  "name": "average",
+                  "value": "16.2"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "39"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8840,
+                "name": "Quincy Skinner Jr.",
+                "image": "https://media.api-sports.io/american-football/players/8840.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "43"
+                },
+                {
+                  "name": "average",
+                  "value": "43.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "34"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 37124,
+                "name": "Kamrean Johnson",
+                "image": "https://media.api-sports.io/american-football/players/37124.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "11"
+                },
+                {
+                  "name": "average",
+                  "value": "11.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "11"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8843,
+                "name": "Justin Ball",
+                "image": "https://media.api-sports.io/american-football/players/8843.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "3"
+                },
+                {
+                  "name": "average",
+                  "value": "3.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "3"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 37123,
+                "name": "Junior Sherrill",
+                "image": "https://media.api-sports.io/american-football/players/37123.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "2"
+                },
+                {
+                  "name": "average",
+                  "value": "2.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "2"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8830,
+                "name": "Patrick Smith",
+                "image": "https://media.api-sports.io/american-football/players/8830.png"
+              },
+              "statistics": [
+                {
+                  "name": "targets",
+                  "value": null
+                },
+                {
+                  "name": "total receptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "-2"
+                },
+                {
+                  "name": "average",
+                  "value": "-2.0"
+                },
+                {
+                  "name": "receiving touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "longest reception",
+                  "value": "0"
+                },
+                {
+                  "name": "two pt",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Fumbles",
+          "players": [
+            {
+              "player": {
+                "id": 8820,
+                "name": "AJ Swann",
+                "image": "https://media.api-sports.io/american-football/players/8820.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "2"
+                },
+                {
+                  "name": "lost",
+                  "value": "1"
+                },
+                {
+                  "name": "rec",
+                  "value": "0"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8819,
+                "name": "Ken Seals",
+                "image": "https://media.api-sports.io/american-football/players/8819.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "lost",
+                  "value": "1"
+                },
+                {
+                  "name": "rec",
+                  "value": "0"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8843,
+                "name": "Justin Ball",
+                "image": "https://media.api-sports.io/american-football/players/8843.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "lost",
+                  "value": "1"
+                },
+                {
+                  "name": "rec",
+                  "value": "0"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8838,
+                "name": "Jayden McGowan",
+                "image": "https://media.api-sports.io/american-football/players/8838.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "lost",
+                  "value": "0"
+                },
+                {
+                  "name": "rec",
+                  "value": "0"
+                },
+                {
+                  "name": "rec td",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Interceptions",
+          "players": [
+            {
+              "player": {
+                "id": 37137,
+                "name": "Martel Hight",
+                "image": "https://media.api-sports.io/american-football/players/37137.png"
+              },
+              "statistics": [
+                {
+                  "name": "total interceptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "37"
+                },
+                {
+                  "name": "intercepted touch downs",
+                  "value": "1"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8884,
+                "name": "Nicholas Rinaldi",
+                "image": "https://media.api-sports.io/american-football/players/8884.png"
+              },
+              "statistics": [
+                {
+                  "name": "total interceptions",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "13"
+                },
+                {
+                  "name": "intercepted touch downs",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Defensive",
+          "players": [
+            {
+              "player": {
+                "id": 8898,
+                "name": "Trudell Berry",
+                "image": "https://media.api-sports.io/american-football/players/8898.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "9"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "6"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "1"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8885,
+                "name": "Ethan Barr",
+                "image": "https://media.api-sports.io/american-football/players/8885.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "9"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8882,
+                "name": "BJ Diakite",
+                "image": "https://media.api-sports.io/american-football/players/8882.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "6"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "1"
+                },
+                {
+                  "name": "tfl",
+                  "value": "1.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8896,
+                "name": "De'Rickey Wright",
+                "image": "https://media.api-sports.io/american-football/players/8896.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "6"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8891,
+                "name": "Kane Patterson",
+                "image": "https://media.api-sports.io/american-football/players/8891.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "6"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "1"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 37137,
+                "name": "Martel Hight",
+                "image": "https://media.api-sports.io/american-football/players/37137.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "5"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "1"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8894,
+                "name": "CJ Taylor",
+                "image": "https://media.api-sports.io/american-football/players/8894.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "5"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "1"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8911,
+                "name": "John Howse IV",
+                "image": "https://media.api-sports.io/american-football/players/8911.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "5"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 37136,
+                "name": "Bryan Longwell",
+                "image": "https://media.api-sports.io/american-football/players/37136.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "4"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8867,
+                "name": "Nate Clifton",
+                "image": "https://media.api-sports.io/american-football/players/8867.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "4"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 36075,
+                "name": "Yilanan Ouattara",
+                "image": "https://media.api-sports.io/american-football/players/36075.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "4"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 24006,
+                "name": "Aeneas DiCosmo",
+                "image": "https://media.api-sports.io/american-football/players/24006.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "1"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8892,
+                "name": "Langston Patterson",
+                "image": "https://media.api-sports.io/american-football/players/8892.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8878,
+                "name": "Darren Agu",
+                "image": "https://media.api-sports.io/american-football/players/8878.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0.5"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8884,
+                "name": "Nicholas Rinaldi",
+                "image": "https://media.api-sports.io/american-football/players/8884.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "3"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8881,
+                "name": "Miles Capers",
+                "image": "https://media.api-sports.io/american-football/players/8881.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "1"
+                },
+                {
+                  "name": "tfl",
+                  "value": "1"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8906,
+                "name": "Jaylen Mahoney",
+                "image": "https://media.api-sports.io/american-football/players/8906.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8901,
+                "name": "Tyson Russell",
+                "image": "https://media.api-sports.io/american-football/players/8901.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8915,
+                "name": "Marlen Sewell",
+                "image": "https://media.api-sports.io/american-football/players/8915.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "2"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8921,
+                "name": "Matt Hayball",
+                "image": "https://media.api-sports.io/american-football/players/8921.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8859,
+                "name": "Grayson Morgan",
+                "image": "https://media.api-sports.io/american-football/players/8859.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8903,
+                "name": "Alan Wright",
+                "image": "https://media.api-sports.io/american-football/players/8903.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "1"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8877,
+                "name": "Linus Zunk",
+                "image": "https://media.api-sports.io/american-football/players/8877.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8886,
+                "name": "Bryce Cowan",
+                "image": "https://media.api-sports.io/american-football/players/8886.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 37124,
+                "name": "Kamrean Johnson",
+                "image": "https://media.api-sports.io/american-football/players/37124.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8908,
+                "name": "Jeffrey Ugochukwu",
+                "image": "https://media.api-sports.io/american-football/players/8908.png"
+              },
+              "statistics": [
+                {
+                  "name": "tackles",
+                  "value": "1"
+                },
+                {
+                  "name": "unassisted tackles",
+                  "value": "0"
+                },
+                {
+                  "name": "sacks",
+                  "value": "0"
+                },
+                {
+                  "name": "tfl",
+                  "value": "0"
+                },
+                {
+                  "name": "passes defended",
+                  "value": "0"
+                },
+                {
+                  "name": "qb hts",
+                  "value": "0"
+                },
+                {
+                  "name": "interceptions for touch downs",
+                  "value": "0"
+                },
+                {
+                  "name": "blocked kicks",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": null
+                },
+                {
+                  "name": "exp return td",
+                  "value": null
+                },
+                {
+                  "name": "ff",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kick_returns",
+          "players": [
+            {
+              "player": {
+                "id": 8838,
+                "name": "Jayden McGowan",
+                "image": "https://media.api-sports.io/american-football/players/8838.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "2"
+                },
+                {
+                  "name": "yards",
+                  "value": "43"
+                },
+                {
+                  "name": "average",
+                  "value": "21.5"
+                },
+                {
+                  "name": "lg",
+                  "value": "27"
+                },
+                {
+                  "name": "td",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": "0"
+                },
+                {
+                  "name": "exp return td",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8827,
+                "name": "Chase Gillespie",
+                "image": "https://media.api-sports.io/american-football/players/8827.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "28"
+                },
+                {
+                  "name": "average",
+                  "value": "28.0"
+                },
+                {
+                  "name": "lg",
+                  "value": "28"
+                },
+                {
+                  "name": "td",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": "0"
+                },
+                {
+                  "name": "exp return td",
+                  "value": "0"
+                }
+              ]
+            },
+            {
+              "player": {
+                "id": 8892,
+                "name": "Langston Patterson",
+                "image": "https://media.api-sports.io/american-football/players/8892.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "3"
+                },
+                {
+                  "name": "yards",
+                  "value": "10"
+                },
+                {
+                  "name": "average",
+                  "value": "3.3"
+                },
+                {
+                  "name": "lg",
+                  "value": "5"
+                },
+                {
+                  "name": "td",
+                  "value": null
+                },
+                {
+                  "name": "kick return td",
+                  "value": "0"
+                },
+                {
+                  "name": "exp return td",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Punt_returns",
+          "players": [
+            {
+              "player": {
+                "id": 8839,
+                "name": "Will Sheppard",
+                "image": "https://media.api-sports.io/american-football/players/8839.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "1"
+                },
+                {
+                  "name": "yards",
+                  "value": "5"
+                },
+                {
+                  "name": "average",
+                  "value": "5.0"
+                },
+                {
+                  "name": "lg",
+                  "value": "5"
+                },
+                {
+                  "name": "td",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Kicking",
+          "players": [
+            {
+              "player": {
+                "id": 13611,
+                "name": "Jacob Borcila",
+                "image": "https://media.api-sports.io/american-football/players/13611.png"
+              },
+              "statistics": [
+                {
+                  "name": "field goals",
+                  "value": "3/4"
+                },
+                {
+                  "name": "pct",
+                  "value": "75.0"
+                },
+                {
+                  "name": "long",
+                  "value": "44"
+                },
+                {
+                  "name": "extra point",
+                  "value": "4/4"
+                },
+                {
+                  "name": "points",
+                  "value": "13"
+                },
+                {
+                  "name": "field goals from 1 19 yards",
+                  "value": "0"
+                },
+                {
+                  "name": "field goals from 20 29 yards",
+                  "value": "0"
+                },
+                {
+                  "name": "field goals from 30 39 yards",
+                  "value": "2"
+                },
+                {
+                  "name": "field goals from 40 49 yards",
+                  "value": "1"
+                },
+                {
+                  "name": "field goals from 50 yards",
+                  "value": "0"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "name": "Punting",
+          "players": [
+            {
+              "player": {
+                "id": 8921,
+                "name": "Matt Hayball",
+                "image": "https://media.api-sports.io/american-football/players/8921.png"
+              },
+              "statistics": [
+                {
+                  "name": "total",
+                  "value": "3"
+                },
+                {
+                  "name": "yards",
+                  "value": "153"
+                },
+                {
+                  "name": "average",
+                  "value": "51.0"
+                },
+                {
+                  "name": "touchbacks",
+                  "value": "0"
+                },
+                {
+                  "name": "in20",
+                  "value": null
+                },
+                {
+                  "name": "lg",
+                  "value": null
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
