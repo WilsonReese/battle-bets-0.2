@@ -44,6 +44,7 @@ export const usePlayerStats = (rawStats) => {
       });
     }
 
+    // need to filter out offensive fumblers
     if (normalizeGroups.fumbles) {
       normalizeGroups.fumbles.players.forEach((player) => {
         const fields = {};

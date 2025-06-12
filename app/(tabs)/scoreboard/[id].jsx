@@ -46,7 +46,7 @@ export default function GameDetails() {
         <BoxScoreOrBetsToggle selected={infoMode} onSelect={setInfoMode} />
       </View>
 
-      <ScrollView style={s.scrollView}>
+      <ScrollView style={s.scrollView} showsVerticalScrollIndicator={false} >
         <View style={s.detailsCard}>
           {infoMode === "boxScore" && (
             <>
@@ -112,7 +112,7 @@ const s = StyleSheet.create({
   detailsCard: {
     backgroundColor: "#0F2638",
     marginTop: 8,
-    padding: 8,
+    padding: 4,
     borderRadius: 8,
   },
 });
