@@ -8,7 +8,8 @@ export const ScoreboardProvider = ({ children }) => {
   const [selectedGameData, setSelectedGameData] = useState(null);
   const [selectedHomeTeamStats, setSelectedHomeTeamStats] = useState(null);
   const [selectedAwayTeamStats, setSelectedAwayTeamStats] = useState(null);
-  const [selectedPlayerStats, setSelectedPlayerStats] = useState(null);
+  const [selectedHomePlayerStats, setSelectedHomePlayerStats] = useState(null);
+  const [selectedAwayPlayerStats, setSelectedAwayPlayerStats] = useState(null);
 
   return (
     <ScoreboardContext.Provider
@@ -19,10 +20,12 @@ export const ScoreboardProvider = ({ children }) => {
         setSelectedGameData,
         selectedHomeTeamStats,
         setSelectedHomeTeamStats,
-        selectedPlayerStats,
-        setSelectedPlayerStats,
         selectedAwayTeamStats,
         setSelectedAwayTeamStats,
+        selectedHomePlayerStats,
+        setSelectedHomePlayerStats,
+        selectedAwayPlayerStats,
+        setSelectedAwayPlayerStats,
       }}
     >
       {children}

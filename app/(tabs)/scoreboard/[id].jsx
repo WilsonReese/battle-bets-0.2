@@ -9,9 +9,17 @@ import {
 import { useState } from "react";
 import { DataToggle } from "../../../components/BoxScore/DataToggle";
 import { TeamData } from "../../../components/BoxScore/TeamData";
+import { PlayerData } from "../../../components/BoxScore/PlayerData";
 
 export default function GameDetails() {
-  const { selectedGame, selectedGameData, selectedHomeTeamStats, selectedAwayTeamStats } = useScoreboard();
+  const {
+    selectedGame,
+    selectedGameData,
+    selectedHomeTeamStats,
+    selectedAwayTeamStats,
+    selectedHomePlayerStats,
+    selectedAwayPlayerStats,
+  } = useScoreboard();
   const awayTeam = selectedGame.away_team;
   const homeTeam = selectedGame.home_team;
 
@@ -50,8 +58,22 @@ export default function GameDetails() {
                   onSelect={setSelectedTeam}
                 />
               </View>
-              {selectedTeam === awayTeam.name && <TeamData stats={selectedAwayTeamStats.statistics}/>}
-              {selectedTeam === homeTeam.name && <TeamData stats={selectedHomeTeamStats.statistics}/>}
+
+              {/* Team Stats */}
+              {selectedTeam === awayTeam.name && (
+                <TeamData stats={selectedAwayTeamStats.statistics} />
+              )}
+              {selectedTeam === homeTeam.name && (
+                <TeamData stats={selectedHomeTeamStats.statistics} />
+              )}
+
+              {/* Player Stats */}
+              {selectedTeam === awayTeam.name && (
+                <PlayerData stats={selectedAwayPlayerStats.groups} />
+              )}
+              {selectedTeam === homeTeam.name && (
+                <PlayerData stats={selectedHomePlayerStats.groups} />
+              )}
             </>
           )}
 

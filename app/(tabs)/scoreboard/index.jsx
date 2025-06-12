@@ -32,6 +32,8 @@ export default function Scoreboard() {
   const sampleGameData = sampleGame.response[0];
   const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
   const sampleAwayTeamStats = sampleTeamStats.response[1];
+  const sampleHomePlayerStats = samplePlayerStats.response[0]
+  const sampleAwayPlayerStats = samplePlayerStats.response[1]
 
   const { currentSeason, loading: seasonLoading } = useSeason();
   const {
@@ -39,7 +41,8 @@ export default function Scoreboard() {
     setSelectedGameData,
     setSelectedHomeTeamStats,
     setSelectedAwayTeamStats,
-    setSelectedPlayerStats,
+    setSelectedHomePlayerStats,
+    setSelectedAwayPlayerStats,
   } = useScoreboard();
   const router = useRouter();
   const [games, setGames] = useState([]);
@@ -52,6 +55,8 @@ export default function Scoreboard() {
     setSelectedGameData(sampleGameData);
     setSelectedHomeTeamStats(sampleHomeTeamStats)
     setSelectedAwayTeamStats(sampleAwayTeamStats)
+    setSelectedHomePlayerStats(sampleHomePlayerStats)
+    setSelectedAwayPlayerStats(sampleAwayPlayerStats)
     router.push(`/scoreboard/${game.id}`);
   };
 
