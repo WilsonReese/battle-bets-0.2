@@ -5,7 +5,9 @@
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon_v2.png",
-    "scheme": "myapp",
+    "scheme": "battlebets",          
+    "deepLinking": true,
+    "platforms": ["ios", "android"],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {

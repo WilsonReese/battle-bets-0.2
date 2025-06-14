@@ -10,6 +10,7 @@ export function Btn({
   style,
   onPress,
   fontSize = 16,
+  fontColor = "#F8F8F8", // default to white
 }) {
   function checkIfEnabled() {
     return isEnabled ? s.enabled : s.disabled;
@@ -25,7 +26,7 @@ export function Btn({
       ]}
       onPress={isEnabled ? onPress : null}
     >
-      <Txt style={[s.btnText, { fontSize }]}>
+      <Txt style={[s.btnText, { fontSize, color: fontColor }]}>
         {btnText}
         {icon}
       </Txt>

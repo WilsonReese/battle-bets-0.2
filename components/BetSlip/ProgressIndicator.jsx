@@ -4,31 +4,42 @@ import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { useBetContext } from "../contexts/BetContext";
 
-export function ProgressIndicator({ betOptionTypeProp, toggleBetSlip, isBetSlipShown, scrollViewRef}) {
-  const { getBetOptionLongTitle, getTotalBetAmount, getBudget, setBetOptionType, betOptionType } =
-    useBetContext();
+export function ProgressIndicator({
+  betOptionTypeProp,
+  isBetSlipShown,
+  scrollViewRef,
+  closeBetSlip,
+}) {
+  const {
+    getBetOptionLongTitle,
+    getTotalBetAmount,
+    getBudget,
+    setBetOptionType,
+    betOptionType,
+  } = useBetContext();
   const title = getBetOptionLongTitle(betOptionTypeProp);
   const totalBetAmount = getTotalBetAmount(betOptionTypeProp);
   const budget = getBudget(betOptionTypeProp);
   const isSelected = betOptionType === betOptionTypeProp;
 
   const handlePress = () => {
-    setBetOptionType(betOptionTypeProp);
-    if (isBetSlipShown) {
-      toggleBetSlip();
+    if (!isSelected && isBetSlipShown) {
+      closeBetSlip(); // Collapse the sheet if switching category
     }
+    setBetOptionType(betOptionTypeProp);
     scrollViewRef.current?.scrollTo({ y: 0, animated: true });
   };
 
-
   return (
     <TouchableOpacity
-    style={[s.container, isSelected && s.selectedIndicator]}
-    onPress={handlePress}
+      style={[s.container, isSelected && s.selectedIndicator]}
+      onPress={handlePress}
     >
       <View style={s.progressIndicator}>
         <Txt style={[s.title, isSelected && s.selectedText]}>{title}</Txt>
-        <Txt style={[s.amount, isSelected && s.selectedText]}>{`$${budget - totalBetAmount} left`}</Txt>
+        <Txt style={[s.amount, isSelected && s.selectedText]}>{`$${
+          budget - totalBetAmount
+        } left`}</Txt>
       </View>
     </TouchableOpacity>
   );
@@ -44,11 +55,11 @@ const s = StyleSheet.create({
   progressIndicator: {
     alignItems: "center",
     borderBottomWidth: 4,
-    borderColor: 'transparent', // Default border color
+    borderColor: "transparent", // Default border color
   },
   selectedIndicator: {
     borderBottomWidth: 4,
-    borderColor: '#54D18C', // Highlight color for the selected state
+    borderColor: "#54D18C", // Highlight color for the selected state
     // backgroundColor: '#DAE1E5',
   },
   title: {
@@ -61,7 +72,7 @@ const s = StyleSheet.create({
     fontSize: 14,
   },
   selectedText: {
-    color: '#F8F8F8',
+    color: "#F8F8F8",
     fontFamily: "Saira_600SemiBold",
-  }
+  },
 });

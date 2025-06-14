@@ -25,10 +25,10 @@ export default function TabLayout() {
       >
         <Tabs.Screen
           name="pools"
-          options={{ title: "Pools", headerShown: false }} // changes Pools page and all children
+          options={{ title: "Leagues", headerShown: false }} // changes Pools page and all children
         />
-        <Tabs.Screen name="scoreboard" options={{ title: "Scoreboard", headerShown: true }} />
-        <Tabs.Screen name="profile" options={{ title: "Profile", headerShown: true }} />
+        <Tabs.Screen name="scoreboard" options={{ title: "Scoreboard", headerShown: false }} />
+        <Tabs.Screen name="profile" options={{ title: "Profile", headerShown: false }} />
       </Tabs>
     </View>
   );

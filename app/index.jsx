@@ -1,25 +1,31 @@
-import { useEffect, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Redirect } from "expo-router";
-import AsyncStorage from "@react-native-async-storage/async-storage";
+import { AuthContext } from "../components/contexts/AuthContext";
 
 const Index = () => {
-  const [loggedIn, setLoggedIn] = useState(null);
+  const { token, isConfirmed } = useContext(AuthContext);
+  const [statusChecked, setStatusChecked] = useState(false);
 
   useEffect(() => {
-    const checkLogin = async () => {
-      const token = await AsyncStorage.getItem("jwt_token");
-      setLoggedIn(!!token);
-    };
+    // Wait until context is hydrated
+    if (token !== null && isConfirmed !== null) {
+      setStatusChecked(true);
+    } else if (!token) {
+      setStatusChecked(true);
+    }
+  }, [token, isConfirmed]);
 
-    checkLogin();
-  }, []);
+  if (!statusChecked) return null;
 
-  if (loggedIn === null) {
-    // You can add a loading spinner here while the login check is in progress
-    return null;
+  if (!token) {
+    return <Redirect href="/login" />;
   }
 
-  return <Redirect href={loggedIn ? "/pools/" : "/login"} />;
+  if (!isConfirmed) {
+    return <Redirect href="/emailConfirmation" />;
+  }
+
+  return <Redirect href="/pools/" />;
 };
 
 export default Index;

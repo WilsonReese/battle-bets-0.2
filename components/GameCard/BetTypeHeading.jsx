@@ -14,7 +14,7 @@ const s = StyleSheet.create({
     // alignSelf: 'center'
   },
   headingTxt: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_300Light",
     letterSpacing: 1,
     fontSize: 12,

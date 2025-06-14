@@ -1,3 +1,7 @@
+// export const unstable_settings = {
+//   initialRouteName: "index",
+// };
+
 import { Stack } from "expo-router/stack";
 import { Image, StyleSheet, View } from "react-native";
 import { AuthProvider } from "../components/contexts/AuthContext";
@@ -16,11 +20,50 @@ import {
   Saira_800ExtraBold,
   Saira_900Black,
 } from "@expo-google-fonts/saira";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
+import { GestureHandlerRootView } from "react-native-gesture-handler";
+import { MessageProvider } from "../components/contexts/MessageContext";
+import { useToastMessage } from "../hooks/useToastMessage";
+import { Message } from "../components/general/Message";
+import { useSafeAreaInsets } from "react-native-safe-area-context";
+import { useDeepLinkHandler } from "../hooks/useDeepLinkHandler";
+import { PoolDetailsProvider } from "../components/contexts/PoolDetailsContext";
+import { SeasonProvider } from "../components/contexts/SeasonContext";
+import { ScoreboardProvider } from "../components/contexts/ScoreboardContext";
 
 SplashScreen.preventAutoHideAsync();
 
+// Global toast renderer component
+function GlobalMessageRenderer() {
+  const { message, clearMessage } = useToastMessage();
+  const insets = useSafeAreaInsets();
+
+  if (!message) return null;
+
+  return (
+    <View
+      style={{
+        position: "absolute",
+        top: insets.top + 20, // 12px below safe area
+        left: 0,
+        right: 0,
+        zIndex: 1000,
+      }}
+    >
+      <Message
+        message={message.text}
+        color={message.color}
+        duration={message.duration}
+        location={0}
+        onHide={clearMessage}
+      />
+    </View>
+  );
+}
+
 export default function Layout() {
+  // useDeepLinkHandler();
+
   const [fontsLoaded] = useFonts({
     Saira_100Thin,
     Saira_200ExtraLight,
@@ -44,49 +87,67 @@ export default function Layout() {
     prepare();
   }, [fontsLoaded]);
 
-  if (!fontsLoaded) {
-    return null; // Keep the splash screen up until fonts are loaded
-  }
+  if (!fontsLoaded) return null;
 
   return (
-    <BetProvider>
-      <AuthProvider>
-        <View style={s.container}>
-          <Stack
-            screenOptions={{
-              headerShown: false, // login, top on Pools page, can copy from the other <Stack>s if I want to customize
-              contentStyle: { backgroundColor: "transparent" },
-            }}
-          >
-            <Stack.Screen
-              name="(tabs)"
-              options={{
-                headerShown: false, // changes the Pools page
-                headerTitle: () => (
-                  <Image
-                    source={require("@/assets/images/white_logo.png")} // Replace with your logo path
-                    style={{ width: 140, height: 40 }} // Adjust the size as needed
-                    resizeMode="contain"
-                  />
-                ),
-                headerStyle: {
-                  backgroundColor: "#061826", // Set your custom background color
-                  alignItems: 'flex-start'
-                },
-                headerTintColor: "#F8F8F8", // Color for header text/icons
-                headerShadowVisible: false, // Hides the bottom border
-              }}
-            />
-          </Stack>
-        </View>
-      </AuthProvider>
-    </BetProvider>
+    <GestureHandlerRootView style={{ flex: 1 }}>
+      <MessageProvider>
+        <SeasonProvider>
+          <ScoreboardProvider>
+            <BetProvider>
+              <AuthProvider>
+                <DeepLinkWrapper />
+                <PoolDetailsProvider>
+                  <View style={s.container}>
+                    <GlobalMessageRenderer />
+                    <Stack
+                      screenOptions={{
+                        headerShown: false,
+                        contentStyle: { backgroundColor: "transparent" },
+                        gestureEnabled: true, // 👈 This enables swipe-to-go-back
+                        gestureResponseDistance: {
+                          horizontal: 100, // 👈 default is ~25 on iOS; increase to make easier
+                        },
+                      }}
+                    >
+                      <Stack.Screen
+                        name="(tabs)"
+                        options={{
+                          headerShown: false,
+                          headerTitle: () => (
+                            <Image
+                              source={require("@/assets/images/white_logo.png")}
+                              style={{ width: 140, height: 40 }}
+                              resizeMode="contain"
+                            />
+                          ),
+                          headerStyle: {
+                            backgroundColor: "#061826",
+                            alignItems: "flex-start",
+                          },
+                          headerTintColor: "#F8F8F8",
+                          headerShadowVisible: false,
+                        }}
+                      />
+                    </Stack>
+                  </View>
+                </PoolDetailsProvider>
+              </AuthProvider>
+            </BetProvider>
+          </ScoreboardProvider>
+        </SeasonProvider>
+      </MessageProvider>
+    </GestureHandlerRootView>
   );
+}
+
+function DeepLinkWrapper() {
+  useDeepLinkHandler();
+  return null;
 }
 
 const s = StyleSheet.create({
   container: {
     flex: 1,
-    // backgroundColor: 'blue', // Your global background color
   },
 });

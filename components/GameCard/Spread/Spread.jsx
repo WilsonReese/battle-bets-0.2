@@ -26,7 +26,7 @@ export function Spread({ spreadOptions, spreadHome, spreadAway, spreadPayout, ho
     optionOne: awaySpread.id,
     optionTwo: homeSpread.id
   }
-  // console.log(betOptionIDs)
+
   const { selection, isEnabled, animatedHeight, toggleBet, betType, currentBetId } = useBetLogic("spread", awaySpreadLongTitle, homeSpreadLongTitle, payouts, betOptionIDs, awaySpreadShortTitle, homeSpreadShortTitle, game);
   const { minBet, maxBet } = BETTING_RULES[betType];
 

@@ -1,11 +1,13 @@
 import { Stack } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
+import { HeaderBackNavigation } from "../../../../components/navigation/headerBackNavigation";
 
 export default function PoolDetailsLayout() {
   return (
     <View style={s.container}>
       <Stack
         screenOptions={{
+          // animation: "slide_from_left", // Applies to all screens under /pools
           headerShown: false, //overridden by the one below, changes Pool Details
           headerStyle: {
             backgroundColor: "#061826", // GREEN FOR DEBUGGING - Set custom background color #061826
@@ -21,12 +23,20 @@ export default function PoolDetailsLayout() {
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
           contentStyle: { backgroundColor: "transparent" },
+          gestureEnabled: true, // 👈 This enables swipe-to-go-back
+          gestureResponseDistance: {
+            horizontal: 100, // 👈 default is ~25 on iOS; increase to make easier
+          },
         }}
       >
         {/* Pool overview page */}
         <Stack.Screen
           name="index"
-          options={{ title: "Pool Overview", headerShown: true }} // Changes green on Pool Details
+          options={{
+            title: "Pool Overview",
+            headerShown: true,
+            headerLeft: () => <HeaderBackNavigation />,
+          }} // Changes green on Pool Details
         />
 
         {/* Specific pool picks and standings */}
@@ -38,8 +48,8 @@ export default function PoolDetailsLayout() {
           name="battles"
           options={{
             title: "Battles",
-            headerShown: true,
-            headerLeft: () => null,
+            headerShown: false,
+            // headerLeft: () => <HeaderBackNavigation />,
             headerBackTitleVisible: false,
             headerBackTitle: "Back",
             headerBackTitleStyle: {

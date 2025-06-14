@@ -7,7 +7,7 @@ export function BetDetails({ name, matchup, time, multiplier, betNameColor, payo
 		<View style={s.container}>
 			<View style={s.betDetailsContainer}>
 				<View>
-					<Txt style={[s.smallTxt]}>{matchup}</Txt>
+					<Txt style={[s.smallTxt, { color: betNameColor || s.betNameTxt.color }]}>{matchup}</Txt>
 				</View>
 				<View>
 					<Txt style={[s.betNameTxt, { color: betNameColor || s.betNameTxt.color }]}>{name}</Txt>
@@ -36,7 +36,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
     // paddingLeft: 4,
 		borderRadius: 4,
-		backgroundColor: '#54D18C',
+		backgroundColor: '#F8F8F8',
 		height: 20,
 		width: 40,
 	},
@@ -49,11 +49,13 @@ const s = StyleSheet.create({
 		color: "#061826",
   },
 	payoutTxt: {
-		color: "#061826",
-		fontSize: 12,
+		// color: "#061826",
+		fontSize: 11,
+    color: '#061826',
+    fontFamily: "Saira_600SemiBold",
 	},
   smallTxt: {
     fontSize: 10,
-		color: '#6E7880'
+		color: '#C7CDD1'
   },
 });

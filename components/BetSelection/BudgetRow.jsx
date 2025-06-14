@@ -4,26 +4,26 @@ import { Txt } from "../general/Txt";
 import { useBetContext } from "../contexts/BetContext";
 import { ProgressIndicator } from "../BetSlip/ProgressIndicator";
 
-export function BudgetRow({ isBetSlipShown, scrollViewRef, toggleBetSlip }) {
+export function BudgetRow({ isBetSlipShown, scrollViewRef, closeBetSlip}) {
   return (
     <View style={s.container}>
       <View style={s.progressIndicatorsContainer}>
         <ProgressIndicator
           betOptionTypeProp={"spreadOU"}
           isBetSlipShown={isBetSlipShown}
-          toggleBetSlip={toggleBetSlip}
+          closeBetSlip={closeBetSlip}
           scrollViewRef={scrollViewRef}
         />
         <ProgressIndicator
           betOptionTypeProp={"moneyLine"}
           isBetSlipShown={isBetSlipShown}
-          toggleBetSlip={toggleBetSlip}
+          closeBetSlip={closeBetSlip}
           scrollViewRef={scrollViewRef}
         />
         <ProgressIndicator
           betOptionTypeProp={"prop"}
           isBetSlipShown={isBetSlipShown}
-          toggleBetSlip={toggleBetSlip}
+          closeBetSlip={closeBetSlip}
           scrollViewRef={scrollViewRef}
         />
       </View>
@@ -46,7 +46,7 @@ const s = StyleSheet.create({
   },
 
   separatorLine: {
-    height: 1,
-    backgroundColor: "#3A454D",
+    // height: .5,
+    backgroundColor: "#425C70",
   },
 });

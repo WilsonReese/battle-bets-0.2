@@ -37,16 +37,16 @@ const s = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: "#F8F8F8",
+    backgroundColor: "#1D394E",
     borderRadius: 8,
   },
   isNotSelected: {
     marginBottom: 4,
   },
   isSelected: {
-    backgroundColor: "#54D18C",
-    borderBottomRightRadius: 0,
-    borderBottomLeftRadius: 0,
+    backgroundColor: "#425C70",
+    borderBottomRightRadius: 8,
+    borderBottomLeftRadius: 8,
     paddingBottom: 4,
   },
   shadow: {
@@ -65,26 +65,28 @@ const s = StyleSheet.create({
   },
   oddsText: {
     fontFamily: "Saira_600SemiBold",
-    color: "#061826",
+    // color: "#061826",
     fontSize: 12,
   },
   payout: {
-    backgroundColor: "#54D18C",
+    backgroundColor: "#425C70",
     borderTopRightRadius: 8,
     borderBottomRightRadius: 8,
+    // borderWidth: .5,
+    // borderColor: '#54D18C',
     paddingHorizontal: 8,
     justifyContent: 'center',
     alignSelf: 'stretch'
   },
   payoutText: {
-    fontFamily: "Saira_300Light",
-    color: "#061826",
-    fontSize: 12,
+    fontFamily: "Saira_600SemiBold",
+    // color: "#061826",
+    fontSize: 11,
   },
   disabledOption: {
-    backgroundColor: "#B8C3CC", 
+    backgroundColor: "#8E9AA4", 
   },
   disabledText: {
-    color: "#6E7880",
+    color: "#425C70",
   },
 });

@@ -15,9 +15,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
     moneyLineBudget,
     propBetBudget,
   } = useBetContext();
-  const arrowIcon = (
-    <FontAwesome6 name="arrow-right" size={16} color="#F8F8F8" />
-  );
+
 
   function calculateTotalPayout() {
     return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
@@ -45,15 +43,6 @@ export function BetSlipDetails({ toggleBetSlip }) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              {/* <SmallBtn
-                isEnabled={true}
-                text={"Show Options"}
-                style={s.btns}
-                onPress={() => {
-                  setBetOptionType("spreadOU");
-                  toggleBetSlip();
-                }}
-              /> */}
             </View>
           )}
           <BetSlipBudget
@@ -69,15 +58,6 @@ export function BetSlipDetails({ toggleBetSlip }) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              {/* <SmallBtn
-                isEnabled={true}
-                text={"Show Options"}
-                style={s.btns}
-                onPress={() => {
-                  setBetOptionType("moneyLine");
-                  toggleBetSlip();
-                }}
-              /> */}
             </View>
           )}
           <BetSlipBudget
@@ -90,32 +70,9 @@ export function BetSlipDetails({ toggleBetSlip }) {
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
-              {/* <SmallBtn
-                isEnabled={true}
-                text={"Show Options"}
-                style={s.btns}
-                onPress={() => {
-                  setBetOptionType("prop");
-                  toggleBetSlip();
-                }}
-              /> */}
             </View>
           )}
         </View>
-        {/* <View style={s.payoutContainer}>
-          <Txt style={s.payoutHeading}>Total Potential Payout: </Txt>
-          <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
-        </View> */}
-
-        {/* <View style={s.submitBtnContainer}>
-          <Btn
-            btnText={"Submit Picks"}
-            style={{ height: 56 }}
-            icon={arrowIcon}
-            />
-        </View> */}
-            {/* This creates the space needed for the ScrollView to show everything  */}
-        <View style={{ height: 150 }}></View>
       </ScrollView>
     </View>
   );
@@ -132,8 +89,8 @@ const s = StyleSheet.create({
     alignItems: "center",
     paddingHorizontal: 8,
     paddingVertical: 4,
-    borderTopWidth: 1,
-    borderColor: "#B8C3CC",
+    // borderTopWidth: 1,
+    // borderColor: "#B8C3CC",
     marginHorizontal: 8,
   },
   payoutHeading: {
@@ -148,8 +105,9 @@ const s = StyleSheet.create({
     fontSize: 18,
   },
   text: {
-    color: "#061826",
+    // color: "#061826",
     fontFamily: "Saira_400Regular_Italic",
+    fontSize: 14,
   },
   btns: {
     height: 30,

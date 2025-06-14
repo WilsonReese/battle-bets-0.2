@@ -1,0 +1,1101 @@
+{
+  "data": {
+    "NCAAFB": [
+      {
+        "week": 5,
+        "sport": "NCAAFB",
+        "season": "2019-2020",
+        "status": "completed",
+        "game_ID": "20190928-117-205",
+        "full_box": {
+          "current": {
+            "Down": null,
+            "poss": "",
+            "field": "",
+            "Quarter": "F",
+            "RedZone": null,
+            "Distance": null,
+            "YardLine": null,
+            "Possession": null,
+            "TimeRemaining": null,
+            "YardLineTerritory": null
+          },
+          "away_team": {
+            "abbrv": "NIU",
+            "score": 18,
+            "mascot": "Huskies",
+            "record": "1-3",
+            "team_id": 117,
+            "team_stats": {
+              "sacks": 0,
+              "safeties": 0,
+              "blocked_kicks": 0,
+              "blocked_punts": 0,
+              "kicks_blocked": 0,
+              "punts_blocked": 0,
+              "defense_touchdowns": 0,
+              "defense_interceptions": 0,
+              "kick_return_touchdowns": 0,
+              "punt_return_touchdowns": 0,
+              "blocked_kick_touchdowns": 0,
+              "blocked_punt_touchdowns": 0,
+              "interception_touchdowns": 0,
+              "fumble_return_touchdowns": 0,
+              "defense_fumble_recoveries": 0,
+              "field_goal_return_touchdowns": 0,
+              "two_point_conversion_returns": 0,
+              "two_point_conversion_attempts": 0,
+              "two_point_conversion_succeeded": 0,
+              "points_against_defense_special_teams": 24
+            },
+            "division_name": 17,
+            "quarter_scores": {
+              "1": 0,
+              "2": 0,
+              "3": 10,
+              "4": 8
+            }
+          },
+          "home_team": {
+            "abbrv": "VAN",
+            "score": 24,
+            "mascot": "Commodores",
+            "record": "1-3",
+            "team_id": 205,
+            "team_stats": {
+              "sacks": 3,
+              "safeties": 0,
+              "penalties": {
+                "total": 9,
+                "yards": 97
+              },
+              "turnovers": 0,
+              "first_downs": 16,
+              "total_yards": 373,
+              "blocked_kicks": 0,
+              "blocked_punts": 0,
+              "kicks_blocked": 0,
+              "passing_yards": 189,
+              "punts_blocked": 0,
+              "rushing_yards": 184,
+              "defense_touchdowns": 0,
+              "defense_interceptions": 0,
+              "kick_return_touchdowns": 0,
+              "punt_return_touchdowns": 0,
+              "blocked_kick_touchdowns": 0,
+              "blocked_punt_touchdowns": 0,
+              "interception_touchdowns": 0,
+              "fumble_return_touchdowns": 0,
+              "defense_fumble_recoveries": 0,
+              "field_goal_return_touchdowns": 0,
+              "two_point_conversion_returns": 0,
+              "two_point_conversion_attempts": 0,
+              "two_point_conversion_succeeded": 0,
+              "points_against_defense_special_teams": 18
+            },
+            "division_name": 25,
+            "quarter_scores": {
+              "1": 14,
+              "2": 0,
+              "3": 7,
+              "4": 3
+            }
+          }
+        },
+        "game_time": "Sat, 28 Sep 2019 16:00:00 GMT",
+        "event_name": null,
+        "player_box": {
+          "away_team": {},
+          "home_team": {
+            "11182": {
+              "sacks": 0,
+              "player": "BJ Anderson",
+              "status": "ACT",
+              "tackles": 4,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "11188": {
+              "sacks": 0,
+              "player": "Drew Birchmeier",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "DL",
+              "position_category": "DEF"
+            },
+            "11190": {
+              "player": "C.J. Bolar",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 1,
+              "fumbles_lost": 0,
+              "receiving_long": 6,
+              "receiving_yards": 6,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "11194": {
+              "player": "Keyon Brooks",
+              "status": "ACT",
+              "position": "RB",
+              "receptions": 1,
+              "fumbles_lost": 0,
+              "rushing_long": 61,
+              "rushing_yards": 61,
+              "receiving_long": 5,
+              "receiving_yards": 5,
+              "rushing_attempts": 2,
+              "position_category": "OFF",
+              "rushing_touchdowns": 1,
+              "receiving_touchdowns": 0
+            },
+            "11203": {
+              "sacks": 0,
+              "player": "Frank Coppet",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "S",
+              "position_category": "DEF"
+            },
+            "11205": {
+              "sacks": 0,
+              "player": "Daevion Davis",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "DL",
+              "position_category": "DEF"
+            },
+            "11208": {
+              "sacks": 0,
+              "player": "Brayden DeVault-Smith",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "11213": {
+              "sacks": 0,
+              "player": "Allan George",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "11216": {
+              "sacks": 0,
+              "player": "Elijah Hamilton",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "11217": {
+              "sacks": 0,
+              "player": "Brendon Harris",
+              "status": "ACT",
+              "tackles": 7,
+              "position": "S",
+              "position_category": "DEF"
+            },
+            "11221": {
+              "sacks": 0,
+              "player": "Randall Haynie",
+              "status": "ACT",
+              "tackles": 5,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "11222": {
+              "sacks": 0,
+              "player": "Kenny Hebert",
+              "status": "ACT",
+              "tackles": 3,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "11224": {
+              "sacks": 0,
+              "player": "Dashaun Jerkins",
+              "status": "ACT",
+              "tackles": 3,
+              "position": "S",
+              "position_category": "DEF"
+            },
+            "11226": {
+              "player": "Cam Johnson",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 6,
+              "fumbles_lost": 0,
+              "receiving_long": 23,
+              "receiving_yards": 64,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "11228": {
+              "player": "Kalija Lipscomb",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 7,
+              "fumbles_lost": 0,
+              "receiving_long": 38,
+              "receiving_yards": 94,
+              "position_category": "OFF",
+              "receiving_touchdowns": 1
+            },
+            "11230": {
+              "sacks": 1,
+              "player": "Brandon Maddox",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DL",
+              "position_category": "DEF"
+            },
+            "11234": {
+              "sacks": 2,
+              "player": "Elijah McAllister",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "11237": {
+              "sacks": 0,
+              "player": "Andre Mintze",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "11238": {
+              "sacks": 0,
+              "player": "Dimitri Moore",
+              "status": "ACT",
+              "tackles": 7,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "11240": {
+              "player": "Riley Neal",
+              "status": "ACT",
+              "position": "QB",
+              "completions": 21,
+              "fumbles_lost": 0,
+              "rushing_long": 2,
+              "passing_yards": 189,
+              "rushing_yards": -14,
+              "passing_attempts": 28,
+              "rushing_attempts": 3,
+              "position_category": "OFF",
+              "passing_touchdowns": 1,
+              "rushing_touchdowns": 0,
+              "passing_interceptions": 0
+            },
+            "11241": {
+              "sacks": 0,
+              "player": "Dayo Odeyingbo",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DL",
+              "position_category": "DEF"
+            },
+            "11244": {
+              "sacks": 0,
+              "player": "Caleb Peart",
+              "status": "ACT",
+              "tackles": 5,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "11246": {
+              "player": "Jared Pinkney",
+              "status": "ACT",
+              "position": "TE",
+              "receptions": 1,
+              "fumbles_lost": 0,
+              "receiving_long": 1,
+              "receiving_yards": 1,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "11250": {
+              "player": "Javan Rice",
+              "status": "ACT",
+              "position": "PK",
+              "field_goals_long": 28,
+              "field_goals_made": 1,
+              "extra_points_made": 3,
+              "position_category": "ST",
+              "field_goal_distances": [
+                28
+              ],
+              "field_goals_attempted": 1,
+              "extra_points_attempted": 3
+            },
+            "11255": {
+              "sacks": 0,
+              "player": "Justice Shelton-Mosley",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "WR",
+              "receptions": 2,
+              "fumbles_lost": 0,
+              "kick_returns": 2,
+              "punt_returns": 2,
+              "rushing_long": 4,
+              "rushing_yards": 4,
+              "receiving_long": 6,
+              "receiving_yards": 11,
+              "kick_return_long": 20,
+              "punt_return_long": 22,
+              "rushing_attempts": 1,
+              "kick_return_yards": 20,
+              "position_category": "OFF",
+              "punt_return_yards": 24,
+              "rushing_touchdowns": 0,
+              "receiving_touchdowns": 0,
+              "kick_return_touchdowns": 0,
+              "punt_return_touchdowns": 0
+            },
+            "11256": {
+              "punts": 6,
+              "player": "Harrison Smith",
+              "status": "ACT",
+              "position": "P",
+              "inside_20": 0,
+              "punts_long": 54,
+              "punting_yards": 280,
+              "position_category": "ST"
+            },
+            "11263": {
+              "sacks": 0,
+              "player": "Cameron Tidd",
+              "status": "ACT",
+              "tackles": 3,
+              "position": "DL",
+              "position_category": "DEF"
+            },
+            "11264": {
+              "player": "Ke'Shawn Vaughn",
+              "status": "ACT",
+              "fumbles": 1,
+              "position": "RB",
+              "receptions": 3,
+              "fumbles_lost": 0,
+              "rushing_long": 39,
+              "rushing_yards": 138,
+              "receiving_long": 8,
+              "receiving_yards": 8,
+              "rushing_attempts": 17,
+              "position_category": "OFF",
+              "rushing_touchdowns": 1,
+              "receiving_touchdowns": 0
+            },
+            "11269": {
+              "sacks": 0,
+              "player": "Cameron Watkins",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "24615": {
+              "sacks": 0,
+              "player": "Lashawn Paulino-Bell",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "LB",
+              "position_category": "DEF"
+            }
+          }
+        },
+        "game_status": "Final",
+        "season_type": "Regular Season",
+        "game_location": "undefined, undefined",
+        "away_team_name": "Northern Illinois University",
+        "home_team_name": "Vanderbilt University"
+      },
+      {
+        "week": 5,
+        "sport": "NCAAFB",
+        "season": "2019-2020",
+        "status": "completed",
+        "game_ID": "20190928-14-20",
+        "full_box": {
+          "current": {
+            "Down": null,
+            "poss": "",
+            "field": "",
+            "Quarter": "F",
+            "RedZone": null,
+            "Distance": null,
+            "YardLine": null,
+            "Possession": null,
+            "TimeRemaining": null,
+            "YardLineTerritory": null
+          },
+          "away_team": {
+            "abbrv": "CLEM",
+            "score": 21,
+            "mascot": "Tigers",
+            "record": "5-0",
+            "team_id": 14,
+            "team_stats": {
+              "sacks": 3,
+              "safeties": 0,
+              "penalties": {
+                "total": 6,
+                "yards": 30
+              },
+              "turnovers": 1,
+              "first_downs": 14,
+              "total_yards": 331,
+              "blocked_kicks": 0,
+              "blocked_punts": 0,
+              "kicks_blocked": 0,
+              "passing_yards": 206,
+              "punts_blocked": 0,
+              "rushing_yards": 125,
+              "defense_touchdowns": 0,
+              "defense_interceptions": 0,
+              "kick_return_touchdowns": 0,
+              "punt_return_touchdowns": 0,
+              "blocked_kick_touchdowns": 0,
+              "blocked_punt_touchdowns": 0,
+              "interception_touchdowns": 0,
+              "fumble_return_touchdowns": 0,
+              "defense_fumble_recoveries": 0,
+              "field_goal_return_touchdowns": 0,
+              "two_point_conversion_returns": 0,
+              "two_point_conversion_attempts": 0,
+              "two_point_conversion_succeeded": 0,
+              "points_against_defense_special_teams": 20
+            },
+            "division_name": 4,
+            "quarter_scores": {
+              "1": 0,
+              "2": 14,
+              "3": 0,
+              "4": 7
+            }
+          },
+          "home_team": {
+            "abbrv": "UNC",
+            "score": 20,
+            "mascot": "Tar Heels",
+            "record": "2-3",
+            "team_id": 20,
+            "team_stats": {
+              "sacks": 1,
+              "safeties": 0,
+              "penalties": {
+                "total": 3,
+                "yards": 20
+              },
+              "turnovers": 0,
+              "first_downs": 14,
+              "total_yards": 290,
+              "blocked_kicks": 0,
+              "blocked_punts": 0,
+              "kicks_blocked": 0,
+              "passing_yards": 144,
+              "punts_blocked": 0,
+              "rushing_yards": 146,
+              "defense_touchdowns": 0,
+              "defense_interceptions": 0,
+              "kick_return_touchdowns": 0,
+              "punt_return_touchdowns": 0,
+              "blocked_kick_touchdowns": 0,
+              "blocked_punt_touchdowns": 0,
+              "interception_touchdowns": 0,
+              "fumble_return_touchdowns": 0,
+              "defense_fumble_recoveries": 1,
+              "field_goal_return_touchdowns": 0,
+              "two_point_conversion_returns": 0,
+              "two_point_conversion_attempts": 1,
+              "two_point_conversion_succeeded": 0,
+              "points_against_defense_special_teams": 21
+            },
+            "division_name": 4,
+            "quarter_scores": {
+              "1": 7,
+              "2": 7,
+              "3": 0,
+              "4": 6
+            }
+          }
+        },
+        "game_time": "Sat, 28 Sep 2019 19:30:00 GMT",
+        "event_name": null,
+        "player_box": {
+          "away_team": {
+            "1196": {
+              "player": "J.C. Chalk",
+              "status": "ACT",
+              "position": "TE",
+              "receptions": 2,
+              "fumbles_lost": 0,
+              "receiving_long": 10,
+              "receiving_yards": 16,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "1203": {
+              "sacks": 1,
+              "player": "Tyler Davis",
+              "status": "ACT",
+              "tackles": 3,
+              "position": "DT",
+              "position_category": "DEF"
+            },
+            "1205": {
+              "player": "Lyn-J Dixon",
+              "status": "ACT",
+              "position": "RB",
+              "fumbles_lost": 0,
+              "rushing_long": 9,
+              "rushing_yards": 20,
+              "rushing_attempts": 4,
+              "position_category": "OFF",
+              "rushing_touchdowns": 0
+            },
+            "1212": {
+              "player": "Travis Etienne",
+              "status": "ACT",
+              "fumbles": 1,
+              "position": "RB",
+              "receptions": 2,
+              "fumbles_lost": 1,
+              "rushing_long": 13,
+              "rushing_yards": 67,
+              "receiving_long": 4,
+              "receiving_yards": 3,
+              "rushing_attempts": 14,
+              "position_category": "OFF",
+              "rushing_touchdowns": 1,
+              "receiving_touchdowns": 0
+            },
+            "1213": {
+              "sacks": 0,
+              "player": "Justin Foster",
+              "status": "ACT",
+              "tackles": 5,
+              "position": "DE",
+              "position_category": "DEF"
+            },
+            "1215": {
+              "sacks": 0,
+              "player": "Mario Goodrich",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "CB",
+              "position_category": "DEF"
+            },
+            "1221": {
+              "player": "Tee Higgins",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 6,
+              "fumbles_lost": 0,
+              "receiving_long": 38,
+              "receiving_yards": 129,
+              "position_category": "OFF",
+              "receiving_touchdowns": 1
+            },
+            "1226": {
+              "sacks": 0,
+              "player": "Denzel Johnson",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "S",
+              "position_category": "DEF"
+            },
+            "1231": {
+              "sacks": 0,
+              "player": "Derion Kendrick",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "CB",
+              "position_category": "DEF"
+            },
+            "1233": {
+              "player": "Trevor Lawrence",
+              "status": "ACT",
+              "position": "QB",
+              "completions": 18,
+              "fumbles_lost": 0,
+              "rushing_long": 16,
+              "passing_yards": 206,
+              "rushing_yards": 45,
+              "passing_attempts": 30,
+              "rushing_attempts": 11,
+              "position_category": "OFF",
+              "passing_touchdowns": 1,
+              "rushing_touchdowns": 1,
+              "passing_interceptions": 0
+            },
+            "1239": {
+              "sacks": 0,
+              "player": "Justin Mascoll",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DE",
+              "position_category": "DEF"
+            },
+            "1248": {
+              "sacks": 0,
+              "player": "Tanner Muse",
+              "status": "ACT",
+              "tackles": 4,
+              "position": "S",
+              "position_category": "DEF"
+            },
+            "1249": {
+              "player": "Joseph Ngata",
+              "status": "ACT",
+              "position": "WR",
+              "kick_returns": 2,
+              "kick_return_long": 38,
+              "kick_return_yards": 67,
+              "position_category": "OFF",
+              "kick_return_touchdowns": 0
+            },
+            "1251": {
+              "player": "Diondre Overton",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 1,
+              "fumbles_lost": 0,
+              "receiving_long": 0,
+              "receiving_yards": 0,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "1254": {
+              "sacks": 0,
+              "player": "Jalyn Phillips",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "1256": {
+              "sacks": 0,
+              "player": "Nyles Pinckney",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DT",
+              "position_category": "DEF"
+            },
+            "1258": {
+              "player": "B.T. Potter",
+              "status": "ACT",
+              "position": "PK",
+              "field_goals_long": 0,
+              "field_goals_made": 0,
+              "extra_points_made": 3,
+              "position_category": "ST",
+              "field_goal_distances": [],
+              "field_goals_attempted": 0,
+              "extra_points_attempted": 3
+            },
+            "1259": {
+              "player": "Cornell Powell",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 1,
+              "fumbles_lost": 0,
+              "receiving_long": -1,
+              "receiving_yards": -1,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "1267": {
+              "player": "Amari Rodgers",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 3,
+              "fumbles_lost": 0,
+              "receiving_long": 10,
+              "receiving_yards": 12,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "1268": {
+              "player": "Justyn Ross",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 3,
+              "fumbles_lost": 0,
+              "receiving_long": 31,
+              "receiving_yards": 47,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "1269": {
+              "sacks": 0,
+              "player": "Logan Rudolph",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "DE",
+              "position_category": "DEF"
+            },
+            "1272": {
+              "sacks": 1,
+              "player": "Isaiah Simmons",
+              "status": "ACT",
+              "tackles": 10,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "1274": {
+              "sacks": 0,
+              "player": "James Skalski",
+              "status": "ACT",
+              "tackles": 5,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "1275": {
+              "sacks": 0,
+              "player": "Chad Smith",
+              "status": "ACT",
+              "tackles": 3,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "1276": {
+              "sacks": 0,
+              "player": "Baylon Spector",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "1278": {
+              "punts": 5,
+              "player": "Will Spiers",
+              "status": "ACT",
+              "position": "P",
+              "inside_20": 0,
+              "punts_long": 54,
+              "punting_yards": 229,
+              "position_category": "ST"
+            },
+            "1283": {
+              "sacks": 0,
+              "player": "A.J. Terrell",
+              "status": "ACT",
+              "tackles": 4,
+              "position": "CB",
+              "position_category": "DEF"
+            },
+            "1284": {
+              "sacks": 0,
+              "player": "Xavier Thomas",
+              "status": "ACT",
+              "tackles": 4,
+              "position": "DE",
+              "position_category": "DEF"
+            },
+            "1288": {
+              "sacks": 0,
+              "player": "Nolan Turner",
+              "status": "ACT",
+              "tackles": 6,
+              "position": "S",
+              "position_category": "DEF"
+            },
+            "1290": {
+              "sacks": 0,
+              "player": "Jake Venables",
+              "status": "ACT",
+              "tackles": 1,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "1292": {
+              "sacks": 0,
+              "player": "K'Von Wallace",
+              "status": "ACT",
+              "tackles": 6,
+              "position": "S",
+              "position_category": "DEF"
+            },
+            "1297": {
+              "sacks": 1,
+              "player": "Jordan Williams",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "DT",
+              "position_category": "DEF"
+            }
+          },
+          "home_team": {
+            "2060": {
+              "player": "Jake Bargas",
+              "status": "ACT",
+              "position": "TE",
+              "receptions": 1,
+              "fumbles_lost": 0,
+              "receiving_long": 2,
+              "receiving_yards": 2,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "2063": {
+              "player": "Dyami Brown",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 3,
+              "fumbles_lost": 0,
+              "rushing_long": 2,
+              "rushing_yards": 2,
+              "receiving_long": 40,
+              "receiving_yards": 63,
+              "rushing_attempts": 1,
+              "position_category": "OFF",
+              "rushing_touchdowns": 0,
+              "receiving_touchdowns": 1
+            },
+            "2066": {
+              "sacks": 0,
+              "player": "Aaron Crawford",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "DL",
+              "position_category": "DEF"
+            },
+            "2067": {
+              "sacks": 0,
+              "player": "Storm Duck",
+              "status": "ACT",
+              "tackles": 6,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "2071": {
+              "sacks": 0,
+              "player": "Tomon Fox",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "2072": {
+              "sacks": 0,
+              "player": "Jeremiah Gemmel",
+              "status": "ACT",
+              "tackles": 6,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "2074": {
+              "player": "Rontavius Groves",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 2,
+              "fumbles_lost": 0,
+              "receiving_long": 7,
+              "receiving_yards": 10,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "2075": {
+              "player": "Sam Howell",
+              "status": "ACT",
+              "position": "QB",
+              "completions": 15,
+              "fumbles_lost": 0,
+              "rushing_long": 5,
+              "passing_yards": 144,
+              "rushing_yards": -5,
+              "passing_attempts": 27,
+              "rushing_attempts": 8,
+              "position_category": "OFF",
+              "passing_touchdowns": 2,
+              "rushing_touchdowns": 0,
+              "passing_interceptions": 0,
+              "two_point_conversion_rush_attempts": 1
+            },
+            "2081": {
+              "sacks": 0,
+              "player": "Trey Morrison",
+              "status": "ACT",
+              "tackles": 4,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "2082": {
+              "player": "Dazz Newsome",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 2,
+              "fumbles_lost": 0,
+              "receiving_long": 10,
+              "receiving_yards": 16,
+              "position_category": "OFF",
+              "receiving_touchdowns": 0
+            },
+            "2087": {
+              "sacks": 0,
+              "player": "Dominique Ross",
+              "status": "ACT",
+              "tackles": 5,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "2090": {
+              "player": "Noah Ruggles",
+              "status": "ACT",
+              "position": "PK",
+              "field_goals_long": 0,
+              "field_goals_made": 0,
+              "extra_points_made": 2,
+              "position_category": "ST",
+              "field_goal_distances": [],
+              "field_goals_attempted": 0,
+              "extra_points_attempted": 2
+            },
+            "2095": {
+              "sacks": 1,
+              "player": "Chazz Surratt",
+              "status": "ACT",
+              "tackles": 7,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "2097": {
+              "player": "Antonio Williams",
+              "status": "ACT",
+              "position": "RB",
+              "fumbles_lost": 0,
+              "rushing_long": 1,
+              "rushing_yards": 1,
+              "rushing_attempts": 1,
+              "position_category": "OFF",
+              "rushing_touchdowns": 0
+            },
+            "2098": {
+              "player": "Javonte Williams",
+              "status": "ACT",
+              "position": "RB",
+              "receptions": 2,
+              "fumbles_lost": 0,
+              "rushing_long": 22,
+              "rushing_yards": 49,
+              "receiving_long": 26,
+              "receiving_yards": 35,
+              "rushing_attempts": 10,
+              "position_category": "OFF",
+              "rushing_touchdowns": 1,
+              "receiving_touchdowns": 0
+            },
+            "24218": {
+              "player": "Michael Carter",
+              "status": "ACT",
+              "position": "RB",
+              "receptions": 2,
+              "fumbles_lost": 0,
+              "kick_returns": 1,
+              "rushing_long": 31,
+              "rushing_yards": 99,
+              "receiving_long": 0,
+              "receiving_yards": -7,
+              "kick_return_long": 25,
+              "rushing_attempts": 16,
+              "kick_return_yards": 25,
+              "position_category": "OFF",
+              "rushing_touchdowns": 0,
+              "receiving_touchdowns": 0,
+              "kick_return_touchdowns": 0
+            },
+            "24224": {
+              "player": "Beau Corrales",
+              "status": "ACT",
+              "position": "WR",
+              "receptions": 3,
+              "fumbles_lost": 0,
+              "receiving_long": 11,
+              "receiving_yards": 25,
+              "position_category": "OFF",
+              "receiving_touchdowns": 1
+            },
+            "24249": {
+              "sacks": 0,
+              "player": "Myles Dorn",
+              "status": "ACT",
+              "tackles": 3,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "24250": {
+              "sacks": 0,
+              "player": "Jason Strowbridge",
+              "status": "ACT",
+              "tackles": 4,
+              "position": "DL",
+              "position_category": "DEF",
+              "fumbles_recoveries": 1
+            },
+            "24251": {
+              "sacks": 0,
+              "player": "Cam'Ron Kelly",
+              "status": "ACT",
+              "tackles": 5,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "24273": {
+              "sacks": 0,
+              "player": "Allen Cater",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "24276": {
+              "sacks": 0,
+              "player": "Tyrone Hopper",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "LB",
+              "position_category": "DEF"
+            },
+            "24280": {
+              "sacks": 0,
+              "player": "Don Chapman",
+              "status": "ACT",
+              "tackles": 3,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "24283": {
+              "sacks": 0,
+              "player": "D.J. Ford",
+              "status": "ACT",
+              "tackles": 2,
+              "position": "DB",
+              "position_category": "DEF"
+            },
+            "24292": {
+              "punts": 7,
+              "player": "Ben Kiernan",
+              "status": "ACT",
+              "position": "P",
+              "inside_20": 0,
+              "punts_long": 63,
+              "punting_yards": 315,
+              "position_category": "ST"
+            }
+          }
+        },
+        "game_status": "Final",
+        "season_type": "Regular Season",
+        "game_location": "undefined, undefined",
+        "away_team_name": "Clemson University",
+        "home_team_name": "University of North Carolina at Chapel Hill"
+      }
+    ]
+  }
+}

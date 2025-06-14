@@ -1,37 +1,43 @@
-import { StyleSheet, View } from "react-native";
+import { StyleSheet, TouchableOpacity, View } from "react-native";
 import { Datetime } from "./Datetime/Datetime";
 import { Matchup } from "./Matchup/Matchup";
 import { BetOptions } from "./BetOptions";
 import { Txt } from "../general/Txt";
+import { ScoreboardGameCard } from "./Scoreboard/ScoreboardGameCard";
 
-export function GameCard({ game }) {
-  
+export function GameCard({ game, type, onPress, sampleGameData, status }) {
   return (
     // Game Card
-    <View style={s.card}>
-      <View style={s.gameDetails}>
-        <View style={{height: 4}}/>
-        {/* <Datetime date={game.start_time} time={game.time} /> */}
-        {/* <Txt style={{ fontSize: 12, color: "black" }}>Collapisble Arrow</Txt> */}
-      </View>
-      <View>
-        <Matchup
-          homeTeam={game.home_team.name}
-          homeRecord={game.homeRecord}
-          awayTeam={game.away_team.name}
-          awayRecord={game.awayRecord}
-        />
-        <BetOptions
-          game={game}
-        />
-      </View>
-    </View>
+    <>
+      {type === "betSelection" && (
+        <View style={s.card}>
+          <View style={{ height: 4 }} />
+          <View>
+            <Matchup
+              homeTeam={game.home_team.name}
+              awayTeam={game.away_team.name}
+            />
+            <BetOptions game={game} />
+          </View>
+        </View>
+      )}
+      {type === "scoreboard" && (
+        <TouchableOpacity
+          style={s.card}
+          onPress={() => onPress(game)}
+          disabled={status === "pregame" ? true : false}
+        >
+          <View style={{ height: 4 }} />
+          <ScoreboardGameCard game={game} sampleGameData={sampleGameData} />
+        </TouchableOpacity>
+      )}
+    </>
   );
 }
 
 const s = StyleSheet.create({
   card: {
-    backgroundColor: "#DAE1E5",
+    backgroundColor: "#0F2638",
     marginVertical: 4,
     borderRadius: 8,
     paddingHorizontal: 8,

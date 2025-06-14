@@ -1,5 +1,6 @@
 import { Stack } from "expo-router";
 import { Image, StyleSheet, View } from "react-native";
+import { HeaderBackNavigation } from "../../../../../components/navigation/headerBackNavigation";
 
 export default function BattlesLayout() {
   return (
@@ -8,7 +9,7 @@ export default function BattlesLayout() {
         screenOptions={{
           headerShown: false,
           headerStyle: {
-            backgroundColor: "red", // Set custom background color
+            backgroundColor: "#061826", // Set custom background color
           },
           headerTitleAlign: "center", // Center the title or logo
           headerTitle: () => (
@@ -20,7 +21,10 @@ export default function BattlesLayout() {
           ),
           headerTintColor: "#F8F8F8", // Text color
           headerShadowVisible: false, // Hide header border
+          headerBackButtonMenuEnabled: false,
+          // headerLeft: () => <HeaderBackNavigation />,
           contentStyle: { backgroundColor: "transparent" },
+          gestureEnabled: true, // 👈 This enables swipe-to-go-back
         }}
       >
         {/* List of battles for the pool */}
@@ -32,7 +36,31 @@ export default function BattlesLayout() {
         {/* Dynamic battle details ||| Below changes the Battle Details Page */}
         <Stack.Screen
           name="[battleId]/index"
-          options={{ title: "Battle Details", headerShown: false }}
+          options={{
+            title: "Battles",
+            headerShown: true,
+            headerLeft: () => <HeaderBackNavigation />,
+            // headerBackTitleVisible: true,
+            // headerBackTitle: "Back",
+            headerBackTitleStyle: {
+              color: "blue",
+              fontFamily: "Saira_400Regular",
+            },
+          }}
+        />
+        <Stack.Screen
+          name="[battleId]/battleLeaderboard"
+          options={{
+            title: "Battle Leaderboard",
+            headerShown: true,
+            headerLeft: () => <HeaderBackNavigation />,
+            // headerBackTitleVisible: true,
+            // headerBackTitle: "Back",
+            headerBackTitleStyle: {
+              color: "blue",
+              fontFamily: "Saira_400Regular",
+            },
+          }}
         />
       </Stack>
     </View>

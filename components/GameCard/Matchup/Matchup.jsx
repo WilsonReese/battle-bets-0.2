@@ -1,26 +1,29 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
+import { TeamLogo } from "./TeamLogo";
 
-export function Matchup({ homeTeam, homeRecord, awayTeam, awayRecord }) {
+export function Matchup({ homeTeam, awayTeam, format = 'betSelection' }) {
   return (
-    <View style={s.matchup}>
+    // Either shows the bet selection matchup or the scoreboard matchup
+    <View style={format === 'betSelection' ? s.matchupBetSelection : s.matchupScoreboard}>
       <View style={s.team}>
-        <View style={s.icon}></View>
+        <TeamLogo teamName={awayTeam} size={32}/>
         <Txt style={s.teamName}>{awayTeam}</Txt>
-        {/* <Txt style={s.teamRecord}>({awayRecord})</Txt> */}
       </View>
       <View style={s.team}>
-        <View style={s.icon}></View>
+        <TeamLogo teamName={homeTeam} size={32}/>
         <Txt style={s.teamName}>{homeTeam}</Txt>
-        {/* <Txt style={s.teamRecord}>({homeRecord})</Txt> */}
       </View>
     </View>
   );
 }
 
 const s = StyleSheet.create({
-  matchup: {
+  matchupBetSelection: {
     flexDirection: "row",
+  },
+  matchupScoreboard: {
+    gap: 4,
   },
   team: {
     flexDirection: "row",
@@ -37,11 +40,11 @@ const s = StyleSheet.create({
     paddingHorizontal: 8,
     fontFamily: "Saira_600SemiBold",
     fontSize: 16,
-    color: "#061826"
+    // color: "#061826"
   },
   teamRecord: {
     fontSize: 14,
     fontFamily: "Saira_300Light",
-    color: "#061826"
+    // color: "#061826"
   }
 });

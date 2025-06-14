@@ -42,10 +42,10 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
     }
   };
 
-  const minusSign = <FontAwesome6 name="minus" size={18} color="#F8F8F8" />;
-  const plusSign = <FontAwesome6 name="plus" size={18} color="#F8F8F8" />;
+  const minusSign = <FontAwesome6 name="minus" size={14} color="#F8F8F8" />;
+  const plusSign = <FontAwesome6 name="plus" size={14} color="#F8F8F8" />;
   const closeIcon = (
-    <FontAwesome6 name="circle-xmark" size={24} color="#6E7880" />
+    <FontAwesome6 name="circle-xmark" size={24} color="#F8F8F8" />
   );
 
   return (
@@ -84,17 +84,21 @@ const s = StyleSheet.create({
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    backgroundColor: "#F8F8F8",
+    backgroundColor: "#425C70",
+    marginHorizontal: 8,
+    // borderTopRightRadius: 
     borderBottomLeftRadius: 8,
     borderBottomRightRadius: 8,
-    paddingHorizontal: 8,
-    paddingVertical: 4,
+    paddingHorizontal: 12,
+    paddingVertical: 6,
     // marginBottom: 4,
-    borderWidth: 1,
+    // borderWidth: .5,
     borderColor: "#54D18C",
+
   },
   text: {
-    color: "#061826",
+    // color: "#061826",
+    fontSize: 14,
   },
   closeIcon: {
     flex: 1,
@@ -104,10 +108,10 @@ const s = StyleSheet.create({
     justifyContent: "space-between",
     alignItems: "center",
     paddingHorizontal: 12,
-    flex: 3,
+    flex: 3.3,
   },
   toWinText: {
-    fontSize: 14,
+    fontSize: 12,
     marginBottom: -4,
     fontFamily: "Saira_600SemiBold",
   },
