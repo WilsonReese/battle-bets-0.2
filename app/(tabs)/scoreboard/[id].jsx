@@ -12,6 +12,7 @@ import { TeamData } from "../../../components/BoxScore/TeamData";
 import { PlayerData } from "../../../components/BoxScore/PlayerData";
 import { useBetContext } from "../../../components/contexts/BetContext";
 import { BetDetails } from "../../../components/BetSlip/BetDetails";
+import { UserBetsForGame } from "../../../components/BoxScore/UserBetsForGame";
 
 export default function GameDetails() {
 	const {
@@ -36,16 +37,6 @@ export default function GameDetails() {
 	const [selectedTeam, setSelectedTeam] = useState(awayTeam.name); // makes it default to the away team being selected
 
 	const [selectedBetGroup, setSelectedBetGroup] = useState("Your Bets");
-
-	// Bets Stuff
-	const allUserBets = Object.values(userBets).flat();
-	const uniquePoolIds = [
-		...new Set(
-			allUserBets.map((bet) => bet.betslip.battle.league_season.pool.id)
-		),
-	];
-	const isSinglePool = uniquePoolIds.length === 1;
-	const gameBets = userBets[selectedGame.id] || [];
 
 	return (
 		// Macro Game Data
@@ -108,30 +99,14 @@ export default function GameDetails() {
 
 							{/* User Bets */}
 							{selectedBetGroup === "Your Bets" && (
-								<>
-									{isSinglePool
-										? gameBets.map((bet) => (
-												<PlacedBet key={bet.id} bet={bet} />
-										  ))
-										: gameBets.map((bet) => (
-												<View key={bet.id} style={s.multiPoolBetContainer}>
-													<BetDetails
-														name={bet.bet_option.title}
-														matchup={`${bet.bet_option.game.away_team.name} at ${bet.bet_option.game.home_team.name}`}
-														multiplier={bet.bet_option.payout}
-														betNameColor={"blue"}
-														payoutColor={"orange"}
-													/>
-													<View style={{ marginTop: 4 }}>
-														<Txt style={{ color: "#ccc", fontSize: 14 }}>
-															{bet.betslip.battle.league_season.pool.name}: Bet
-															${Math.round(bet.bet_amount)} to win $
-															{Math.round(bet.to_win_amount)}
-														</Txt>
-													</View>
-												</View>
-										  ))}
-								</>
+								// <>
+								// 	{isSinglePool
+								// 		? gameBets.map((bet) => (
+								// 				<PlacedBet key={bet.id} bet={bet} />
+								// 		  ))
+                //       : renderGroupedUserBets()}
+								// </>
+								<UserBetsForGame userBets={userBets} selectedGame={selectedGame}/>
 							)}
 
 							{/* League Bets */}
