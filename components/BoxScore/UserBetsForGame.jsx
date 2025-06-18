@@ -63,6 +63,10 @@ export function UserBetsForGame({ userBets, selectedGame }) {
 				? "Saira_400Regular"
 				: "Saira_600SemiBold";
 
+			const leagueCount = new Set(
+				bets.map((bet) => bet.betslip.battle.league_season.pool.id)
+			).size;
+
 			return (
 				<View key={bet_option.id} style={s.container}>
 					<View style={s.betDetailsSection}>
@@ -77,7 +81,11 @@ export function UserBetsForGame({ userBets, selectedGame }) {
 								textStyle={textStyle}
 							/>
 						</View>
-						<Txt style={{ flex: 2 }}>Test</Txt>
+						<View style={[s.leagueCountContainer, { flex: 2 }]}>
+							<Txt style={s.leagueCountTxt}>{`Placed in ${leagueCount} ${
+								leagueCount === 1 ? "league" : "leagues"
+							}`}</Txt>
+						</View>
 					</View>
 					<View style={s.leagueInstancesContainer}>
 						{bets.map((bet) => (
@@ -135,6 +143,7 @@ const s = StyleSheet.create({
 	leagueInstancesContainer: {
 		backgroundColor: "#1D394E",
 		paddingBottom: 4,
+		paddingTop: 2,
 		paddingHorizontal: 8,
 		borderBottomLeftRadius: 8,
 		borderBottomRightRadius: 8,
@@ -157,5 +166,13 @@ const s = StyleSheet.create({
 	},
 	txt: {
 		fontSize: 13,
+	},
+	leagueCountContainer: {
+		justifyContent: 'center',
+		paddingLeft: 8,
+		alignItems: 'flex-end',
+	},
+	leagueCountTxt: {
+		fontSize: 14,
 	},
 });
