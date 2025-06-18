@@ -1,4 +1,10 @@
-import { View, StyleSheet, ScrollView } from "react-native";
+import {
+	View,
+	StyleSheet,
+	ScrollView,
+	TouchableOpacity,
+	Dimensions,
+} from "react-native";
 import { Txt } from "../../../components/general/Txt";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
 import { ScoreboardGameCard } from "../../../components/GameCard/Scoreboard/ScoreboardGameCard";
@@ -6,13 +12,16 @@ import {
 	BoxScoreModeToggle,
 	BoxScoreOrBetsToggle,
 } from "../../../components/BoxScore/BoxScoreOrBetsToggle";
-import { useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { DataToggle } from "../../../components/BoxScore/DataToggle";
 import { TeamData } from "../../../components/BoxScore/TeamData";
 import { PlayerData } from "../../../components/BoxScore/PlayerData";
 import { useBetContext } from "../../../components/contexts/BetContext";
 import { BetDetails } from "../../../components/BetSlip/BetDetails";
 import { UserBetsForGame } from "../../../components/BoxScore/UserBetsForGame";
+import { LeagueBetsForGame } from "../../../components/BoxScore/LeagueBetsForGame";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import api from "../../../utils/axiosConfig";
 
 export default function GameDetails() {
 	const {
@@ -26,6 +35,29 @@ export default function GameDetails() {
 	} = useScoreboard();
 	const awayTeam = selectedGame.away_team;
 	const homeTeam = selectedGame.home_team;
+	const bottomSheetRef = useRef(null);
+	const [sheetOpen, setSheetOpen] = useState(false);
+
+	const screenHeight = Dimensions.get("window").height;
+	const bottomSheetHeight = screenHeight * 0.4;
+
+	/* ---------- POOLS ---------- */
+	const [pools, setPools] = useState([]);
+	const [selectedPool, setPool] = useState(null);
+
+	// fetch pools ONCE
+	useEffect(() => {
+		api.get("/pools").then((res) => {
+			setPools(res.data);
+			setPool(res.data[0]); // default
+		});
+	}, []);
+
+	/* ---------- handlers passed down ---------- */
+	const handleSelectPool = (pool) => {
+		setPool(pool);
+		bottomSheetRef.current?.close();
+	};
 
 	console.log("Selected Game:", selectedGame);
 	console.log("User Bets", userBets);
@@ -104,19 +136,60 @@ export default function GameDetails() {
 								// 		? gameBets.map((bet) => (
 								// 				<PlacedBet key={bet.id} bet={bet} />
 								// 		  ))
-                //       : renderGroupedUserBets()}
+								//       : renderGroupedUserBets()}
 								// </>
-								<UserBetsForGame userBets={userBets} selectedGame={selectedGame}/>
+								<UserBetsForGame
+									userBets={userBets}
+									selectedGame={selectedGame}
+								/>
 							)}
 
 							{/* League Bets */}
 							{selectedBetGroup === "League Bets" && (
-								<Txt>bets from the league</Txt>
+								<LeagueBetsForGame
+									gameId={selectedGame.id}
+									pools={pools}
+									selectedPool={selectedPool}
+									onToggleSheet={() => {
+										if (sheetOpen) {
+											bottomSheetRef.current?.close();
+										} else {
+											bottomSheetRef.current?.expand();
+										}
+									}}
+								/>
 							)}
 						</>
 					)}
 				</View>
 			</ScrollView>
+			<BottomSheet
+				ref={bottomSheetRef}
+				index={-1}
+				enablePanDownToClose
+				snapPoints={[bottomSheetHeight]}
+				enableDynamicSizing={false}
+				onChange={(index) => setSheetOpen(index >= 0)}
+				backgroundStyle={{ backgroundColor: "#F8F8F8" }}
+				handleIndicatorStyle={{ backgroundColor: "#061826" }}
+			>
+				<BottomSheetScrollView style={s.sheetContainer}>
+					{pools.map((pool) => (
+						<TouchableOpacity
+							key={pool.id}
+							style={s.radioItem}
+							onPress={() => handleSelectPool(pool)}
+						>
+							<View style={s.radioCircle}>
+								{selectedPool?.id === pool.id && (
+									<View style={s.radioSelected} />
+								)}
+							</View>
+							<Txt style={s.radioLabel}>{pool.name}</Txt>
+						</TouchableOpacity>
+					))}
+				</BottomSheetScrollView>
+			</BottomSheet>
 		</View>
 	);
 }
@@ -141,5 +214,33 @@ const s = StyleSheet.create({
 		marginTop: 8,
 		// padding: 4,
 		borderRadius: 8,
+	},
+	sheetContainer: {
+		padding: 16,
+	},
+	radioItem: {
+		flexDirection: "row",
+		alignItems: "center",
+		paddingVertical: 12,
+	},
+	radioCircle: {
+		height: 20,
+		width: 20,
+		borderRadius: 10,
+		borderWidth: 2,
+		borderColor: "#061826",
+		alignItems: "center",
+		justifyContent: "center",
+		marginRight: 12,
+	},
+	radioSelected: {
+		height: 10,
+		width: 10,
+		borderRadius: 5,
+		backgroundColor: "#061826",
+	},
+	radioLabel: {
+		fontSize: 16,
+		color: "#061826",
 	},
 });
