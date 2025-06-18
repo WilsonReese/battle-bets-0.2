@@ -2,6 +2,7 @@ import { StyleSheet, View } from "react-native";
 import { BetDetails } from "../BetSlip/BetDetails";
 import { Txt } from "../general/Txt";
 import { BetAmount } from "../BetSlip/BetAmount";
+import { PlacedBet } from "../Leaderboard/PlacedBet";
 
 export function UserBetsForGame({ userBets, selectedGame }) {
 	const allUserBets = Object.values(userBets).flat();

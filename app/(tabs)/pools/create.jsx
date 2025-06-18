@@ -206,8 +206,8 @@ export default function CreatePool() {
         // snapPoints={snapPoints}
         enablePanDownToClose
         maxDynamicContentSize={320}
-        backgroundStyle={{ backgroundColor: "#F8F8F8" }}
-        handleIndicatorStyle={{ backgroundColor: "#061826" }} // the top little "handle" bar
+        backgroundStyle={{ backgroundColor: "#1D394E" }}
+        handleIndicatorStyle={{ backgroundColor: "#F8F8F8" }} // the top little "handle" bar
       >
         <BottomSheetScrollView style={s.sheetContainer}>
           {WEEKS.filter(
@@ -290,7 +290,7 @@ const s = StyleSheet.create({
     width: 20,
     borderRadius: 10,
     borderWidth: 2,
-    borderColor: "#061826",
+    borderColor: "#F8F8F8",
     alignItems: "center",
     justifyContent: "center",
     marginRight: 12,
@@ -299,11 +299,11 @@ const s = StyleSheet.create({
     height: 10,
     width: 10,
     borderRadius: 5,
-    backgroundColor: "#061826",
+    backgroundColor: "#F8F8F8",
   },
   radioLabel: {
     fontSize: 16,
-    color: "#061826",
+    color: "#F8F8F8",
   },
   labelWithIcon: {
     flexDirection: "row",

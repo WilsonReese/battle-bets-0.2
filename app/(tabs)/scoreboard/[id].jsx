@@ -170,8 +170,8 @@ export default function GameDetails() {
 				snapPoints={[bottomSheetHeight]}
 				enableDynamicSizing={false}
 				onChange={(index) => setSheetOpen(index >= 0)}
-				backgroundStyle={{ backgroundColor: "#F8F8F8" }}
-				handleIndicatorStyle={{ backgroundColor: "#061826" }}
+				backgroundStyle={s.sheetBackground}
+				handleIndicatorStyle={s.handle}
 			>
 				<BottomSheetScrollView style={s.sheetContainer}>
 					{pools.map((pool) => (
@@ -215,6 +215,12 @@ const s = StyleSheet.create({
 		// padding: 4,
 		borderRadius: 8,
 	},
+	sheetBackground: {
+		backgroundColor: "#1D394E",
+	},
+	handle: {
+		backgroundColor: "#F8F8F8",
+	},
 	sheetContainer: {
 		padding: 16,
 	},
@@ -228,7 +234,7 @@ const s = StyleSheet.create({
 		width: 20,
 		borderRadius: 10,
 		borderWidth: 2,
-		borderColor: "#061826",
+		borderColor: "#F8F8F8",
 		alignItems: "center",
 		justifyContent: "center",
 		marginRight: 12,
@@ -237,10 +243,10 @@ const s = StyleSheet.create({
 		height: 10,
 		width: 10,
 		borderRadius: 5,
-		backgroundColor: "#061826",
+		backgroundColor: "#F8F8F8",
 	},
 	radioLabel: {
 		fontSize: 16,
-		color: "#061826",
+		color: "#F8F8F8",
 	},
 });
