@@ -8,7 +8,7 @@ import {
 import { Txt } from "../general/Txt";
 import { BetDetails } from "../BetSlip/BetDetails";
 import api from "../../utils/axiosConfig";
-import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export function LeagueBetsForGame({
 	gameId,
@@ -71,6 +71,7 @@ export function LeagueBetsForGame({
 		<>
 			<TouchableOpacity style={s.leagueSelector} onPress={onToggleSheet}>
 				<Txt>{selectedPool?.name ?? "Select League"}</Txt>
+        <FontAwesome6 name="caret-down" size={16} color="#54D18C" />
 			</TouchableOpacity>
 			<View>
 				{groupedBets.map(({ bet_option, leagueBets, userIds, totalAmount }) => {
@@ -109,10 +110,12 @@ const s = StyleSheet.create({
 		marginTop: 6,
 	},
 	leagueSelector: {
-		marginVertical: 8,
-		padding: 8,
-		backgroundColor: "#1D394E",
-		borderRadius: 6,
-		alignItems: "center",
+		marginTop: 8,
+		paddingHorizontal: 8,
+    paddingVertical: 4,
+		// backgroundColor: "#1D394E",
+    flexDirection: 'row',
+		alignItems: "center", 
+    gap: 8,
 	},
 });
