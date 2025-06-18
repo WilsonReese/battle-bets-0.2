@@ -19,6 +19,7 @@ const s = StyleSheet.create({
     // gap: 8,
     alignItems: 'flex-end',
     justifyContent: 'center',
+    paddingTop: 4,
     // paddingBottom: 6, 
   },
   dateTxt: {

@@ -10,6 +10,7 @@ import { useState } from "react";
 import { DataToggle } from "../../../components/BoxScore/DataToggle";
 import { TeamData } from "../../../components/BoxScore/TeamData";
 import { PlayerData } from "../../../components/BoxScore/PlayerData";
+import { useBetContext } from "../../../components/contexts/BetContext";
 
 export default function GameDetails() {
   const {
@@ -20,8 +21,11 @@ export default function GameDetails() {
     selectedHomePlayerStats,
     selectedAwayPlayerStats,
   } = useScoreboard();
+  const { bets } = useBetContext();
   const awayTeam = selectedGame.away_team;
   const homeTeam = selectedGame.home_team;
+
+  console.log('Selected Game:', selectedGame)
 
   // Box Score or Bets Toggle
   const [infoMode, setInfoMode] = useState("boxScore");

@@ -6,7 +6,7 @@ import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 import { useScoreboard } from "../../contexts/ScoreboardContext";
 
-export function ScoreboardGameCard({ game, sampleGameData, status }) {
+export function ScoreboardGameCard({ game, sampleGameData, status, userBets }) {
   const { gameStatus } = useScoreboard();
 
   return (

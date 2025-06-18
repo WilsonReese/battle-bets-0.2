@@ -19,6 +19,7 @@ import sampleGame from "@/utils/sampleGame.json";
 import sampleTeamStats from "@/utils/sampleTeamStats.json";
 import samplePlayerStats from "@/utils/samplePlayerStats.json";
 import axios from "axios";
+import { useBetContext } from "../../../components/contexts/BetContext";
 
 export default function Scoreboard() {
   const {
@@ -46,9 +47,11 @@ export default function Scoreboard() {
     setSelectedAwayPlayerStats,
     gameStatus
   } = useScoreboard();
+  const { getUserBetsByGame} = useBetContext(); 
   const router = useRouter();
   const [games, setGames] = useState([]);
   const [loadingGames, setLoadingGames] = useState(true);
+  const [userBetsByGame, setUserBetsByGame] = useState({});
 
   const filteredGames = filterGames(games);
 
@@ -89,6 +92,21 @@ export default function Scoreboard() {
     }, [currentSeason])
   );
 
+  useEffect(() => {
+  const fetchAllUserBets = async () => {
+    const newUserBets = {};
+
+    for (const game of filteredGames) {
+      const data = await getUserBetsByGame(game.id);
+      newUserBets[game.id] = data;
+    }
+
+    setUserBetsByGame(newUserBets);
+  };
+
+  fetchAllUserBets();
+}, [games]);
+
   // console.log("Games: ", games);
 
   if (seasonLoading || loadingGames) {
@@ -117,12 +135,13 @@ export default function Scoreboard() {
           <>
             {filteredGames.map((game) => (
               <GameCard
-                key={game.id}
-                game={game}
-                type={"scoreboard"}
-                onPress={handlePress}
-                sampleGameData={sampleGameData}
-                status={gameStatus}
+              key={game.id}
+              game={game}
+              type={"scoreboard"}
+              onPress={handlePress}
+              sampleGameData={sampleGameData}
+              status={gameStatus}
+              userBets={userBetsByGame[game.id] || []}
               />
             ))}
           </>
