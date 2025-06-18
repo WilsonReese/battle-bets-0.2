@@ -91,6 +91,7 @@ export const BetProvider = ({ children, battleId }) => {
 			shortTitle: bet.bet_option.title,
 			payout: bet.bet_option.payout,
 			game: bet.bet_option.game,
+			betslip: bet.betslip,
 			addedAt: new Date(bet.created_at).getTime() || Date.now() + index,
 		}));
 	};
@@ -329,14 +330,24 @@ export const BetProvider = ({ children, battleId }) => {
 		);
 	};
 
+	// const getUserBetsByGame = async (gameId) => {
+	// 	try {
+	// 		const response = await api.get(`/games/${gameId}/my_bets`);
+	// 		const rawBets = response.data;
+
+	// 		const transformedBets = transformBackendBets(rawBets);
+
+	// 		return transformedBets;
+	// 	} catch (error) {
+	// 		console.error("Error fetching user bets by game:", error);
+	// 		return [];
+	// 	}
+	// };
+
 	const getUserBetsByGame = async (gameId) => {
 		try {
 			const response = await api.get(`/games/${gameId}/my_bets`);
-			const rawBets = response.data;
-
-			const transformedBets = transformBackendBets(rawBets);
-
-			return transformedBets;
+			return response.data; // raw backend data, including betslip, pool, etc.
 		} catch (error) {
 			console.error("Error fetching user bets by game:", error);
 			return [];
@@ -386,8 +397,8 @@ export const BetProvider = ({ children, battleId }) => {
 				closeAllBetSelectors,
 				toggleBetSelector,
 
-        // New 6.18.2025
-        getUserBetsByGame
+				// New 6.18.2025
+				getUserBetsByGame,
 			}}
 		>
 			{children}

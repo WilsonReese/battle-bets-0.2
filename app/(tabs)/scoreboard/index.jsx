@@ -45,6 +45,7 @@ export default function Scoreboard() {
     setSelectedAwayTeamStats,
     setSelectedHomePlayerStats,
     setSelectedAwayPlayerStats,
+    setUserBets,
     gameStatus
   } = useScoreboard();
   const { getUserBetsByGame} = useBetContext(); 
@@ -62,6 +63,7 @@ export default function Scoreboard() {
     setSelectedAwayTeamStats(sampleAwayTeamStats)
     setSelectedHomePlayerStats(sampleHomePlayerStats)
     setSelectedAwayPlayerStats(sampleAwayPlayerStats)
+    setUserBets(userBetsByGame)
     router.push(`/scoreboard/${game.id}`);
   };
 
