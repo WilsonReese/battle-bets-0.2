@@ -173,6 +173,7 @@ const s = StyleSheet.create({
 		alignItems: 'flex-end',
 	},
 	leagueCountTxt: {
-		fontSize: 14,
+		fontSize: 13,
+		fontFamily: 'Saira_400Regular_Italic'
 	},
 });
