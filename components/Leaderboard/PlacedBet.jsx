@@ -52,10 +52,6 @@ const s = StyleSheet.create({
     alignItems: "center",
     backgroundColor: '#0F2638'
   },
-  iconContainer: {
-    flex: 0.5,
-    justifyContent: "center",
-  },
   betNameContainer: {
     flex: 3,
     // paddingHorizontal: 4,
