@@ -2,7 +2,6 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import { Matchup } from "../Matchup/Matchup";
 import { PregameCardDetails } from "./PregameCardDetails";
-import sampleCompletedGame from "@/utils/sampleCompletedGame.json";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 import { useScoreboard } from "../../contexts/ScoreboardContext";
 
