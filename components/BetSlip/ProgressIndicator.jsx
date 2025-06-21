@@ -27,7 +27,7 @@ export function ProgressIndicator({
       closeBetSlip(); // Collapse the sheet if switching category
     }
     setBetOptionType(betOptionTypeProp);
-    scrollViewRef.current?.scrollTo({ y: 0, animated: true });
+    scrollViewRef.current?.scrollToOffset({ offset: 0, animated: true });
   };
 
   return (
