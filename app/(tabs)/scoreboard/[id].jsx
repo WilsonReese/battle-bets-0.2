@@ -31,7 +31,8 @@ export default function GameDetails() {
 		selectedAwayTeamStats,
 		selectedHomePlayerStats,
 		selectedAwayPlayerStats,
-		userBets,
+		userBetsByGame,
+    userPoolCountByGame
 	} = useScoreboard();
 	const awayTeam = selectedGame.away_team;
 	const homeTeam = selectedGame.home_team;
@@ -60,7 +61,7 @@ export default function GameDetails() {
 	};
 
 	console.log("Selected Game:", selectedGame);
-	console.log("User Bets", userBets);
+	// console.log("User Bets", userBets);
 
 	// Box Score or Bets Toggle
 	const [infoMode, setInfoMode] = useState("boxScore");
@@ -139,7 +140,8 @@ export default function GameDetails() {
 								//       : renderGroupedUserBets()}
 								// </>
 								<UserBetsForGame
-									userBets={userBets}
+									userBets={userBetsByGame}
+									userPoolCount={userPoolCountByGame}
 									selectedGame={selectedGame}
 								/>
 							)}

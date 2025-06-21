@@ -4,15 +4,16 @@ import { Txt } from "../general/Txt";
 import { BetAmount } from "../BetSlip/BetAmount";
 import { PlacedBet } from "../Leaderboard/PlacedBet";
 
-export function UserBetsForGame({ userBets, selectedGame }) {
-	const allUserBets = Object.values(userBets).flat();
-	const uniquePoolIds = [
-		...new Set(
-			allUserBets.map((bet) => bet.betslip.battle.league_season.pool.id)
-		),
-	];
-	const isSinglePool = uniquePoolIds.length === 1;
+export function UserBetsForGame({ userBets, userPoolCount, selectedGame }) {
+	// const allUserBets = Object.values(userBets).flat();
+	// const uniquePoolIds = [
+	// 	...new Set(
+	// 		allUserBets.map((bet) => bet.betslip.battle.league_season.pool.id)
+	// 	),
+	// ];
 	const gameBets = userBets[selectedGame.id] || [];
+	const poolCount    = userPoolCount[selectedGame.id] || 0;
+	const isSinglePool = poolCount === 1;
 
 	const groupBetsByBetOption = (bets) => {
 		const grouped = {};
@@ -122,9 +123,13 @@ export function UserBetsForGame({ userBets, selectedGame }) {
 
 	return (
 		<>
-			{isSinglePool
-				? gameBets.map((bet) => <PlacedBet key={bet.id} bet={bet} />)
-				: renderGroupedUserBets()}
+      {isSinglePool
+        ? gameBets.map((bet) => (
+            <View key={bet.id} style={{ paddingTop: 12 }}>
+              <PlacedBet bet={bet} />
+            </View>
+          ))
+        : renderGroupedUserBets()}
 		</>
 	);
 }
@@ -169,12 +174,12 @@ const s = StyleSheet.create({
 		fontSize: 13,
 	},
 	leagueCountContainer: {
-		justifyContent: 'center',
+		justifyContent: "center",
 		paddingLeft: 8,
-		alignItems: 'flex-end',
+		alignItems: "flex-end",
 	},
 	leagueCountTxt: {
 		fontSize: 13,
-		fontFamily: 'Saira_400Regular_Italic'
+		fontFamily: "Saira_400Regular_Italic",
 	},
 });

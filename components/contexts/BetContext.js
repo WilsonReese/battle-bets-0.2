@@ -344,13 +344,27 @@ export const BetProvider = ({ children, battleId }) => {
 	// 	}
 	// };
 
+	// const getUserBetsByGame = async (gameId) => {
+	// 	try {
+	// 		const response = await api.get(`/games/${gameId}/my_bets`);
+	// 		return response.data; // raw backend data, including betslip, pool, etc.
+	// 	} catch (error) {
+	// 		console.error("Error fetching user bets by game:", error);
+	// 		return [];
+	// 	}
+	// };
+
 	const getUserBetsByGame = async (gameId) => {
 		try {
-			const response = await api.get(`/games/${gameId}/my_bets`);
-			return response.data; // raw backend data, including betslip, pool, etc.
+			const { data } = await api.get(`/games/${gameId}/my_bets`);
+			// data = { bets: [...], pool_count: N }
+			return {
+				bets: data.bets,
+				poolCount: data.pool_count
+			};
 		} catch (error) {
 			console.error("Error fetching user bets by game:", error);
-			return [];
+			return { bets: [], poolCount: 0 };
 		}
 	};
 

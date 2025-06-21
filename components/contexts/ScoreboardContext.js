@@ -10,6 +10,10 @@ export const ScoreboardProvider = ({ children }) => {
   const [selectedAwayTeamStats, setSelectedAwayTeamStats] = useState(null);
   const [selectedHomePlayerStats, setSelectedHomePlayerStats] = useState(null);
   const [selectedAwayPlayerStats, setSelectedAwayPlayerStats] = useState(null);
+  const [userBetsByGame, setUserBetsByGame] = useState({});
+  const [userPoolCountByGame, setUserPoolCountByGame] = useState({});
+
+
   const [userBets, setUserBets] = useState(null);
   const gameStatus = 'inProgress'
 
@@ -28,6 +32,15 @@ export const ScoreboardProvider = ({ children }) => {
         setSelectedHomePlayerStats,
         selectedAwayPlayerStats,
         setSelectedAwayPlayerStats,
+
+        // Added for pool count stuff
+        userBetsByGame, 
+        setUserBetsByGame,
+        userPoolCountByGame, 
+        setUserPoolCountByGame,
+
+
+
         userBets, 
         setUserBets,
         gameStatus

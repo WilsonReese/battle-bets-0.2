@@ -61,7 +61,7 @@ export function PropBets({ betOptions, homeTeam, awayTeam, game }) {
 
   return (
     <View>
-      <BetTypeHeading heading={"Prop Bets"} />
+      {betOptions && <BetTypeHeading heading={"Prop Bets"} />}
       {renderPropOptions(betOptions)}
     </View>
   );
