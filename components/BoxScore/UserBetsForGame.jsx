@@ -123,6 +123,9 @@ export function UserBetsForGame({ userBets, userPoolCount, selectedGame }) {
 
 	return (
 		<>
+			{gameBets.length === 0 && (
+				<Txt style={{ textAlign: "center", marginTop: 12 }}>No bets on this game.</Txt>
+			)}
       {isSinglePool
         ? gameBets.map((bet) => (
             <View key={bet.id} style={{ paddingTop: 12 }}>
