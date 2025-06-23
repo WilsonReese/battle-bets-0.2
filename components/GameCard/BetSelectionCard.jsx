@@ -23,7 +23,7 @@ export const BetSelectionCard = React.memo(_BetSelectionCard);
 const s = StyleSheet.create({
 	card: {
 		backgroundColor: "#0F2638",
-		marginVertical: 4,
+		marginBottom: 4,
 		borderRadius: 8,
 		paddingHorizontal: 8,
 		paddingVertical: 4,

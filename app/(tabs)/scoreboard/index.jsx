@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
 	View,
 	Text,
@@ -48,7 +48,7 @@ export default function Scoreboard() {
 		setSelectedAwayPlayerStats,
 		setUserBets,
 		gameStatus,
-    userBetsByGame,
+		userBetsByGame,
 		setUserBetsByGame,
 		setUserPoolCountByGame,
 	} = useScoreboard();
@@ -99,26 +99,60 @@ export default function Scoreboard() {
 		}, [currentSeason])
 	);
 
-	useEffect(() => {
-		const fetchAllUserBets = async () => {
-			const betsMap = {};
-			const poolCountMap = {};
+	const prevGameIdsRef = useRef("");
+	const isActiveRef = useRef(false);
 
-			for (const game of filteredGames) {
-				// const { bets, poolCount } = await getUserBetsByGame(game.id);
-				// betsMap[game.id] = bets;
-				// poolCountMap[game.id] = poolCount;
-				const { bets, poolCount } = await getUserBetsByGame(game.id);
-				betsMap[game.id] = bets;
-				poolCountMap[game.id] = poolCount;
+	useFocusEffect(
+		useCallback(() => {
+			// mark as active
+			isActiveRef.current = true;
+
+			// build a stable key of the current games
+			const currentIds = filteredGames
+				.map((g) => g.id)
+				.sort()
+				.join(",");
+
+			// only refetch if the set of games has changed
+			if (currentIds !== prevGameIdsRef.current) {
+				prevGameIdsRef.current = currentIds;
+
+				// parallel fetch
+				const fetchAllUserBets = async () => {
+					const betsMap = {};
+					const poolCountMap = {};
+
+					await Promise.all(
+						filteredGames.map(async (game) => {
+							const { bets, poolCount } = await getUserBetsByGame(game.id);
+							// only write if still active
+							if (isActiveRef.current) {
+								betsMap[game.id] = bets;
+								poolCountMap[game.id] = poolCount;
+							}
+						})
+					);
+
+					if (isActiveRef.current) {
+						setUserBetsByGame(betsMap);
+						setUserPoolCountByGame(poolCountMap);
+					}
+				};
+
+				fetchAllUserBets();
 			}
 
-      setUserBetsByGame(betsMap);
-      setUserPoolCountByGame(poolCountMap);
-		};
-
-		fetchAllUserBets();
-	}, [games, getUserBetsByGame, setUserBetsByGame, setUserPoolCountByGame]);
+			// cleanup on blur / unmount
+			return () => {
+				isActiveRef.current = false;
+			};
+		}, [
+			filteredGames,
+			getUserBetsByGame,
+			setUserBetsByGame,
+			setUserPoolCountByGame,
+		])
+	);
 
 	// console.log("Games: ", games);
 
@@ -150,10 +184,8 @@ export default function Scoreboard() {
 							<ScoreboardGameCard
 								key={game.id}
 								game={game}
-								type={"scoreboard"}
 								onPress={handlePress}
 								sampleGameData={sampleGameData}
-								status={gameStatus}
 								userBets={userBetsByGame[game.id] || []}
 							/>
 						))}

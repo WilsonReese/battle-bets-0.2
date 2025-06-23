@@ -5,14 +5,14 @@ import { PregameCardDetails } from "./PregameCardDetails";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 import { useScoreboard } from "../../contexts/ScoreboardContext";
 
-export function ScoreboardGameCard({ game, sampleGameData, status, userBets }) {
+export function ScoreboardGameCard({ game, sampleGameData, userBets = [], onPress  = () => {} }) {
 	const { gameStatus } = useScoreboard();
 
 	return (
 		<TouchableOpacity
 			style={s.card}
 			onPress={() => onPress(game)}
-			disabled={status === "pregame" ? true : false}
+			disabled={gameStatus === "pregame" ? true : false}
 		>
 			{/* <View style={{ height: 4 }} /> */}
 			<View>
