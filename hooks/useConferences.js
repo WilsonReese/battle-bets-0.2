@@ -1,5 +1,5 @@
 // hooks/useConferences.js
-import { useState, useMemo } from "react";
+import { useState, useCallback, useMemo } from "react";
 
 export const MAIN_CONFERENCES = ["SEC", "Big 12", "Big Ten", "ACC"];
 export const FILTER_CONFERENCES = [...MAIN_CONFERENCES, "Other"];
@@ -7,37 +7,53 @@ export const FILTER_CONFERENCES = [...MAIN_CONFERENCES, "Other"];
 export function useConferences() {
   const [selectedConferences, setSelectedConferences] = useState([]);
 
-  const normalizeConf = (conf) =>
-    MAIN_CONFERENCES.includes(conf) ? conf : "Other";
+  const normalizeConf = useCallback(
+    (conf) => (MAIN_CONFERENCES.includes(conf) ? conf : "Other"),
+    []
+  );
 
-  const toggleConference = (conf) => {
+  const toggleConference = useCallback((conf) => {
     setSelectedConferences((prev) =>
-      prev.includes(conf) ? prev.filter((c) => c !== conf) : [...prev, conf]
+      prev.includes(conf)
+        ? prev.filter((c) => c !== conf)
+        : [...prev, conf]
     );
-  };
+  }, []);
 
-  const clearConferences = () => {
-    setSelectedConferences([]); // none = all
-  };
+  const clearConferences = useCallback(() => {
+    setSelectedConferences([]);
+  }, []);
 
-  const filterGames = (games) =>
-    games.filter((game) => {
-      const homeConf = normalizeConf(game.home_team?.conference);
-      const awayConf = normalizeConf(game.away_team?.conference);
+  // Now memoize your filterGames so its identity only changes when
+  // games *or* selectedConferences actually change.
+  const filterGames = useCallback(
+    (games) => {
+      if (selectedConferences.length === 0) return games;
+      return games.filter((game) => {
+        const home = normalizeConf(game.home_team.conference);
+        const away = normalizeConf(game.away_team.conference);
+        return (
+          selectedConferences.includes(home) ||
+          selectedConferences.includes(away)
+        );
+      });
+    },
+    [selectedConferences, normalizeConf]
+  );
 
-      if (selectedConferences.length === 0) return true;
-
-      return (
-        selectedConferences.includes(homeConf) ||
-        selectedConferences.includes(awayConf)
-      );
-    });
-
-  return {
-    selectedConferences,
-    toggleConference,
-    clearConferences,
-    filterGames,
-    FILTER_CONFERENCES,
-  };
+  return useMemo(
+    () => ({
+      selectedConferences,
+      toggleConference,
+      clearConferences,
+      filterGames,
+      FILTER_CONFERENCES,
+    }),
+    [
+      selectedConferences,
+      toggleConference,
+      clearConferences,
+      filterGames,
+    ]
+  );
 }

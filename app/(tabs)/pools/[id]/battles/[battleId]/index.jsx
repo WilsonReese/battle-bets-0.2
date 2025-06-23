@@ -35,6 +35,7 @@ import { useToastMessage } from "../../../../../../hooks/useToastMessage";
 import { useSeason } from "../../../../../../components/contexts/SeasonContext";
 import { useConferences } from "../../../../../../hooks/useConferences";
 import { ConferenceFilter } from "../../../../../../components/GameCard/ConferenceFilter";
+import { GamesList } from "../../../../../../components/BetSelection/GamesList";
 
 export default function BattleDetails() {
 	const {
@@ -158,18 +159,18 @@ export default function BattleDetails() {
 	// 	));
 	// }
 
-	const renderGameCard = useCallback(
-		({ item: game }) => (
-			<View
-				// style={{
-				// 	marginVertical: 4,
-				// }} /* you can pull this style into StyleSheet */
-			>
-				<GameCard game={game} type="betSelection" />
-			</View>
-		),
-		[] // no dependencies because nothing inside changes
-	);
+	// const renderGameCard = useCallback(
+	// 	({ item: game }) => (
+	// 		<View
+	// 			// style={{
+	// 			// 	marginVertical: 4,
+	// 			// }} /* you can pull this style into StyleSheet */
+	// 		>
+	// 			<GameCard game={game} type="betSelection" />
+	// 		</View>
+	// 	),
+	// 	[] // no dependencies because nothing inside changes
+	// );
 
 	return (
 		<SafeAreaProvider>
@@ -195,22 +196,7 @@ export default function BattleDetails() {
 								/>
 							</View>
 							{/* <View style={{height: .5, backgroundColor: '#425C70', marginHorizontal: -8, marginTop: 8,}}/> */}
-							<FlatList
-								ref={scrollViewRef}
-								data={filteredGames}
-								keyExtractor={(g) => g.id.toString()}
-								contentContainerStyle={{ padding: 4, paddingBottom: 108 }}
-								// renderItem={({ item: game }) => (
-								// 	<View key={game.id}>
-								// 		<GameCard game={game} type="betSelection" />
-								// 	</View>
-								// )}
-                renderItem={renderGameCard}
-								// optional perf tweaks:
-								initialNumToRender={10}
-								windowSize={5}
-								removeClippedSubviews
-							/>
+							<GamesList games={filteredGames} />
 						</View>
 						<BetSlip
 							ref={sheetRef}
@@ -242,7 +228,12 @@ export default function BattleDetails() {
 			</SafeAreaView>
 		</SafeAreaProvider>
 	);
-}
+};
+
+// ←— add this *after* the function declaration:
+// BattleDetails.whyDidYouRender = {
+//   logOnDifferentValues: true
+// };
 
 const s = StyleSheet.create({
 	container: {

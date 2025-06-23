@@ -1,52 +1,43 @@
+// components/GameCard/ConferenceFilter.jsx
+import React from "react";
 import { ScrollView, TouchableOpacity, View, StyleSheet } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function ConferenceFilter({ selected, onToggle, onClear, conferences }) {
+function _ConferenceFilter({ selected, onToggle, onClear, conferences }) {
   return (
-    <>
-      <ScrollView
-        horizontal
-        showsHorizontalScrollIndicator={false}
-        // style={s.pillRow}
-      >
-        <View style={s.pillRow}>
-          <TouchableOpacity
-            onPress={onClear}
-            disabled={selected.length === 0}
-            style={[s.clearBtn, selected.length === 0 && s.clearBtnDisabled]}
+    <ScrollView horizontal showsHorizontalScrollIndicator={false}>
+      <View style={s.pillRow}>
+        <TouchableOpacity
+          onPress={onClear}
+          disabled={selected.length === 0}
+          style={[s.clearBtn, selected.length === 0 && s.clearBtnDisabled]}
+        >
+          <Txt
+            style={[s.clearTxt, selected.length === 0 && s.clearTxtDisabled]}
           >
-            <Txt
-              style={[s.clearTxt, selected.length === 0 && s.clearTxtDisabled]}
+            Clear
+          </Txt>
+        </TouchableOpacity>
+        {conferences.map((conf) => {
+          const isSelected = selected.includes(conf);
+          return (
+            <TouchableOpacity
+              key={conf}
+              onPress={() => onToggle(conf)}
+              style={[s.pill, isSelected ? s.pillSelected : s.pillUnselected]}
             >
-              Clear
-            </Txt>
-          </TouchableOpacity>
-          {conferences.map((conf) => {
-            const isSelected = selected.includes(conf);
-            return (
-              <TouchableOpacity
-                key={conf}
-                onPress={() => onToggle(conf)}
-                style={[s.pill, isSelected ? s.pillSelected : s.pillUnselected]}
-              >
-                <Txt
-                  style={[
-                    s.pillText,
-                    isSelected ? s.pillTextSelected : s.pillTextUnselected,
-                  ]}
-                >
-                  {conf}
-                </Txt>
-              </TouchableOpacity>
-            );
-          })}
-        </View>
-
-        {/* Clear Filters Button */}
-      </ScrollView>
-    </>
+              <Txt style={[s.pillText, isSelected ? s.pillTextSelected : s.pillTextUnselected]}>
+                {conf}
+              </Txt>
+            </TouchableOpacity>
+          );
+        })}
+      </View>
+    </ScrollView>
   );
 }
+
+export const ConferenceFilter = React.memo(_ConferenceFilter);
 
 const s = StyleSheet.create({
   pillRow: {

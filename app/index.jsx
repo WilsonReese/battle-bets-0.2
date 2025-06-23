@@ -1,3 +1,16 @@
+
+// import React from "react";
+
+// // ←—— only in development, before any other imports
+// if (__DEV__) {
+//   const whyDidYouRender = require("@welldone-software/why-did-you-render");
+//   whyDidYouRender(React, {
+//     trackAllPureComponents: true,
+//     trackHooks:            true,
+//   });
+// }
+// // ——————————————————————————————
+
 import { useContext, useEffect, useState } from "react";
 import { Redirect } from "expo-router";
 import { AuthContext } from "../components/contexts/AuthContext";

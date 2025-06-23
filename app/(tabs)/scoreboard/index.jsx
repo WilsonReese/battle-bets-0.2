@@ -20,6 +20,7 @@ import sampleTeamStats from "@/utils/sampleTeamStats.json";
 import samplePlayerStats from "@/utils/samplePlayerStats.json";
 import axios from "axios";
 import { useBetContext } from "../../../components/contexts/BetContext";
+import { ScoreboardGameCard } from "../../../components/GameCard/Scoreboard/ScoreboardGameCard";
 
 export default function Scoreboard() {
 	const {
@@ -146,7 +147,7 @@ export default function Scoreboard() {
 				) : (
 					<>
 						{filteredGames.map((game) => (
-							<GameCard
+							<ScoreboardGameCard
 								key={game.id}
 								game={game}
 								type={"scoreboard"}
