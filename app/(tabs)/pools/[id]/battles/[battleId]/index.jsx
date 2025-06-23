@@ -6,7 +6,7 @@ import {
 	Animated,
 	Dimensions,
 	Alert,
-  FlatList,
+	FlatList,
 } from "react-native";
 import {
 	router,
@@ -21,7 +21,7 @@ import { SpreadAndOUInstructions } from "@/components/bet_instructions/SpreadAnd
 import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "@/utils/game-data.js";
 import { BetSlip } from "@/components/BetSlip/BetSlip.jsx";
-import React, { useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
 import {
 	BetProvider,
 	useBetContext,
@@ -144,7 +144,11 @@ export default function BattleDetails() {
 		}, [betslipHasChanges, navigation])
 	);
 
-	const filteredGames = filterGames(games);
+	// const filteredGames = filterGames(games);
+	const filteredGames = useMemo(
+		() => filterGames(games),
+		[games, selectedConferences]
+	);
 
 	// function renderGameCards() {
 	// 	return filteredGames.map((game) => (
@@ -153,6 +157,19 @@ export default function BattleDetails() {
 	// 		</View>
 	// 	));
 	// }
+
+	const renderGameCard = useCallback(
+		({ item: game }) => (
+			<View
+				// style={{
+				// 	marginVertical: 4,
+				// }} /* you can pull this style into StyleSheet */
+			>
+				<GameCard game={game} type="betSelection" />
+			</View>
+		),
+		[] // no dependencies because nothing inside changes
+	);
 
 	return (
 		<SafeAreaProvider>
@@ -183,11 +200,12 @@ export default function BattleDetails() {
 								data={filteredGames}
 								keyExtractor={(g) => g.id.toString()}
 								contentContainerStyle={{ padding: 4, paddingBottom: 108 }}
-								renderItem={({ item: game }) => (
-									<View key={game.id}>
-										<GameCard game={game} type="betSelection" />
-									</View>
-								)}
+								// renderItem={({ item: game }) => (
+								// 	<View key={game.id}>
+								// 		<GameCard game={game} type="betSelection" />
+								// 	</View>
+								// )}
+                renderItem={renderGameCard}
 								// optional perf tweaks:
 								initialNumToRender={10}
 								windowSize={5}
