@@ -63,12 +63,12 @@ export function LeagueBetsForGame({
 
 	console.log("Grouped Bets", groupedBets);
 
-	if (groupedBets.length === 0)
-		return (
-			<Txt style={{ textAlign: "center", marginTop: 12 }}>
-				No league bets yet.
-			</Txt>
-		);
+	// if (groupedBets.length === 0)
+	// 	return (
+	// 		<Txt style={{ textAlign: "center", marginTop: 12 }}>
+	// 			No league bets yet.
+	// 		</Txt>
+	// 	);
 
 	return (
 		<>
@@ -76,66 +76,75 @@ export function LeagueBetsForGame({
 				<Txt style={s.poolNameTxt}>{selectedPool?.name ?? "Select League"}</Txt>
 				<FontAwesome6 name="caret-down" size={16} color="#54D18C" />
 			</TouchableOpacity>
-			<View>
-				{groupedBets.map(({ bet_option, bets, totalAmount }) => {
-					const betCount = bets.length;
-					const avgPerBet = Math.round(totalAmount / betCount);
+			{groupedBets.length === 0 && (
+				<Txt style={{ textAlign: "center", marginTop: 12 }}>
+					No league bets yet.
+				</Txt>
+			)}
+			{groupedBets.length > 0 && (
+				<View>
+					{groupedBets.map(({ bet_option, bets, totalAmount }) => {
+						const betCount = bets.length;
+						const avgPerBet = Math.round(totalAmount / betCount);
 
-					const isPending = bet_option.success === null;
-					const isFailed = bet_option.success === false;
-					const isSuccess = bet_option.success === true;
+						const isPending = bet_option.success === null;
+						const isFailed = bet_option.success === false;
+						const isSuccess = bet_option.success === true;
 
-					const betNameColor = isPending
-						? "#F8F8F8"
-						: isFailed
-						? "#8E9AA4"
-						: "#F8F8F8";
+						const betNameColor = isPending
+							? "#F8F8F8"
+							: isFailed
+							? "#8E9AA4"
+							: "#F8F8F8";
 
-					const payoutColor = isPending
-						? "#F8F8F8"
-						: isFailed
-						? "#8E9AA4"
-						: "#54D18C";
+						const payoutColor = isPending
+							? "#F8F8F8"
+							: isFailed
+							? "#8E9AA4"
+							: "#54D18C";
 
-					const textColor = isPending
-						? "#F8F8F8"
-						: isFailed
-						? "#8E9AA4"
-						: "#54D18C";
+						const textColor = isPending
+							? "#F8F8F8"
+							: isFailed
+							? "#8E9AA4"
+							: "#54D18C";
 
-					const textStyle = isPending
-						? "Saira_400Regular"
-						: isFailed
-						? "Saira_400Regular"
-						: "Saira_600SemiBold";
+						const textStyle = isPending
+							? "Saira_400Regular"
+							: isFailed
+							? "Saira_400Regular"
+							: "Saira_600SemiBold";
 
-					return (
-						<View key={bet_option.id} style={s.container}>
-							<View style={s.betDetailsContainer}>
-								<BetDetails
-									name={bet_option.title}
-									matchup={`${bet_option.game.away_team.name} at ${bet_option.game.home_team.name}`}
-									multiplier={bet_option.payout}
-									betNameColor={betNameColor}
-									payoutColor={payoutColor}
-									textColor={textColor}
-									textStyle={textStyle}
-								/>
-							</View>
-							<View style={s.betStatsContainer}>
-								<View style={s.stat}>
-									<Txt style={[s.leagueStats, s.statLabel]}>Bets Placed: </Txt>
-									<Txt style={s.leagueStats}>{betCount}</Txt>
+						return (
+							<View key={bet_option.id} style={s.container}>
+								<View style={s.betDetailsContainer}>
+									<BetDetails
+										name={bet_option.title}
+										matchup={`${bet_option.game.away_team.name} at ${bet_option.game.home_team.name}`}
+										multiplier={bet_option.payout}
+										betNameColor={betNameColor}
+										payoutColor={payoutColor}
+										textColor={textColor}
+										textStyle={textStyle}
+									/>
 								</View>
-								<View style={s.stat}>
-									<Txt style={[s.leagueStats, s.statLabel]}>Avg Bet: </Txt>
-									<Txt style={s.leagueStats}>${avgPerBet}</Txt>
+								<View style={s.betStatsContainer}>
+									<View style={s.stat}>
+										<Txt style={[s.leagueStats, s.statLabel]}>
+											Bets Placed:{" "}
+										</Txt>
+										<Txt style={s.leagueStats}>{betCount}</Txt>
+									</View>
+									<View style={s.stat}>
+										<Txt style={[s.leagueStats, s.statLabel]}>Avg Bet: </Txt>
+										<Txt style={s.leagueStats}>${avgPerBet}</Txt>
+									</View>
 								</View>
 							</View>
-						</View>
-					);
-				})}
-			</View>
+						);
+					})}
+				</View>
+			)}
 		</>
 	);
 }
@@ -172,14 +181,14 @@ const s = StyleSheet.create({
 	},
 	stat: {
 		flexDirection: "row",
-    margin: -1.5,
+		margin: -1.5,
 	},
 	leagueStats: {
 		// textAlign: 'right',
 		fontSize: 13,
 		// marginTop: 6,
 	},
-  statLabel: {
-    fontFamily: 'Saira_600SemiBold'
-  }
+	statLabel: {
+		fontFamily: "Saira_600SemiBold",
+	},
 });

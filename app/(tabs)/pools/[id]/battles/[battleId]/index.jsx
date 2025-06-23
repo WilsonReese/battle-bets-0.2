@@ -146,13 +146,13 @@ export default function BattleDetails() {
 
 	const filteredGames = filterGames(games);
 
-	function renderGameCards() {
-		return filteredGames.map((game) => (
-			<View key={game.id}>
-				<GameCard game={game} type={"betSelection"} />
-			</View>
-		));
-	}
+	// function renderGameCards() {
+	// 	return filteredGames.map((game) => (
+	// 		<View key={game.id}>
+	// 			<GameCard game={game} type={"betSelection"} />
+	// 		</View>
+	// 	));
+	// }
 
 	return (
 		<SafeAreaProvider>
