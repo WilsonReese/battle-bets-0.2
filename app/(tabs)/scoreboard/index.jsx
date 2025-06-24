@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, ScrollView, ActivityIndicator, StyleSheet } from "react-native";
+import { View, ScrollView, ActivityIndicator, StyleSheet, FlatList } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
@@ -32,10 +32,17 @@ export default function Scoreboard() {
 	const sampleAwayPlayerStats = samplePlayerStats.response[1];
 
 	const {
+		setSelectedGame,
+		setSelectedGameData,
+		setSelectedHomeTeamStats,
+		setSelectedAwayTeamStats,
+		setSelectedHomePlayerStats,
+		setSelectedAwayPlayerStats,
+		setUserBets,
+		gameStatus,
 		userBetsByGame,
 		setUserBetsByGame,
 		setUserPoolCountByGame,
-		gameStatus,
 	} = useScoreboard();
 
 	const { getUserBetsByGame } = useBetContext();
@@ -50,6 +57,13 @@ export default function Scoreboard() {
 	);
 
 	const handlePress = (game) => {
+		setSelectedGame(game);
+		setSelectedGameData(sampleGameData);
+		setSelectedHomeTeamStats(sampleHomeTeamStats);
+		setSelectedAwayTeamStats(sampleAwayTeamStats);
+		setSelectedHomePlayerStats(sampleHomePlayerStats);
+		setSelectedAwayPlayerStats(sampleAwayPlayerStats);
+		// setUserBets(userBetsByGame);
 		router.push(`/scoreboard/${game.id}`);
 	};
 
@@ -80,26 +94,69 @@ export default function Scoreboard() {
 		}, [currentSeason])
 	);
 
-	useEffect(() => {
-		const fetchAllUserBets = async () => {
-			const betsMap = {};
-			const poolCountMap = {};
+	// useEffect(() => {
+	// 	const fetchAllUserBets = async () => {
+	// 		const betsMap = {};
+	// 		const poolCountMap = {};
 
-			for (const game of filteredGames) {
-				// const { bets, poolCount } = await getUserBetsByGame(game.id);
-				// betsMap[game.id] = bets;
-				// poolCountMap[game.id] = poolCount;
-				const { bets, poolCount } = await getUserBetsByGame(game.id);
-				betsMap[game.id] = bets;
-				poolCountMap[game.id] = poolCount;
-			}
+	// 		for (const game of filteredGames) {
+	// 			// const { bets, poolCount } = await getUserBetsByGame(game.id);
+	// 			// betsMap[game.id] = bets;
+	// 			// poolCountMap[game.id] = poolCount;
+	// 			const { bets, poolCount } = await getUserBetsByGame(game.id);
+	// 			betsMap[game.id] = bets;
+	// 			poolCountMap[game.id] = poolCount;
+	// 		}
 
-			setUserBetsByGame(betsMap);
-			setUserPoolCountByGame(poolCountMap);
-		};
+	// 		setUserBetsByGame(betsMap);
+	// 		setUserPoolCountByGame(poolCountMap);
+	// 	};
 
-		fetchAllUserBets();
-	}, [games, getUserBetsByGame, setUserBetsByGame, setUserPoolCountByGame]);
+	// 	fetchAllUserBets();
+	// }, [games, getUserBetsByGame, setUserBetsByGame, setUserPoolCountByGame]);
+
+	useFocusEffect(
+		useCallback(() => {
+			if (games.length === 0) return;
+
+			let cancelled = false;
+
+			const fetchAllUserBets = async () => {
+				const betsMap = {};
+				const poolCountMap = {};
+
+				for (const game of filteredGames) {
+					const { bets, poolCount } = await getUserBetsByGame(game.id);
+					betsMap[game.id] = bets;
+					poolCountMap[game.id] = poolCount;
+				}
+
+				if (!cancelled) {
+					setUserBetsByGame(betsMap);
+					setUserPoolCountByGame(poolCountMap);
+				}
+			};
+
+			fetchAllUserBets();
+
+			return () => {
+				cancelled = true;
+			};
+		}, [games, filteredGames, getUserBetsByGame])
+	);
+
+	const renderGame = useCallback(
+		({ item: game }) => (
+			<ScoreboardGameCard
+				game={game}
+				status={gameStatus}
+				sampleGameData={sampleGameData}
+				userBets={userBetsByGame[game.id] || []}
+				onPress={() => handlePress(game)}
+			/>
+		),
+		[gameStatus, sampleGameData, userBetsByGame]
+	);
 
 	if (seasonLoading || loadingGames) {
 		return (
@@ -119,22 +176,16 @@ export default function Scoreboard() {
 					conferences={FILTER_CONFERENCES}
 				/>
 			</View>
-			<ScrollView showsVerticalScrollIndicator={false}>
-				{filteredGames.length === 0 ? (
-					<Txt>No games found for this week.</Txt>
-				) : (
-					filteredGames.map((game) => (
-						<ScoreboardGameCard
-							key={game.id}
-							game={game}
-							status={gameStatus}
-							sampleGameData={sampleGameData}
-							userBets={userBetsByGame[game.id] || []}
-							onPress={() => handlePress(game)}
-						/>
-					))
-				)}
-			</ScrollView>
+			<FlatList
+				data={filteredGames}
+				keyExtractor={(game) => game.id.toString()}
+				renderItem={renderGame}
+				showsVerticalScrollIndicator={false}
+				contentContainerStyle={{
+					paddingBottom: 16,
+				}}
+				ListEmptyComponent={<Txt>No games found for this week.</Txt>}
+			/>
 		</View>
 	);
 }
@@ -149,7 +200,7 @@ const s = StyleSheet.create({
 		flex: 1,
 		justifyContent: "center",
 		alignItems: "center",
-    backgroundColor: "#061826",
+		backgroundColor: "#061826",
 	},
 	conferenceFilterContainer: {
 		paddingBottom: 8,

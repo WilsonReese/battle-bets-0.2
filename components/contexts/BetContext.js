@@ -1,4 +1,4 @@
-import React, { createContext, useState, useContext, useEffect } from "react";
+import React, { createContext, useState, useContext, useEffect, useCallback } from "react";
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../utils/axiosConfig";
@@ -354,7 +354,8 @@ export const BetProvider = ({ children, battleId }) => {
 	// 	}
 	// };
 
-	const getUserBetsByGame = async (gameId) => {
+	const getUserBetsByGame = useCallback(
+		async (gameId) => {
 		try {
 			const { data } = await api.get(`/games/${gameId}/my_bets`);
 			// data = { bets: [...], pool_count: N }
@@ -365,8 +366,8 @@ export const BetProvider = ({ children, battleId }) => {
 		} catch (error) {
 			console.error("Error fetching user bets by game:", error);
 			return { bets: [], poolCount: 0 };
-		}
-	};
+		} 
+	}, [])
 
 	return (
 		<BetContext.Provider

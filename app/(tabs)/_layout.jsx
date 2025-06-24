@@ -27,7 +27,7 @@ export default function TabLayout() {
           name="pools"
           options={{ title: "Leagues", headerShown: false }} // changes Pools page and all children
         />
-        <Tabs.Screen name="scoreboard" options={{ title: "Scoreboard", headerShown: false }} />
+        <Tabs.Screen name="scoreboard" options={{ title: "Scoreboard", headerShown: false, unmountOnBlur: true }} />
         <Tabs.Screen name="profile" options={{ title: "Profile", headerShown: false }} />
       </Tabs>
     </View>
