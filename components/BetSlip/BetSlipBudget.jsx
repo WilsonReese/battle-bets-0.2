@@ -2,11 +2,11 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { useEffect, useState } from "react";
 import { FontAwesome6 } from '@expo/vector-icons';
-import { useBetContext } from "../contexts/BetContext";
+import { useBetOps } from "../contexts/BetContext";
 
 export function BetSlipBudget({ betSectionTitle, budget, betOptionType }) {
   const checkmark = <View style={{paddingRight: 8}}><FontAwesome6 name="check" size={16} color="#54D18C"/></View>
-  const { getTotalBetAmount, getBudget } = useBetContext(); // Use the context
+  const { getTotalBetAmount } = useBetOps(); // Use the context
   const totalBetAmount = getTotalBetAmount(betOptionType)
 
     // const totalBetAmount = getTotalBetAmount(betOptionTypeProp);

@@ -17,15 +17,17 @@ import {
 import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { Txt } from "@/components/general/Txt";
 import { LogoHeader } from "@/components/LogoHeader/LogoHeader.jsx";
-import { SpreadAndOUInstructions } from "@/components/bet_instructions/SpreadAndOUInstructions/SpreadAndOUInstructions.jsx";
+// import { SpreadAndOUInstructions } from "@/components/bet_instructions/SpreadAndOUInstructions/SpreadAndOUInstructions.jsx";
 import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { GAME_DATA } from "@/utils/game-data.js";
 import { BetSlip } from "@/components/BetSlip/BetSlip.jsx";
-import React, { useCallback, useEffect, useMemo, useRef, useState } from "react";
-import {
-	BetProvider,
-	useBetContext,
-} from "../../../../../../components/contexts/BetContext";
+import React, {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 import { LoadingIndicator } from "../../../../../../components/general/LoadingIndicator";
 import api from "../../../../../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -36,6 +38,7 @@ import { useSeason } from "../../../../../../components/contexts/SeasonContext";
 import { useConferences } from "../../../../../../hooks/useConferences";
 import { ConferenceFilter } from "../../../../../../components/GameCard/ConferenceFilter";
 import { GamesList } from "../../../../../../components/BetSelection/GamesList";
+import { useBetOps, useBets } from "../../../../../../components/contexts/BetContext";
 
 export default function BattleDetails() {
 	const {
@@ -68,7 +71,9 @@ export default function BattleDetails() {
 	const pendingNavEvent = useRef(null);
 	const navigation = useNavigation();
 
-	const { bets, storeBets, loadBets } = useBetContext(); // Access context function
+	const { bets } = useBets(); // Access context function
+  const { storeBets, loadBets } = useBetOps();
+  
 
 	const closeBetSlip = () => {
 		sheetRef.current?.collapse(); // or .close() if you want to hide it completely
@@ -228,7 +233,7 @@ export default function BattleDetails() {
 			</SafeAreaView>
 		</SafeAreaProvider>
 	);
-};
+}
 
 // ←— add this *after* the function declaration:
 // BattleDetails.whyDidYouRender = {

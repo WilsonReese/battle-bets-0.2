@@ -5,7 +5,7 @@ import { Btn } from "../general/Buttons/Btn";
 import { CountdownTimer } from "./CountdownTimer";
 import { StatusIcon } from "../general/StatusIcon";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { useBetContext } from "../contexts/BetContext";
+import { useBets } from "../contexts/BetContext";
 
 export function FilledOutUnlockedBattleCard({
   battle,
@@ -14,7 +14,7 @@ export function FilledOutUnlockedBattleCard({
   userBetslip,
 }) {
   
-  const { getBudgetForBattle } = useBetContext();
+  const { getBudgetForBattle } = useBets();
   const remaining = getBudgetForBattle(battle.id);
 
   return (

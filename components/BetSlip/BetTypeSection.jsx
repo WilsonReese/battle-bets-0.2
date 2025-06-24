@@ -1,5 +1,5 @@
 import { StyleSheet, View } from "react-native";
-import { useBetContext } from "../contexts/BetContext";
+import { useBets } from "../contexts/BetContext";
 import { Bet } from "./Bet";
 import { PayoutByType } from "./PayoutByType";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
@@ -8,7 +8,7 @@ import { Btn } from "../general/Buttons/Btn";
 import FontAwesome6 from '@expo/vector-icons/FontAwesome6';
 
 export function BetTypeSection({ betTypes, toggleBetSlip }) {
-  const { bets, setBetOptionType, getBetOptionType } = useBetContext();
+  const { bets } = useBets();
   const [betAmountBtnAction, setBetAmountBtnAction] = useState("Edit");
 
   function renderBets(betTypes) {

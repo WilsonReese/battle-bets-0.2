@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBetContext } from "../contexts/BetContext";
+import { useBetOps, useBets } from "../contexts/BetContext";
 
 export function ProgressIndicator({
   betOptionTypeProp,
@@ -10,13 +10,14 @@ export function ProgressIndicator({
   scrollViewRef,
   closeBetSlip,
 }) {
-  const {
-    getBetOptionLongTitle,
-    getTotalBetAmount,
-    getBudget,
-    setBetOptionType,
-    betOptionType,
-  } = useBetContext();
+const { betOptionType } = useBets();   // ← state
+const {
+  setBetOptionType,
+  getBetOptionLongTitle,
+  getTotalBetAmount,
+  getBudget,
+} = useBetOps();                       // ← actions/helpers
+
   const title = getBetOptionLongTitle(betOptionTypeProp);
   const totalBetAmount = getTotalBetAmount(betOptionTypeProp);
   const budget = getBudget(betOptionTypeProp);

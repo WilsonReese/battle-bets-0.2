@@ -16,7 +16,6 @@ import { useEffect, useRef, useState } from "react";
 import { DataToggle } from "../../../components/BoxScore/DataToggle";
 import { TeamData } from "../../../components/BoxScore/TeamData";
 import { PlayerData } from "../../../components/BoxScore/PlayerData";
-import { useBetContext } from "../../../components/contexts/BetContext";
 import { BetDetails } from "../../../components/BetSlip/BetDetails";
 import { UserBetsForGame } from "../../../components/BoxScore/UserBetsForGame";
 import { LeagueBetsForGame } from "../../../components/BoxScore/LeagueBetsForGame";
@@ -31,8 +30,8 @@ export default function GameDetails() {
 		selectedAwayTeamStats,
 		selectedHomePlayerStats,
 		selectedAwayPlayerStats,
-		userBetsByGame,
-    userPoolCountByGame
+		// userBetsByGame,
+    // userPoolCountByGame
 	} = useScoreboard();
 	const awayTeam = selectedGame.away_team;
 	const homeTeam = selectedGame.home_team;

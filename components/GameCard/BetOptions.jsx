@@ -1,15 +1,17 @@
 import { StyleSheet, View } from "react-native";
 import { Spread } from "./Spread/Spread";
 import { OverUnder } from "./OverUnder/OverUnder";
-import { useBetContext } from "../contexts/BetContext";
 import { Txt } from "../general/Txt";
 import { MoneyLine } from "./MoneyLine";
 import { PropBets } from "./PropBets";
+import {  useBets } from "../contexts/BetContext";
 
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
 export function BetOptions({ game }) {
-  const { betOptionType } = useBetContext(); // Use the context
+
+  const { betOptionType } = useBets(); // Use the context
+  // console.log("BetOptionType:", betOptionType)
 
   const spreadOptions = game.bet_options.filter(
     (option) => option.category === "spread"

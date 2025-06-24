@@ -1,7 +1,6 @@
 import React from "react";
 import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
-import { useBetContext } from "../contexts/BetContext";
 import { ProgressIndicator } from "../BetSlip/ProgressIndicator";
 
 export function BudgetRow({ isBetSlipShown, scrollViewRef, closeBetSlip}) {

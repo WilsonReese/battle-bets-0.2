@@ -9,6 +9,7 @@ import React, {
 import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../utils/axiosConfig";
+import { BudgetContext, useBudgets } from "./BudgetContext";
 
 const BetStateContext = createContext();
 const BetActionsContext = createContext();
@@ -27,8 +28,9 @@ export const BetProvider = ({ children }) => {
 	const [betOptionType, setBetOptionType] = useState("spreadOU"); // sets SpreadOU as initial bet option type state
 	const [betsToRemove, setBetsToRemove] = useState([]); // State for tracking bets to remove
 	const [initialBetsSnapshot, setInitialBetsSnapshot] = useState([]);
-	const [budgetsByBattle, setBudgetsByBattle] = useState({});
+	// const [budgetsByBattle, setBudgetsByBattle] = useState({});
 	const [openBetSelectorIds, setOpenBetSelectorIds] = useState(new Set());
+	const { updateBudgetForBattle } = useBudgets();
 
 	// Memoized
 	const closeAllBetSelectors = useCallback(() => {
@@ -81,10 +83,7 @@ export const BetProvider = ({ children }) => {
 				setInitialBetsSnapshot(transformedBets);
 				recalculateTotals(transformedBets);
 				const calculatedBudget = calculateRemainingBudget(transformedBets);
-				setBudgetsByBattle((prev) => ({
-					...prev,
-					[battleId]: calculatedBudget,
-				}));
+				updateBudgetForBattle(battleId, calculatedBudget);
 			} catch (error) {
 				console.error("Error loading bets from backend:", error);
 			}
@@ -95,7 +94,7 @@ export const BetProvider = ({ children }) => {
 			recalculateTotals,
 			transformBackendBets,
 			calculateRemainingBudget,
-			setBudgetsByBattle,
+			// setBudgetsByBattle,
 		]
 	);
 
@@ -370,18 +369,18 @@ export const BetProvider = ({ children }) => {
 	);
 
 	// Memoized
-	const getBudgetForBattle = useCallback(
-		(battleId) => {
-			return (
-				budgetsByBattle[battleId] || {
-					spreadOU: spreadOUBudget,
-					moneyLine: moneyLineBudget,
-					prop: propBetBudget,
-				}
-			);
-		},
-		[budgetsByBattle, spreadOUBudget, moneyLineBudget, propBetBudget]
-	);
+	// const getBudgetForBattle = useCallback(
+	// 	(battleId) => {
+	// 		return (
+	// 			budgetsByBattle[battleId] || {
+	// 				spreadOU: spreadOUBudget,
+	// 				moneyLine: moneyLineBudget,
+	// 				prop: propBetBudget,
+	// 			}
+	// 		);
+	// 	},
+	// 	[budgetsByBattle, spreadOUBudget, moneyLineBudget, propBetBudget]
+	// );
 
 	const getUserBetsByGame = useCallback(async (gameId) => {
 		try {
@@ -397,25 +396,125 @@ export const BetProvider = ({ children }) => {
 		}
 	}, []);
 
+	const saveBets = useCallback(
+		async ({
+			poolId,
+			leagueSeasonId,
+			battleId,
+			betslipId,
+			showError,
+			showSuccess,
+		}) => {
+			try {
+				const battleRes = await api.get(
+					`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}`
+				);
+				if (battleRes.data.locked) {
+					showError("Did not save the updated betslip. Battle is locked.");
+					return { status: "locked" };
+				}
+
+				const newBets = bets.filter((bet) => bet.isNew);
+				const updatedBets = bets.filter(
+					(bet) => !bet.isNew && !betsToRemove.includes(bet.id)
+				);
+				const removedBets = betsToRemove;
+
+				const payload = {
+					bets: {
+						new_bets: newBets.map(({ betOptionID, betAmount }) => ({
+							bet_option_id: betOptionID,
+							bet_amount: betAmount,
+						})),
+						updated_bets: updatedBets.map(({ id, betOptionID, betAmount }) => ({
+							id,
+							bet_option_id: betOptionID,
+							bet_amount: betAmount,
+						})),
+						removed_bets: removedBets,
+					},
+				};
+
+				await api.patch(
+					`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`,
+					payload
+				);
+				await api.patch(
+					`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}`,
+					{
+						betslip: { status: "filled_out" },
+					}
+				);
+
+				const res = await api.get(
+					`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`
+				);
+				const normalized = transformBackendBets(res.data.bets);
+
+				await AsyncStorage.setItem(
+					`bets-${battleId}`,
+					JSON.stringify(normalized)
+				);
+				setBets(normalized);
+				setInitialBetsSnapshot(normalized);
+				setBetsToRemove([]);
+
+				const calculatedBudget = calculateRemainingBudget(normalized);
+				updateBudgetForBattle(battleId, calculatedBudget);
+
+				showSuccess("Betslip saved.");
+				return { status: "success" };
+			} catch (error) {
+				console.error("Error saving bets:", error.response || error);
+				showError("Failed to save bets.");
+				return { status: "error" };
+			}
+		},
+		[
+			bets,
+			betsToRemove,
+			transformBackendBets,
+			setBets,
+			setInitialBetsSnapshot,
+			setBetsToRemove,
+			calculateRemainingBudget,
+			updateBudgetForBattle, // 👈 must include in deps
+		]
+	);
+
 	const stateValue = useMemo(
 		() => ({
-			bets,
-			spreadOUBudget,
-			totalSpreadOUBet,
-			moneyLineBudget,
-			totalMoneyLineBet,
-			propBetBudget,
-			totalPropBet,
+			bets, //
+			betsToRemove, //  Betslip Heading
+			initialBetsSnapshot, //  Betslip Heading
+			spreadOUBudget, // Betslip Details
+			// totalSpreadOUBet,
+			moneyLineBudget, // Betslip Details
+			// totalMoneyLineBet,
+			propBetBudget, // Betslip Details
+			// totalPropBet,
+			betOptionType, //
+
+			// Battle Unlocked Pool Card
+			// getBudgetForBattle, // Pool Cards
+			// getTotalRemainingBudget,
 			/* anything read-only */
+
+			openBetSelectorIds,
 		}),
 		[
 			bets,
+			betsToRemove, //  Betslip Heading
+			initialBetsSnapshot, //  Betslip Heading
 			spreadOUBudget,
-			totalSpreadOUBet,
+			// totalSpreadOUBet,
 			moneyLineBudget,
-			totalMoneyLineBet,
+			// totalMoneyLineBet,
 			propBetBudget,
-			totalPropBet,
+			// totalPropBet,
+			betOptionType,
+			// budgetsByBattle,
+			openBetSelectorIds,
 		]
 	);
 
@@ -431,10 +530,14 @@ export const BetProvider = ({ children }) => {
 			getUserBetsByGame, // ✅ add this here
 			getBudget,
 			getTotalBetAmount,
-			getBudgetForBattle,
+
 			getBetOptionLongTitle,
-			getTotalRemainingBudget,
+			// getTotalRemainingBudget,
 			getBetOptionType,
+			saveBets, //  Betslip Heading
+			// setBetsToRemove, //  Betslip Heading
+			// setInitialBetsSnapshot, //  Betslip Heading
+			setBetOptionType, // Progress Indicator
 		}),
 		[
 			addBet,
@@ -445,15 +548,26 @@ export const BetProvider = ({ children }) => {
 			toggleBetSelector,
 			closeAllBetSelectors,
 			getUserBetsByGame, // ✅ and in dependencies
+			saveBets, //  Betslip Heading
+			// setBetsToRemove, //  Betslip Heading
+			// setInitialBetsSnapshot, //  Betslip Heading
+			setBetOptionType, // Progress Indicator
 		]
 	);
 
+	// const budgetValue = useMemo(
+	// 	() => ({ getBudgetForBattle, budgetsByBattle }),
+	// 	[getBudgetForBattle, budgetsByBattle] // only when the map itself changes
+	// );
+
 	return (
+		// <BudgetContext.Provider value={{ getBudgetForBattle, budgetsByBattle }}>
 		<BetStateContext.Provider value={stateValue}>
 			<BetActionsContext.Provider value={actionsValue}>
 				{children}
 			</BetActionsContext.Provider>
 		</BetStateContext.Provider>
+		// </BudgetContext.Provider>
 	);
 };
 

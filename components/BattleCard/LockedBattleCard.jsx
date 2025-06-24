@@ -5,7 +5,7 @@ import { Btn } from "../general/Buttons/Btn";
 import { CountdownTimer } from "./CountdownTimer";
 import { StatusIcon } from "../general/StatusIcon";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { useBetContext } from "../contexts/BetContext";
+// import { useBets } from "../contexts/BetContext";
 import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
 import { getOrdinalSuffix } from "../../utils/formatting";
 import { SkeletonBattleCard } from "./SkeletonBattleCard";
@@ -24,8 +24,8 @@ export function LockedBattleCard({
   );
   const topThree = betslips.slice(0, 3);
 
-  const { getBudgetForBattle } = useBetContext();
-  const remaining = getBudgetForBattle(battle.id);
+  // const { getBudgetForBattle } = useBets();
+  // const remaining = getBudgetForBattle(battle.id);
   const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
   const battleCompleted = battle.status === "completed";
 

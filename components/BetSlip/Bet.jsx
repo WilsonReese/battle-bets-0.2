@@ -3,14 +3,15 @@ import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetSelector } from "../GameCard/BetSelector";
 import { BETTING_RULES } from "../../utils/betting-rules";
-import { useBetContext } from "../contexts/BetContext";
+import { useBetOps, useBets } from "../contexts/BetContext";
 import { BetDetails } from "./BetDetails";
 import { format } from "date-fns";
 import { BetAmount } from "./BetAmount";
 
 export function Bet({ bet, backgroundColor }) {
   const { minBet, maxBet } = BETTING_RULES[bet.betType];
-  const { removeBet, openBetSelectorIds, toggleBetSelector } = useBetContext();
+  const { openBetSelectorIds } = useBets();
+  const { removeBet, toggleBetSelector } = useBetOps(); 
 
   const isBetSelectorOpen = openBetSelectorIds.has(bet.id);
   const animatedHeight = useRef(new Animated.Value(0)).current;

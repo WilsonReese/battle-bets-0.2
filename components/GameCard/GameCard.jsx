@@ -4,7 +4,7 @@
 // import { BetOptions } from "./BetOptions";
 // import { Txt } from "../general/Txt";
 // import { ScoreboardGameCard } from "./Scoreboard/ScoreboardGameCard";
-// import { useBetContext } from "../contexts/BetContext";
+
 
 // export function GameCard({
 // 	game,
@@ -14,7 +14,7 @@
 // 	status,
 // 	userBets,
 // }) {
-// 	// const { } = useBetContext();
+
 // 	{
 // 		console.log("Game:", game);
 // 	}

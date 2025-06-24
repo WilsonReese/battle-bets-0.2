@@ -1,14 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
 import {
-  StyleSheet,
-  View,
-  Animated,
-  TouchableOpacity,
-  Alert,
+	StyleSheet,
+	View,
+	Animated,
+	TouchableOpacity,
+	Alert,
 } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBetContext } from "../contexts/BetContext";
+import { useBetOps, useBets } from "../contexts/BetContext";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
@@ -19,196 +19,136 @@ import isEqual from "lodash.isequal";
 import { useToastMessage } from "../../hooks/useToastMessage";
 
 export function BetSlipHeading({
-  poolId,
-  isBetSlipShown,
-  toggleBetSlip,
-  scrollViewRef,
-  leagueSeasonId,
-  betslipId,
-  battleId,
-  betslipHasChanges,
-  setBetslipHasChanges,
-  setSuppressLeaveModal
+	poolId,
+	isBetSlipShown,
+	toggleBetSlip,
+	scrollViewRef,
+	leagueSeasonId,
+	betslipId,
+	battleId,
+	betslipHasChanges,
+	setBetslipHasChanges,
+	setSuppressLeaveModal,
 }) {
-  const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
-  const {
-    bets,
-    initialBetsSnapshot,
-    setInitialBetsSnapshot,
-    setBets,
-    betsToRemove,
-    setBetsToRemove,
-    convertToCamelCase,
-    transformBackendBets,
-    closeAllBetSelectors,
-  } = useBetContext();
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const { showError, showSuccess } = useToastMessage();
+	const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
 
-  useEffect(() => {
-    // Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
-    const betsChanged = !isEqual(bets, initialBetsSnapshot);
-    const hasRemovals = betsToRemove.length > 0;
-    setBetslipHasChanges(betsChanged || hasRemovals);
-  }, [bets, betsToRemove, initialBetsSnapshot]);
+	const { bets, betsToRemove, initialBetsSnapshot } = useBets();
+	const {
+		closeAllBetSelectors,
+		saveBets,
+	} = useBetOps();
 
-  function calculateTotalPayout() {
-    return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
-  }
+	const [isSubmitting, setIsSubmitting] = useState(false);
+	const { showError, showSuccess } = useToastMessage();
 
-  const handleSaveBets = async () => {
-    if (isSubmitting) return;
-    setIsSubmitting(true);
+	useEffect(() => {
+		// Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
+		const betsChanged = !isEqual(bets, initialBetsSnapshot);
+		const hasRemovals = betsToRemove.length > 0;
+		setBetslipHasChanges(betsChanged || hasRemovals);
+	}, [bets, betsToRemove, initialBetsSnapshot]);
 
-    try {
-      // 🧠 Step 0: Check if battle is locked
-      const battleRes = await api.get(
-        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}`
-      );
+	function calculateTotalPayout() {
+		return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
+	}
 
-      const battle = battleRes.data;
-      if (battle.locked) {
-        showError("Did not save the updated betslip. Battle is locked.");
-        setSuppressLeaveModal(true)
-        router.replace(`/pools/${poolId}`);
-        return;
-      }
+	const handleSaveBets = async () => {
+		if (isSubmitting) return;
+		setIsSubmitting(true);
 
-      // 1. Prepare payload
-      const newBets = bets.filter((bet) => bet.isNew);
-      const updatedBets = bets.filter(
-        (bet) => !bet.isNew && !betsToRemove.includes(bet.id)
-      );
-      const removedBets = betsToRemove;
+		const result = await saveBets({
+			poolId,
+			leagueSeasonId,
+			battleId,
+			betslipId,
+			showError,
+			showSuccess,
+		});
 
-      const payload = {
-        bets: {
-          new_bets: newBets.map(({ betOptionID, betAmount }) => ({
-            bet_option_id: betOptionID,
-            bet_amount: betAmount,
-          })),
-          updated_bets: updatedBets.map(({ id, betOptionID, betAmount }) => ({
-            id,
-            bet_option_id: betOptionID,
-            bet_amount: betAmount,
-          })),
-          removed_bets: removedBets,
-        },
-      };
+		if (result.status === "locked") {
+			setSuppressLeaveModal(true);
+			router.replace(`/pools/${poolId}`);
+		} else if (result.status === "success") {
+			setBetslipHasChanges(false);
+			setTimeout(() => {
+				closeAllBetSelectors();
+			}, 0);
+		}
 
-      // 2. Save to backend
-      await api.patch(
-        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`,
-        payload
-      );
+		setIsSubmitting(false);
+	};
 
-      // 3. Update betslip status to filled_out
-      await api.patch(
-        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}`,
-        { betslip: { status: "filled_out" } }
-      );
+	return (
+		<View style={s.container}>
+			<View style={s.headingContainer}>
+				<View style={s.titleContainer}>
+					<Txt style={s.title}>Betslip</Txt>
+				</View>
+				<View style={s.btnContainer}>
+					<Btn
+						btnText={"Save"}
+						fontSize={14}
+						style={s.btn}
+						isEnabled={betslipHasChanges && !isSubmitting}
+						onPress={handleSaveBets} // Call the handleSubmitBets function when pressed
+					/>
+				</View>
+			</View>
 
-      // 4. Re-fetch from backend to get clean, authoritative bet data
-      const res = await api.get(
-        `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`
-      );
-
-      const normalizedBets = transformBackendBets(res.data.bets);
-
-      await AsyncStorage.setItem(
-        `bets-${battleId}`,
-        JSON.stringify(normalizedBets)
-      );
-      setBets(normalizedBets);
-      setInitialBetsSnapshot(normalizedBets);
-      setBetsToRemove([]);
-      setBetslipHasChanges(false);
-
-      // Delay closing selectors until after bets re-render
-      setTimeout(() => {
-        closeAllBetSelectors();
-      }, 0);
-
-      showSuccess("Betslip saved.");
-    } catch (error) {
-      console.error("Error saving bets:", error.response || error);
-      showError("Failed to save bets.");
-    } finally {
-      setIsSubmitting(false);
-    }
-  };
-
-  return (
-    <View style={s.container}>
-      <View style={s.headingContainer}>
-        <View style={s.titleContainer}>
-          <Txt style={s.title}>Betslip</Txt>
-        </View>
-        <View style={s.btnContainer}>
-          <Btn
-            btnText={"Save"}
-            fontSize={14}
-            style={s.btn}
-            isEnabled={betslipHasChanges && !isSubmitting}
-            onPress={handleSaveBets} // Call the handleSubmitBets function when pressed
-          />
-        </View>
-      </View>
-
-      <View style={s.payoutContainer}>
-        <Txt style={s.payoutHeading}>Max Payout</Txt>
-        <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
-      </View>
-    </View>
-  );
+			<View style={s.payoutContainer}>
+				<Txt style={s.payoutHeading}>Max Payout</Txt>
+				<Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
+			</View>
+		</View>
+	);
 }
 
 const s = StyleSheet.create({
-  container: {
-    // height: 40, // This controls how tall the heading is (pushes down the BetSlipDetails, should be equal to betSlipHeadingHeight on the BetSlip
-  },
-  headingContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 12,
-    paddingBottom: 12,
-    // backgroundColor: "#184EAD",
-    // borderTopLeftRadius: 15,
-    // borderTopRightRadius: 15,
-  },
-  titleContainer: {
-    flexDirection: "row",
-    alignItems: "center",
-    flex: 1,
-  },
-  title: {
-    fontSize: 20,
-    // color: "#061826",
-    fontFamily: "Saira_600SemiBold",
-    paddingRight: 8,
-  },
-  btn: {
-    paddingVertical: 4,
-    paddingHorizontal: 12,
-  },
-  payoutContainer: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    alignItems: "center",
-    paddingHorizontal: 8,
-    paddingVertical: 4,
-    backgroundColor: "#0F2638",
-  },
-  payoutHeading: {
-    // color: "#061826",
-    textTransform: "uppercase",
-    fontFamily: "Saira_600SemiBold",
-    // fontSize: 14
-  },
-  payoutText: {
-    // color: "#061826",
-    fontFamily: "Saira_600SemiBold",
-    fontSize: 18,
-  },
+	container: {
+		// height: 40, // This controls how tall the heading is (pushes down the BetSlipDetails, should be equal to betSlipHeadingHeight on the BetSlip
+	},
+	headingContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		paddingHorizontal: 12,
+		paddingBottom: 12,
+		// backgroundColor: "#184EAD",
+		// borderTopLeftRadius: 15,
+		// borderTopRightRadius: 15,
+	},
+	titleContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		flex: 1,
+	},
+	title: {
+		fontSize: 20,
+		// color: "#061826",
+		fontFamily: "Saira_600SemiBold",
+		paddingRight: 8,
+	},
+	btn: {
+		paddingVertical: 4,
+		paddingHorizontal: 12,
+	},
+	payoutContainer: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		paddingHorizontal: 8,
+		paddingVertical: 4,
+		backgroundColor: "#0F2638",
+	},
+	payoutHeading: {
+		// color: "#061826",
+		textTransform: "uppercase",
+		fontFamily: "Saira_600SemiBold",
+		// fontSize: 14
+	},
+	payoutText: {
+		// color: "#061826",
+		fontFamily: "Saira_600SemiBold",
+		fontSize: 18,
+	},
 });

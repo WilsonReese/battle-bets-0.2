@@ -1,11 +1,11 @@
 import { ScrollView, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { BetSlipBudget } from "./BetSlipBudget";
-import { useBetContext } from "../contexts/BetContext";
 import { BetTypeSection } from "./BetTypeSection";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
+import { useBets } from "../contexts/BetContext";
 
 export function BetSlipDetails({ toggleBetSlip }) {
   const {
@@ -14,7 +14,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
     spreadOUBudget,
     moneyLineBudget,
     propBetBudget,
-  } = useBetContext();
+  } = useBets();
 
 
   function calculateTotalPayout() {

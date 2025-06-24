@@ -13,7 +13,7 @@ import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter"
 import { useSeason } from "../../../components/contexts/SeasonContext";
 import { useConferences } from "../../../hooks/useConferences";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
-import { useBetContext } from "../../../components/contexts/BetContext";
+import { useBetOps } from "../../../components/contexts/BetContext";
 import api from "../../../utils/axiosConfig";
 import { ScoreboardGameCard } from "../../../components/GameCard/Scoreboard/ScoreboardGameCard";
 import sampleGame from "@/utils/sampleGame.json";
@@ -51,7 +51,7 @@ export default function Scoreboard() {
 		gameStatus,
 	} = useScoreboard();
 
-	const { getUserBetsByGame } = useBetContext();
+	const { getUserBetsByGame } = useBetOps();
 	const router = useRouter();
 
 	const [games, setGames] = useState([]);
