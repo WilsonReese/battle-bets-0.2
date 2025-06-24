@@ -10,6 +10,7 @@ import uuid from "react-native-uuid";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import api from "../../utils/axiosConfig";
 import { BudgetContext, useBudgets } from "./BudgetContext";
+import { DEFAULT_BUDGETS } from "../../utils/betting-rules";
 
 const BetStateContext = createContext();
 const BetActionsContext = createContext();
@@ -19,16 +20,19 @@ export const useBetOps = () => useContext(BetActionsContext);
 
 export const BetProvider = ({ children }) => {
 	const [bets, setBets] = useState([]);
-	const [spreadOUBudget, setSpreadOUBudget] = useState(2000); // Initial budget for spread and OU
-	const [moneyLineBudget, setMoneyLineBudget] = useState(1000); // Initial budget for money line
-	const [propBetBudget, setPropBetBudget] = useState(500); // Initial budget for prop bets
+	const [spreadOUBudget, setSpreadOUBudget] = useState(
+		DEFAULT_BUDGETS.spreadOU
+	); // Initial budget for spread and OU
+	const [moneyLineBudget, setMoneyLineBudget] = useState(
+		DEFAULT_BUDGETS.moneyLine
+	); // Initial budget for money line
+	const [propBetBudget, setPropBetBudget] = useState(DEFAULT_BUDGETS.prop); // Initial budget for prop bets
 	const [totalSpreadOUBet, setTotalSpreadOUBet] = useState(0);
 	const [totalMoneyLineBet, setTotalMoneyLineBet] = useState(0);
 	const [totalPropBet, setTotalPropBet] = useState(0);
 	const [betOptionType, setBetOptionType] = useState("spreadOU"); // sets SpreadOU as initial bet option type state
 	const [betsToRemove, setBetsToRemove] = useState([]); // State for tracking bets to remove
 	const [initialBetsSnapshot, setInitialBetsSnapshot] = useState([]);
-	// const [budgetsByBattle, setBudgetsByBattle] = useState({});
 	const [openBetSelectorIds, setOpenBetSelectorIds] = useState(new Set());
 	const { updateBudgetForBattle } = useBudgets();
 
@@ -345,18 +349,10 @@ export const BetProvider = ({ children }) => {
 			let prop = 0;
 
 			bets.forEach((bet) => {
-				const type = getBetOptionType(bet.betType);
-				switch (type) {
-					case "spreadOU":
-						spreadOU += bet.betAmount;
-						break;
-					case "moneyLine":
-						moneyLine += bet.betAmount;
-						break;
-					case "prop":
-						prop += bet.betAmount;
-						break;
-				}
+				const kind = getBetOptionType(bet.betType);
+				if (kind === "spreadOU") spreadOU += bet.betAmount;
+				else if (kind === "moneyLine") moneyLine += bet.betAmount;
+				else if (kind === "prop") prop += bet.betAmount;
 			});
 
 			return {
@@ -367,20 +363,6 @@ export const BetProvider = ({ children }) => {
 		},
 		[getBetOptionType, spreadOUBudget, moneyLineBudget, propBetBudget]
 	);
-
-	const getUserBetsByGame = useCallback(async (gameId) => {
-		try {
-			const { data } = await api.get(`/games/${gameId}/my_bets`);
-			// data = { bets: [...], pool_count: N }
-			return {
-				bets: data.bets,
-				poolCount: data.pool_count,
-			};
-		} catch (error) {
-			console.error("Error fetching user bets by game:", error);
-			return { bets: [], poolCount: 0 };
-		}
-	}, []);
 
 	const saveBets = useCallback(
 		async ({
@@ -474,31 +456,19 @@ export const BetProvider = ({ children }) => {
 			betsToRemove, //  Betslip Heading
 			initialBetsSnapshot, //  Betslip Heading
 			spreadOUBudget, // Betslip Details
-			// totalSpreadOUBet,
 			moneyLineBudget, // Betslip Details
-			// totalMoneyLineBet,
 			propBetBudget, // Betslip Details
-			// totalPropBet,
 			betOptionType, //
-
-			// Battle Unlocked Pool Card
-			// getTotalRemainingBudget,
-			/* anything read-only */
-
 			openBetSelectorIds,
 		}),
 		[
 			bets,
-			betsToRemove, //  Betslip Heading
-			initialBetsSnapshot, //  Betslip Heading
+			betsToRemove,
+			initialBetsSnapshot,
 			spreadOUBudget,
-			// totalSpreadOUBet,
 			moneyLineBudget,
-			// totalMoneyLineBet,
 			propBetBudget,
-			// totalPropBet,
 			betOptionType,
-			// budgetsByBattle,
 			openBetSelectorIds,
 		]
 	);
@@ -512,16 +482,11 @@ export const BetProvider = ({ children }) => {
 			storeBets,
 			toggleBetSelector, // can stay here
 			closeAllBetSelectors,
-			getUserBetsByGame, // ✅ add this here
 			getBudget,
 			getTotalBetAmount,
-
 			getBetOptionLongTitle,
-			// getTotalRemainingBudget,
 			getBetOptionType,
 			saveBets, //  Betslip Heading
-			// setBetsToRemove, //  Betslip Heading
-			// setInitialBetsSnapshot, //  Betslip Heading
 			setBetOptionType, // Progress Indicator
 		}),
 		[
@@ -532,10 +497,7 @@ export const BetProvider = ({ children }) => {
 			storeBets,
 			toggleBetSelector,
 			closeAllBetSelectors,
-			getUserBetsByGame, // ✅ and in dependencies
 			saveBets, //  Betslip Heading
-			// setBetsToRemove, //  Betslip Heading
-			// setInitialBetsSnapshot, //  Betslip Heading
 			setBetOptionType, // Progress Indicator
 		]
 	);

@@ -95,7 +95,7 @@ export default function Layout() {
 			<MessageProvider>
 				<SeasonProvider>
 					<ScoreboardProvider>
-						<BudgetProvider defaultBudgets={{ spreadOU: 2000, moneyLine: 1000, prop: 500 }}>
+						<BudgetProvider>
 							<BetProvider>
 								<AuthProvider>
 									<DeepLinkWrapper />

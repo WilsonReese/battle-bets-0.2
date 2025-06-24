@@ -1,5 +1,6 @@
 // components/contexts/BudgetContext.js
 import React, { createContext, useContext, useCallback, useMemo, useState } from "react";
+import { DEFAULT_BUDGETS } from "../../utils/betting-rules";
 
 const BudgetContext = createContext(null);
 
@@ -9,13 +10,13 @@ export const useBudgets = () => {
   return ctx;
 };
 
-export const BudgetProvider = ({ children, defaultBudgets }) => {
+export const BudgetProvider = ({ children }) => {
   const [budgetsByBattle, setBudgetsByBattle] = useState({}); // { [battleId]: { spreadOU, moneyLine, prop } }
 
   /** read-only selector */
   const getBudgetForBattle = useCallback(
-    (id) => budgetsByBattle[id] ?? defaultBudgets,
-    [budgetsByBattle, defaultBudgets]
+    (id) => budgetsByBattle[id] ?? DEFAULT_BUDGETS,
+    [budgetsByBattle]
   );
 
   /** action that BetContext will call after it finishes (re)loading bets */

@@ -51,7 +51,7 @@ export default function Scoreboard() {
 		gameStatus,
 	} = useScoreboard();
 
-	const { getUserBetsByGame } = useBetOps();
+	// const { getUserBetsByGame } = useBetOps();
 	const router = useRouter();
 
 	const [games, setGames] = useState([]);
@@ -72,6 +72,20 @@ export default function Scoreboard() {
 		// setUserBets(userBetsByGame);
 		router.push(`/scoreboard/${game.id}`);
 	};
+
+  const getUserBetsByGame = useCallback(async (gameId) => {
+		try {
+			const { data } = await api.get(`/games/${gameId}/my_bets`);
+			// data = { bets: [...], pool_count: N }
+			return {
+				bets: data.bets,
+				poolCount: data.pool_count,
+			};
+		} catch (error) {
+			console.error("Error fetching user bets by game:", error);
+			return { bets: [], poolCount: 0 };
+		}
+	}, []);
 
 	useFocusEffect(
 		useCallback(() => {
