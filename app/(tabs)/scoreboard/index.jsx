@@ -1,5 +1,11 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { View, ScrollView, ActivityIndicator, StyleSheet, FlatList } from "react-native";
+import {
+	View,
+	ScrollView,
+	ActivityIndicator,
+	StyleSheet,
+	FlatList,
+} from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
@@ -16,6 +22,9 @@ import samplePlayerStats from "@/utils/samplePlayerStats.json";
 import axios from "axios";
 
 export default function Scoreboard() {
+	const [userBetsByGame, setUserBetsByGame] = useState({});
+	const [userPoolCountByGame, setUserPoolCountByGame] = useState({});
+
 	const { currentSeason, loading: seasonLoading } = useSeason();
 	const {
 		selectedConferences,
@@ -40,9 +49,6 @@ export default function Scoreboard() {
 		setSelectedAwayPlayerStats,
 		setUserBets,
 		gameStatus,
-		userBetsByGame,
-		setUserBetsByGame,
-		setUserPoolCountByGame,
 	} = useScoreboard();
 
 	const { getUserBetsByGame } = useBetContext();
@@ -180,6 +186,7 @@ export default function Scoreboard() {
 				data={filteredGames}
 				keyExtractor={(game) => game.id.toString()}
 				renderItem={renderGame}
+        initialNumToRender={10}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
 					paddingBottom: 16,
