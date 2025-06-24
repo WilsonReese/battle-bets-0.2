@@ -17,6 +17,8 @@ export function BetOptions({ game }) {
     (option) => option.category === "spread"
   );
 
+  console.log('Spread Options:', spreadOptions)
+
   const ouOptions = game.bet_options.filter(
     (option) => option.category === "ou"
   );

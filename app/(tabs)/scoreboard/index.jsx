@@ -73,20 +73,6 @@ export default function Scoreboard() {
 		router.push(`/scoreboard/${game.id}`);
 	};
 
-  const getUserBetsByGame = useCallback(async (gameId) => {
-		try {
-			const { data } = await api.get(`/games/${gameId}/my_bets`);
-			// data = { bets: [...], pool_count: N }
-			return {
-				bets: data.bets,
-				poolCount: data.pool_count,
-			};
-		} catch (error) {
-			console.error("Error fetching user bets by game:", error);
-			return { bets: [], poolCount: 0 };
-		}
-	}, []);
-
 	useFocusEffect(
 		useCallback(() => {
 			const fetchGames = async () => {
@@ -114,6 +100,7 @@ export default function Scoreboard() {
 		}, [currentSeason])
 	);
 
+	console.log('Games:', games)
 	// useEffect(() => {
 	// 	const fetchAllUserBets = async () => {
 	// 		const betsMap = {};
@@ -135,35 +122,35 @@ export default function Scoreboard() {
 	// 	fetchAllUserBets();
 	// }, [games, getUserBetsByGame, setUserBetsByGame, setUserPoolCountByGame]);
 
-	useFocusEffect(
-		useCallback(() => {
-			if (games.length === 0) return;
+	// useFocusEffect(
+	// 	useCallback(() => {
+	// 		if (games.length === 0) return;
 
-			let cancelled = false;
+	// 		let cancelled = false;
 
-			const fetchAllUserBets = async () => {
-				const betsMap = {};
-				const poolCountMap = {};
+	// 		const fetchAllUserBets = async () => {
+	// 			const betsMap = {};
+	// 			const poolCountMap = {};
 
-				for (const game of filteredGames) {
-					const { bets, poolCount } = await getUserBetsByGame(game.id);
-					betsMap[game.id] = bets;
-					poolCountMap[game.id] = poolCount;
-				}
+	// 			for (const game of filteredGames) {
+	// 				const { bets, poolCount } = await getUserBetsByGame(game.id);
+	// 				betsMap[game.id] = bets;
+	// 				poolCountMap[game.id] = poolCount;
+	// 			}
 
-				if (!cancelled) {
-					setUserBetsByGame(betsMap);
-					setUserPoolCountByGame(poolCountMap);
-				}
-			};
+	// 			if (!cancelled) {
+	// 				setUserBetsByGame(betsMap);
+	// 				setUserPoolCountByGame(poolCountMap);
+	// 			}
+	// 		};
 
-			fetchAllUserBets();
+	// 		fetchAllUserBets();
 
-			return () => {
-				cancelled = true;
-			};
-		}, [games, filteredGames, getUserBetsByGame])
-	);
+	// 		return () => {
+	// 			cancelled = true;
+	// 		};
+	// 	}, [games, filteredGames, getUserBetsByGame])
+	// );
 
 	const renderGame = useCallback(
 		({ item: game }) => (
@@ -172,6 +159,7 @@ export default function Scoreboard() {
 				status={gameStatus}
 				sampleGameData={sampleGameData}
 				userBets={userBetsByGame[game.id] || []}
+				userBetCount={game.user_bet_count}
 				onPress={() => handlePress(game)}
 			/>
 		),

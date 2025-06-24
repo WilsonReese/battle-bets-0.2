@@ -1,42 +1,100 @@
-import { StyleSheet, View } from "react-native";
-import { BetDetails } from "../BetSlip/BetDetails";
+import React, { useState, useEffect, useCallback } from "react";
+import {
+	StyleSheet,
+	View,
+	ActivityIndicator, // ⬅️ loading spinner
+} from "react-native";
+import api from "@/utils/axiosConfig"; // ← adjust your import path
 import { Txt } from "../general/Txt";
+import { BetDetails } from "../BetSlip/BetDetails";
 import { BetAmount } from "../BetSlip/BetAmount";
 import { PlacedBet } from "../Leaderboard/PlacedBet";
 
-export function UserBetsForGame({ userBets, userPoolCount, selectedGame }) {
-	// const allUserBets = Object.values(userBets).flat();
-	// const uniquePoolIds = [
-	// 	...new Set(
-	// 		allUserBets.map((bet) => bet.betslip.battle.league_season.pool.id)
-	// 	),
-	// ];
-	const gameBets = userBets[selectedGame.id] || [];
-	const poolCount    = userPoolCount[selectedGame.id] || 0;
+export function UserBetsForGame({ selectedGame }) {
+	/* ────────────────────────────────────────────────────────────
+     LOCAL STATE & FETCH LOGIC
+     ──────────────────────────────────────────────────────────── */
+	const [bets, setBets] = useState([]);
+	const [loading, setLoading] = useState(false);
+	const [error, setError] = useState(null);
+
+	/** tiny helper so we can re-use it elsewhere if needed */
+	const getUserBetsByGame = useCallback(async (gameId) => {
+		const { data } = await api.get(`/games/${gameId}/my_bets`);
+		return data.bets; // data = { bets:[…], pool_count:N }
+	}, []);
+
+	/* fetch whenever the game id changes */
+	useEffect(() => {
+		if (!selectedGame?.id) {
+			setBets([]);
+			return;
+		}
+
+		let cancelled = false;
+		setLoading(true);
+		setError(null);
+
+		getUserBetsByGame(selectedGame.id)
+			.then((b) => !cancelled && setBets(b))
+			.catch((err) => !cancelled && setError(err))
+			.finally(() => !cancelled && setLoading(false));
+
+		return () => {
+			cancelled = true;
+		};
+	}, [selectedGame?.id, getUserBetsByGame]);
+
+	/* ────────────────────────────────────────────────────────────
+     DERIVED VALUES
+     ──────────────────────────────────────────────────────────── */
+	const poolCount = new Set(
+		bets.map((b) => b.betslip.battle.league_season.pool.id)
+	).size;
 	const isSinglePool = poolCount === 1;
 
-	const groupBetsByBetOption = (bets) => {
+	/* identical helper from your original code */
+	const groupBetsByBetOption = (betsArr) => {
 		const grouped = {};
-
-		bets.forEach((bet) => {
+		betsArr.forEach((bet) => {
 			const key = bet.bet_option.id;
-			if (!grouped[key]) {
-				grouped[key] = {
-					bet_option: bet.bet_option,
-					bets: [],
-				};
-			}
-			grouped[key].bets.push(bet);
+			(grouped[key] ||= { bet_option: bet.bet_option, bets: [] }).bets.push(
+				bet
+			);
 		});
-
 		return Object.values(grouped);
 	};
 
-	const renderGroupedUserBets = () => {
-		const grouped = groupBetsByBetOption(gameBets);
+	/* ────────────────────────────────────────────────────────────
+     RENDER PATHS
+     ──────────────────────────────────────────────────────────── */
+	if (loading) {
+		return (
+			<View style={{ paddingVertical: 12 }}>
+				<ActivityIndicator size="small" color="#54D18C" />
+			</View>
+		);
+	}
 
-		return grouped.map(({ bet_option, bets }) => {
-			// Use the status of the bet_option to determine styling
+	if (error) {
+		return (
+			<Txt style={{ textAlign: "center", marginTop: 12 }}>
+				Failed to load bets.
+			</Txt>
+		);
+	}
+
+	if (bets.length === 0) {
+		return (
+			<Txt style={{ textAlign: "center", marginTop: 12 }}>
+				No bets on this game.
+			</Txt>
+		);
+	}
+
+	/* ---------------- normal rendering ---------------- */
+	const renderGroupedUserBets = () =>
+		groupBetsByBetOption(bets).map(({ bet_option, bets: grouped }) => {
 			const isPending = bet_option.success === null;
 			const isFailed = bet_option.success === false;
 			const isSuccess = bet_option.success === true;
@@ -66,11 +124,12 @@ export function UserBetsForGame({ userBets, userPoolCount, selectedGame }) {
 				: "Saira_600SemiBold";
 
 			const leagueCount = new Set(
-				bets.map((bet) => bet.betslip.battle.league_season.pool.id)
+				grouped.map((b) => b.betslip.battle.league_season.pool.id)
 			).size;
 
 			return (
 				<View key={bet_option.id} style={s.container}>
+					{/* --- header row --- */}
 					<View style={s.betDetailsSection}>
 						<View style={{ flex: 3 }}>
 							<BetDetails
@@ -83,26 +142,30 @@ export function UserBetsForGame({ userBets, userPoolCount, selectedGame }) {
 								textStyle={textStyle}
 							/>
 						</View>
+
 						<View style={[s.leagueCountContainer, { flex: 2 }]}>
-							<Txt style={s.leagueCountTxt}>{`Placed in ${leagueCount} ${
-								leagueCount === 1 ? "league" : "leagues"
-							}`}</Txt>
+							<Txt style={s.leagueCountTxt}>
+								Placed in {leagueCount}{" "}
+								{leagueCount === 1 ? "league" : "leagues"}
+							</Txt>
 						</View>
 					</View>
+
+					{/* --- individual lines --- */}
 					<View style={s.leagueInstancesContainer}>
-						{bets.map((bet) => (
+						{grouped.map((bet) => (
 							<View key={bet.id} style={s.leagueInstances}>
 								<Txt style={s.leagueNameTxt}>
 									{bet.betslip.battle.league_season.pool.name}
 								</Txt>
+
 								<View style={s.amountTxtContainer}>
-									{isPending && (
+									{isPending ? (
 										<BetAmount
 											betAmount={Math.round(bet.bet_amount)}
 											toWinAmount={Math.round(bet.to_win_amount)}
 										/>
-									)}
-									{!isPending && (
+									) : (
 										<Txt
 											style={[
 												s.txt,
@@ -119,22 +182,14 @@ export function UserBetsForGame({ userBets, userPoolCount, selectedGame }) {
 				</View>
 			);
 		});
-	};
 
-	return (
-		<>
-			{gameBets.length === 0 && (
-				<Txt style={{ textAlign: "center", marginTop: 12 }}>No bets on this game.</Txt>
-			)}
-      {isSinglePool
-        ? gameBets.map((bet) => (
-            <View key={bet.id} style={{ paddingTop: 12 }}>
-              <PlacedBet bet={bet} />
-            </View>
-          ))
-        : renderGroupedUserBets()}
-		</>
-	);
+	return isSinglePool
+		? bets.map((bet) => (
+				<View key={bet.id} style={{ paddingTop: 12 }}>
+					<PlacedBet bet={bet} />
+				</View>
+		  ))
+		: renderGroupedUserBets();
 }
 
 const s = StyleSheet.create({

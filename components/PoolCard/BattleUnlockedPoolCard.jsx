@@ -14,7 +14,8 @@ export function BattleUnlockedPoolCard({
 }) {
 	const { memberships } = usePoolDetails(pool.id);
 
-  const totalBudget = DEFAULT_BUDGETS.spreadOU + DEFAULT_BUDGETS.moneyLine + DEFAULT_BUDGETS.prop
+	const totalBudget =
+		DEFAULT_BUDGETS.spreadOU + DEFAULT_BUDGETS.moneyLine + DEFAULT_BUDGETS.prop;
 	const spent = userBetslip.amount_bet || 0;
 	const remaining = totalBudget - spent;
 

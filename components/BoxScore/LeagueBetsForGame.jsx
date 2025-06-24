@@ -57,7 +57,13 @@ export function LeagueBetsForGame({
 		return Object.values(grouped);
 	};
 
-	if (loading) return <ActivityIndicator />;
+	if (loading) {
+		return (
+			<View style={{ paddingVertical: 12 }}>
+				<ActivityIndicator size="small" color="#E4E6E7" />
+			</View>
+		);
+	}
 
 	const groupedBets = groupBetsByOption(leagueBets);
 

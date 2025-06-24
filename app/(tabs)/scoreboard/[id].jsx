@@ -139,8 +139,8 @@ export default function GameDetails() {
 								//       : renderGroupedUserBets()}
 								// </>
 								<UserBetsForGame
-									userBets={userBetsByGame}
-									userPoolCount={userPoolCountByGame}
+									// userBets={userBetsByGame}
+									// userPoolCount={userPoolCountByGame}
 									selectedGame={selectedGame}
 								/>
 							)}
