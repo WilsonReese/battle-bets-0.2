@@ -29,17 +29,14 @@ export function BetSlipHeading({
 	betslipHasChanges,
 	setBetslipHasChanges,
 	setSuppressLeaveModal,
+	setDisableInteraction
 }) {
-	const rotation = useRef(new Animated.Value(isBetSlipShown ? 1 : 0)).current;
-
 	const { bets, betsToRemove, initialBetsSnapshot } = useBets();
-	const {
-		closeAllBetSelectors,
-		saveBets,
-	} = useBetOps();
+	const { closeAllBetSelectors, saveBets } = useBetOps();
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { showError, showSuccess } = useToastMessage();
+	// const [disableInteraction, setDisableInteraction] = useState(false);
 
 	useEffect(() => {
 		// Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
@@ -55,6 +52,7 @@ export function BetSlipHeading({
 	const handleSaveBets = async () => {
 		if (isSubmitting) return;
 		setIsSubmitting(true);
+		setDisableInteraction(true); // ⛔ Block interaction
 
 		const result = await saveBets({
 			poolId,
@@ -74,6 +72,11 @@ export function BetSlipHeading({
 				closeAllBetSelectors();
 			}, 0);
 		}
+
+		// ✅ Re-enable interaction after 500ms
+		setTimeout(() => {
+			setDisableInteraction(false);
+		}, 600);
 
 		setIsSubmitting(false);
 	};

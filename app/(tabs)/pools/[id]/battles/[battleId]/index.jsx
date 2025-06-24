@@ -38,7 +38,10 @@ import { useSeason } from "../../../../../../components/contexts/SeasonContext";
 import { useConferences } from "../../../../../../hooks/useConferences";
 import { ConferenceFilter } from "../../../../../../components/GameCard/ConferenceFilter";
 import { GamesList } from "../../../../../../components/BetSelection/GamesList";
-import { useBetOps, useBets } from "../../../../../../components/contexts/BetContext";
+import {
+	useBetOps,
+	useBets,
+} from "../../../../../../components/contexts/BetContext";
 
 export default function BattleDetails() {
 	const {
@@ -64,6 +67,7 @@ export default function BattleDetails() {
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
 	const [suppressLeaveModal, setSuppressLeaveModal] = useState(false);
 	const suppressLeaveModalRef = useRef(false);
+	const [disableInteraction, setDisableInteraction] = useState(false);
 	const { currentSeason, loading: seasonLoading } = useSeason();
 
 	const scrollViewRef = useRef(null);
@@ -72,8 +76,7 @@ export default function BattleDetails() {
 	const navigation = useNavigation();
 
 	const { bets } = useBets(); // Access context function
-  const { storeBets, loadBets } = useBetOps();
-  
+	const { storeBets, loadBets } = useBetOps();
 
 	const closeBetSlip = () => {
 		sheetRef.current?.collapse(); // or .close() if you want to hide it completely
@@ -200,6 +203,14 @@ export default function BattleDetails() {
 									conferences={FILTER_CONFERENCES}
 								/>
 							</View>
+							{disableInteraction && (
+								<>
+									<View style={s.interactionBlocker} pointerEvents="auto">
+										<ActivityIndicator size="small" color="#E4E6E7"/>
+										<Txt style={s.spinnerTxt}>Saving bets</Txt>
+									</View>
+								</>
+							)}
 							{/* <View style={{height: .5, backgroundColor: '#425C70', marginHorizontal: -8, marginTop: 8,}}/> */}
 							<GamesList games={filteredGames} />
 						</View>
@@ -217,6 +228,7 @@ export default function BattleDetails() {
 							setSuppressLeaveModal={() =>
 								(suppressLeaveModalRef.current = true)
 							}
+							setDisableInteraction={setDisableInteraction}
 						/>
 						{showLeaveModal && (
 							<ConfirmLeaveBetSelectionModal
@@ -265,5 +277,21 @@ const s = StyleSheet.create({
 	},
 	conferenceFilterContainer: {
 		paddingVertical: 8,
+	},
+
+	// Timeout Style
+	interactionBlocker: {
+		...StyleSheet.absoluteFillObject,
+		backgroundColor: "#061826",
+		zIndex: 9999, // ensure it's on top
+		opacity: 0.7,
+		margin: -12,
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center"
+	},
+	spinnerTxt: {
+		paddingTop: 8,
+		paddingBottom: 100,
 	},
 });
