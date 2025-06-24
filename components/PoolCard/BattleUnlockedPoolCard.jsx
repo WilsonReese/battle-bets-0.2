@@ -20,12 +20,8 @@ export function BattleUnlockedPoolCard({
 }) {
 	const { memberships } = usePoolDetails(pool.id);
 
-	// const { getBudgetForBattle } = useBets();
 	const { getBudgetForBattle } = useBudgets(); // ← new hook
 	const remaining = getBudgetForBattle(currentBattle.id);
-  console.log('Remaining: ', remaining)
-	// const {  loadBets } = useBetOps();
-	// const remaining = getBudgetForBattle(currentBattle.id);
 
 	// Information to get League Participation Rate
 	const totalMembers = memberships.length;

@@ -6,6 +6,7 @@ import { CountdownTimer } from "./CountdownTimer";
 import { StatusIcon } from "../general/StatusIcon";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { useBets } from "../contexts/BetContext";
+import { useBudgets } from "../contexts/BudgetContext";
 
 export function FilledOutUnlockedBattleCard({
   battle,
@@ -14,8 +15,8 @@ export function FilledOutUnlockedBattleCard({
   userBetslip,
 }) {
   
-  const { getBudgetForBattle } = useBets();
-  const remaining = getBudgetForBattle(battle.id);
+  const { getBudgetForBattle } = useBudgets(); // ← new hook
+  const remaining = getBudgetForBattle(currentBattle.id);
 
   return (
     <View style={s.container}>
