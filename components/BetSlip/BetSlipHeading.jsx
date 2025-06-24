@@ -29,7 +29,7 @@ export function BetSlipHeading({
 	betslipHasChanges,
 	setBetslipHasChanges,
 	setSuppressLeaveModal,
-	setDisableInteraction
+	setDisableInteraction,
 }) {
 	const { bets, betsToRemove, initialBetsSnapshot } = useBets();
 	const { closeAllBetSelectors, saveBets } = useBetOps();
@@ -52,33 +52,33 @@ export function BetSlipHeading({
 	const handleSaveBets = async () => {
 		if (isSubmitting) return;
 		setIsSubmitting(true);
-		setDisableInteraction(true); // ⛔ Block interaction
+		setDisableInteraction(true); // ⛔ Block interaction immediately
 
-		const result = await saveBets({
-			poolId,
-			leagueSeasonId,
-			battleId,
-			betslipId,
-			showError,
-			showSuccess,
-		});
+		try {
+			const result = await saveBets({
+				poolId,
+				leagueSeasonId,
+				battleId,
+				betslipId,
+				showError,
+				showSuccess,
+			});
 
-		if (result.status === "locked") {
-			setSuppressLeaveModal(true);
-			router.replace(`/pools/${poolId}`);
-		} else if (result.status === "success") {
-			setBetslipHasChanges(false);
-			setTimeout(() => {
-				closeAllBetSelectors();
-			}, 0);
-		}
-
-		// ✅ Re-enable interaction after 500ms
-		setTimeout(() => {
+			if (result.status === "locked") {
+				setSuppressLeaveModal(true);
+				router.replace(`/pools/${poolId}`);
+			} else if (result.status === "success") {
+				setBetslipHasChanges(false);
+				closeAllBetSelectors(); // this is already a microtask
+			}
+		} catch (err) {
+			showError("Something went wrong while saving your bets.");
+			console.error("Save failed:", err);
+		} finally {
+			// ✅ Always re-enable interaction after the operation completes
 			setDisableInteraction(false);
-		}, 600);
-
-		setIsSubmitting(false);
+			setIsSubmitting(false);
+		}
 	};
 
 	return (
