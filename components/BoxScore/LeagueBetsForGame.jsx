@@ -90,7 +90,10 @@ export function LeagueBetsForGame({
 						const betCount = bets.length;
 						const avgPerBet = Math.round(totalAmount / betCount);
 						const avgWon = Math.round(totalWon / betCount);
-						const betRate = (betCount / selectedPool.membership_count * 100).toFixed(1)
+						const betRate = (
+							(betCount / selectedPool.membership_count) *
+							100
+						).toFixed(1);
 
 						const isPending = bet_option.success === null;
 						const isFailed = bet_option.success === false;
@@ -136,16 +139,26 @@ export function LeagueBetsForGame({
 								<View style={s.betStatsContainer}>
 									<View style={s.stat}>
 										<View style={s.stat}>
+											{isPending ? (
+												<Txt style={[s.leagueStats, s.statLabel]}>
+													Placed By:{" "}
+												</Txt>
+											) : (
+												<Txt
+													style={[
+														s.leagueStats,
+														{ fontFamily: textStyle, color: textColor },
+													]}
+												>
+													Placed By:{" "}
+												</Txt>
+											)}
 											<Txt
 												style={[
 													s.leagueStats,
-													s.statLabel,
 													{ fontFamily: textStyle, color: textColor },
 												]}
 											>
-												Placed By:{" "}
-											</Txt>
-											<Txt style={[s.leagueStats, { fontFamily: textStyle, color: textColor }]}>
 												{betRate}%
 											</Txt>
 										</View>
@@ -161,12 +174,24 @@ export function LeagueBetsForGame({
 										)}
 										{!isPending && (
 											<View style={s.stat}>
-												<Txt style={[s.leagueStats, {fontFamily: textStyle, color: textColor}]}>
+												<Txt
+													style={[
+														s.leagueStats,
+														{ fontFamily: textStyle, color: textColor },
+													]}
+												>
 													Avg Won:{" "}
 												</Txt>
-												<Txt style={[s.leagueStats, {fontFamily: textStyle, color: textColor}]}>${avgWon}</Txt>
+												<Txt
+													style={[
+														s.leagueStats,
+														{ fontFamily: textStyle, color: textColor },
+													]}
+												>
+													${avgWon}
+												</Txt>
 											</View>
-											)}
+										)}
 										{/* <Txt style={[s.leagueStats, s.statLabel, { color: textColor }]}>
 												{isPending ? "Avg Bet:" : "Avg Won:"}{" "}
 											</Txt>

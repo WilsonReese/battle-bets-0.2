@@ -47,7 +47,7 @@ export const PoolDetailsProvider = ({ children }) => {
     }
   };
 
-  const fetchSeasonsAndBattles = async (poolId, seasonYear = 2024) => {
+  const fetchSeasonsAndBattles = async (poolId, seasonYear = 2025) => {
     try {
       const seasonRes = await api.get(`/pools/${poolId}/league_seasons`);
       const selectedSeason = seasonRes.data.find(
@@ -93,7 +93,7 @@ export const PoolDetailsProvider = ({ children }) => {
     }
   };
 
-  const fetchStandings = async (poolId, seasonYear = 2024) => {
+  const fetchStandings = async (poolId, seasonYear = 2025) => {
     try {
       const seasonRes = await api.get(`/pools/${poolId}/league_seasons`);
       const season = seasonRes.data.find((ls) => ls.season.year === seasonYear);

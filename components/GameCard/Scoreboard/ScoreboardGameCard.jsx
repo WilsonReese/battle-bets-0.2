@@ -5,7 +5,7 @@ import { PregameCardDetails } from "./PregameCardDetails";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 import { useScoreboard } from "../../contexts/ScoreboardContext";
 
-export function ScoreboardGameCard({ game, sampleGameData, userBetCount, userBets = [], onPress  = () => {} }) {
+export function ScoreboardGameCard({ game, sampleGameData, userBetCount, onPress  = () => {} }) {
 	const { gameStatus } = useScoreboard();
 
 	return (
@@ -48,7 +48,7 @@ export function ScoreboardGameCard({ game, sampleGameData, userBetCount, userBet
 					</View>
 				)}
 			</View>
-			{userBetCount > 0 && (
+			{userBetCount > 0 && game.battles_locked && (
 				<View style={s.userBetCount}>
 					<Txt style={s.userBetCountTxt}>
 						{userBetCount} {userBetCount === 1 ? "Bet" : "Bets"}

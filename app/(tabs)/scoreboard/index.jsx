@@ -22,7 +22,6 @@ import samplePlayerStats from "@/utils/samplePlayerStats.json";
 import axios from "axios";
 
 export default function Scoreboard() {
-	const [userBetsByGame, setUserBetsByGame] = useState({});
 	const [userPoolCountByGame, setUserPoolCountByGame] = useState({});
 
 	const { currentSeason, loading: seasonLoading } = useSeason();
@@ -51,7 +50,6 @@ export default function Scoreboard() {
 		gameStatus,
 	} = useScoreboard();
 
-	// const { getUserBetsByGame } = useBetOps();
 	const router = useRouter();
 
 	const [games, setGames] = useState([]);
@@ -69,7 +67,6 @@ export default function Scoreboard() {
 		setSelectedAwayTeamStats(sampleAwayTeamStats);
 		setSelectedHomePlayerStats(sampleHomePlayerStats);
 		setSelectedAwayPlayerStats(sampleAwayPlayerStats);
-		// setUserBets(userBetsByGame);
 		router.push(`/scoreboard/${game.id}`);
 	};
 
@@ -101,56 +98,6 @@ export default function Scoreboard() {
 	);
 
 	console.log('Games:', games)
-	// useEffect(() => {
-	// 	const fetchAllUserBets = async () => {
-	// 		const betsMap = {};
-	// 		const poolCountMap = {};
-
-	// 		for (const game of filteredGames) {
-	// 			// const { bets, poolCount } = await getUserBetsByGame(game.id);
-	// 			// betsMap[game.id] = bets;
-	// 			// poolCountMap[game.id] = poolCount;
-	// 			const { bets, poolCount } = await getUserBetsByGame(game.id);
-	// 			betsMap[game.id] = bets;
-	// 			poolCountMap[game.id] = poolCount;
-	// 		}
-
-	// 		setUserBetsByGame(betsMap);
-	// 		setUserPoolCountByGame(poolCountMap);
-	// 	};
-
-	// 	fetchAllUserBets();
-	// }, [games, getUserBetsByGame, setUserBetsByGame, setUserPoolCountByGame]);
-
-	// useFocusEffect(
-	// 	useCallback(() => {
-	// 		if (games.length === 0) return;
-
-	// 		let cancelled = false;
-
-	// 		const fetchAllUserBets = async () => {
-	// 			const betsMap = {};
-	// 			const poolCountMap = {};
-
-	// 			for (const game of filteredGames) {
-	// 				const { bets, poolCount } = await getUserBetsByGame(game.id);
-	// 				betsMap[game.id] = bets;
-	// 				poolCountMap[game.id] = poolCount;
-	// 			}
-
-	// 			if (!cancelled) {
-	// 				setUserBetsByGame(betsMap);
-	// 				setUserPoolCountByGame(poolCountMap);
-	// 			}
-	// 		};
-
-	// 		fetchAllUserBets();
-
-	// 		return () => {
-	// 			cancelled = true;
-	// 		};
-	// 	}, [games, filteredGames, getUserBetsByGame])
-	// );
 
 	const renderGame = useCallback(
 		({ item: game }) => (
@@ -158,12 +105,11 @@ export default function Scoreboard() {
 				game={game}
 				status={gameStatus}
 				sampleGameData={sampleGameData}
-				userBets={userBetsByGame[game.id] || []}
 				userBetCount={game.user_bet_count}
 				onPress={() => handlePress(game)}
 			/>
 		),
-		[gameStatus, sampleGameData, userBetsByGame]
+		[gameStatus, sampleGameData]
 	);
 
 	if (seasonLoading || loadingGames) {
