@@ -128,21 +128,35 @@ export const PoolDetailsProvider = ({ children }) => {
 		}
 	};
 
-	const fetchAllPoolData = async (poolId) => {
-		initPoolDetails(poolId);
+	const fetchAllPoolData = async (poolId, { skipLoading = false } = {}) => {
+		if (!skipLoading) initPoolDetails(poolId); // only reset state on initial load
+
+		if (!skipLoading) {
+			setPoolDetailsMap((prev) => ({
+				...prev,
+				[poolId]: {
+					...prev[poolId],
+					loading: true,
+				},
+			}));
+		}
+
 		await Promise.all([
 			fetchPoolDetails(poolId),
 			fetchPoolMemberships(poolId),
 			fetchSeasonsAndBattles(poolId),
 			fetchStandings(poolId),
 		]);
-		setPoolDetailsMap((prev) => ({
-			...prev,
-			[poolId]: {
-				...prev[poolId],
-				loading: false,
-			},
-		}));
+
+		if (!skipLoading) {
+			setPoolDetailsMap((prev) => ({
+				...prev,
+				[poolId]: {
+					...prev[poolId],
+					loading: false,
+				},
+			}));
+		}
 	};
 
 	const setUserBetslipForPool = (poolId, betslip) => {
