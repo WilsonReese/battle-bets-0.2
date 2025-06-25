@@ -36,11 +36,11 @@ export function PoolCard({ pool }) {
   console.log('Selected Season: ', selectedSeason)
 
   // useEffect to get standings
-  useFocusEffect(
-    useCallback(() => {
-      fetchAllPoolData(pool.id);
-    }, [pool.id])
-  );
+  // useFocusEffect(
+  //   useCallback(() => {
+  //     fetchAllPoolData(pool.id);
+  //   }, [pool.id])
+  // );
 
   if (poolLoading) return <SkeletonPoolCard />;
 
