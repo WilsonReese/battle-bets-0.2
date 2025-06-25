@@ -4,6 +4,7 @@ import {
 	ScrollView,
 	TouchableOpacity,
 	Dimensions,
+	RefreshControl,
 } from "react-native";
 import { Txt } from "../../../components/general/Txt";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
@@ -31,12 +32,13 @@ export default function GameDetails() {
 		selectedHomePlayerStats,
 		selectedAwayPlayerStats,
 		// userBetsByGame,
-    // userPoolCountByGame
+		// userPoolCountByGame
 	} = useScoreboard();
 	const awayTeam = selectedGame.away_team;
 	const homeTeam = selectedGame.home_team;
 	const bottomSheetRef = useRef(null);
 	const [sheetOpen, setSheetOpen] = useState(false);
+	const [refreshing, setRefreshing] = useState(false);
 
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.4;
@@ -52,6 +54,22 @@ export default function GameDetails() {
 			setPool(res.data[0]); // default
 		});
 	}, []);
+
+	const onRefresh = async () => {
+		setRefreshing(true);
+
+		try {
+			const res = await api.get("/pools");
+			setPools(res.data);
+			if (!selectedPool && res.data.length > 0) {
+				setPool(res.data[0]); // reset to default if needed
+			}
+		} catch (err) {
+			console.error("Error refreshing pools:", err);
+		} finally {
+			setRefreshing(false);
+		}
+	};
 
 	/* ---------- handlers passed down ---------- */
 	const handleSelectPool = (pool) => {
@@ -86,7 +104,13 @@ export default function GameDetails() {
 				<BoxScoreOrBetsToggle selected={infoMode} onSelect={setInfoMode} />
 			</View>
 
-			<ScrollView style={s.scrollView} showsVerticalScrollIndicator={false}>
+			<ScrollView
+				style={s.scrollView}
+				showsVerticalScrollIndicator={false}
+				refreshControl={
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+				}
+			>
 				<View style={s.detailsCard}>
 					{infoMode === "boxScore" && (
 						<>
