@@ -17,11 +17,12 @@ export function UserBetsForGame({ selectedGame }) {
 	const [bets, setBets] = useState([]);
 	const [loading, setLoading] = useState(false);
 	const [error, setError] = useState(null);
+	const [poolCount, setPoolCount] = useState(0);
 
 	/** tiny helper so we can re-use it elsewhere if needed */
 	const getUserBetsByGame = useCallback(async (gameId) => {
 		const { data } = await api.get(`/games/${gameId}/my_bets`);
-		return data.bets; // data = { bets:[…], pool_count:N }
+		return data; // { bets:[…], pool_count:N }
 	}, []);
 
 	/* fetch whenever the game id changes */
@@ -36,7 +37,12 @@ export function UserBetsForGame({ selectedGame }) {
 		setError(null);
 
 		getUserBetsByGame(selectedGame.id)
-			.then((b) => !cancelled && setBets(b))
+			.then((res) => {
+				if (!cancelled) {
+					setBets(res.bets);
+					setPoolCount(res.pool_count);
+				}
+			})
 			.catch((err) => !cancelled && setError(err))
 			.finally(() => !cancelled && setLoading(false));
 
@@ -48,9 +54,7 @@ export function UserBetsForGame({ selectedGame }) {
 	/* ────────────────────────────────────────────────────────────
      DERIVED VALUES
      ──────────────────────────────────────────────────────────── */
-	const poolCount = new Set(
-		bets.map((b) => b.betslip.battle.league_season.pool.id)
-	).size;
+
 	const isSinglePool = poolCount === 1;
 
 	/* identical helper from your original code */
@@ -144,7 +148,7 @@ export function UserBetsForGame({ selectedGame }) {
 						</View>
 
 						<View style={[s.leagueCountContainer, { flex: 2 }]}>
-							<Txt style={s.leagueCountTxt}>
+							<Txt style={[s.leagueCountTxt, {color: betNameColor}]}>
 								Placed in {leagueCount}{" "}
 								{leagueCount === 1 ? "league" : "leagues"}
 							</Txt>
@@ -155,7 +159,7 @@ export function UserBetsForGame({ selectedGame }) {
 					<View style={s.leagueInstancesContainer}>
 						{grouped.map((bet) => (
 							<View key={bet.id} style={s.leagueInstances}>
-								<Txt style={s.leagueNameTxt}>
+								<Txt style={[s.leagueNameTxt,  {color: betNameColor}]}>
 									{bet.betslip.battle.league_season.pool.name}
 								</Txt>
 

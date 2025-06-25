@@ -36,6 +36,8 @@ export function LeagueBetsForGame({
 			.finally(() => setLoading(false));
 	}, [gameId, selectedPool]);
 
+	console.log("Selected Pool ", selectedPool);
+
 	const groupBetsByOption = (bets) => {
 		const grouped = {};
 
@@ -47,11 +49,13 @@ export function LeagueBetsForGame({
 					bets: [], // ← keep the raw bets
 					userIds: new Set(),
 					totalAmount: 0,
+					totalWon: 0,
 				};
 			}
 			grouped[key].bets.push(bet);
 			grouped[key].userIds.add(bet.user_id);
 			grouped[key].totalAmount += Number(bet.bet_amount);
+			grouped[key].totalWon += Number(bet.amount_won);
 		});
 
 		return Object.values(grouped);
@@ -69,13 +73,6 @@ export function LeagueBetsForGame({
 
 	console.log("Grouped Bets", groupedBets);
 
-	// if (groupedBets.length === 0)
-	// 	return (
-	// 		<Txt style={{ textAlign: "center", marginTop: 12 }}>
-	// 			No league bets yet.
-	// 		</Txt>
-	// 	);
-
 	return (
 		<>
 			<TouchableOpacity style={s.leagueSelector} onPress={onToggleSheet}>
@@ -89,9 +86,11 @@ export function LeagueBetsForGame({
 			)}
 			{groupedBets.length > 0 && (
 				<View>
-					{groupedBets.map(({ bet_option, bets, totalAmount }) => {
+					{groupedBets.map(({ bet_option, bets, totalAmount, totalWon }) => {
 						const betCount = bets.length;
 						const avgPerBet = Math.round(totalAmount / betCount);
+						const avgWon = Math.round(totalWon / betCount);
+						const betRate = (betCount / selectedPool.membership_count * 100).toFixed(1)
 
 						const isPending = bet_option.success === null;
 						const isFailed = bet_option.success === false;
@@ -136,14 +135,45 @@ export function LeagueBetsForGame({
 								</View>
 								<View style={s.betStatsContainer}>
 									<View style={s.stat}>
-										<Txt style={[s.leagueStats, s.statLabel]}>
-											Bets Placed:{" "}
-										</Txt>
-										<Txt style={s.leagueStats}>{betCount}</Txt>
+										<View style={s.stat}>
+											<Txt
+												style={[
+													s.leagueStats,
+													s.statLabel,
+													{ fontFamily: textStyle, color: textColor },
+												]}
+											>
+												Placed By:{" "}
+											</Txt>
+											<Txt style={[s.leagueStats, { fontFamily: textStyle, color: textColor }]}>
+												{betRate}%
+											</Txt>
+										</View>
 									</View>
 									<View style={s.stat}>
-										<Txt style={[s.leagueStats, s.statLabel]}>Avg Bet: </Txt>
-										<Txt style={s.leagueStats}>${avgPerBet}</Txt>
+										{isPending && (
+											<View style={s.stat}>
+												<Txt style={[s.leagueStats, s.statLabel]}>
+													Avg Bet:{" "}
+												</Txt>
+												<Txt style={s.leagueStats}>${avgPerBet}</Txt>
+											</View>
+										)}
+										{!isPending && (
+											<View style={s.stat}>
+												<Txt style={[s.leagueStats, {fontFamily: textStyle, color: textColor}]}>
+													Avg Won:{" "}
+												</Txt>
+												<Txt style={[s.leagueStats, {fontFamily: textStyle, color: textColor}]}>${avgWon}</Txt>
+											</View>
+											)}
+										{/* <Txt style={[s.leagueStats, s.statLabel, { color: textColor }]}>
+												{isPending ? "Avg Bet:" : "Avg Won:"}{" "}
+											</Txt>
+											<Txt style={[s.leagueStats, { color: textColor }]}>
+												${isPending ? avgPerBet : avgWon}
+											</Txt>
+										</View> */}
 									</View>
 								</View>
 							</View>
