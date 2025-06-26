@@ -15,35 +15,70 @@ export default function Pools() {
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 
-	useFocusEffect(
-		useCallback(() => {
-			const fetchPools = async () => {
-				setIsScreenLoading(true);
-				try {
-					const response = await api.get("/pools");
-					setPools(response.data);
-				} catch (error) {
-					console.error("Error fetching pools:", error);
-				} finally {
-					setIsScreenLoading(false);
-				}
-			};
+	// 🆕 this counter bumps every time the screen gains focus
+	const [focusVersion, setFocusVersion] = useState(0);
 
-			fetchPools();
-		}, [api])
-	);
+	// ─────────────────────────────────────────────
+  // Fetch list of pools
+  // ─────────────────────────────────────────────
+	  const fetchPools = async () => {
+    try {
+      const res = await api.get("/pools");
+      setPools(res.data);
+    } catch (err) {
+      console.error("Error fetching pools:", err);
+    }
+  };
 
-	const onRefresh = async () => {
-		setRefreshing(true);
-		try {
-			const response = await api.get("/pools");
-			setPools(response.data);
-		} catch (err) {
-			console.error("Refresh error:", err);
-		} finally {
-			setRefreshing(false);
-		}
-	};
+	// Initial + every focus
+  useFocusEffect(
+    useCallback(() => {
+      (async () => {
+        setIsScreenLoading(true);
+        await fetchPools();
+        setIsScreenLoading(false);
+        setFocusVersion(v => v + 1); // ⬆️  tell cards the screen refreshed
+      })();
+    }, [api])
+  );
+
+	// useFocusEffect(
+	// 	useCallback(() => {
+	// 		const fetchPools = async () => {
+	// 			setIsScreenLoading(true);
+	// 			try {
+	// 				const response = await api.get("/pools");
+	// 				setPools(response.data);
+	// 			} catch (error) {
+	// 				console.error("Error fetching pools:", error);
+	// 			} finally {
+	// 				setIsScreenLoading(false);
+	// 			}
+	// 		};
+
+	// 		fetchPools();
+	// 	}, [api])
+	// );
+
+	// Pull-to-refresh (optional)
+  const onRefresh = async () => {
+    setRefreshing(true);
+    await fetchPools();
+    setRefreshing(false);
+    setFocusVersion(v => v + 1);      // ⬆️  force cards to refetch too
+  };
+
+	// const onRefresh = async () => {
+	// 	setRefreshing(true);
+	// 	try {
+	// 		const response = await api.get("/pools");
+	// 		setPools(response.data);
+	// 	} catch (err) {
+	// 		console.error("Refresh error:", err);
+	// 	} finally {
+	// 		setRefreshing(false);
+	// 	}
+	// };
 
 	if (isScreenLoading) {
 		return (
@@ -67,8 +102,11 @@ export default function Pools() {
 				<FlatList
 					data={pools}
 					keyExtractor={(item) => item.id.toString()}
-					renderItem={({ item }) => <PoolCard pool={item} refreshing={refreshing}/>}
+					renderItem={({ item }) => (
+						<PoolCard pool={item} focusVersion={focusVersion} />
+					)}
 					showsVerticalScrollIndicator={false}
+					initialNumToRender={5}
 					contentContainerStyle={{ paddingBottom: 16 }}
 					refreshControl={
 						<RefreshControl

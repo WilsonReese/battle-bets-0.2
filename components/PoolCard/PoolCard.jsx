@@ -7,7 +7,7 @@ import {
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router, useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import api from "../../utils/axiosConfig";
 import { PreseasonPoolCard } from "./PreseasonPoolCard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
@@ -16,7 +16,7 @@ import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { BattleLockedPoolCard } from "./BattleLockedPoolCard";
 import { SkeletonPoolCard } from "./SkeletonPoolCard";
 
-export function PoolCard({ pool, refreshing }) {
+export function PoolCard({ pool, focusVersion }) {
 	const [localLoading, setLocalLoading] = useState(false);
 
 	// const [hasStarted, setHasStarted] = useState(null);
@@ -31,6 +31,24 @@ export function PoolCard({ pool, refreshing }) {
 		loading: poolLoading,
 	} = usePoolDetails(pool.id);
 
+	const lastHandledVersion = useRef(-1); // tracks last refresh we processed
+
+	// ─────────────────────────────────────────────
+	// Fetch when:
+	//   • card first mounts   (version -1 → 0)
+	//   • Pools screen bumps focusVersion
+	// ─────────────────────────────────────────────
+
+	useEffect(() => {
+		if (lastHandledVersion.current !== focusVersion) {
+			const skip = lastHandledVersion.current !== -1; // true after first load
+			lastHandledVersion.current = focusVersion;
+			fetchAllPoolData(pool.id, { skipLoading: skip });
+		}
+	}, [focusVersion, pool.id]);
+
+  if (poolLoading) return <SkeletonPoolCard />;
+
 	const currentBattle =
 		battles.find((b) => b.current === true) || battles[0] || null;
 
@@ -43,13 +61,12 @@ export function PoolCard({ pool, refreshing }) {
 	//   }, [pool.id])
 	// );
 
-	useEffect(() => {
-		if (refreshing) {
-			fetchAllPoolData(pool.id, { skipLoading: true });
-		}
-	}, [refreshing]);
+	// useEffect(() => {
+	// 	if (refreshing) {
+	// 		fetchAllPoolData(pool.id, { skipLoading: true });
+	// 	}
+	// }, [refreshing]);
 
-	if (poolLoading) return <SkeletonPoolCard />;
 
 	return (
 		<TouchableOpacity
