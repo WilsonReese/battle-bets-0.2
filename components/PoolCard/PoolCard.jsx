@@ -16,7 +16,7 @@ import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { BattleLockedPoolCard } from "./BattleLockedPoolCard";
 import { SkeletonPoolCard } from "./SkeletonPoolCard";
 
-export function PoolCard({ pool }) {
+export function PoolCard({ pool, refreshing }) {
 	const [localLoading, setLocalLoading] = useState(false);
 
 	// const [hasStarted, setHasStarted] = useState(null);
@@ -43,7 +43,13 @@ export function PoolCard({ pool }) {
 	//   }, [pool.id])
 	// );
 
-	if (poolLoading) return <SkeletonPoolCard />
+	useEffect(() => {
+		if (refreshing) {
+			fetchAllPoolData(pool.id, { skipLoading: true });
+		}
+	}, [refreshing]);
+
+	if (poolLoading) return <SkeletonPoolCard />;
 
 	return (
 		<TouchableOpacity
