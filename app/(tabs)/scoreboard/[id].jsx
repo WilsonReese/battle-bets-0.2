@@ -108,7 +108,7 @@ export default function GameDetails() {
 				style={s.scrollView}
 				showsVerticalScrollIndicator={false}
 				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#C7CDD1"/>
 				}
 			>
 				<View style={s.detailsCard}>

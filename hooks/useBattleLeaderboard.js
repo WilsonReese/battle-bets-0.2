@@ -1,79 +1,148 @@
 // hooks/useBattleLeaderboard.js
-import { useEffect, useState } from "react";
+import { useCallback, useEffect, useState } from "react";
 import api from "../utils/axiosConfig";
 
 export function useBattleLeaderboard(poolId, leagueSeasonId, battleId) {
-  const [betslips, setBetslips] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [error, setError] = useState(null);
+	const [betslips, setBetslips] = useState([]);
+	const [loading, setLoading] = useState(true);
+	const [error, setError] = useState(null);
 
-  useEffect(() => {
-    if (!poolId || !leagueSeasonId || !battleId) return;
+	const fetchBetslips = useCallback(async () => {
+		if (!poolId || !leagueSeasonId || !battleId) return;
 
-    const fetchBetslips = async () => {
-      setLoading(true);
-      try {
-        const response = await api.get(
-          `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips`
-        );
+		setLoading(true);
+		setError(null);
 
-        const sorted = response.data.sort((a, b) => {
-          if (b.earnings !== a.earnings) return b.earnings - a.earnings;
-          return b.max_payout_remaining - a.max_payout_remaining;
-        });
+		try {
+			const response = await api.get(
+				`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips`
+			);
 
-        // Assign ranks and hitRate
-        const ranked = [];
-        let currentRank = 1;
-        let tieCount = 0;
+			const sorted = response.data.sort((a, b) => {
+				if (b.earnings !== a.earnings) return b.earnings - a.earnings;
+				return b.max_payout_remaining - a.max_payout_remaining;
+			});
 
-        for (let i = 0; i < sorted.length; i++) {
-          const betslip = sorted[i];
-          const prev = sorted[i - 1];
+			// Assign ranks and hitRate
+			const ranked = [];
+			let currentRank = 1;
+			let tieCount = 0;
 
-          const isTied =
-            i > 0 &&
-            betslip.earnings === prev.earnings &&
-            betslip.max_payout_remaining === prev.max_payout_remaining;
+			for (let i = 0; i < sorted.length; i++) {
+				const betslip = sorted[i];
+				const prev = sorted[i - 1];
 
-          if (!isTied) {
-            currentRank = currentRank + tieCount;
-            tieCount = 1;
-          } else {
-            tieCount++;
-          }
+				const isTied =
+					i > 0 &&
+					betslip.earnings === prev.earnings &&
+					betslip.max_payout_remaining === prev.max_payout_remaining;
 
-          const totalBets = betslip.bets?.length ?? 0;
-          const successfulBets = betslip.bets?.filter(
-            (b) => b.bet_option?.success === true
-          ).length ?? 0;
+				if (!isTied) {
+					currentRank = currentRank + tieCount;
+					tieCount = 1;
+				} else {
+					tieCount++;
+				}
 
-          const failedBets = betslip.bets?.filter(
-            (b) => b.bet_option?.success === false
-          ).length ?? 0;
+				const totalBets = betslip.bets?.length ?? 0;
+				const successfulBets =
+					betslip.bets?.filter((b) => b.bet_option?.success === true).length ??
+					0;
 
-          
+				const failedBets =
+					betslip.bets?.filter((b) => b.bet_option?.success === false).length ??
+					0;
 
-          const hitRate = (successfulBets + failedBets) > 0 ? (successfulBets / (successfulBets + failedBets)) * 100 : null;
+				const hitRate =
+					successfulBets + failedBets > 0
+						? (successfulBets / (successfulBets + failedBets)) * 100
+						: null;
 
-          ranked.push({
-            ...betslip,
-            rank: currentRank,
-            hitRate: hitRate?.toFixed(0), // as a clean integer percentage string like "80"
-          });
-        }
+				ranked.push({
+					...betslip,
+					rank: currentRank,
+					hitRate: hitRate?.toFixed(0),
+				});
+			}
 
-        setBetslips(ranked);
-      } catch (err) {
-        console.error("Error loading betslips:", err);
-        setError(err);
-      } finally {
-        setLoading(false);
-      }
-    };
+			setBetslips(ranked);
+		} catch (err) {
+			console.error("Error loading betslips:", err);
+			setError(err);
+		} finally {
+			setLoading(false);
+		}
+	}, [poolId, leagueSeasonId, battleId]);
 
-    fetchBetslips();
-  }, [poolId, leagueSeasonId, battleId]);
+	useEffect(() => {
+		fetchBetslips();
+	}, [fetchBetslips]);
 
-  return { betslips, loading, error };
+	// useEffect(() => {
+	//   if (!poolId || !leagueSeasonId || !battleId) return;
+
+	//   const fetchBetslips = async () => {
+	//     setLoading(true);
+	//     try {
+	//       const response = await api.get(
+	//         `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips`
+	//       );
+
+	//       const sorted = response.data.sort((a, b) => {
+	//         if (b.earnings !== a.earnings) return b.earnings - a.earnings;
+	//         return b.max_payout_remaining - a.max_payout_remaining;
+	//       });
+
+	//       // Assign ranks and hitRate
+	//       const ranked = [];
+	//       let currentRank = 1;
+	//       let tieCount = 0;
+
+	//       for (let i = 0; i < sorted.length; i++) {
+	//         const betslip = sorted[i];
+	//         const prev = sorted[i - 1];
+
+	//         const isTied =
+	//           i > 0 &&
+	//           betslip.earnings === prev.earnings &&
+	//           betslip.max_payout_remaining === prev.max_payout_remaining;
+
+	//         if (!isTied) {
+	//           currentRank = currentRank + tieCount;
+	//           tieCount = 1;
+	//         } else {
+	//           tieCount++;
+	//         }
+
+	//         const totalBets = betslip.bets?.length ?? 0;
+	//         const successfulBets = betslip.bets?.filter(
+	//           (b) => b.bet_option?.success === true
+	//         ).length ?? 0;
+
+	//         const failedBets = betslip.bets?.filter(
+	//           (b) => b.bet_option?.success === false
+	//         ).length ?? 0;
+
+	//         const hitRate = (successfulBets + failedBets) > 0 ? (successfulBets / (successfulBets + failedBets)) * 100 : null;
+
+	//         ranked.push({
+	//           ...betslip,
+	//           rank: currentRank,
+	//           hitRate: hitRate?.toFixed(0), // as a clean integer percentage string like "80"
+	//         });
+	//       }
+
+	//       setBetslips(ranked);
+	//     } catch (err) {
+	//       console.error("Error loading betslips:", err);
+	//       setError(err);
+	//     } finally {
+	//       setLoading(false);
+	//     }
+	//   };
+
+	//   fetchBetslips();
+	// }, [poolId, leagueSeasonId, battleId]);
+
+	return { betslips, loading, error, refetch: fetchBetslips };
 }

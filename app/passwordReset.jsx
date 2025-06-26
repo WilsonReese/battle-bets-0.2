@@ -184,7 +184,7 @@ export default function PasswordReset() {
         <ScrollView
           style={s.innerContainer}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#C7CDD1"/>
           }
           keyboardShouldPersistTaps="handled"
         >

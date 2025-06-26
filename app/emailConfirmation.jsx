@@ -182,7 +182,7 @@ export default function EmailConfirmation() {
         <ScrollView
           contentContainerStyle={{ flex: 1 }}
           refreshControl={
-            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} />
+            <RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#C7CDD1" />
           }
           showsVerticalScrollIndicator={false}
         >
