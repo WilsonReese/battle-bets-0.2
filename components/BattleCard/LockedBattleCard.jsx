@@ -16,11 +16,13 @@ export function LockedBattleCard({
   battleEndDateTime,
   userBetslip,
   poolId,
+  refreshVersion
 }) {
   const { loading, betslips } = useBattleLeaderboard(
     poolId,
     battle.league_season_id,
-    battle.id
+    battle.id, 
+    refreshVersion
   );
   const topThree = betslips.slice(0, 3);
 

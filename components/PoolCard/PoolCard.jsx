@@ -24,7 +24,8 @@ export function PoolCard({ pool, focusVersion }) {
 	const {
 		selectedSeason,
 		battles,
-		userBetslip,
+		// userBetslip,
+    userBetslipByBattle, // ✅ ADD THIS
 		setUserBetslip,
 		userEntry,
 		fetchAllPoolData,
@@ -54,20 +55,6 @@ export function PoolCard({ pool, focusVersion }) {
 
 	console.log("Selected Season: ", selectedSeason);
 
-	// useEffect to get standings
-	// useFocusEffect(
-	//   useCallback(() => {
-	//     fetchAllPoolData(pool.id);
-	//   }, [pool.id])
-	// );
-
-	// useEffect(() => {
-	// 	if (refreshing) {
-	// 		fetchAllPoolData(pool.id, { skipLoading: true });
-	// 	}
-	// }, [refreshing]);
-
-
 	return (
 		<TouchableOpacity
 			style={s.card}
@@ -91,8 +78,8 @@ export function PoolCard({ pool, focusVersion }) {
 					userEntry={userEntry}
 					currentBattle={currentBattle}
 					selectedSeason={selectedSeason}
-					userBetslip={userBetslip}
-					setUserBetslip={setUserBetslip}
+					userBetslip={userBetslipByBattle?.[currentBattle?.id] ?? null}
+					// setUserBetslip={setUserBetslip}
 					// setLoading={setLoading}
 				/>
 			)}
@@ -103,7 +90,7 @@ export function PoolCard({ pool, focusVersion }) {
 					pool={pool}
 					battle={currentBattle}
 					userEntry={userEntry}
-					userBetslip={userBetslip}
+					userBetslip={userBetslipByBattle?.[currentBattle?.id] ?? null}
 				/>
 			)}
 		</TouchableOpacity>

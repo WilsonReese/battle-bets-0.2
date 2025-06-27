@@ -42,24 +42,6 @@ export default function Pools() {
     }, [api])
   );
 
-	// useFocusEffect(
-	// 	useCallback(() => {
-	// 		const fetchPools = async () => {
-	// 			setIsScreenLoading(true);
-	// 			try {
-	// 				const response = await api.get("/pools");
-	// 				setPools(response.data);
-	// 			} catch (error) {
-	// 				console.error("Error fetching pools:", error);
-	// 			} finally {
-	// 				setIsScreenLoading(false);
-	// 			}
-	// 		};
-
-	// 		fetchPools();
-	// 	}, [api])
-	// );
-
 	// Pull-to-refresh (optional)
   const onRefresh = async () => {
     setRefreshing(true);
@@ -67,18 +49,6 @@ export default function Pools() {
     setRefreshing(false);
     setFocusVersion(v => v + 1);      // ⬆️  force cards to refetch too
   };
-
-	// const onRefresh = async () => {
-	// 	setRefreshing(true);
-	// 	try {
-	// 		const response = await api.get("/pools");
-	// 		setPools(response.data);
-	// 	} catch (err) {
-	// 		console.error("Refresh error:", err);
-	// 	} finally {
-	// 		setRefreshing(false);
-	// 	}
-	// };
 
 	if (isScreenLoading) {
 		return (

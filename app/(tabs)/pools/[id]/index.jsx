@@ -45,6 +45,7 @@ export default function PoolDetails() {
 	const [modalVisible, setModalVisible] = useState(false);
 	const [userPools, setUserPools] = useState([]);
 	const [refreshing, setRefreshing] = useState(false);
+	const [battleLeaderboardRefresh, setBattleLeaderboardRefresh] = useState(0);
 
 	const {
 		poolDetails,
@@ -52,12 +53,13 @@ export default function PoolDetails() {
 		battles,
 		setBattles,
 		userBetslip,
-		setUserBetslip,
+		// setUserBetslip,
 		memberships,
 		setMemberships,
 		loading,
 		setLoading,
 		fetchAllPoolData,
+		userBetslipByBattle, // 🆕 add this
 		inviteToken,
 	} = usePoolDetails(poolId);
 
@@ -92,6 +94,7 @@ export default function PoolDetails() {
 		setRefreshing(true);
 		try {
 			await fetchAllPoolData(poolId, { skipLoading: true });
+			setBattleLeaderboardRefresh((v) => v + 1); // ✅ bump to trigger reload
 		} catch (err) {
 			console.error("Error refreshing pool data", err);
 		} finally {
@@ -149,14 +152,16 @@ export default function PoolDetails() {
 								renderItemRow={(battle) => (
 									<BattleCard
 										key={battle.id}
-										userBetslip={userBetslip}
+										// userBetslip={userBetslip}
+										userBetslip={userBetslipByBattle?.[battle.id]} // ✅ Use the correct betslip
 										poolId={poolId}
 										poolName={poolDetails.name}
 										season={selectedSeason}
 										battle={battle}
 										setBattles={setBattles}
-										setUserBetslip={setUserBetslip}
+										// setUserBetslip={setUserBetslip}
 										setLoading={setLoading}
+										refreshVersion={battleLeaderboardRefresh} // ✅ new prop
 									/>
 								)}
 							/>

@@ -19,8 +19,9 @@ export function BattleCard({
   battle,
   poolName,
   setBattles,
-  setUserBetslip,
+  // setUserBetslip,
   setLoading,
+  refreshVersion,
 }) {
   const battleEndDate = format(new Date(battle.end_date), "MMMM d");
   const battleEndDateTime = new Date(battle.end_date);
@@ -118,6 +119,7 @@ export function BattleCard({
               userBetslip={userBetslip}
               battle={battle}
               poolId={poolId}
+              refreshVersion={refreshVersion}
             />
           )}
         </>
@@ -131,6 +133,7 @@ export function BattleCard({
             userBetslip={userBetslip}
             battle={battle}
             poolId={poolId}
+            refreshVersion={refreshVersion}
           />
         </View>
       )}
