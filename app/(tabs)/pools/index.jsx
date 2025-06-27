@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
 	View,
 	StyleSheet,
@@ -21,6 +21,7 @@ export default function Pools() {
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 	const [autoRefreshing, setAutoRefreshing] = useState(false);
+	const autoRefreshTimer = useRef(null);
 
 	// 🆕 this counter bumps every time the screen gains focus
 	// const [focusVersion, setFocusVersion] = useState(0);
@@ -40,13 +41,15 @@ export default function Pools() {
 	// Initial
 	useFocusEffect(
 		useCallback(() => {
-			(async () => {
-				setIsScreenLoading(true);
-				await fetchPools();
-				setIsScreenLoading(false);
-				// setFocusVersion(v => v + 1); // ⬆️  tell cards the screen refreshed
-			})();
-		}, [api])
+			let isActive = true;
+			setIsScreenLoading(true);
+			fetchPools().finally(() => {
+				if (isActive) setIsScreenLoading(false);
+			});
+			return () => {
+				isActive = false; // cleanup to prevent setting state after unmount
+			};
+		}, []) // remove [api] dependency to prevent refiring
 	);
 
 	// Pull-to-refresh for Reload every time.
@@ -57,32 +60,34 @@ export default function Pools() {
 	// 	// setFocusVersion(v => v + 1);      // ⬆️  force cards to refetch too
 	// };
 
-	const onRefresh = useCallback(
-		async (isAuto = false) => {
-			if (isAuto) {
-				setAutoRefreshing(true);
-			} else {
-				setRefreshing(true);
-			}
+	const resetAutoRefreshTimer = () => {
+		if (autoRefreshTimer.current) clearInterval(autoRefreshTimer.current);
+		autoRefreshTimer.current = setInterval(() => {
+			console.log("⏱ Auto-refreshing pools...");
+			onRefresh(true);
+		}, 60000); // 60 seconds
+	};
 
-			await fetchPools();
+	const onRefresh = useCallback(async (isAuto = false) => {
+		if (isAuto) {
+			setAutoRefreshing(true);
+		} else {
+			setRefreshing(true);
+			resetAutoRefreshTimer(); // 💡 Reset timer only after manual refresh
+		}
 
-			if (isAuto) {
-				setAutoRefreshing(false);
-			} else {
-				setRefreshing(false);
-			}
-		},
-		[api]
-	);
+		await fetchPools();
+
+		if (isAuto) {
+			setAutoRefreshing(false);
+		} else {
+			setRefreshing(false);
+		}
+	}, []);
 
 	useEffect(() => {
-		const interval = setInterval(() => {
-			console.log("⏱ Auto-refreshing pools...");
-			onRefresh(true); // Pass true to indicate it's an auto refresh
-		}, 30000); // 45 Seconds
-
-		return () => clearInterval(interval);
+		resetAutoRefreshTimer(); // start the first timer on mount
+		return () => clearInterval(autoRefreshTimer.current); // cleanup
 	}, []);
 
 	if (isScreenLoading) {
@@ -116,7 +121,11 @@ export default function Pools() {
 					// 	<PoolCard pool={item} focusVersion={focusVersion} />
 					// )}
 					renderItem={({ item }) => (
-						<PoolCard pool={item} refreshing={refreshing} autoRefreshing={autoRefreshing} />
+						<PoolCard
+							pool={item}
+							refreshing={refreshing}
+							autoRefreshing={autoRefreshing}
+						/>
 					)}
 					showsVerticalScrollIndicator={false}
 					initialNumToRender={5}
