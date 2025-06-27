@@ -38,6 +38,8 @@ import { PoolSelectionModal } from "../../../../components/PoolDetails/PoolSelec
 import { LeagueStandingsTable } from "../../../../components/PoolDetails/LeagueStandings/LeagueStandingsTable.jsx";
 import { LeagueSettings } from "../../../../components/PoolDetails/LeagueSettings/LeagueSettings.jsx";
 import { SkeletonBattleCard } from "../../../../components/BattleCard/SkeletonBattleCard.jsx";
+import { PreseasonBattleCard } from "../../../../components/BattleCard/PreseasonBattleCard.jsx";
+import { getLeagueWeekStartDateTime } from "../../../../utils/dateUtils.js";
 
 export default function PoolDetails() {
 	const { id: poolId } = useLocalSearchParams();
@@ -69,7 +71,7 @@ export default function PoolDetails() {
 	);
 	const isCurrentUserCommissioner = userMembership?.is_commissioner;
 
-	console.log("Battles: ", battles);
+	// console.log("League Start", getLeagueWeekStartDateTime(selectedSeason?.start_week));
 
 	const fetchUserPools = async () => {
 		try {
@@ -167,7 +169,14 @@ export default function PoolDetails() {
 							/>
 						</View>
 					) : (
-						<SkeletonBattleCard />
+						selectedSeason &&
+						selectedSeason.start_week && (
+							<PreseasonBattleCard
+								leagueStartDateTime={getLeagueWeekStartDateTime(
+									selectedSeason.start_week
+								)}
+							/>
+						)
 					)}
 					{selectedSeason?.hasStarted > 0 && (
 						<View style={s.section}>

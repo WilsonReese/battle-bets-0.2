@@ -1,4 +1,4 @@
-import { parseISO, format } from "date-fns";
+import { parseISO, format, addWeeks } from "date-fns";
 
 export function formatMembershipJoinDate(createdAt) {
   const createdDate = new Date(createdAt);
@@ -25,4 +25,20 @@ export function formatFullDate(dateString) {
     console.error("Invalid date passed to formatFullDate:", dateString);
     return dateString;
   }
+}
+
+/**
+ * Returns the Date object for the start of the given week.
+ * Week 1 starts on Monday, August 25, 2025 at 7:00 AM local time.
+ *
+ * @param {number} week - Week number (1-based)
+ * @returns {Date}
+ */
+export function getLeagueWeekStartDateTime(week) {
+  if (!week || week < 1) throw new Error("Week must be >= 1");
+
+  // August 25, 2025 at 7:00 AM local time
+  const baseDate = new Date(2025, 7, 25, 7, 0, 0); // Month 7 = August (0-based)
+
+  return addWeeks(baseDate, week - 1);
 }
