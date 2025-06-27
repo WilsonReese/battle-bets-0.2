@@ -60,35 +60,78 @@ export default function Pools() {
 	// 	// setFocusVersion(v => v + 1);      // ⬆️  force cards to refetch too
 	// };
 
-	const resetAutoRefreshTimer = () => {
-		if (autoRefreshTimer.current) clearInterval(autoRefreshTimer.current);
-		autoRefreshTimer.current = setInterval(() => {
-			console.log("⏱ Auto-refreshing pools...");
-			onRefresh(true);
-		}, 60000); // 60 seconds
-	};
+	// const resetAutoRefreshTimer = () => {
+	// 	if (autoRefreshTimer.current) clearInterval(autoRefreshTimer.current);
+	// 	autoRefreshTimer.current = setInterval(() => {
+	// 		console.log("⏱ Auto-refreshing pools...");
+	// 		onRefresh(true);
+	// 	}, 60000); // 60 seconds
+	// };
 
-	const onRefresh = useCallback(async (isAuto = false) => {
-		if (isAuto) {
-			setAutoRefreshing(true);
-		} else {
-			setRefreshing(true);
-			resetAutoRefreshTimer(); // 💡 Reset timer only after manual refresh
-		}
+	useFocusEffect(
+		useCallback(() => {
+			console.log("✅ Pools screen focused — starting auto-refresh");
+			autoRefreshTimer.current = setInterval(() => {
+				console.log("⏱ Auto-refreshing pools...");
+				onRefresh(true);
+			}, 60000); // 60 seconds
 
-		await fetchPools();
+			return () => {
+				console.log("🔁 Pools screen unfocused — clearing auto-refresh");
+				clearInterval(autoRefreshTimer.current);
+			};
+		}, [onRefresh])
+	);
 
-		if (isAuto) {
-			setAutoRefreshing(false);
-		} else {
-			setRefreshing(false);
-		}
-	}, []);
+	// const onRefresh = useCallback(async (isAuto = false) => {
+	// 	if (isAuto) {
+	// 		setAutoRefreshing(true);
+	// 	} else {
+	// 		setRefreshing(true);
+	// 		resetAutoRefreshTimer(); // 💡 Reset timer only after manual refresh
+	// 	}
 
-	useEffect(() => {
-		resetAutoRefreshTimer(); // start the first timer on mount
-		return () => clearInterval(autoRefreshTimer.current); // cleanup
-	}, []);
+	// 	await fetchPools();
+
+	// 	if (isAuto) {
+	// 		setAutoRefreshing(false);
+	// 	} else {
+	// 		setRefreshing(false);
+	// 	}
+	// }, []);
+
+	const onRefresh = useCallback(
+		async (isAuto = false) => {
+			if (isAuto) {
+				setAutoRefreshing(true);
+			} else {
+				setRefreshing(true);
+
+				// 🧠 Reset auto-refresh timer after manual refresh
+				if (autoRefreshTimer.current) {
+					clearInterval(autoRefreshTimer.current);
+					autoRefreshTimer.current = setInterval(() => {
+						console.log("⏱ Auto-refreshing pools...");
+						onRefresh(true);
+					}, 60000); // after manually refreshing, timer is set back to 60 seconds
+				}
+			}
+
+			await fetchPools();
+
+			if (isAuto) {
+				setAutoRefreshing(false);
+			} else {
+				setRefreshing(false);
+			}
+		},
+		[api]
+	);
+
+	// useEffect(() => {
+	// 	resetAutoRefreshTimer(); // start the first timer on mount
+	// 	return () => clearInterval(autoRefreshTimer.current); // cleanup
+	// }, []);
 
 	if (isScreenLoading) {
 		return (
