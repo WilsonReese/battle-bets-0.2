@@ -2,6 +2,8 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 
 export function LeagueStandingsRow({ entry, isLast }) {
+  console.log('Standing Row:', entry.ranking)
+
   return (
     <>
       <View key={entry.id} style={[s.container, !isLast && s.withBottomBorder]}>
@@ -9,8 +11,8 @@ export function LeagueStandingsRow({ entry, isLast }) {
           <Txt style={s.txt}>{entry.ranking}</Txt>
         </View>
         <View style={s.player}>
-          <Txt style={s.txt}>
-            {entry.user.first_name} {entry.user.last_name}
+          <Txt style={[s.txt, s.playerName]}>
+            @{entry.user.username}
           </Txt>
         </View>
         <View style={s.score}>
@@ -50,4 +52,7 @@ const s = StyleSheet.create({
     borderBottomWidth: 0.5,
     borderBottomColor: "#3A454D",
   },
+  playerName: {
+    fontFamily: 'Saira_400Regular_Italic'
+  }
 });
