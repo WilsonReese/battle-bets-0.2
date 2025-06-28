@@ -4,6 +4,7 @@ import { Txt } from "../general/Txt";
 import { CountdownTimer } from "./CountdownTimer";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { DEFAULT_BUDGETS } from "../../utils/betting-rules";
+import { TeamLogo } from "../GameCard/Matchup/TeamLogo";
 
 export function FilledOutUnlockedBattleCard({
 	battle,
@@ -16,25 +17,86 @@ export function FilledOutUnlockedBattleCard({
 	const spent = userBetslip.amount_bet || 0;
 	const remaining = totalBudget - spent;
 
+	console.log("UserBetslip:", userBetslip);
+	const topGame = getTopGameMatchup(userBetslip.bets);
+	// console.log("UserBetslip Games:", userBetslip.bets[0].bet_option);
+
+	function getTopGameMatchup(bets) {
+		if (!Array.isArray(bets) || bets.length === 0) return null;
+
+		const gameCounts = {}; // key: gameKey, value: { count, gameData }
+
+		bets.forEach((bet) => {
+			const game = bet?.bet_option?.game;
+			const gameId = game?.id;
+			if (!game || !gameId) return;
+
+			if (!gameCounts[gameId]) {
+				gameCounts[gameId] = { count: 1, game };
+			} else {
+				gameCounts[gameId].count += 1;
+			}
+		});
+
+		// Find game with the highest count
+		let topGame = null;
+		let maxCount = 0;
+		Object.values(gameCounts).forEach(({ count, game }) => {
+			if (count > maxCount) {
+				topGame = game;
+				maxCount = count;
+			}
+		});
+
+		if (!topGame) return null;
+
+		return {
+			awayTeam: topGame.away_team?.name || "Away",
+			homeTeam: topGame.home_team?.name || "Home",
+			gameId: topGame.id,
+		};
+	}
+
 	return (
 		<View style={s.container}>
-			<View style={s.timerContainer}>
-				<Txt style={s.countdownHeadingTxt}>Bets close</Txt>
-				<CountdownTimer targetDate={battleEndDateTime} version="small" />
+			<View>
+				<Txt style={s.headingTxt}>Bets close</Txt>
+				<CountdownTimer targetDate={battleEndDateTime} version="large" />
 			</View>
 			<View style={s.betslipInfoContainer}>
-				<Txt style={s.countdownHeadingTxt}>Betslip</Txt>
-				<View style={s.betslipElement}>
-					<Txt style={s.betInfoTxt}>To Bet:</Txt>
-					<Txt style={s.dollarTxt}>${remaining}</Txt>
+				<Txt style={s.headingTxt}>Betslip</Txt>
+				<View style={s.betslipStats}>
+					<View style={s.betslipLeft}>
+						<View style={s.betslipElement}>
+							<Txt style={s.betInfoLabel}>To Bet:</Txt>
+							<Txt style={s.betInfoTxt}>${remaining}</Txt>
+						</View>
+						<View style={[s.betslipElement, { marginTop: -4 }]}>
+							<Txt style={s.betInfoLabel}>Max:</Txt>
+							<Txt style={s.betInfoTxt}>${userBetslip.max_payout_remaining}</Txt>
+						</View>
+						<View style={[s.betslipElement, { marginTop: -4 }]}>
+							<Txt style={s.betInfoLabel}>Bets Placed:</Txt>
+							<Txt style={s.betInfoTxt}>{userBetslip.bets.length}</Txt>
+						</View>
+					</View>
+					<View style={s.betslipRight}>
+						<View>
+							<Txt style={s.betInfoLabel}>Top Game:</Txt>
+							<>
+								{topGame ? (
+									<View style={s.topGame}>
+										<TeamLogo teamName={topGame.awayTeam} size={32} />
+										<Txt style={s.betInfoLabel}>at</Txt>
+										<TeamLogo teamName={topGame.homeTeam} size={32} />
+									</View>
+								) : (
+									<Txt style={s.betInfoTxt}>TBD</Txt>
+								)}
+							</>
+						</View>
+					</View>
 				</View>
-				<View style={[s.betslipElement, { marginTop: -4 }]}>
-					<Txt style={s.betInfoTxt}>Max:</Txt>
-					<Txt style={s.dollarTxt}>${userBetslip.max_payout_remaining}</Txt>
-				</View>
-			</View>
-			<View style={s.iconContainer}>
-				<FontAwesome6 name="circle-chevron-right" size={18} color="#54D18C" />
 			</View>
 		</View>
 	);
@@ -42,49 +104,45 @@ export function FilledOutUnlockedBattleCard({
 
 const s = StyleSheet.create({
 	container: {
-		flexDirection: "row",
 		justifyContent: "space-between",
-		alignItems: "center",
 		paddingTop: 8,
 		gap: 6,
 	},
 	betslipInfoContainer: {
-		// flex: 1,
-		// backgroundColor: "blue",
 		alignItems: "flex-start",
-		// paddingHorizontal: 6,
+		paddingTop: 4,
 	},
-	timerContainer: {
-		// flex: 2,
-		// backgroundColor: "green",
-		// alignItems: 'flex-start'
+	betslipStats: {
+		flexDirection: "row",
+		flex: 1,
 	},
-	countdownHeadingTxt: {
-		// color: "#061826",
-		// fontFamily: "Saira_300Light",
+	betslipLeft: {
+		flex: 1,
+	},
+	betslipRight: {
+		flex: 1,
+	},
+	headingTxt: {
 		letterSpacing: 2,
 		fontSize: 10,
 		textTransform: "uppercase",
 		color: "#B8C3CC",
-		// paddingTop: 8,
-		// alignSelf: "center",
 	},
-	iconContainer: {
-		// position: "absolute",
-		// right: 0,
-		// top: "50%",
-		// justifyContent: 'center'
-	},
-	betInfoTxt: {
+	betInfoLabel: {
 		fontFamily: "Saira_600SemiBold",
 		fontSize: 12,
 	},
-	dollarTxt: {
+	betInfoTxt: {
 		fontSize: 14,
 	},
 	betslipElement: {
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 8,
+	},
+	topGame: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
 	},
 });

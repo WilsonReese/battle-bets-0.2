@@ -11,23 +11,13 @@ export function CreatedBetslipBattleCard({
   battleEndDateTime,
 }) {
   return (
-    // <View>
-    //   <Txt style={s.countdownHeadingTxt}>Bets due</Txt>
-    //   <CountdownTimer targetDate={battleEndDateTime} version="large" />
-    //   <View style={s.btnContainer}>
-    //     <Btn
-    //       btnText={"Make Bets"}
-    //       style={s.btn}
-    //       // isEnabled={true}
-    //       isEnabled={!battle.locked}
-    //       onPress={handleEditBets}
-    //     />
-    //   </View>
-    // </View>
     <View style={s.container}>
       <View style={s.countdownContainer}>
         <Txt style={s.countdownHeadingTxt}>Bets close</Txt>
         <CountdownTimer targetDate={battleEndDateTime} version="large" />
+      </View>
+      <View>
+        <Txt>My Betslip</Txt>
       </View>
       <View style={s.iconContainer}>
         <FontAwesome6 name="circle-chevron-right" size={18} color="#54D18C" />
@@ -38,7 +28,7 @@ export function CreatedBetslipBattleCard({
 
 const s = StyleSheet.create({
   container: {
-    flexDirection: 'row',
+    // flexDirection: 'row',
     // backgroundColor: 'green'
   },
   countdownContainer: {
