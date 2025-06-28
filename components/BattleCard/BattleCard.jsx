@@ -9,7 +9,7 @@ import { StatusIcon } from "../general/StatusIcon";
 import { CreatedBetslipBattleCard } from "./CreatedBetslipBattleCard";
 import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { CountdownTimer } from "./CountdownTimer";
-import { FilledOutUnlockedBattleCard } from "./FilledOutUnlockedBattleCard";
+import { UnlockedBattleCard } from "./UnlockedBattleCard";
 import { LockedBattleCard } from "./LockedBattleCard";
 
 export function BattleCard({
@@ -33,8 +33,6 @@ export function BattleCard({
 	const filledOutBetslips = battle.filled_out_betslip_count;
 	const participationRate =
 		totalMembers > 0 ? (filledOutBetslips / totalMembers) * 100 : 0;
-
-	console.log("Battle: ", battle);
 
 	const handleEditBets = () => {
 		if (!userBetslip) {
@@ -74,7 +72,6 @@ export function BattleCard({
 					: handleEditBets()
 			}
 		>
-			{console.log("Battle Current?", battle.current)}
 			<View style={s.headingContainer}>
 				<Txt style={s.headingTxt}>Week {battle.week}</Txt>
 				<Txt style={s.txt}>
@@ -94,23 +91,8 @@ export function BattleCard({
 					)}
 
 					{/* Betslip has not been filled out yet and the battle isn't locked */}
-					{userBetslip.status == "created" && !userBetslip.locked && (
-						// <CreatedBetslipBattleCard
-						//   battle={battle}
-						//   handleEditBets={handleEditBets}
-						//   battleEndDateTime={battleEndDateTime}
-						// />
-						<FilledOutUnlockedBattleCard
-							battle={battle}
-							handleEditBets={handleEditBets}
-							battleEndDateTime={battleEndDateTime}
-							userBetslip={userBetslip}
-						/>
-					)}
-
-					{/* Betslip has been filled out but the battle isn't locked */}
-					{userBetslip.status === "filled_out" && !userBetslip.locked && (
-						<FilledOutUnlockedBattleCard
+					{!userBetslip.locked && (
+						<UnlockedBattleCard
 							battle={battle}
 							handleEditBets={handleEditBets}
 							battleEndDateTime={battleEndDateTime}

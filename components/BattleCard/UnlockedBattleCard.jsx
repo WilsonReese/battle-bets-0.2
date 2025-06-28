@@ -6,7 +6,7 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { DEFAULT_BUDGETS } from "../../utils/betting-rules";
 import { TeamLogo } from "../GameCard/Matchup/TeamLogo";
 
-export function FilledOutUnlockedBattleCard({
+export function UnlockedBattleCard({
 	battle,
 	handleEditBets,
 	battleEndDateTime,
@@ -138,7 +138,7 @@ const s = StyleSheet.create({
 	betslipElement: {
 		flexDirection: "row",
 		alignItems: "center",
-		gap: 8,
+		gap: 4,
 	},
 	topGame: {
 		flexDirection: "row",
