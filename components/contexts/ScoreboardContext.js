@@ -12,7 +12,7 @@ export const ScoreboardProvider = ({ children }) => {
   const [selectedAwayPlayerStats, setSelectedAwayPlayerStats] = useState(null);
 
   const [userBets, setUserBets] = useState(null);
-  const gameStatus = 'inProgress'
+  const gameStatus = 'pregame'
 
   return (
     <ScoreboardContext.Provider

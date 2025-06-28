@@ -1,10 +1,13 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef } from "react";
 import { View, Text, Animated, StyleSheet } from "react-native";
 
 export function Message({ message, color, duration = 1000, onHide, location = 40 }) {
-  const opacity = new Animated.Value(1);
+  const opacity = useRef(new Animated.Value(1)).current;
 
   useEffect(() => {
+    // Reset to full opacity before starting fadeOut
+    opacity.setValue(1);
+
     const fadeOut = Animated.timing(opacity, {
       toValue: 0,
       duration: 500,
