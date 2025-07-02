@@ -12,7 +12,7 @@
       }
     },
     "preview": {
-      "distribution": "internal",
+      "distribution": "app-store",
       "env": {
         "ENV_FILE": ".env.preview"
       }

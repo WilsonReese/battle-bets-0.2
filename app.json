@@ -5,9 +5,12 @@
     "version": "1.0.1",
     "orientation": "portrait",
     "icon": "./assets/images/icon_v2.png",
-    "scheme": "battlebets",          
+    "scheme": "battlebets",
     "deepLinking": true,
-    "platforms": ["ios", "android"],
+    "platforms": [
+      "ios",
+      "android"
+    ],
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -18,7 +21,10 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.battlebets.battlebets",
-      "buildNumber": "2"
+      "buildNumber": "2",
+      "infoPlist": {
+        "ITSAppUsesNonExemptEncryption": false
+      }
     },
     "android": {
       "adaptiveIcon": {
