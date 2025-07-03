@@ -24,7 +24,10 @@
       "buildNumber": "4",
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
-      }
+      },
+      "associatedDomains": [
+        "applinks:aasa.battlebets.app"
+      ]
     },
     "android": {
       "adaptiveIcon": {

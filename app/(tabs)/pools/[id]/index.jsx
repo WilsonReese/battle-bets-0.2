@@ -104,6 +104,10 @@ export default function PoolDetails() {
 		}
 	}, [poolId]);
 
+	// if (!pool) {
+	// 	return <LoadingIndicator message="Loading pool..." />;
+	// }
+
 	// Render loading spinner while data is being fetched
 	if (loading) {
 		return (
