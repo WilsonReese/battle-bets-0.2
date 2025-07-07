@@ -11,6 +11,7 @@ export const AuthProvider = ({ children }) => {
 	const [token, setToken] = useState(null);
 	const [currentUserId, setCurrentUserId] = useState(null);
 	const [isConfirmed, setIsConfirmed] = useState(null);
+  const [isAuthLoading, setIsAuthLoading] = useState(true);
 
 	const decodeToken = (jwt) => {
 		try {
@@ -38,6 +39,7 @@ export const AuthProvider = ({ children }) => {
 				// ✅ Set the Authorization header on app launch
 				api.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
 			}
+      setIsAuthLoading(false); // ✅ done loading
 		};
 
 		loadToken();
@@ -79,6 +81,7 @@ export const AuthProvider = ({ children }) => {
 				logout,
 				currentUserId,
 				isConfirmed,
+        isAuthLoading, // 🆕
 			}}
 		>
 			{children}

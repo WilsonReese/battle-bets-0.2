@@ -16,19 +16,9 @@ import { Redirect } from "expo-router";
 import { AuthContext } from "../components/contexts/AuthContext";
 
 const Index = () => {
-  const { token, isConfirmed } = useContext(AuthContext);
-  const [statusChecked, setStatusChecked] = useState(false);
+  const { token, isConfirmed, isAuthLoading } = useContext(AuthContext);
 
-  useEffect(() => {
-    // Wait until context is hydrated
-    if (token !== null && isConfirmed !== null) {
-      setStatusChecked(true);
-    } else if (!token) {
-      setStatusChecked(true);
-    }
-  }, [token, isConfirmed]);
-
-  if (!statusChecked) return null;
+  if (isAuthLoading) return null; // ⏳ Wait until rehydration finishes
 
   if (!token) {
     return <Redirect href="/login" />;
