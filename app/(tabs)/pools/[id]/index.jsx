@@ -65,6 +65,8 @@ export default function PoolDetails() {
 		inviteToken,
 	} = usePoolDetails(poolId);
 
+	console.log("✅ PoolDetails loaded");
+
 	const { currentUserId } = useContext(AuthContext);
 	const userMembership = memberships.find(
 		(m) => String(m.user.id) === String(currentUserId)
