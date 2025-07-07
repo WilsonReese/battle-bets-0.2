@@ -7,15 +7,18 @@ export function PaginatedFlatList({
   containerWidth = Dimensions.get("window").width,
   renderItemRow, // Function that renders a single item
   keyExtractor = (item, index) => `item-${index}`,
+  isComponentPages = false, // <-- NEW
 }) {
   const PAGE_WIDTH = containerWidth;
   const scrollX = useRef(new Animated.Value(0)).current;
   const flatListRef = useRef(null);
   const pages = Math.ceil(data.length / itemsPerPage);
 
-  const groupedData = Array.from({ length: pages }, (_, i) =>
-    data.slice(i * itemsPerPage, (i + 1) * itemsPerPage)
-  );
+  const groupedData = isComponentPages
+    ? data
+    : Array.from({ length: Math.ceil(data.length / itemsPerPage) }, (_, i) =>
+        data.slice(i * itemsPerPage, (i + 1) * itemsPerPage)
+      );
 
   return (
     <View>
@@ -23,9 +26,13 @@ export function PaginatedFlatList({
         ref={flatListRef}
         data={groupedData}
         keyExtractor={(_, i) => `page-${i}`}
-        renderItem={({ item }) => (
-          <View style={{ width: PAGE_WIDTH }}>
-            {item.map((entry, index) => renderItemRow(entry, index, item.length))}
+        renderItem={({ item, index }) => (
+          <View style={{ width: PAGE_WIDTH }} key={`page-${index}`}>
+            {isComponentPages
+              ? renderItemRow(item, index, 1) // Treat as component
+              : item.map((entry, subIndex) =>
+                  renderItemRow(entry, subIndex, item.length)
+                )}
           </View>
         )}
         horizontal
@@ -47,8 +54,14 @@ export function PaginatedFlatList({
                 transform: [
                   {
                     translateX: scrollX.interpolate({
-                      inputRange: [0, PAGE_WIDTH * (pages - 1)],
-                      outputRange: [0, -((8 + 12) * (pages - 1)) / 2],
+                      inputRange: [
+                        0,
+                        PAGE_WIDTH * (groupedData.length - 1),
+                      ],
+                      outputRange: [
+                        0,
+                        -((8 + 12) * (groupedData.length - 1)) / 2,
+                      ],
                       extrapolate: "clamp",
                     }),
                   },

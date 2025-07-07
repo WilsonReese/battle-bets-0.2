@@ -206,7 +206,7 @@ export default function BattleDetails() {
 							{disableInteraction && (
 								<>
 									<View style={s.interactionBlocker} pointerEvents="auto">
-										<ActivityIndicator size="small" color="#E4E6E7"/>
+										<ActivityIndicator size="small" color="#E4E6E7" />
 										<Txt style={s.spinnerTxt}>Saving bets</Txt>
 									</View>
 								</>
@@ -288,7 +288,7 @@ const s = StyleSheet.create({
 		margin: -12,
 		flex: 1,
 		justifyContent: "center",
-		alignItems: "center"
+		alignItems: "center",
 	},
 	spinnerTxt: {
 		paddingTop: 8,
