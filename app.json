@@ -22,6 +22,11 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.battlebets.battlebets",
       "buildNumber": "4",
+      "config": {
+        "branch": {
+          "apiKey": "key_live_ewEeEIBfqKeuQ2na1H6xhmkiCqndcGhi"
+        }
+      },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -33,6 +38,11 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
+      },
+      "config": {
+        "branch": {
+          "apiKey": "key_live_ewEeEIBfqKeuQ2na1H6xhmkiCqndcGhi"
+        }
       }
     },
     "web": {
@@ -43,7 +53,8 @@
     "plugins": [
       "expo-router",
       "expo-secure-store",
-      "expo-font"
+      "expo-font",
+      "react-native-branch"
     ],
     "experiments": {
       "typedRoutes": true

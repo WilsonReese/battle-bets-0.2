@@ -14,16 +14,50 @@ export function InviteUsersButton({
 }) {
 	const { showSuccess, showError } = useToastMessage();
 
-	const handleCopyLink = async () => {
-		const url = Linking.createURL("/join", {
-			queryParams: {
-				pool_id: poolId,
-				token: inviteToken,
-			},
-		});
+	// const handleCopyLink = async () => {
+	// 	const url = Linking.createURL("/join", {
+	// 		queryParams: {
+	// 			pool_id: poolId,
+	// 			token: inviteToken,
+	// 		},
+	// 	});
 
-		await Clipboard.setStringAsync(url);
-		showSuccess("Invitation link copied!");
+	// 	await Clipboard.setStringAsync(url);
+	// 	showSuccess("Invitation link copied!");
+	// };
+
+	const handleCopyLink = async () => {
+		try {
+			// 🧩 1. Define link data
+			const branchUniversalObject = await branch.createBranchUniversalObject(
+				`join/${poolId}`, // this is just an identifier, not the path
+				{
+					title: "Join my Battle Bets league!",
+					contentDescription: "Tap to join my league on Battle Bets",
+					contentMetadata: {
+						customMetadata: {
+							pool_id: poolId,
+							token: inviteToken,
+						},
+						$deeplink_path: `join?pool_id=${poolId}&token=${inviteToken}`,
+					},
+				}
+			);
+
+			// 🔗 2. Generate the actual link
+			const { url } = await branchUniversalObject.generateShortUrl({
+				feature: "invite",
+				campaign: "league-invitation",
+				channel: "app",
+			});
+
+			// 📋 3. Copy to clipboard and show toast
+			await Clipboard.setStringAsync(url);
+			showSuccess("Invitation link copied!");
+		} catch (err) {
+			console.error("Branch link generation failed:", err);
+			showError("Failed to generate link");
+		}
 	};
 
 	return (
