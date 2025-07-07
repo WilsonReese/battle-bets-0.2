@@ -34,6 +34,9 @@ export const AuthProvider = ({ children }) => {
 				const { userId, confirmed } = decodeToken(storedToken);
 				setCurrentUserId(userId);
 				setIsConfirmed(confirmed);
+
+				// ✅ Set the Authorization header on app launch
+				api.defaults.headers.common["Authorization"] = `Bearer ${storedToken}`;
 			}
 		};
 
@@ -61,7 +64,7 @@ export const AuthProvider = ({ children }) => {
 		const keys = await AsyncStorage.getAllKeys();
 		console.log("🧩 All AsyncStorage keys before clearing:", keys);
 
-    await AsyncStorage.removeItem("pendingJoin");
+		await AsyncStorage.removeItem("pendingJoin");
 
 		await SecureStore.deleteItemAsync("jwt_token");
 		setToken(null);

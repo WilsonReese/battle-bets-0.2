@@ -10,13 +10,14 @@ import { router, useFocusEffect } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
-import { useAxiosWithAuth } from "../../../utils/axiosConfig";
+// import { useAxiosWithAuth } from "../../../utils/axiosConfig";
 import { Btn } from "../../../components/general/Buttons/Btn";
 import { PoolCard } from "../../../components/PoolCard/PoolCard";
 import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
+import api from "../../../utils/axiosConfig";
 
 export default function Pools() {
-	const api = useAxiosWithAuth();
+	// const api = useAxiosWithAuth();
 	const [pools, setPools] = useState([]);
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);

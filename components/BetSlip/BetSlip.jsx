@@ -55,10 +55,10 @@ export const BetSlip = forwardRef(({
           setSuppressLeaveModal={setSuppressLeaveModal}
           setDisableInteraction={setDisableInteraction}
         />
-      </BottomSheetView>
+        </BottomSheetView>
       <BottomSheetScrollView
         contentContainerStyle={s.content}
-      >
+        >
         {/* <BetSlipDetails toggleBetSlip={toggleBetSlip} /> */}
         <BetSlipDetails />
       </BottomSheetScrollView>
