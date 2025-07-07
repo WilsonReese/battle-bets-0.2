@@ -179,6 +179,8 @@ export default function Profile() {
 												onChangeText={(text) =>
 													setForm((prev) => ({ ...prev, first_name: text }))
 												}
+												autoCorrect={false} // 🚫 Disable autocorrect
+												spellCheck={false}
 											/>
 											<TextInput
 												style={s.input}
@@ -188,6 +190,8 @@ export default function Profile() {
 												onChangeText={(text) =>
 													setForm((prev) => ({ ...prev, last_name: text }))
 												}
+												autoCorrect={false} // 🚫 Disable autocorrect
+												spellCheck={false}
 											/>
 										</View>
 										{errors.name && (
@@ -211,7 +215,8 @@ export default function Profile() {
 												value={form.username}
 												placeholder="Username"
 												placeholderTextColor="#B8C3CC"
-												autoCorrect={false}
+												autoCorrect={false} // 🚫 Disable autocorrect
+												spellCheck={false}
 												autoCapitalize="none"
 												onChangeText={(text) =>
 													setForm((prev) => ({ ...prev, username: text }))

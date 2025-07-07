@@ -77,7 +77,7 @@ export default function Login() {
 							await AsyncStorage.removeItem("pendingJoin");
 							showSuccess("Joined league successfully!");
 							// router.replace(`/pools/${parsed.pool_id}`);
-              router.replace("/pools/");
+							router.replace("/pools/");
 						} catch (err) {
 							console.error("❌ Error joining pool", err);
 							showError("Error joining league.");
@@ -120,6 +120,10 @@ export default function Login() {
 								onChangeText={setEmail}
 								keyboardType="email-address"
 								autoCapitalize="none"
+								autoCorrect={false} // 🚫 Disable autocorrect
+								spellCheck={false}
+								autoComplete="email"
+								textContentType="username"
 							/>
 						</View>
 						<View style={s.textInputContainer}>
@@ -131,6 +135,8 @@ export default function Login() {
 								onChangeText={setPassword}
 								secureTextEntry
 								autoCapitalize="none"
+								autoComplete="password"
+								textContentType="password"
 							/>
 						</View>
 						<TouchableOpacity
