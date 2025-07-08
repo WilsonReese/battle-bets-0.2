@@ -7,6 +7,8 @@ import { BetOptionsList } from './BetOptionsList';
 // import { BetOptions } from './BetOptions';
 
 function _BetSelectionCard({ game }) {
+console.log("🔄 Bet Selection Card", game.id);
+
   return (
     <View style={s.card}>
       <View style={{ height: 4 }} />

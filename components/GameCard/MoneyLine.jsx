@@ -19,6 +19,8 @@ export function MoneyLine({
 		return null; // Ensure there are at least two options (home and away)
 	}
 
+  console.log("🔄 Money Line rendered for game", game.id);
+
 	const awayMoneyLine = moneyLineOptions[0]; // Assuming the first option is for the away team
 	const homeMoneyLine = moneyLineOptions[1]; // Assuming the second option is for the home team
 	const awayMoneyLineLongTitle = awayMoneyLine.long_title;

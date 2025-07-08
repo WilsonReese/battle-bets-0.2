@@ -12,6 +12,8 @@ import { useState } from "react";
 export function BetOptionsList({ game, containerWidth }) {
 	const [cardWidth, setCardWidth] = useState(null);
 
+  console.log("🔄 Bet Options List rendered for game", game.id);
+
 	if (!game?.bet_options?.length) return null;
 
 	// Organize bet options by category

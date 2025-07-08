@@ -6,6 +6,9 @@ import { useBetLogic } from "../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../utils/betting-rules";
 
 export function PropBets({ betOptions, homeTeam, awayTeam, game }) {
+
+  console.log("🔄 Prop Bets rendered for game", game.id);
+
   const renderPropOptions = (betOptions) => {
     return betOptions.map((option) => {
       const payouts = {

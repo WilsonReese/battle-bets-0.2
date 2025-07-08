@@ -18,6 +18,8 @@ export function Spread({
 		return null; // Ensure there are at least two options (home and away)
 	}
 
+  console.log("🔄 Spread rendered for game", game.id);
+
 	const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
 	const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
 	const awaySpreadLongTitle = awaySpread.long_title;

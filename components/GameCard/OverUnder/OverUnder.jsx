@@ -18,6 +18,8 @@ export function OverUnder({
 		return null; // Ensure there are at least two options (home and away)
 	}
 
+  console.log("🔄 OverUnder rendered for game", game.id);
+
 	const over = ouOptions[0];
 	const under = ouOptions[1];
 
