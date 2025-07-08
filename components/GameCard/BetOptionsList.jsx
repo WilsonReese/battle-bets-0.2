@@ -1,4 +1,4 @@
-import { StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { PaginatedFlatList } from "../general/PaginatedFlatList";
 import { Spread } from "./Spread/Spread";
@@ -58,23 +58,28 @@ export function BetOptionsList({ game, containerWidth }) {
 		),
 	];
 
-	return (
-		<View
-			style={s.container}
-			onLayout={(e) => {
-				const width = e.nativeEvent.layout.width;
-				if (width !== cardWidth) setCardWidth(width);
-			}}
-		>
-			<PaginatedFlatList
-				data={pages}
-				itemsPerPage={1}
-				renderItemRow={(renderPage) => renderPage()}
-				containerWidth={cardWidth}
-        isComponentPages={true} // ✅ REQUIRED
-			/>
-		</View>
-	);
+return (
+  <View
+    style={s.container}
+    onLayout={(e) => {
+      const width = e.nativeEvent.layout.width;
+      if (width !== cardWidth) setCardWidth(width);
+    }}
+  >
+    {(cardWidth === null || cardWidth === 0) && (
+      <ActivityIndicator/>
+    )}
+    {cardWidth !== null && cardWidth > 0 && (
+      <PaginatedFlatList
+        data={pages}
+        itemsPerPage={1}
+        renderItemRow={(renderPage) => renderPage()}
+        containerWidth={cardWidth}
+        isComponentPages={true}
+      />
+    )}
+  </View>
+);
 }
 
 const s = StyleSheet.create({

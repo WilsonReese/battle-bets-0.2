@@ -58,24 +58,20 @@ export function MoneyLine({
 		<View>
 			<BetTypeHeading heading={"Money Line"} />
 			<View style={s.optionsContainer}>
-				<View style={{ flex: 1 }}>
-					<BetOption
-						title={awayMoneyLine.title}
-						payout={awayMoneyLine.payout}
-						isSelected={selection.optionOne}
-						isEnabled={isEnabled}
-						onPress={() => toggleBet("optionOne")}
-					/>
-				</View>
-				<View style={{ flex: 1 }}>
-					<BetOption
-						title={homeMoneyLine.title}
-						payout={homeMoneyLine.payout}
-						isSelected={selection.optionTwo}
-						isEnabled={isEnabled}
-						onPress={() => toggleBet("optionTwo")}
-					/>
-				</View>
+				<BetOption
+					title={awayMoneyLine.title}
+					payout={awayMoneyLine.payout}
+					isSelected={selection.optionOne}
+					isEnabled={isEnabled}
+					onPress={() => toggleBet("optionOne")}
+				/>
+				<BetOption
+					title={homeMoneyLine.title}
+					payout={homeMoneyLine.payout}
+					isSelected={selection.optionTwo}
+					isEnabled={isEnabled}
+					onPress={() => toggleBet("optionTwo")}
+				/>
 			</View>
 			<Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
 				{selection.optionOne && (
@@ -105,5 +101,6 @@ const s = StyleSheet.create({
 	optionsContainer: {
 		flexDirection: "row",
 		gap: 4,
+		justifyContent: "space-between",
 	},
 });

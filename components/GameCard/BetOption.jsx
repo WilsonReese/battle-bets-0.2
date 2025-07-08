@@ -5,7 +5,6 @@ export function BetOption({ title, payout, isSelected, onPress, isEnabled }) {
 	const shadowStyle = isEnabled || isSelected ? s.shadow : null;
 
 	return (
-		<View style={s.optionsContainer}>
 			<Pressable
 				style={({ pressed }) => [
 					s.optionView,
@@ -39,16 +38,10 @@ export function BetOption({ title, payout, isSelected, onPress, isEnabled }) {
 					</Txt>
 				</View>
 			</Pressable>
-		</View>
 	);
 }
 
 const s = StyleSheet.create({
-	optionsContainer: {
-		flexDirection: "row",
-		flex: 1,
-    // backgroundColor: 'red'
-	},
 	optionView: {
 		flex: 1,
 		flexDirection: "row",
@@ -59,6 +52,7 @@ const s = StyleSheet.create({
 	},
 	isNotSelected: {
 		marginBottom: 4,
+    // backgroundColor: "#1D394E",
 	},
 	isSelected: {
 		backgroundColor: "#425C70",
@@ -77,8 +71,9 @@ const s = StyleSheet.create({
 		elevation: 5,
 	},
 	betNameContainer: {
-		flex: 1,
+		// flex: 1,
 		padding: 8,
+    // backgroundColor: "#1D394E",
 	},
 	oddsText: {
 		fontFamily: "Saira_600SemiBold",

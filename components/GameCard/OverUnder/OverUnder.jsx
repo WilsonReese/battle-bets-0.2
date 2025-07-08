@@ -57,24 +57,20 @@ export function OverUnder({
 		<View>
 			<BetTypeHeading heading={"Over/Under"} />
 			<View style={s.optionsContainer}>
-				<View style={{ flex: 1 }}>
-					<BetOption
-						title={over.title}
-						payout={over.payout}
-						isSelected={selection.optionOne}
-						isEnabled={isEnabled}
-						onPress={() => toggleBet("optionOne")}
-					/>
-				</View>
-				<View style={{ flex: 1 }}>
-					<BetOption
-						title={under.title}
-						payout={under.payout}
-						isSelected={selection.optionTwo}
-						isEnabled={isEnabled}
-						onPress={() => toggleBet("optionTwo")}
-					/>
-				</View>
+				<BetOption
+					title={over.title}
+					payout={over.payout}
+					isSelected={selection.optionOne}
+					isEnabled={isEnabled}
+					onPress={() => toggleBet("optionOne")}
+				/>
+				<BetOption
+					title={under.title}
+					payout={under.payout}
+					isSelected={selection.optionTwo}
+					isEnabled={isEnabled}
+					onPress={() => toggleBet("optionTwo")}
+				/>
 			</View>
 			<Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
 				{selection.optionOne && (
@@ -106,5 +102,7 @@ const s = StyleSheet.create({
 	optionsContainer: {
 		flexDirection: "row",
 		gap: 4,
+    justifyContent: 'space-between',
+    flex: 1,
 	},
 });

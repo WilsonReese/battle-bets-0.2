@@ -58,7 +58,6 @@ export function Spread({
 		<View>
 			<BetTypeHeading heading={"SPREAD"} />
 			<View style={s.optionsContainer}>
-				<View style={{ flex: 1 }}>
 					<BetOption
 						title={awaySpread.title}
 						payout={awaySpread.payout}
@@ -66,8 +65,6 @@ export function Spread({
 						isEnabled={isEnabled}
 						onPress={() => toggleBet("optionOne")}
 					/>
-				</View>
-				<View style={{ flex: 1 }}>
 					<BetOption
 						title={homeSpread.title}
 						payout={homeSpread.payout}
@@ -75,7 +72,6 @@ export function Spread({
 						isEnabled={isEnabled}
 						onPress={() => toggleBet("optionTwo")}
 					/>
-				</View>
 			</View>
 			<Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
 				{selection.optionOne && (
@@ -107,5 +103,6 @@ const s = StyleSheet.create({
 	optionsContainer: {
 		flexDirection: "row",
 		gap: 4,
+    justifyContent: 'space-between'
 	},
 });
