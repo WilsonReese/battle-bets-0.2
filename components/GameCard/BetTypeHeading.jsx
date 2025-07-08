@@ -12,6 +12,7 @@ export function BetTypeHeading({ heading, style }) {
 const s = StyleSheet.create({
   headingView: {
     // alignSelf: 'center'
+    paddingVertical: 4,
   },
   headingTxt: {
     // color: "#061826",
