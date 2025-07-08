@@ -96,7 +96,7 @@ const s = StyleSheet.create({
 		fontSize: 11,
 	},
 	disabledOption: {
-		backgroundColor: "#8E9AA4",
+		backgroundColor: "#1D394E",
 	},
 	disabledText: {
 		color: "#425C70",

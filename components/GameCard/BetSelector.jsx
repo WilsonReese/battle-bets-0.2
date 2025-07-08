@@ -95,54 +95,42 @@ function BetSelectorComponent({
 	payout,
 }) {
 	const { bets } = useBets();
-	const { updateBet, getBetOptionType, getBudget, getTotalBetAmount } =
-		useBetOps();
+	const { updateBet, getBetOptionType, getBudget, getTotalBetAmount } = useBetOps();
 	const bet = bets.find((b) => b.id === betId);
 
-	const budget = bet ? getBudget(getBetOptionType(bet.betType)) : 0;
-	const totalBetAmount = bet
-		? getTotalBetAmount(getBetOptionType(bet.betType))
-		: 0;
+	const betType = bet ? getBetOptionType(bet.betType) : null;
+	const budget = betType ? getBudget(betType) : 0;
+	const totalBetAmount = betType ? getTotalBetAmount(betType) : 0;
 
-	const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
+	const [betAmount, setBetAmount] = useState(bet?.betAmount ?? minBet);
 	const increment = 100;
 
-	// Sync local state when bet changes
+	// Sync state with bet if it updates externally
 	useEffect(() => {
-		if (bet) {
+		if (bet?.betAmount !== undefined) {
 			setBetAmount(bet.betAmount);
 		}
 	}, [bet?.betAmount]);
 
-	// Debounce update to context
-	useEffect(() => {
-		const timeout = setTimeout(() => {
-			if (bet && betAmount !== bet.betAmount) {
-				updateBet(betId, betAmount, payout);
-			}
-		}, 500); // Debounce interval — tweak if needed
-
-		return () => clearTimeout(timeout);
-	}, [betAmount]);
-
 	const incrementBet = () => {
-		if (betAmount < maxBet && totalBetAmount + increment <= budget) {
-			setBetAmount((prev) => prev + increment);
+		if (betAmount < maxBet && totalBetAmount - betAmount + betAmount + increment <= budget) {
+			const newAmount = betAmount + increment;
+			setBetAmount(newAmount);
+			updateBet(betId, newAmount, payout);
 		}
 	};
 
 	const decrementBet = () => {
 		if (betAmount > minBet) {
-			setBetAmount((prev) => prev - increment);
+			const newAmount = betAmount - increment;
+			setBetAmount(newAmount);
+			updateBet(betId, newAmount, payout);
 		}
 	};
 
 	const minusSign = <FontAwesome6 name="minus" size={14} color="#F8F8F8" />;
 	const plusSign = <FontAwesome6 name="plus" size={14} color="#F8F8F8" />;
-	const closeIcon = (
-		<FontAwesome6 name="circle-xmark" size={24} color="#F8F8F8" />
-	);
-
+	const closeIcon = <FontAwesome6 name="circle-xmark" size={24} color="#F8F8F8" />;
 
 	return (
 		<View style={s.container}>
@@ -152,7 +140,8 @@ function BetSelectorComponent({
 			>
 				<Txt style={s.text}>{closeIcon}</Txt>
 			</Pressable>
-			<View icon={minusSign} style={s.betAdjuster}>
+
+			<View style={s.betAdjuster}>
 				<IncrementBtn
 					icon={minusSign}
 					isEnabled={betAmount > minBet}
@@ -165,23 +154,21 @@ function BetSelectorComponent({
 					icon={plusSign}
 					isEnabled={
 						betAmount < maxBet &&
-						totalBetAmount + increment <= budget
+						totalBetAmount - betAmount + betAmount + increment <= budget
 					}
 					onPress={incrementBet}
 				/>
 			</View>
+
 			<View style={s.toWin}>
 				<Txt style={[s.text, s.toWinText]}>To Win:</Txt>
-				<Txt style={[s.text]}>${Math.round(betAmount * payout)}</Txt>
+				<Txt style={s.text}>${Math.round(betAmount * payout)}</Txt>
 			</View>
 		</View>
 	);
 }
 
-console.log("✅ BetSelectorComponent is:", typeof BetSelectorComponent);
-// ✅ Export a memoized component
 export const BetSelector = memo(BetSelectorComponent);
-
 
 const s = StyleSheet.create({
 	container: {
@@ -190,17 +177,13 @@ const s = StyleSheet.create({
 		justifyContent: "space-between",
 		backgroundColor: "#425C70",
 		marginHorizontal: 8,
-		// borderTopRightRadius:
 		borderBottomLeftRadius: 8,
 		borderBottomRightRadius: 8,
 		paddingHorizontal: 12,
 		paddingVertical: 6,
-		// marginBottom: 4,
-		// borderWidth: .5,
 		borderColor: "#54D18C",
 	},
 	text: {
-		// color: "#061826",
 		fontSize: 14,
 	},
 	closeIcon: {
