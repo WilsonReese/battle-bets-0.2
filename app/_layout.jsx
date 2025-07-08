@@ -96,7 +96,7 @@ export default function Layout() {
 				<SeasonProvider>
 					<ScoreboardProvider>
 						<BudgetProvider>
-							<BetProvider>
+							{/* <BetProvider> */}
 								<AuthProvider>
 									<DeepLinkWrapper />
 									<PoolDetailsProvider>
@@ -135,7 +135,7 @@ export default function Layout() {
 										</View>
 									</PoolDetailsProvider>
 								</AuthProvider>
-							</BetProvider>
+							{/* </BetProvider> */}
 						</BudgetProvider>
 					</ScoreboardProvider>
 				</SeasonProvider>

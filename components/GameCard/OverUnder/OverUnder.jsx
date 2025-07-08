@@ -1,9 +1,10 @@
 import { Animated, StyleSheet, View } from "react-native";
 import { BetTypeHeading } from "../BetTypeHeading";
-import { BetSelector } from "../BetSelector";
+// import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
 import { useBetLogic } from "../../../hooks/useBetLogic";
 import { BETTING_RULES } from "../../../utils/betting-rules";
+import { BetSelector } from "../BetSelector";
 
 export function OverUnder({
 	ouOptions,

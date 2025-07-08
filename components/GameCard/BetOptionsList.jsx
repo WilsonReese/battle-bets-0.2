@@ -26,60 +26,65 @@ export function BetOptionsList({ game, containerWidth }) {
 	const awayTeam = game.away_team.name;
 
 	const pages = [
-		() => (
-			<View>
-				<Spread
-					spreadOptions={spreadOptions}
+		{
+			key: "main",
+			component: (
+				<View>
+					<Spread
+						spreadOptions={spreadOptions}
+						game={game}
+						homeTeam={homeTeam}
+						awayTeam={awayTeam}
+					/>
+					<OverUnder
+						ouOptions={ouOptions}
+						game={game}
+						homeTeam={homeTeam}
+						awayTeam={awayTeam}
+					/>
+					<MoneyLine
+						moneyLineOptions={moneyLineOptions}
+						game={game}
+						homeTeam={homeTeam}
+						awayTeam={awayTeam}
+					/>
+				</View>
+			),
+		},
+		{
+			key: "props",
+			component: (
+				<PropBets
+					betOptions={propBetOptions}
 					game={game}
 					homeTeam={homeTeam}
 					awayTeam={awayTeam}
 				/>
-				<OverUnder
-					ouOptions={ouOptions}
-					game={game}
-					homeTeam={homeTeam}
-					awayTeam={awayTeam}
-				/>
-				<MoneyLine
-					moneyLineOptions={moneyLineOptions}
-					game={game}
-					homeTeam={homeTeam}
-					awayTeam={awayTeam}
-				/>
-			</View>
-		),
-		() => (
-			<PropBets
-				betOptions={propBetOptions}
-				game={game}
-				homeTeam={homeTeam}
-				awayTeam={awayTeam}
-			/>
-		),
+			),
+		},
 	];
 
-return (
-  <View
-    style={s.container}
-    onLayout={(e) => {
-      const width = e.nativeEvent.layout.width;
-      if (width !== cardWidth) setCardWidth(width);
-    }}
-  >
-    {(cardWidth === null || cardWidth === 0) && (
-      <ActivityIndicator/>
-    )}
-    {cardWidth !== null && cardWidth > 0 && (
-      <PaginatedFlatList
-        data={pages}
-        itemsPerPage={1}
-        renderItemRow={(renderPage) => renderPage()}
-        containerWidth={cardWidth}
-        isComponentPages={true}
-      />
-    )}
-  </View>
-);
+	return (
+		<View
+			style={s.container}
+			onLayout={(e) => {
+				const width = e.nativeEvent.layout.width;
+				if (width !== cardWidth) setCardWidth(width);
+			}}
+		>
+			{(cardWidth === null || cardWidth === 0) && <ActivityIndicator />}
+			{cardWidth !== null && cardWidth > 0 && (
+				<PaginatedFlatList
+					data={pages}
+					itemsPerPage={1}
+					keyExtractor={(item) => item.key}
+					renderItemRow={(item) => item.component}
+					containerWidth={cardWidth}
+          isComponentPages={true}
+				/>
+			)}
+		</View>
+	);
 }
 
 const s = StyleSheet.create({
