@@ -36,12 +36,12 @@ export const BetProvider = ({ children }) => {
 	const [openBetSelectorIds, setOpenBetSelectorIds] = useState(new Set());
 	const { updateBudgetForBattle } = useBudgets();
 
-	// Memoized
+	// Memoized -- used when I save betslip
 	const closeAllBetSelectors = useCallback(() => {
 		setOpenBetSelectorIds(new Set());
 	}, []);
 
-	// Memoized
+	// Memoized - used in Bet on Betslip
 	const toggleBetSelector = useCallback((betId) => {
 		setOpenBetSelectorIds((prev) => {
 			const next = new Set(prev);
@@ -50,7 +50,7 @@ export const BetProvider = ({ children }) => {
 		});
 	}, []);
 
-	// Memoized
+	// Memoized - used in BattleDetails
 	const loadBets = useCallback(
 		async (
 			poolId,
@@ -102,7 +102,7 @@ export const BetProvider = ({ children }) => {
 		]
 	);
 
-	// Memoized
+	// Memoized -- only used within this context
 	const transformBackendBets = useCallback(
 		(bets) => {
 			return bets.map((bet) => ({
@@ -122,7 +122,7 @@ export const BetProvider = ({ children }) => {
 		[convertToCamelCase]
 	);
 
-	// Memoized
+	// Memoized - used in Battle Details
 	// Store bets in AsyncStorage
 	const storeBets = useCallback(async (battleId, betsToStore) => {
 		try {
@@ -139,7 +139,7 @@ export const BetProvider = ({ children }) => {
 		}
 	}, []);
 
-	// Memoized
+	// Memoized - used in this file
 	const convertToCamelCase = useCallback((betType) => {
 		const betTypeCamelCase = {
 			spread: "spread",
@@ -150,7 +150,7 @@ export const BetProvider = ({ children }) => {
 		return betTypeCamelCase[betType] || "spreadOU";
 	}, []);
 
-	// Didn't need to memoize
+	// Didn't need to memoize -- used in this file
 	const updateTotalBetState = (betOptionType, amount, operation) => {
 		const stateSetters = {
 			spreadOU: setTotalSpreadOUBet,
@@ -175,7 +175,7 @@ export const BetProvider = ({ children }) => {
 		}
 	};
 
-	// Memoized
+	// Memoized - used in this file
 	const recalculateTotals = useCallback(
 		(bets) => {
 			let totalSpreadOUBet = 0;
@@ -206,7 +206,7 @@ export const BetProvider = ({ children }) => {
 		[getBetOptionType]
 	);
 
-	// Memoized
+	// Memoized - used in useBetLogic
 	const addBet = useCallback(
 		({ title, betAmount, payout, betType, betOptionID, shortTitle, game }) => {
 			const newBet = {
@@ -230,7 +230,7 @@ export const BetProvider = ({ children }) => {
 		[setBets, updateTotalBetState, getBetOptionType]
 	);
 
-	// Memoized
+	// Memoized - used in useBetLogic and Bet
 	const removeBet = useCallback(
 		(id) => {
 			const betToRemove = bets.find((bet) => bet.id === id);
@@ -249,7 +249,7 @@ export const BetProvider = ({ children }) => {
 		[bets, setBetsToRemove, setBets, updateTotalBetState, getBetOptionType]
 	);
 
-	// Memoized
+	// Memoized - used in BetSelector
 	const updateBet = useCallback(
 		(id, newBetAmount, payout) => {
 			const previousBet = bets.find((bet) => bet.id === id);
@@ -278,7 +278,7 @@ export const BetProvider = ({ children }) => {
 		[bets, setBets, updateTotalBetState, getBetOptionType]
 	);
 
-	// Memoized
+	// Memoized - used in BetSelector and useBetLogic
 	const getBetOptionType = useCallback((betType) => {
 		const betTypeToOptionType = {
 			spread: "spreadOU",
@@ -289,7 +289,7 @@ export const BetProvider = ({ children }) => {
 		return betTypeToOptionType[betType] || "spreadOU"; // Default to "spreadOU" if not found
 	}, []);
 
-	// Memoized
+	// Memoized - Progress Indicator, BetSelector, useBetLogic
 	const getBudget = useCallback(
 		(betOptionType) => {
 			const budgetByBetOptionType = {
@@ -302,7 +302,7 @@ export const BetProvider = ({ children }) => {
 		[spreadOUBudget, moneyLineBudget, propBetBudget]
 	);
 
-	// Memoized
+	// Memoized - BetSlipBudget, Progress Indicator, BetSelector, useBetLogic
 	const getTotalBetAmount = useCallback(
 		(betOptionType) => {
 			const totalBetAmountByBetOptionType = {
@@ -315,7 +315,7 @@ export const BetProvider = ({ children }) => {
 		[totalSpreadOUBet, totalMoneyLineBet, totalPropBet]
 	);
 
-	// Memoized
+	// Memoized - Progress Indicator
 	const getBetOptionLongTitle = useCallback((betOptionType) => {
 		const betOptionLongTitleByType = {
 			spreadOU: "Spread and Over/Under",
@@ -325,23 +325,23 @@ export const BetProvider = ({ children }) => {
 		return betOptionLongTitleByType[betOptionType];
 	}, []);
 
-	// Memoized
-	const getTotalRemainingBudget = useCallback(() => {
-		return {
-			spreadOU: spreadOUBudget - totalSpreadOUBet,
-			moneyLine: moneyLineBudget - totalMoneyLineBet,
-			prop: propBetBudget - totalPropBet,
-		};
-	}, [
-		spreadOUBudget,
-		totalSpreadOUBet,
-		moneyLineBudget,
-		totalMoneyLineBet,
-		propBetBudget,
-		totalPropBet,
-	]);
+	// // Memoized
+	// const getTotalRemainingBudget = useCallback(() => {
+	// 	return {
+	// 		spreadOU: spreadOUBudget - totalSpreadOUBet,
+	// 		moneyLine: moneyLineBudget - totalMoneyLineBet,
+	// 		prop: propBetBudget - totalPropBet,
+	// 	};
+	// }, [
+	// 	spreadOUBudget,
+	// 	totalSpreadOUBet,
+	// 	moneyLineBudget,
+	// 	totalMoneyLineBet,
+	// 	propBetBudget,
+	// 	totalPropBet,
+	// ]);
 
-	// Memoized
+	// Memoized - used in this file only
 	const calculateRemainingBudget = useCallback(
 		(bets) => {
 			let spreadOU = 0;
@@ -364,6 +364,7 @@ export const BetProvider = ({ children }) => {
 		[getBetOptionType, spreadOUBudget, moneyLineBudget, propBetBudget]
 	);
 
+	// used in Betslip heading
 	const saveBets = useCallback(
 		async ({
 			poolId,
