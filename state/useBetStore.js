@@ -1,6 +1,10 @@
 import { create } from "zustand";
 import { DEFAULT_BUDGETS } from "../utils/betting-rules";
 
+// Load Bets
+// Save Bets
+// Get Total Amount Bet
+
 export const useBetStore = create((set, get) => ({
 	bets: [],
 	budgetStatus: {
@@ -47,7 +51,29 @@ export const useBetStore = create((set, get) => ({
 		updatedBets[betIndex] = updatedBet;
 
 		set({ bets: updatedBets });
-    get().updateBudgetStatus(updatedBets);
+		get().updateBudgetStatus(updatedBets);
+	},
+
+	// ====== BUDGET FUNCTIONS ======
+
+	getRemainingBudget: (budgetCategory) => {
+		const get = useBetStore.getState;
+		const sharedCategories = {
+			spreadOU: ["spread", "ou"],
+			moneyLine: ["money_line"],
+			prop: ["prop"],
+		};
+
+		const relevantCategories = sharedCategories[budgetCategory] || [];
+		const totalUsed = get().bets.reduce((sum, bet) => {
+			if (relevantCategories.includes(bet.category)) {
+				return sum + bet.bet_amount;
+			}
+			return sum;
+		}, 0);
+
+		const maxBudget = DEFAULT_BUDGETS[budgetCategory] || 0;
+		return maxBudget - totalUsed;
 	},
 
 	// getBetsByCategory: (category) => {

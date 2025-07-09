@@ -8,19 +8,19 @@ export function BudgetRow({ isBetSlipShown, scrollViewRef, closeBetSlip }) {
 		<View style={s.container}>
 			<View style={s.progressIndicatorsContainer}>
 				<ProgressIndicator
-					betOptionTypeProp={"spreadOU"}
+					budgetCategory={"spreadOU"}
 					isBetSlipShown={isBetSlipShown}
 					closeBetSlip={closeBetSlip}
 					scrollViewRef={scrollViewRef}
 				/>
 				<ProgressIndicator
-					betOptionTypeProp={"moneyLine"}
+					budgetCategory={"moneyLine"}
 					isBetSlipShown={isBetSlipShown}
 					closeBetSlip={closeBetSlip}
 					scrollViewRef={scrollViewRef}
 				/>
 				<ProgressIndicator
-					betOptionTypeProp={"prop"}
+					budgetCategory={"prop"}
 					isBetSlipShown={isBetSlipShown}
 					closeBetSlip={closeBetSlip}
 					scrollViewRef={scrollViewRef}
@@ -40,7 +40,7 @@ const s = StyleSheet.create({
 		// backgroundColor: "#184EAD",
 		flexDirection: "row",
 		// paddingVertical: 4,
-		// paddingHorizontal: 8,
+		paddingHorizontal: 8,
 		justifyContent: "space-between",
 	},
 
