@@ -45,50 +45,60 @@ export function BetTypeSection({ betTypes, toggleBetSlip }) {
 	// const getBetsByCategories = useBetStore((state) => state.getBetsByCategories);
 	// const bets = getBetsByCategories(betTypes);
 
-	// ✅ Subscribe to the full reactive list of bets
-	const allBets = useBetStore((state) => state.bets);
+  const idKey = useBetStore((state) =>
+    state.bets
+      .filter((b) => betTypes.includes(b.category))
+      .sort((a, b) => a.addedAt - b.addedAt)
+      .map((b) => b.bet_option_id)
+      .join(",")
+  );
 
-	// ✅ Use useMemo to efficiently derive filtered/sorted list
-	const bets = useMemo(() => {
-		return allBets
-			.filter((bet) => betTypes.includes(bet.category))
-			.sort((a, b) => a.addedAt - b.addedAt);
-	}, [allBets, betTypes]);
+  // 2) Memoize splitting it back into an array
+    const betIds = useMemo(
+    () =>
+      idKey
+        ? idKey
+            .split(",")
+            .filter((s) => s !== "")
+            .map((s) => Number(s))
+        : [],
+    [idKey]
+  );
 
 	// const bets = useBetStore(selectSortedCategoryBets(betTypes)); // Stable selector
 
 	return (
-		<View style={s.container}>
-			{bets.map((bet, index) => (
-				<Bet
-					key={bet.bet_option_id || bet.id || index}
-					bet={bet}
-					backgroundColor={index % 2 === 0 ? "#0F2638" : "#0F2638"}
-				/>
-				// <Txt key={bet.bet_option_id || bet.id || index}>{bet.title}</Txt>
-			))}
-		</View>
+    <View style={s.container}>
+      {betIds.map((id) => (
+        <Bet
+          key={id}
+          betOptionId={id}
+          // backgroundColor={index % 2 === 0 ? "#0F2638" : "#0F2638"}
+        />
+      ))}
+    </View>
 	);
 }
 
 const s = StyleSheet.create({
 	container: {
 		// paddingVertical: 4,
+    gap: 8,
 	},
-	btns: {
-		height: 24,
-		width: 40,
-		marginHorizontal: 4,
-		// borderWidth: 1,
-		// borderColor: "#184EAD",
-		backgroundColor: "#54D18C",
-	},
-	payoutContainer: {
-		flexDirection: "row",
-		justifyContent: "space-between",
-		alignItems: "center",
-		borderColor: "#B8C3CC",
-		paddingHorizontal: 8,
-		paddingVertical: 12,
-	},
+	// btns: {
+	// 	height: 24,
+	// 	width: 40,
+	// 	marginHorizontal: 4,
+	// 	// borderWidth: 1,
+	// 	// borderColor: "#184EAD",
+	// 	backgroundColor: "#54D18C",
+	// },
+	// payoutContainer: {
+	// 	flexDirection: "row",
+	// 	justifyContent: "space-between",
+	// 	alignItems: "center",
+	// 	borderColor: "#B8C3CC",
+	// 	paddingHorizontal: 8,
+	// 	paddingVertical: 12,
+	// },
 });
