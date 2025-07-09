@@ -76,23 +76,6 @@ export const useBetStore = create((set, get) => ({
 		return maxBudget - totalUsed;
 	},
 
-	// getBetsByCategory: (category) => {
-	// 	const shared = {
-	// 		spread: ["spread", "ou"],
-	// 		ou: ["spread", "ou"],
-	// 		money_line: ["money_line"],
-	// 		prop: ["prop"],
-	// 	};
-	// 	const relevant = shared[category] || [];
-	// 	return get().bets.filter((b) => relevant.includes(b.category));
-	// },
-
-	// getTotalForCategory: (category) => {
-	// 	return get()
-	// 		.getBetsByCategory(category)
-	// 		.reduce((sum, b) => sum + b.bet_amount, 0);
-	// },
-
 	updateBudgetStatus: (bets) => {
 		const calc = (categories, max) =>
 			bets
@@ -111,4 +94,15 @@ export const useBetStore = create((set, get) => ({
 			},
 		});
 	},
+
+	// ===== BETSLIP FUNCTIONS =====
+	hasBetsInCategory: (categories) => {
+		const relevant = Array.isArray(categories) ? categories : [categories];
+		return get().bets.some((b) => relevant.includes(b.category));
+	},
+
+	// getBetsByCategories: (categories) =>
+	// 	get()
+	// 		.bets.filter((bet) => categories.includes(bet.category))
+	// 		.sort((a, b) => a.addedAt - b.addedAt),
 }));

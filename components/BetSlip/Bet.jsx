@@ -9,23 +9,23 @@ import { format } from "date-fns";
 import { BetAmount } from "./BetAmount";
 
 export function Bet({ bet, backgroundColor }) {
-  const { minBet, maxBet } = BETTING_RULES[bet.betType];
-  const { openBetSelectorIds } = useBets();
-  const { removeBet, toggleBetSelector } = useBetOps(); 
+  // const { minBet, maxBet } = BETTING_RULES[bet.betType];
+  // const { openBetSelectorIds } = useBets();
+  // const { removeBet, toggleBetSelector } = useBetOps(); 
 
-  const isBetSelectorOpen = openBetSelectorIds.has(bet.id);
-  const animatedHeight = useRef(new Animated.Value(0)).current;
+  // const isBetSelectorOpen = openBetSelectorIds.has(bet.id);
+  // const animatedHeight = useRef(new Animated.Value(0)).current;
 
   const matchup = `${bet.game.away_team.name} at ${bet.game.home_team.name}`;
   const gameTime = format(new Date(bet.game.start_time), "h:mm a"); // Format time
 
-  useEffect(() => {
-    Animated.timing(animatedHeight, {
-      toValue: isBetSelectorOpen ? 54 : 0, // Adjust the height as needed
-      duration: 200,
-      useNativeDriver: false,
-    }).start();
-  }, [isBetSelectorOpen]);
+  // useEffect(() => {
+  //   Animated.timing(animatedHeight, {
+  //     toValue: isBetSelectorOpen ? 54 : 0, // Adjust the height as needed
+  //     duration: 200,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }, [isBetSelectorOpen]);
 
   return (
     <View style={[s.container]}>
@@ -33,15 +33,15 @@ export function Bet({ bet, backgroundColor }) {
         style={[
           s.betItem,
           { backgroundColor },
-          isBetSelectorOpen && s.betItemEditMode,
+          // isBetSelectorOpen && s.betItemEditMode,
         ]}
-        onPress={() => toggleBetSelector(bet.id)}
+        // onPress={() => toggleBetSelector(bet.id)}
       >
         <View style={s.betDetailsContainer}>
           <View style={s.betNameContainer}>
             {/* <Txt style={s.betNameText}>{bet.name}</Txt> */}
             <BetDetails
-              name={bet.shortTitle}
+              name={bet.title}
               multiplier={bet.payout}
               matchup={matchup}
               time={gameTime}
@@ -50,13 +50,13 @@ export function Bet({ bet, backgroundColor }) {
           </View>
           <View style={s.betAmountContainer}>
             <BetAmount
-              betAmount={bet.betAmount}
-              toWinAmount={bet.toWinAmount}
+              bet_amount={bet.bet_amount}
+              to_win_amount={bet.to_win_amount}
             />
           </View>
         </View>
       </TouchableOpacity>
-      <Animated.View
+      {/* <Animated.View
         style={[
           s.betSelectorContainer,
           {
@@ -78,7 +78,7 @@ export function Bet({ bet, backgroundColor }) {
           maxBet={maxBet}
           payout={bet.toWinAmount / bet.betAmount}
         />
-      </Animated.View>
+      </Animated.View> */}
     </View>
   );
 }
