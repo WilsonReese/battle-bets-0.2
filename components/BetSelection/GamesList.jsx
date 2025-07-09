@@ -4,16 +4,19 @@ import { View, FlatList, StyleSheet } from "react-native";
 import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { BetSelectionCard } from "../GameCard/BetSelectionCard";
 
-function _GamesList({ games }) {
+function _GamesList({ games, bets }) {
 	// renderGameCard never changes identity
-	const renderGameCard = useCallback(
-		({ item }) => (
-			<View style={s.wrapper}>
-				<BetSelectionCard game={item} type="betSelection" />
-			</View>
-		),
-		[]
-	);
+	console.log('GamesList Bets', bets)
+const renderGameCard = useCallback(
+  ({ item }) => {
+    return (
+      <View style={s.wrapper}>
+        <BetSelectionCard game={item} bets={bets} />
+      </View>
+    );
+  },
+  [bets]
+);
 
 	return (
 		<FlatList

@@ -9,10 +9,11 @@ import { useState } from "react";
 
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
-export function BetOptionsList({ game, containerWidth }) {
+export function BetOptionsList({ game, bets }) {
 	const [cardWidth, setCardWidth] = useState(null);
 
-  console.log("🔄 Bet Options List rendered for game", game.id);
+  // console.log("🔄 Bet Options List rendered for game", game.id);
+	console.log('Bet Options List', bets)
 
 	if (!game?.bet_options?.length) return null;
 
@@ -35,35 +36,32 @@ export function BetOptionsList({ game, containerWidth }) {
 					<Spread
 						spreadOptions={spreadOptions}
 						game={game}
-						homeTeam={homeTeam}
-						awayTeam={awayTeam}
+						bets={bets}
 					/>
-					<OverUnder
+					{/* <OverUnder
 						ouOptions={ouOptions}
 						game={game}
-						homeTeam={homeTeam}
-						awayTeam={awayTeam}
 					/>
 					<MoneyLine
 						moneyLineOptions={moneyLineOptions}
 						game={game}
 						homeTeam={homeTeam}
 						awayTeam={awayTeam}
-					/>
+					/> */}
 				</View>
 			),
 		},
-		{
-			key: "props",
-			component: (
-				<PropBets
-					betOptions={propBetOptions}
-					game={game}
-					homeTeam={homeTeam}
-					awayTeam={awayTeam}
-				/>
-			),
-		},
+		// {
+		// 	key: "props",
+		// 	component: (
+		// 		<PropBets
+		// 			betOptions={propBetOptions}
+		// 			game={game}
+		// 			homeTeam={homeTeam}
+		// 			awayTeam={awayTeam}
+		// 		/>
+		// 	),
+		// },
 	];
 
 	return (

@@ -42,6 +42,7 @@ import {
 	useBetOps,
 	useBets,
 } from "../../../../../../components/contexts/BetContext";
+import { BetSelectionProvider } from "../../../../../../components/contexts/BetSelectionContext";
 
 export default function BattleDetails() {
 	const {
@@ -182,67 +183,69 @@ export default function BattleDetails() {
 
 	return (
 		<SafeAreaProvider>
-			<SafeAreaView style={s.container}>
-				{loading || seasonLoading ? (
-					<View style={s.loadingContainer}>
-						<LoadingIndicator color="light" contentToLoad="games" />
-					</View>
-				) : (
-					<>
-						<View style={s.body}>
-							<BudgetRow
-								isBetSlipShown={isBetSlipShown}
-								scrollViewRef={scrollViewRef}
-								closeBetSlip={closeBetSlip}
-							></BudgetRow>
-							<View style={s.conferenceFilterContainer}>
-								<ConferenceFilter
-									selected={selectedConferences}
-									onToggle={toggleConference}
-									onClear={clearConferences}
-									conferences={FILTER_CONFERENCES}
-								/>
-							</View>
-							{disableInteraction && (
-								<>
-									<View style={s.interactionBlocker} pointerEvents="auto">
-										<ActivityIndicator size="small" color="#E4E6E7" />
-										<Txt style={s.spinnerTxt}>Saving bets</Txt>
-									</View>
-								</>
-							)}
-							{/* <View style={{height: .5, backgroundColor: '#425C70', marginHorizontal: -8, marginTop: 8,}}/> */}
-							<GamesList games={filteredGames} />
+			<BetSelectionProvider betslipId={betslipId}>
+				<SafeAreaView style={s.container}>
+					{loading || seasonLoading ? (
+						<View style={s.loadingContainer}>
+							<LoadingIndicator color="light" contentToLoad="games" />
 						</View>
-						<BetSlip
-							ref={sheetRef}
-							poolId={poolId}
-							isBetSlipShown={isBetSlipShown}
-							setIsBetSlipShown={setIsBetSlipShown}
-							scrollViewRef={scrollViewRef}
-							leagueSeasonId={leagueSeasonId}
-							betslipId={betslipId}
-							battleId={battleId}
-							betslipHasChanges={betslipHasChanges}
-							setBetslipHasChanges={setBetslipHasChanges}
-							setSuppressLeaveModal={() =>
-								(suppressLeaveModalRef.current = true)
-							}
-							setDisableInteraction={setDisableInteraction}
-						/>
-						{showLeaveModal && (
-							<ConfirmLeaveBetSelectionModal
-								visible={showLeaveModal}
-								onCancel={() => setShowLeaveModal(false)}
-								onConfirm={() => {
-									setShowLeaveModal(false);
-									navigation.dispatch(pendingNavEvent.current.data.action);
-								}}
+					) : (
+						<>
+							<View style={s.body}>
+								<BudgetRow
+									isBetSlipShown={isBetSlipShown}
+									scrollViewRef={scrollViewRef}
+									closeBetSlip={closeBetSlip}
+								></BudgetRow>
+								<View style={s.conferenceFilterContainer}>
+									<ConferenceFilter
+										selected={selectedConferences}
+										onToggle={toggleConference}
+										onClear={clearConferences}
+										conferences={FILTER_CONFERENCES}
+									/>
+								</View>
+								{disableInteraction && (
+									<>
+										<View style={s.interactionBlocker} pointerEvents="auto">
+											<ActivityIndicator size="small" color="#E4E6E7" />
+											<Txt style={s.spinnerTxt}>Saving bets</Txt>
+										</View>
+									</>
+								)}
+								{/* <View style={{height: .5, backgroundColor: '#425C70', marginHorizontal: -8, marginTop: 8,}}/> */}
+								<GamesList games={filteredGames} bets={bets} />
+							</View>
+							<BetSlip
+								ref={sheetRef}
+								poolId={poolId}
+								isBetSlipShown={isBetSlipShown}
+								setIsBetSlipShown={setIsBetSlipShown}
+								scrollViewRef={scrollViewRef}
+								leagueSeasonId={leagueSeasonId}
+								betslipId={betslipId}
+								battleId={battleId}
+								betslipHasChanges={betslipHasChanges}
+								setBetslipHasChanges={setBetslipHasChanges}
+								setSuppressLeaveModal={() =>
+									(suppressLeaveModalRef.current = true)
+								}
+								setDisableInteraction={setDisableInteraction}
 							/>
-						)}
-					</>
-				)}
-			</SafeAreaView>
+							{showLeaveModal && (
+								<ConfirmLeaveBetSelectionModal
+									visible={showLeaveModal}
+									onCancel={() => setShowLeaveModal(false)}
+									onConfirm={() => {
+										setShowLeaveModal(false);
+										navigation.dispatch(pendingNavEvent.current.data.action);
+									}}
+								/>
+							)}
+						</>
+					)}
+				</SafeAreaView>
+			</BetSelectionProvider>
 		</SafeAreaProvider>
 	);
 }

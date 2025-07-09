@@ -4,7 +4,7 @@ import { Txt } from "../general/Txt";
 export function BetOption({ title, payout, isSelected, onPress, isEnabled }) {
 	const shadowStyle = isEnabled || isSelected ? s.shadow : null;
 
-  console.log("🔄 Bet Option rendered", title);
+  // console.log("🔄 Bet Option rendered", title);
 
 	return (
 			<Pressable
