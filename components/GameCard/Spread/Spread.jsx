@@ -13,37 +13,35 @@ function _Spread({ spreadOptions, game, bets }) {
 		return null; // Ensure there are at least two options (home and away)
 	}
 
+	const [isOpen, setIsOpen] = useState(false);
+	const animatedHeight = useRef(new Animated.Value(0)).current;
+
 	const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
 	const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
+	const { minBet, maxBet } = BETTING_RULES["spread"];
 
 	// 1) Subscribe to the single spread‐bet for this game
 	const thisSpreadBet = useBetStore((s) =>
 		s.bets.find((b) => b.category === "spread" && b.game.id === game.id)
 	);
 
-	// // 2) Local open/closed flag to drive animation
-  // const [isOpen, setIsOpen] = useState(false);
-  // const animatedHeight = useRef(new Animated.Value(0)).current;
+	// 2) Whenever the store’s spread bet appears/disappears, flip isOpen
+	useEffect(() => {
+		setIsOpen(!!thisSpreadBet);
+	}, [thisSpreadBet]);
 
-	// // 3) Whenever the store’s spread‐bet appears/disappears, update isOpen
-  // useEffect(() => {
-  //   setIsOpen(!!thisSpreadBet);
-  // }, [thisSpreadBet]);
-
-	// // 4) Animate height on open/close
-  // useEffect(() => {
-  //   Animated.timing(animatedHeight, {
-  //     toValue: isOpen ? 54 : 0,
-  //     duration: 100,
-  //     useNativeDriver: false,
-  //   }).start();
-  // }, [isOpen]);
+	// 3) Animate the height when isOpen changes
+	useEffect(() => {
+		Animated.timing(animatedHeight, {
+			toValue: isOpen ? 54 : 0,
+			duration: 100,
+			useNativeDriver: false,
+		}).start();
+	}, [isOpen]);
 
 	const selectedBetOptionId = thisSpreadBet?.bet_option_id ?? null;
 	const isOptionOne = selectedBetOptionId === awaySpread.id;
 	const isOptionTwo = selectedBetOptionId === homeSpread.id;
-
-	const { minBet, maxBet } = BETTING_RULES["spread"];
 
 	// const [selectedOption, setSelectedOption] = useState(null);
 	// const [selectedBetOption, setSelectedBetOption] = useState(null);
@@ -52,35 +50,35 @@ function _Spread({ spreadOptions, game, bets }) {
 
 	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
 
-  // Toggling:
-  //  - if nothing is selected, we add
-  //  - if the same option is tapped, we remove
-  //  - if the *other* option is tapped, we remove the old one then add the new one
-  const toggle = (opt) => {
-    const store = useBetStore.getState();
-    if (!thisSpreadBet) {
-      // no spread yet → add it
-      store.addBet(buildSpreadBet(opt));
-    } else if (thisSpreadBet.bet_option_id === opt.id) {
-      // tapping the same → remove it
-      store.removeBet(opt.id);
-    } else {
-      // a different one → remove old, then add new
-      store.removeBet(thisSpreadBet.bet_option_id);
-      store.addBet(buildSpreadBet(opt));
-    }
-  };
+	// Toggling:
+	//  - if nothing is selected, we add
+	//  - if the same option is tapped, we remove
+	//  - if the *other* option is tapped, we remove the old one then add the new one
+	const toggle = (opt) => {
+		const store = useBetStore.getState();
+		if (!thisSpreadBet) {
+			// no spread yet → add it
+			store.addBet(buildSpreadBet(opt));
+		} else if (thisSpreadBet.bet_option_id === opt.id) {
+			// tapping the same → remove it
+			store.removeBet(opt.id);
+		} else {
+			// a different one → remove old, then add new
+			store.removeBet(thisSpreadBet.bet_option_id);
+			store.addBet(buildSpreadBet(opt));
+		}
+	};
 
-  const buildSpreadBet = (opt) => ({
-    bet_amount: minBet,
-    to_win_amount: Math.round(minBet * opt.payout),
-    bet_option_id: opt.id,
-    category: "spread",
-    game,
-    title: opt.title,
-    payout: opt.payout,
-    addedAt: Date.now(),
-  });
+	const buildSpreadBet = (opt) => ({
+		bet_amount: minBet,
+		to_win_amount: Math.round(minBet * opt.payout),
+		bet_option_id: opt.id,
+		category: "spread",
+		game,
+		title: opt.title,
+		payout: opt.payout,
+		addedAt: Date.now(),
+	});
 
 	// // Inside your component body
 	// useEffect(() => {
@@ -107,18 +105,28 @@ function _Spread({ spreadOptions, game, bets }) {
 					onPress={() => toggle(homeSpread)}
 				/>
 			</View>
-			{thisSpreadBet ? (
-				<Animated.View
-					style={{ height: 54 }}
-				>
+			{/* animated selector */}
+			<Animated.View
+				style={[
+					s.selectorWrapper,
+					{
+						height: animatedHeight,
+						opacity: animatedHeight.interpolate({
+							inputRange: [0, 54],
+							outputRange: [0, 1],
+						}),
+					},
+				]}
+			>
+				{thisSpreadBet && (
 					<BetSelector
 						betOptionId={thisSpreadBet.bet_option_id}
-						closeSelection={() => {
+						closeSelection={() =>
 							useBetStore.getState().removeBet(thisSpreadBet.bet_option_id)
-						}}
+						}
 					/>
-				</Animated.View>
-			) : null}
+				)}
+			</Animated.View>
 		</View>
 	);
 }
@@ -131,6 +139,10 @@ const s = StyleSheet.create({
 		gap: 4,
 		justifyContent: "space-between",
 	},
+	selectorWrapper: {
+    overflow: "hidden",
+    marginTop: 4,
+  },
 });
 
 // import { Animated, StyleSheet, View } from "react-native";
