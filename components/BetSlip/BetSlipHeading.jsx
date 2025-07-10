@@ -38,7 +38,10 @@ export function BetSlipHeading({
     setInitialSnapshot,
   } = useBetStore();
 
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const hasUnsaved = useBetStore((s) => s.hasUnsavedChanges());
+
+
+	const [isSubmitting, setIsSubmitting] = useState(false); // isSubmitting is not currently being used
 	const { showError, showSuccess } = useToastMessage();
 	// const [disableInteraction, setDisableInteraction] = useState(false);
 
@@ -120,8 +123,8 @@ export function BetSlipHeading({
 						btnText={"Save"}
 						fontSize={14}
 						style={s.btn}
-						// isEnabled={betslipHasChanges && !isSubmitting}
-						isEnabled={true}
+						isEnabled={hasUnsaved && !isSubmitting}
+						// isEnabled={true}
 						onPress={handleSaveBets} // Call the handleSubmitBets function when pressed
 					/>
 				</View>

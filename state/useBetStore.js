@@ -2,6 +2,8 @@ import { create } from "zustand";
 import { DEFAULT_BUDGETS } from "../utils/betting-rules";
 import api from "../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import isEqual from "lodash.isequal";
+// import { isEqual } from "date-fns";
 
 // Load Bets
 // Save Bets
@@ -138,7 +140,25 @@ export const useBetStore = create((set, get) => ({
 			isNew: false,
 		})),
 
-	// --- the core saveBets action ---
+  hasUnsavedChanges: () => {
+    const { bets, initialBetsSnapshot, betsToRemove } = get();
+
+    // 1) If anything’s been marked for removal, we’re dirty
+    if (betsToRemove.length > 0) return true;
+
+    // 2) Otherwise compare the _essential_ fields of each bet
+    const normalize = (arr) =>
+      arr
+        .map((b) => ({
+          bet_option_id: b.bet_option_id,
+          bet_amount: b.bet_amount,
+        }))
+        .sort((a, b) => a.bet_option_id - b.bet_option_id);
+
+    return !isEqual(normalize(bets), normalize(initialBetsSnapshot));
+  },
+
+	// ====== SAVE & LOAD BETS =====
 	saveBets: async ({
 		poolId,
 		leagueSeasonId,
