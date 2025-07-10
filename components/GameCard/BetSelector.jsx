@@ -6,21 +6,34 @@ import { IncrementBtn } from "../general/Buttons/IncrementBtn";
 import { useBetOps, useBets } from "../contexts/BetContext";
 import { LoadingIndicator } from "../general/LoadingIndicator";
 import { useBetStore } from "../../state/useBetStore";
+import { BETTING_RULES } from "../../utils/betting-rules";
 
 function BetSelectorComponent({
-	option,
-	minBet,
-	maxBet,
-	payout,
-	bet,
+	// option,
+	// minBet,
+	// maxBet,
+	// payout,
+	// bet,
 	// budget,
 	// remainingBudget,
+	betOptionId,
 	closeSelection,
 }) {
-	// console.log('Budget', budget)
-	// console.log('Remaining', remainingBudget)
+  // 1) Always read the *live* bet from Zustand
+  const bet = useBetStore((s) =>
+    s.bets.find((b) => b.bet_option_id === betOptionId)
+  );
+  
+	// 2) Derive your rules straight from bet.category
+  const { minBet, maxBet } = BETTING_RULES[bet.category] || {};
+  const { payout } = bet;
+  const [betAmount, setBetAmount] = useState(bet.bet_amount);
 
-	const [betAmount, setBetAmount] = useState(bet?.bet_amount ?? minBet);
+  // 3) Sync local when the store changes
+  useEffect(() => {
+    setBetAmount(bet.bet_amount);
+  }, [bet.bet_amount]);
+
 	const increment = 100;
 	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
 
@@ -47,6 +60,8 @@ function BetSelectorComponent({
 	const closeIcon = (
 		<FontAwesome6 name="circle-xmark" size={24} color="#F8F8F8" />
 	);
+
+	if (!bet) return null;
 
 	return (
 		<View style={s.container}>

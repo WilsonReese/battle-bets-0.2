@@ -15,66 +15,78 @@ function _Spread({ spreadOptions, game, bets }) {
 
 	const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
 	const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
+
+	// 1) Subscribe to the single spread‐bet for this game
+	const thisSpreadBet = useBetStore((s) =>
+		s.bets.find((b) => b.category === "spread" && b.game.id === game.id)
+	);
+
+	// // 2) Local open/closed flag to drive animation
+  // const [isOpen, setIsOpen] = useState(false);
+  // const animatedHeight = useRef(new Animated.Value(0)).current;
+
+	// // 3) Whenever the store’s spread‐bet appears/disappears, update isOpen
+  // useEffect(() => {
+  //   setIsOpen(!!thisSpreadBet);
+  // }, [thisSpreadBet]);
+
+	// // 4) Animate height on open/close
+  // useEffect(() => {
+  //   Animated.timing(animatedHeight, {
+  //     toValue: isOpen ? 54 : 0,
+  //     duration: 100,
+  //     useNativeDriver: false,
+  //   }).start();
+  // }, [isOpen]);
+
+	const selectedBetOptionId = thisSpreadBet?.bet_option_id ?? null;
+	const isOptionOne = selectedBetOptionId === awaySpread.id;
+	const isOptionTwo = selectedBetOptionId === homeSpread.id;
+
 	const { minBet, maxBet } = BETTING_RULES["spread"];
-	// const budget = DEFAULT_BUDGETS["spreadOU"];
-	// const totalUsed = useRef(
-	// 	useBetStore.getState().getTotalForCategory("spread")
-	// );
 
-	// console.log("total used", totalUsed);
-
-	// const { budgetStatus } = useBetSelection();
-	const [selectedOption, setSelectedOption] = useState(null);
-	const [bet, setBet] = useState(null);
+	// const [selectedOption, setSelectedOption] = useState(null);
+	// const [selectedBetOption, setSelectedBetOption] = useState(null);
+	// const [bet, setBet] = useState(null);
 	// const [isDisabled, setIsDisabled] = useState(false);
 
-	const isDisabled = useBetStore((state) => state.budgetStatus.spreadOU);
+	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
 
-	console.log("SpreadOptions for game", game.id, spreadOptions);
+  // Toggling:
+  //  - if nothing is selected, we add
+  //  - if the same option is tapped, we remove
+  //  - if the *other* option is tapped, we remove the old one then add the new one
+  const toggle = (opt) => {
+    const store = useBetStore.getState();
+    if (!thisSpreadBet) {
+      // no spread yet → add it
+      store.addBet(buildSpreadBet(opt));
+    } else if (thisSpreadBet.bet_option_id === opt.id) {
+      // tapping the same → remove it
+      store.removeBet(opt.id);
+    } else {
+      // a different one → remove old, then add new
+      store.removeBet(thisSpreadBet.bet_option_id);
+      store.addBet(buildSpreadBet(opt));
+    }
+  };
 
+  const buildSpreadBet = (opt) => ({
+    bet_amount: minBet,
+    to_win_amount: Math.round(minBet * opt.payout),
+    bet_option_id: opt.id,
+    category: "spread",
+    game,
+    title: opt.title,
+    payout: opt.payout,
+    addedAt: Date.now(),
+  });
+
+	// // Inside your component body
 	// useEffect(() => {
-	// 	setIsDisabled(budgetStatus.spreadOU);
-	// }, [budgetStatus.spreadOU]);
-
-	const isOptionOneSelected = selectedOption === "optionOne";
-	const isOptionTwoSelected = selectedOption === "optionTwo";
-
-	// ====== FUNCTIONS ======
-
-	const handleOptionPress = (optionKey, betOption) => {
-		const isSame = selectedOption === optionKey;
-
-		if (isSame) {
-			// Deselect: remove the bet from the store
-			useBetStore.getState().removeBet(betOption.id);
-			setSelectedOption(null);
-			setBet(null);
-		} else {
-			// Select: add a new bet
-			const newBet = {
-				bet_amount: minBet,
-				to_win_amount: Math.round(minBet * betOption.payout),
-				bet_option_id: betOption.id,
-				betslip_id: "to-come-from-context", // placeholder
-				title: betOption.title,
-				category: betOption.category,
-				isNew: true,
-				payout: betOption.payout,
-				game,
-				addedAt: Date.now(),
-			};
-
-			useBetStore.getState().addBet(newBet);
-			setSelectedOption(optionKey);
-			setBet(newBet);
-		}
-	};
-
-	// Inside your component body
-	useEffect(() => {
-		const allBets = useBetStore.getState().bets;
-		console.log("📦 Zustand Bets (at mount):", allBets);
-	}, []);
+	// 	const allBets = useBetStore.getState().bets;
+	// 	console.log("📦 Zustand Bets (at mount):", allBets);
+	// }, []);
 
 	return (
 		<View>
@@ -83,37 +95,30 @@ function _Spread({ spreadOptions, game, bets }) {
 				<BetOption
 					title={awaySpread.title}
 					payout={awaySpread.payout}
-					isEnabled={!isDisabled}
-					isSelected={isOptionOneSelected}
-					onPress={() => handleOptionPress("optionOne", awaySpread)}
+					isEnabled={!isBudgetMaxed}
+					isSelected={isOptionOne}
+					onPress={() => toggle(awaySpread)}
 				/>
 				<BetOption
 					title={homeSpread.title}
 					payout={homeSpread.payout}
-					isEnabled={!isDisabled}
-					isSelected={isOptionTwoSelected}
-					onPress={() => handleOptionPress("optionTwo", homeSpread)}
+					isEnabled={!isBudgetMaxed}
+					isSelected={isOptionTwo}
+					onPress={() => toggle(homeSpread)}
 				/>
 			</View>
-			<Animated.View
-				style={{ height: selectedOption ? 54 : 0, overflow: "hidden" }}
-			>
-				{selectedOption && (
+			{thisSpreadBet ? (
+				<Animated.View
+					style={{ height: 54 }}
+				>
 					<BetSelector
-						option={selectedOption}
-						minBet={minBet}
-						maxBet={maxBet}
-						payout={bet?.to_win_amount / bet?.bet_amount || 0}
-						bet={bet}
-						// budget={budget}
+						betOptionId={thisSpreadBet.bet_option_id}
 						closeSelection={() => {
-							useBetStore.getState().removeBet(bet.bet_option_id);
-							setSelectedOption(null);
-							setBet(null);
+							useBetStore.getState().removeBet(thisSpreadBet.bet_option_id)
 						}}
 					/>
-				)}
-			</Animated.View>
+				</Animated.View>
+			) : null}
 		</View>
 	);
 }

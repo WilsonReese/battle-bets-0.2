@@ -210,12 +210,13 @@ export const Bet = React.memo(
 					<BetSelector
 						bet={bet}
 						closeSelection={() => {
-							removeBet(bet.bet_option_id);
+							useBetStore.getState().removeBet(bet.bet_option_id);
 							setIsOpen(false);
 						}}
 						minBet={minBet}
 						maxBet={maxBet}
 						payout={bet.payout}
+            betOptionId={bet.bet_option_id}
 					/>
 				</Animated.View>
 			</View>
