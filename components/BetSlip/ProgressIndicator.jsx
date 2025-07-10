@@ -2,7 +2,6 @@ import React from "react";
 import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBetOps, useBets } from "../contexts/BetContext";
 import { useBetStore } from "../../state/useBetStore";
 
 export function ProgressIndicator({

@@ -5,7 +5,6 @@ import { Btn } from "../general/Buttons/Btn";
 import { CountdownTimer } from "./CountdownTimer";
 import { StatusIcon } from "../general/StatusIcon";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-// import { useBets } from "../contexts/BetContext";
 import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
 import { getOrdinalSuffix } from "../../utils/formatting";
 import { SkeletonBattleCard } from "./SkeletonBattleCard";

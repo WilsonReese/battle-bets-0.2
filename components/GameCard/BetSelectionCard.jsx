@@ -6,9 +6,8 @@ import { BetOptionsList } from './BetOptionsList';
 // import { Matchup } from './Matchup';
 // import { BetOptions } from './BetOptions';
 
-function _BetSelectionCard({ game, bets }) {
+function _BetSelectionCard({ game }) {
 // console.log("🔄 Bet Selection Card", game.id);
-console.log('Bet Selection Card', bets)
 
   return (
     <View style={s.card}>
@@ -18,7 +17,7 @@ console.log('Bet Selection Card', bets)
         awayTeam={game.away_team.name}
       />
       {/* <BetOptions game={game} /> */}
-			<BetOptionsList game={game} bets={bets} />
+			<BetOptionsList game={game} />
     </View>
   );
 }

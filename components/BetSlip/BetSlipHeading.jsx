@@ -8,7 +8,6 @@ import {
 } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBetOps, useBets } from "../contexts/BetContext";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
@@ -17,12 +16,10 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
 import isEqual from "lodash.isequal";
 import { useToastMessage } from "../../hooks/useToastMessage";
+import { useBetStore } from "../../state/useBetStore";
 
 export function BetSlipHeading({
 	poolId,
-	isBetSlipShown,
-	toggleBetSlip,
-	scrollViewRef,
 	leagueSeasonId,
 	betslipId,
 	battleId,
@@ -31,55 +28,86 @@ export function BetSlipHeading({
 	setSuppressLeaveModal,
 	setDisableInteraction,
 }) {
-	const { bets, betsToRemove, initialBetsSnapshot } = useBets();
-	const { closeAllBetSelectors, saveBets } = useBetOps();
+	// const { bets, betsToRemove, initialBetsSnapshot } = useBets();
+	// const { closeAllBetSelectors, saveBets } = useBetOps();
+	const {
+    bets,
+    betsToRemove,
+    initialBetsSnapshot,
+    saveBets,
+    setInitialSnapshot,
+  } = useBetStore();
 
 	const [isSubmitting, setIsSubmitting] = useState(false);
 	const { showError, showSuccess } = useToastMessage();
 	// const [disableInteraction, setDisableInteraction] = useState(false);
 
-	useEffect(() => {
-		// Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
-		const betsChanged = !isEqual(bets, initialBetsSnapshot);
-		const hasRemovals = betsToRemove.length > 0;
-		setBetslipHasChanges(betsChanged || hasRemovals);
-	}, [bets, betsToRemove, initialBetsSnapshot]);
+	// useEffect(() => {
+	// 	// Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
+	// 	const betsChanged = !isEqual(bets, initialBetsSnapshot);
+	// 	const hasRemovals = betsToRemove.length > 0;
+	// 	setBetslipHasChanges(betsChanged || hasRemovals);
+	// }, [bets, betsToRemove, initialBetsSnapshot]);
 
-	function calculateTotalPayout() {
-		return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
-	}
+	// function calculateTotalPayout() {
+	// 	return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
+	// }
+
+	// const handleSaveBets = async () => {
+	// 	if (isSubmitting) return;
+	// 	setIsSubmitting(true);
+	// 	setDisableInteraction(true); // ⛔ Block interaction immediately
+
+	// 	try {
+	// 		const result = await saveBets({
+	// 			poolId,
+	// 			leagueSeasonId,
+	// 			battleId,
+	// 			betslipId,
+	// 			showError,
+	// 			showSuccess,
+	// 		});
+
+	// 		if (result.status === "locked") {
+	// 			setSuppressLeaveModal(true);
+	// 			router.replace(`/pools/${poolId}`);
+	// 		} else if (result.status === "success") {
+	// 			setBetslipHasChanges(false);
+	// 			closeAllBetSelectors(); // this is already a microtask
+	// 		}
+	// 	} catch (err) {
+	// 		showError("Something went wrong while saving your bets.");
+	// 		console.error("Save failed:", err);
+	// 	} finally {
+	// 		// ✅ Always re-enable interaction after the operation completes
+	// 		setDisableInteraction(false);
+	// 		setIsSubmitting(false);
+	// 	}
+	// };
 
 	const handleSaveBets = async () => {
-		if (isSubmitting) return;
-		setIsSubmitting(true);
-		setDisableInteraction(true); // ⛔ Block interaction immediately
+    setIsSubmitting(true);
+    setDisableInteraction(true);
 
-		try {
-			const result = await saveBets({
-				poolId,
-				leagueSeasonId,
-				battleId,
-				betslipId,
-				showError,
-				showSuccess,
-			});
+    const result = await saveBets({
+      poolId,
+      leagueSeasonId,
+      battleId,
+      betslipId,
+      showError,
+      showSuccess,
+    });
 
-			if (result.status === "locked") {
-				setSuppressLeaveModal(true);
-				router.replace(`/pools/${poolId}`);
-			} else if (result.status === "success") {
-				setBetslipHasChanges(false);
-				closeAllBetSelectors(); // this is already a microtask
-			}
-		} catch (err) {
-			showError("Something went wrong while saving your bets.");
-			console.error("Save failed:", err);
-		} finally {
-			// ✅ Always re-enable interaction after the operation completes
-			setDisableInteraction(false);
-			setIsSubmitting(false);
-		}
-	};
+    if (result.status === "success") {
+			// setBetslipHasChanges(false);
+      // no more toRemove / snapshot is reset inside saveBets
+      // closeAllBetSelectors();
+    }
+    // handle locked or error as before…
+
+    setDisableInteraction(false);
+    setIsSubmitting(false);
+  };
 
 	return (
 		<View style={s.container}>
@@ -92,7 +120,8 @@ export function BetSlipHeading({
 						btnText={"Save"}
 						fontSize={14}
 						style={s.btn}
-						isEnabled={betslipHasChanges && !isSubmitting}
+						// isEnabled={betslipHasChanges && !isSubmitting}
+						isEnabled={true}
 						onPress={handleSaveBets} // Call the handleSubmitBets function when pressed
 					/>
 				</View>
@@ -100,7 +129,8 @@ export function BetSlipHeading({
 
 			<View style={s.payoutContainer}>
 				<Txt style={s.payoutHeading}>Max Payout</Txt>
-				<Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
+				{/* <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt> */}
+				<Txt style={s.payoutText}>$Placeholder</Txt>
 			</View>
 		</View>
 	);

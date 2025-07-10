@@ -2,7 +2,6 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { useEffect, useState } from "react";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBetOps } from "../contexts/BetContext";
 import { useBetStore } from "../../state/useBetStore";
 
 export function BetSlipBudget({ betSectionTitle, budget, budgetCategory }) {

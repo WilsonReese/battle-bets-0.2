@@ -43,6 +43,7 @@ import {
 	useBets,
 } from "../../../../../../components/contexts/BetContext";
 import { BetSelectionProvider } from "../../../../../../components/contexts/BetSelectionContext";
+import { useBetStore } from "../../../../../../state/useBetStore";
 
 export default function BattleDetails() {
 	const {
@@ -51,7 +52,6 @@ export default function BattleDetails() {
 		battleId,
 		betslipId,
 	} = useLocalSearchParams();
-
 	const {
 		selectedConferences,
 		toggleConference,
@@ -61,23 +61,27 @@ export default function BattleDetails() {
 	} = useConferences();
 
 	const { showError, showSuccess } = useToastMessage();
-	const [isBetSlipShown, setIsBetSlipShown] = useState(true);
-	const [betslipHasChanges, setBetslipHasChanges] = useState(false);
+	const { currentSeason, loading: seasonLoading } = useSeason();
 	const [games, setGames] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [isBetSlipShown, setIsBetSlipShown] = useState(true);
+	const [betslipHasChanges, setBetslipHasChanges] = useState(false);
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
 	const [suppressLeaveModal, setSuppressLeaveModal] = useState(false);
 	const suppressLeaveModalRef = useRef(false);
 	const [disableInteraction, setDisableInteraction] = useState(false);
-	const { currentSeason, loading: seasonLoading } = useSeason();
-
+	
 	const scrollViewRef = useRef(null);
 	const sheetRef = useRef(null);
 	const pendingNavEvent = useRef(null);
 	const navigation = useNavigation();
 
-	const { bets } = useBets(); // Access context function
-	const { storeBets, loadBets } = useBetOps();
+	const loadBets = useBetStore((state) => state.loadBets);
+
+
+
+
+	// const { storeBets, loadBets } = useBetOps();
 
 	const closeBetSlip = () => {
 		sheetRef.current?.collapse(); // or .close() if you want to hide it completely
@@ -112,47 +116,54 @@ export default function BattleDetails() {
 				}
 
 				setGames(gamesRes.data);
-				await loadBets(poolId, leagueSeasonId, battleId, betslipId, true);
+				await loadBets({
+          poolId,
+          leagueSeasonId,
+          battleId,
+          betslipId,
+          showError,
+          forceBackend: false, // set to true if you always want fresh
+        });
 			} catch (error) {
 				console.error("Error initializing battle data:", error);
-			}
-
-			setLoading(false);
+      } finally {
+        setLoading(false);
+      }
 		};
 
 		initializeBattleData();
 	}, [currentSeason, battleId]);
 
 	// useEffect to store bets in AsyncStorage whenever they change
-	useEffect(() => {
-		const storeUpdatedBets = async () => {
-			if (bets.length > 0) {
-				await storeBets(battleId, bets);
-			} else {
-				console.log(`No bets to store for battle ${battleId}`);
-				await AsyncStorage.removeItem(`bets-${battleId}`);
-			}
-		};
+	// useEffect(() => {
+	// 	const storeUpdatedBets = async () => {
+	// 		if (bets.length > 0) {
+	// 			await storeBets(battleId, bets);
+	// 		} else {
+	// 			console.log(`No bets to store for battle ${battleId}`);
+	// 			await AsyncStorage.removeItem(`bets-${battleId}`);
+	// 		}
+	// 	};
 
-		storeUpdatedBets();
-	}, [bets, battleId]);
+	// 	storeUpdatedBets();
+	// }, [bets, battleId]);
 
-	useFocusEffect(
-		React.useCallback(() => {
-			suppressLeaveModalRef.current = false; // ✅ reset on screen focus
+	// useFocusEffect(
+	// 	React.useCallback(() => {
+	// 		suppressLeaveModalRef.current = false; // ✅ reset on screen focus
 
-			const beforeRemove = (e) => {
-				if (suppressLeaveModalRef.current || !betslipHasChanges) return;
+	// 		const beforeRemove = (e) => {
+	// 			if (suppressLeaveModalRef.current || !betslipHasChanges) return;
 
-				e.preventDefault();
-				pendingNavEvent.current = e; // Store the navigation event
-				setShowLeaveModal(true); // Show custom modal
-			};
+	// 			e.preventDefault();
+	// 			pendingNavEvent.current = e; // Store the navigation event
+	// 			setShowLeaveModal(true); // Show custom modal
+	// 		};
 
-			const unsubscribe = navigation.addListener("beforeRemove", beforeRemove);
-			return () => unsubscribe();
-		}, [betslipHasChanges, navigation])
-	);
+	// 		const unsubscribe = navigation.addListener("beforeRemove", beforeRemove);
+	// 		return () => unsubscribe();
+	// 	}, [betslipHasChanges, navigation])
+	// );
 
 	// const filteredGames = filterGames(games);
 	const filteredGames = useMemo(
@@ -214,7 +225,7 @@ export default function BattleDetails() {
 									</>
 								)}
 								{/* <View style={{height: .5, backgroundColor: '#425C70', marginHorizontal: -8, marginTop: 8,}}/> */}
-								<GamesList games={filteredGames} bets={bets} />
+								<GamesList games={filteredGames} />
 							</View>
 							<BetSlip
 								ref={sheetRef}
@@ -225,14 +236,14 @@ export default function BattleDetails() {
 								leagueSeasonId={leagueSeasonId}
 								betslipId={betslipId}
 								battleId={battleId}
-								betslipHasChanges={betslipHasChanges}
-								setBetslipHasChanges={setBetslipHasChanges}
+								// betslipHasChanges={betslipHasChanges}
+								// setBetslipHasChanges={setBetslipHasChanges}
 								setSuppressLeaveModal={() =>
 									(suppressLeaveModalRef.current = true)
 								}
 								setDisableInteraction={setDisableInteraction}
 							/>
-							{showLeaveModal && (
+							{/* {showLeaveModal && (
 								<ConfirmLeaveBetSelectionModal
 									visible={showLeaveModal}
 									onCancel={() => setShowLeaveModal(false)}
@@ -241,7 +252,7 @@ export default function BattleDetails() {
 										navigation.dispatch(pendingNavEvent.current.data.action);
 									}}
 								/>
-							)}
+							)} */}
 						</>
 					)}
 				</SafeAreaView>

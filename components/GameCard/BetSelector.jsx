@@ -3,7 +3,6 @@ import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
-import { useBetOps, useBets } from "../contexts/BetContext";
 import { LoadingIndicator } from "../general/LoadingIndicator";
 import { useBetStore } from "../../state/useBetStore";
 import { BETTING_RULES } from "../../utils/betting-rules";

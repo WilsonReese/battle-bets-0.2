@@ -5,7 +5,6 @@ import { BetTypeSection } from "./BetTypeSection";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBets } from "../contexts/BetContext";
 import { useBetStore } from "../../state/useBetStore";
 
 export function BetSlipDetails({ toggleBetSlip }) {

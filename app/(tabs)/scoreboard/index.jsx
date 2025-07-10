@@ -14,7 +14,6 @@ import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter"
 import { useSeason } from "../../../components/contexts/SeasonContext";
 import { useConferences } from "../../../hooks/useConferences";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
-import { useBetOps } from "../../../components/contexts/BetContext";
 import api from "../../../utils/axiosConfig";
 import { ScoreboardGameCard } from "../../../components/GameCard/Scoreboard/ScoreboardGameCard";
 import sampleGame from "@/utils/sampleGame.json";

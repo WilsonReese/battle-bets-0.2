@@ -8,27 +8,41 @@ import { useBetSelection } from "../../contexts/BetSelectionContext";
 import { addBetToContext } from "../../../utils/betDispatcher";
 import { useBetStore } from "../../../state/useBetStore";
 
-function _Spread({ spreadOptions, game, bets }) {
+function _Spread({ spreadOptions, game }) {
 	if (!spreadOptions || spreadOptions.length < 2) {
 		return null; // Ensure there are at least two options (home and away)
 	}
 
 	const [isOpen, setIsOpen] = useState(false);
 	const animatedHeight = useRef(new Animated.Value(0)).current;
+	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
 
 	const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
 	const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
 	const { minBet, maxBet } = BETTING_RULES["spread"];
 
 	// 1) Subscribe to the single spread‐bet for this game
-	const thisSpreadBet = useBetStore((s) =>
-		s.bets.find((b) => b.category === "spread" && b.game.id === game.id)
-	);
+	// const thisSpreadBet = useBetStore((s) =>
+	// 	s.bets.find((b) => b.category === "spread" && b.game.id === game.id)
+	// );
 
-	// 2) Whenever the store’s spread bet appears/disappears, flip isOpen
-	useEffect(() => {
-		setIsOpen(!!thisSpreadBet);
-	}, [thisSpreadBet]);
+	// Look up each option by its bet_option_id
+  const awayBet = useBetStore((s) =>
+    s.bets.find((b) => b.bet_option_id === awaySpread.id)
+  );
+  const homeBet = useBetStore((s) =>
+    s.bets.find((b) => b.bet_option_id === homeSpread.id)
+  );
+
+  // If either exists, we’re “open”
+  useEffect(() => {
+    setIsOpen(!!awayBet || !!homeBet);
+  }, [awayBet, homeBet]);
+
+	// // 2) Whenever the store’s spread bet appears/disappears, flip isOpen
+	// useEffect(() => {
+	// 	setIsOpen(!!thisSpreadBet);
+	// }, [thisSpreadBet]);
 
 	// 3) Animate the height when isOpen changes
 	useEffect(() => {
@@ -39,46 +53,68 @@ function _Spread({ spreadOptions, game, bets }) {
 		}).start();
 	}, [isOpen]);
 
-	const selectedBetOptionId = thisSpreadBet?.bet_option_id ?? null;
-	const isOptionOne = selectedBetOptionId === awaySpread.id;
-	const isOptionTwo = selectedBetOptionId === homeSpread.id;
+	const selectedBetOptionId = awayBet ? awaySpread.id : homeBet ? homeSpread.id : null;
+	// const isOptionOne = selectedBetOptionId === awaySpread.id;
+	// const isOptionTwo = selectedBetOptionId === homeSpread.id;
 
 	// const [selectedOption, setSelectedOption] = useState(null);
 	// const [selectedBetOption, setSelectedBetOption] = useState(null);
 	// const [bet, setBet] = useState(null);
 	// const [isDisabled, setIsDisabled] = useState(false);
 
-	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
+	
 
 	// Toggling:
 	//  - if nothing is selected, we add
 	//  - if the same option is tapped, we remove
 	//  - if the *other* option is tapped, we remove the old one then add the new one
-	const toggle = (opt) => {
-		const store = useBetStore.getState();
-		if (!thisSpreadBet) {
-			// no spread yet → add it
-			store.addBet(buildSpreadBet(opt));
-		} else if (thisSpreadBet.bet_option_id === opt.id) {
-			// tapping the same → remove it
-			store.removeBet(opt.id);
-		} else {
-			// a different one → remove old, then add new
-			store.removeBet(thisSpreadBet.bet_option_id);
-			store.addBet(buildSpreadBet(opt));
-		}
-	};
+	// const toggle = (opt) => {
+	// 	const store = useBetStore.getState();
+	// 	if (!thisSpreadBet) {
+	// 		// no spread yet → add it
+	// 		store.addBet(buildSpreadBet(opt));
+	// 	} else if (thisSpreadBet.bet_option_id === opt.id) {
+	// 		// tapping the same → remove it
+	// 		store.removeBet(opt.id);
+	// 	} else {
+	// 		// a different one → remove old, then add new
+	// 		store.removeBet(thisSpreadBet.bet_option_id);
+	// 		store.addBet(buildSpreadBet(opt));
+	// 	}
+	// };
 
-	const buildSpreadBet = (opt) => ({
-		bet_amount: minBet,
-		to_win_amount: Math.round(minBet * opt.payout),
-		bet_option_id: opt.id,
-		category: "spread",
-		game,
-		title: opt.title,
-		payout: opt.payout,
-		addedAt: Date.now(),
-	});
+	// const buildSpreadBet = (opt) => ({
+	// 	bet_amount: minBet,
+	// 	to_win_amount: Math.round(minBet * opt.payout),
+	// 	bet_option_id: opt.id,
+	// 	category: "spread",
+	// 	game,
+	// 	title: opt.title,
+	// 	payout: opt.payout,
+	// 	addedAt: Date.now(),
+	// 	isNew: true
+	// });
+
+	const store = useBetStore.getState();
+  const toggle = (opt) => {
+    if (selectedBetOptionId === opt.id) {
+      store.removeBet(opt.id);
+    } else {
+      // remove whichever one was selected
+      if (selectedBetOptionId) store.removeBet(selectedBetOptionId);
+      store.addBet({
+        bet_amount: minBet,
+        to_win_amount: Math.round(minBet * opt.payout),
+        bet_option_id: opt.id,
+        category: "spread",
+        game,
+        title: opt.title,
+        payout: opt.payout,
+        addedAt: Date.now(),
+        isNew: true,
+      });
+    }
+  };
 
 	// // Inside your component body
 	// useEffect(() => {
@@ -94,14 +130,14 @@ function _Spread({ spreadOptions, game, bets }) {
 					title={awaySpread.title}
 					payout={awaySpread.payout}
 					isEnabled={!isBudgetMaxed}
-					isSelected={isOptionOne}
+					isSelected={selectedBetOptionId === awaySpread.id}
 					onPress={() => toggle(awaySpread)}
 				/>
 				<BetOption
 					title={homeSpread.title}
 					payout={homeSpread.payout}
 					isEnabled={!isBudgetMaxed}
-					isSelected={isOptionTwo}
+					isSelected={selectedBetOptionId === homeSpread.id}
 					onPress={() => toggle(homeSpread)}
 				/>
 			</View>
@@ -118,11 +154,11 @@ function _Spread({ spreadOptions, game, bets }) {
 					},
 				]}
 			>
-				{thisSpreadBet && (
+				{selectedBetOptionId && (
 					<BetSelector
-						betOptionId={thisSpreadBet.bet_option_id}
+						betOptionId={selectedBetOptionId}
 						closeSelection={() =>
-							useBetStore.getState().removeBet(thisSpreadBet.bet_option_id)
+							useBetStore.getState().removeBet(selectedBetOptionId)
 						}
 					/>
 				)}
@@ -141,7 +177,7 @@ const s = StyleSheet.create({
 	},
 	selectorWrapper: {
     overflow: "hidden",
-    marginTop: 4,
+    // marginTop: 4,
   },
 });
 

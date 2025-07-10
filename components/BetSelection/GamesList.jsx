@@ -4,18 +4,18 @@ import { View, FlatList, StyleSheet } from "react-native";
 import { GameCard } from "@/components/GameCard/GameCard.jsx";
 import { BetSelectionCard } from "../GameCard/BetSelectionCard";
 
-function _GamesList({ games, bets }) {
+function _GamesList({ games }) {
 	// renderGameCard never changes identity
-	console.log('GamesList Bets', bets)
+	console.log('GamesList Bets')
 const renderGameCard = useCallback(
   ({ item }) => {
     return (
       <View style={s.wrapper}>
-        <BetSelectionCard game={item} bets={bets} />
+        <BetSelectionCard game={item} />
       </View>
     );
   },
-  [bets]
+  []
 );
 
 	return (
