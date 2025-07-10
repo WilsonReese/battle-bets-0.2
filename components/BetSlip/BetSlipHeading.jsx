@@ -23,9 +23,6 @@ export function BetSlipHeading({
 	leagueSeasonId,
 	betslipId,
 	battleId,
-	betslipHasChanges,
-	setBetslipHasChanges,
-	setSuppressLeaveModal,
 	setDisableInteraction,
 }) {
 	// const { bets, betsToRemove, initialBetsSnapshot } = useBets();

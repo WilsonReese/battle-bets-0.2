@@ -31,7 +31,7 @@ export const BetSlip = forwardRef(
 		ref
 	) => {
 		// const sheetRef = useRef(null);
-		const snapPoints = useMemo(() => ["15.5%", "40%", "80%"], []);
+		const snapPoints = useMemo(() => ["15.5%", "45%", "75%"], []);
 		const screenHeight = Dimensions.get("window").height;
 
 		return (
@@ -39,7 +39,7 @@ export const BetSlip = forwardRef(
 				ref={ref}
 				index={0} // Start partially open
 				snapPoints={snapPoints}
-				// maxDynamicContentSize={screenHeight * 0.4}
+				maxDynamicContentSize={screenHeight * 0.4}
 				onClose={() => setIsBetSlipShown(false)}
 				onChange={(index) => setIsBetSlipShown(index !== -1)}
 				backgroundStyle={s.sheetBackground}
@@ -48,15 +48,9 @@ export const BetSlip = forwardRef(
 				<>
 					<BetSlipHeading
 						poolId={poolId}
-						isBetSlipShown={isBetSlipShown}
-						// toggleBetSlip={toggleBetSlip}
-						scrollViewRef={scrollViewRef}
 						leagueSeasonId={leagueSeasonId}
 						betslipId={betslipId}
 						battleId={battleId}
-						betslipHasChanges={betslipHasChanges}
-						setBetslipHasChanges={setBetslipHasChanges}
-						setSuppressLeaveModal={setSuppressLeaveModal}
 						setDisableInteraction={setDisableInteraction}
 					/>
 					<BottomSheetScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>

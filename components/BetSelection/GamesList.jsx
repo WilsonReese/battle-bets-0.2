@@ -23,13 +23,14 @@ const renderGameCard = useCallback(
 			data={games}
 			keyExtractor={(g) => g.id.toString()}
 			renderItem={renderGameCard}
-			initialNumToRender={10}
+			initialNumToRender={5}
       showsVerticalScrollIndicator={false}
-			windowSize={5}
+			windowSize={10}
 			removeClippedSubviews
 			contentContainerStyle={s.container}
 			getItemLayout={(_, index) => ({
 				length: 100, // if your card is a fixed height, say 100
+				// left off here - change this to ITEM HEIGHT AND GET HEIGHT VALUES THAT I NEED, NEEDS TO BE DONE AFTER OTHER BET CATEGORIES
 				offset: 100 * index,
 				index,
 			})}

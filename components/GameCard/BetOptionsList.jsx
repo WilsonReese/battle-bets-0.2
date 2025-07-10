@@ -1,4 +1,4 @@
-import { ActivityIndicator, StyleSheet, View } from "react-native";
+import { ActivityIndicator, StyleSheet, useWindowDimensions, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { PaginatedFlatList } from "../general/PaginatedFlatList";
 import { Spread } from "./Spread/Spread";
@@ -10,11 +10,13 @@ import { useState } from "react";
 // I will eventually want to change this so that the enum for bet type
 // passes only what we need
 export function BetOptionsList({ game }) {
-	const [cardWidth, setCardWidth] = useState(null);
+	// const [cardWidth, setCardWidth] = useState(null);
+	const { width: windowWidth } = useWindowDimensions();
 
   // console.log("🔄 Bet Options List rendered for game", game.id);
 
 	if (!game?.bet_options?.length) return null;
+	const cardWidth = windowWidth - 32; // this is the total horizontal padding/margin on the side of the flatlist
 
 	// Organize bet options by category
 	const spreadOptions = game.bet_options.filter((b) => b.category === "spread");
@@ -63,25 +65,16 @@ export function BetOptionsList({ game }) {
 	];
 
 	return (
-		<View
-			style={s.container}
-			onLayout={(e) => {
-				const width = e.nativeEvent.layout.width;
-				if (width !== cardWidth) setCardWidth(width);
-			}}
-		>
-			{(cardWidth === null || cardWidth === 0) && <ActivityIndicator />}
-			{cardWidth !== null && cardWidth > 0 && (
-				<PaginatedFlatList
-					data={pages}
-					itemsPerPage={1}
-					keyExtractor={(item) => item.key}
-					renderItemRow={(item) => item.component}
-					containerWidth={cardWidth}
-          isComponentPages={true}
-				/>
-			)}
-		</View>
+    <View style={s.container}>
+      <PaginatedFlatList
+        data={pages}
+        itemsPerPage={1}
+        keyExtractor={(item) => item.key}
+        renderItemRow={(item) => item.component}
+        containerWidth={cardWidth}
+        isComponentPages={true}
+      />
+    </View>
 	);
 }
 
