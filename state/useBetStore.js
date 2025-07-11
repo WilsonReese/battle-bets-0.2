@@ -112,6 +112,10 @@ export const useBetStore = create((set, get) => ({
 		});
 	},
 
+  getMaxPayout: () => {
+    return get().bets.reduce((sum, bet) => sum + (bet.to_win_amount || 0), 0);
+  },
+
 	// ===== BETSLIP FUNCTIONS =====
 	hasBetsInCategory: (categories) => {
 		const relevant = Array.isArray(categories) ? categories : [categories];
