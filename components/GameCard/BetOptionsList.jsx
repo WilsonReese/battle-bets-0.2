@@ -4,7 +4,7 @@ import { PaginatedFlatList } from "../general/PaginatedFlatList";
 import { Spread } from "./Spread/Spread";
 import { OverUnder } from "./OverUnder/OverUnder";
 import { MoneyLine } from "./MoneyLine";
-import { PropBets } from "./PropBets";
+import { PropBets } from "./PropBets/PropBets";
 import { useState } from "react";
 
 // I will eventually want to change this so that the enum for bet type
@@ -49,17 +49,17 @@ export function BetOptionsList({ game }) {
 				</View>
 			),
 		},
-		// {
-		// 	key: "props",
-		// 	component: (
-		// 		<PropBets
-		// 			betOptions={propBetOptions}
-		// 			game={game}
-		// 			homeTeam={homeTeam}
-		// 			awayTeam={awayTeam}
-		// 		/>
-		// 	),
-		// },
+		{
+			key: "props",
+			component: (
+				<PropBets
+					betOptions={propBetOptions}
+					game={game}
+					homeTeam={homeTeam}
+					awayTeam={awayTeam}
+				/>
+			),
+		},
 	];
 
 	return (
