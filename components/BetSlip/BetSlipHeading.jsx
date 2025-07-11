@@ -25,7 +25,7 @@ export function BetSlipHeading({
 	setDisableInteraction,
 	setSuppressLeaveModal
 }) {
-	const { saveBets, getMaxPayout } = useBetStore();
+	const { saveBets, getMaxPayout, resetSelectors } = useBetStore();
 
 	const hasUnsaved = useBetStore((s) => s.hasUnsavedChanges());
 	const maxPayout = getMaxPayout();
@@ -33,36 +33,41 @@ export function BetSlipHeading({
 	const [isSubmitting, setIsSubmitting] = useState(false); // isSubmitting is not currently being used
 	const { showError, showSuccess } = useToastMessage();
 
-	const handleSaveBets = async () => {
-		setIsSubmitting(true);
-		setDisableInteraction(true);
+  const handleSaveBets = async () => {
+    setIsSubmitting(true);
+    setDisableInteraction(true);
 
-		const result = await saveBets({
-			poolId,
-			leagueSeasonId,
-			battleId,
-			betslipId,
-			showError,
-			showSuccess,
-		});
+    try {
+      const result = await saveBets({
+        poolId,
+        leagueSeasonId,
+        battleId,
+        betslipId,
+        showError,
+        showSuccess,
+      });
 
-		if (result.status === "locked") {
-			// battle is locked → bounce back to pool immediately
-			// setDisableInteraction(false);
-			// setIsSubmitting(false);
-			setSuppressLeaveModal();
-			router.replace(`/pools/${poolId}`);
-			return;
-		}
+      if (result.status === "locked") {
+        // Stop the leave-confirmation modal
+        setSuppressLeaveModal();
+        // Close any open selectors on the betslip
+        // Immediately nav away
+        router.replace(`/pools/${poolId}`);
+        return;
+      }
 
-		if (result.status === "success") {
-			// already reset snapshots & betsToRemove inside saveBets
-			// …any other post‐save logic…
-		}
-
-		setDisableInteraction(false);
-		setIsSubmitting(false);
-	};
+      if (result.status === "success") {
+        // Close any open selectors on the betslip
+        // (You can do other post-success work here)
+      }
+      // For "error", you could optionally showError already happened inside saveBets
+    } finally {
+      // ALWAYS re-enable UI
+			resetSelectors();
+      setDisableInteraction(false);
+      setIsSubmitting(false);
+    }
+  };
 
 	return (
 		<View style={s.container}>

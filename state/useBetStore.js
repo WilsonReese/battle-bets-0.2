@@ -112,9 +112,9 @@ export const useBetStore = create((set, get) => ({
 		});
 	},
 
-  getMaxPayout: () => {
-    return get().bets.reduce((sum, bet) => sum + (bet.to_win_amount || 0), 0);
-  },
+	getMaxPayout: () => {
+		return get().bets.reduce((sum, bet) => sum + (bet.to_win_amount || 0), 0);
+	},
 
 	// ===== BETSLIP FUNCTIONS =====
 	hasBetsInCategory: (categories) => {
@@ -122,14 +122,11 @@ export const useBetStore = create((set, get) => ({
 		return get().bets.some((b) => relevant.includes(b.category));
 	},
 
-	// getBetsByCategories: (categories) =>
-	// 	get()
-	// 		.bets.filter((bet) => categories.includes(bet.category))
-	// 		.sort((a, b) => a.addedAt - b.addedAt),
-
+	// initial bet snapshot that is used for comparing betslips
 	setInitialSnapshot: (snapshot) =>
 		set({ initialBetsSnapshot: snapshot, betsToRemove: [] }),
 
+	// make the backend bets compatible with what the front end expects
 	transformBackendBets: (backendBets) =>
 		backendBets.map((bet) => ({
 			id: bet.id,
@@ -144,23 +141,29 @@ export const useBetStore = create((set, get) => ({
 			isNew: false,
 		})),
 
-  hasUnsavedChanges: () => {
-    const { bets, initialBetsSnapshot, betsToRemove } = get();
+	// flag to check if there are unsaved bets
+	hasUnsavedChanges: () => {
+		const { bets, initialBetsSnapshot, betsToRemove } = get();
 
-    // 1) If anything’s been marked for removal, we’re dirty
-    if (betsToRemove.length > 0) return true;
+		// 1) If anything’s been marked for removal, we’re dirty
+		if (betsToRemove.length > 0) return true;
 
-    // 2) Otherwise compare the _essential_ fields of each bet
-    const normalize = (arr) =>
-      arr
-        .map((b) => ({
-          bet_option_id: b.bet_option_id,
-          bet_amount: b.bet_amount,
-        }))
-        .sort((a, b) => a.bet_option_id - b.bet_option_id);
+		// 2) Otherwise compare the _essential_ fields of each bet
+		const normalize = (arr) =>
+			arr
+				.map((b) => ({
+					bet_option_id: b.bet_option_id,
+					bet_amount: b.bet_amount,
+				}))
+				.sort((a, b) => a.bet_option_id - b.bet_option_id);
 
-    return !isEqual(normalize(bets), normalize(initialBetsSnapshot));
-  },
+		return !isEqual(normalize(bets), normalize(initialBetsSnapshot));
+	},
+
+	// counter that is used to close the selectors on safe
+	selectorsResetVersion: 0,
+	resetSelectors: () =>
+		set((s) => ({ selectorsResetVersion: s.selectorsResetVersion + 1 })),
 
 	// ====== SAVE & LOAD BETS =====
 	saveBets: async ({
@@ -230,7 +233,7 @@ export const useBetStore = create((set, get) => ({
 				initialBetsSnapshot: normalized,
 				betsToRemove: [],
 			});
-      get().updateBudgetStatus(normalized);
+			get().updateBudgetStatus(normalized);
 
 			// 7) Recalc budgets
 			// const budget = /* your calc logic */
@@ -245,66 +248,69 @@ export const useBetStore = create((set, get) => ({
 		}
 	},
 
-  loadBets: async ({
-    poolId,
-    leagueSeasonId,
-    battleId,
-    betslipId,
-    showError,
-    forceBackend = false,
-  }) => {
-    try {
-      // 0) clear in-memory state every time
-      set({
-        bets: [],
-        betsToRemove: [],
-        initialBetsSnapshot: [],
-        budgetStatus: { spreadOU: false, moneyLine: false, prop: false },
-      });
+	loadBets: async ({
+		poolId,
+		leagueSeasonId,
+		battleId,
+		betslipId,
+		showError,
+		forceBackend = false,
+	}) => {
+		try {
+			// 0) clear in-memory state every time
+			set({
+				bets: [],
+				betsToRemove: [],
+				initialBetsSnapshot: [],
+				budgetStatus: { spreadOU: false, moneyLine: false, prop: false },
+			});
 
-      // 1) Try AsyncStorage if not forcing backend
-      if (!forceBackend) {
-        const key = `bets-${battleId}`;
-        const stored = await AsyncStorage.getItem(key);
-        if (stored) {
-          const parsed = JSON.parse(stored);
-          set({
-            bets: parsed,
-            initialBetsSnapshot: parsed,
-          });
-          // recalc budgets (you’ll need to plug in your budget logic)
-          // updateBudgetForBattle(battleId, /* your calc(parsed) */);
-          get().updateBudgetStatus(parsed);
-          return { status: "loaded-from-cache" };
-        }
-      }
+			// 1) Try AsyncStorage if not forcing backend
+			if (!forceBackend) {
+				const key = `bets-${battleId}`;
+				const stored = await AsyncStorage.getItem(key);
+				if (stored) {
+					const parsed = JSON.parse(stored);
+					set({
+						bets: parsed,
+						initialBetsSnapshot: parsed,
+					});
+					// recalc budgets (you’ll need to plug in your budget logic)
+					// updateBudgetForBattle(battleId, /* your calc(parsed) */);
+					get().updateBudgetStatus(parsed);
+					return { status: "loaded-from-cache" };
+				}
+			}
 
-      // 2) Fallback to network
-      const url = `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`;
-      const res = await api.get(url);
-      const normalized = get().transformBackendBets(res.data.bets);
+			// 2) Fallback to network
+			const url = `/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips/${betslipId}/bets`;
+			const res = await api.get(url);
+			const normalized = get().transformBackendBets(res.data.bets);
 
-      // 3) Write to AsyncStorage for next time
-      await AsyncStorage.setItem(`bets-${battleId}`, JSON.stringify(normalized));
+			// 3) Write to AsyncStorage for next time
+			await AsyncStorage.setItem(
+				`bets-${battleId}`,
+				JSON.stringify(normalized)
+			);
 
-      // 4) Put into Zustand
-      set({
-        bets: normalized,
-        initialBetsSnapshot: normalized,
-        betsToRemove: [],
-      });
+			// 4) Put into Zustand
+			set({
+				bets: normalized,
+				initialBetsSnapshot: normalized,
+				betsToRemove: [],
+			});
 
-      // 4b) **RECALCULATE** your budget flags for the new battle
-      get().updateBudgetStatus(normalized);
+			// 4b) **RECALCULATE** your budget flags for the new battle
+			get().updateBudgetStatus(normalized);
 
-      // 5) Recalc budgets
-      // updateBudgetForBattle(battleId, /* your calc(normalized) */);
+			// 5) Recalc budgets
+			// updateBudgetForBattle(battleId, /* your calc(normalized) */);
 
-      return { status: "loaded-from-backend" };
-    } catch (err) {
-      console.error("Error in loadBets:", err);
-      if (showError) showError("Failed to load bets.");
-      return { status: "error", error: err };
-    }
-  },
+			return { status: "loaded-from-backend" };
+		} catch (err) {
+			console.error("Error in loadBets:", err);
+			if (showError) showError("Failed to load bets.");
+			return { status: "error", error: err };
+		}
+	},
 }));

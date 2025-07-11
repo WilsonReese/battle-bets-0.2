@@ -85,20 +85,4 @@ const s = StyleSheet.create({
 		// paddingVertical: 4,
     gap: 8,
 	},
-	// btns: {
-	// 	height: 24,
-	// 	width: 40,
-	// 	marginHorizontal: 4,
-	// 	// borderWidth: 1,
-	// 	// borderColor: "#184EAD",
-	// 	backgroundColor: "#54D18C",
-	// },
-	// payoutContainer: {
-	// 	flexDirection: "row",
-	// 	justifyContent: "space-between",
-	// 	alignItems: "center",
-	// 	borderColor: "#B8C3CC",
-	// 	paddingHorizontal: 8,
-	// 	paddingVertical: 12,
-	// },
 });

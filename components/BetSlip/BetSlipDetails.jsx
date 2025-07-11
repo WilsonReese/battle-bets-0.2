@@ -41,7 +41,7 @@ export function BetSlipDetails({ toggleBetSlip }) {
           {/* Checks if it has bets of this type and renders either the right component or empty section */}
           {hasSpreadOU ? (
             <BetTypeSection
-              betTypes={["spread", "overUnder"]}
+              betTypes={["spread", "ou"]}
               toggleBetSlip={toggleBetSlip}
             />
           ) : (
