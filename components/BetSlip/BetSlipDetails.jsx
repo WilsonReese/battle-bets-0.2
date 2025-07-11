@@ -26,6 +26,8 @@ export function BetSlipDetails({ toggleBetSlip }) {
   // }
 
   const hasSpreadOU = useBetStore((state) => state.hasBetsInCategory(["spread", "ou"]));
+  const hasMoneyLine = useBetStore((state) => state.hasBetsInCategory(["money_line"]));
+  const hasProps = useBetStore((state) => state.hasBetsInCategory(["prop"]));
 
   return (
     <View>
@@ -47,14 +49,14 @@ export function BetSlipDetails({ toggleBetSlip }) {
               <Txt style={s.text}>No bets selected yet.</Txt>
             </View>
           )}
-          {/* <BetSlipBudget
+          <BetSlipBudget
             betSectionTitle={"Money Line"}
-            budget={moneyLineBudget}
-            betOptionType={"moneyLine"}
+            // budget={moneyLineBudget}
+            budgetCategory={"moneyLine"}
           />
-          {hasBetsOfType(["moneyLine"]) ? (
+          {hasMoneyLine ? (
             <BetTypeSection
-              betTypes={["moneyLine"]}
+              betTypes={["money_line"]}
               toggleBetSlip={toggleBetSlip}
             />
           ) : (
@@ -64,16 +66,16 @@ export function BetSlipDetails({ toggleBetSlip }) {
           )}
           <BetSlipBudget
             betSectionTitle={"Prop Bets"}
-            budget={propBetBudget}
-            betOptionType={"prop"}
+            // budget={propBetBudget}
+            budgetCategory={"prop"}
           />
-          {hasBetsOfType(["prop"]) ? (
+          {hasProps ? (
             <BetTypeSection betTypes={["prop"]} toggleBetSlip={toggleBetSlip} />
           ) : (
             <View style={s.emptySectionContainer}>
               <Txt style={s.text}>No bets selected yet.</Txt>
             </View>
-          )} */}
+          )}
         </View>
       </ScrollView>
     </View>
