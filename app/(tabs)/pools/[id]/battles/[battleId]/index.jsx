@@ -101,7 +101,7 @@ export default function BattleDetails() {
 				// const betslip = betslipRes.data;
 
 				if (battle.locked) {
-					showError("Battle is locked. Redirected to the pool.");
+					showError("Battle is locked. Redirected to the league.");
 					router.replace(`/pools/${poolId}`);
 					return;
 				}

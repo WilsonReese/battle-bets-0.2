@@ -31,6 +31,17 @@ export function BattleUnlockedPoolCard({
 			return;
 		}
 
+		// // If this battle is locked, send them back to the pool screen instead
+		// if (currentBattle.locked) {
+		// 	Alert.alert(
+		// 		"Betslip Locked",
+		// 		"This battle is now locked. Redirecting back to your pool."
+		// 	);
+		// 	// replace so they can’t navigate “back” into the locked battle
+		// 	router.replace(`/pools/${pool.id}`);
+		// 	return;
+		// }
+
 		router.push({
 			pathname: `/pools/${pool.id}/battles/${currentBattle.id}`,
 			params: {
