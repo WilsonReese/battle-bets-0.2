@@ -42,12 +42,10 @@ export function BetOptionsList({ game }) {
 						ouOptions={ouOptions}
 						game={game}
 					/>
-					{/* <MoneyLine
+					<MoneyLine
 						moneyLineOptions={moneyLineOptions}
 						game={game}
-						homeTeam={homeTeam}
-						awayTeam={awayTeam}
-					/> */}
+					/>
 				</View>
 			),
 		},

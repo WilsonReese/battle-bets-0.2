@@ -24,3 +24,17 @@ export const DEFAULT_BUDGETS = {
   moneyLine: 1000,
   prop:      500
 };
+
+export const categoryToBudgetKey = (category) => {
+  switch (category) {
+    case "spread":
+    case "ou":
+      return "spreadOU";
+    case "money_line":
+      return "moneyLine";
+    case "prop":
+      return "prop";
+    default:
+      return null;
+  }
+};

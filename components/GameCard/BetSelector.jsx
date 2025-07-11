@@ -5,7 +5,7 @@ import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
 import { LoadingIndicator } from "../general/LoadingIndicator";
 import { useBetStore } from "../../state/useBetStore";
-import { BETTING_RULES } from "../../utils/betting-rules";
+import { BETTING_RULES, categoryToBudgetKey } from "../../utils/betting-rules";
 
 function BetSelectorComponent({
 	// option,
@@ -30,13 +30,17 @@ function BetSelectorComponent({
   const { payout } = bet;
   const [betAmount, setBetAmount] = useState(bet.bet_amount);
 
+	const budgetKey = categoryToBudgetKey(bet.category);
+
   // 3) Sync local when the store changes
   useEffect(() => {
     setBetAmount(bet.bet_amount);
   }, [bet.bet_amount]);
 
 	const increment = 100;
-	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
+	const isBudgetMaxed = useBetStore((s) =>
+    budgetKey ? s.budgetStatus[budgetKey] : false
+  );
 
 	// Sync state with bet if it updates externally
 
