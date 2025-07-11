@@ -64,7 +64,7 @@ export function BattleUnlockedPoolCard({
 					</View>
 					<View style={s.infoUnitContainer}>
 						<Txt style={s.infoTitleTxt}>Points:</Txt>
-						<Txt style={s.txt}>{userEntry?.total_points || "N/A"}</Txt>
+						<Txt style={s.txt}>{userEntry?.total_points || "0"}</Txt>
 					</View>
 				</View>
 			</View>
@@ -77,13 +77,14 @@ export function BattleUnlockedPoolCard({
 						<Txt style={s.txt}>{participationRate.toFixed(1)}%</Txt>
 					</View>
 					<TouchableOpacity
-						style={s.infoUnitContainer}
+						style={[s.infoUnitContainer, s.betslipButton]}
 						onPress={handleMyBetslip}
 					>
-						<Txt style={s.infoTitleTxt}>My Betslip:</Txt>
-						<Txt style={s.txt}>${remaining} to bet</Txt>
-
 						<FontAwesome6 name="pen-to-square" size={14} color="#54D18C" />
+						<View style={{flexDirection: 'row'}}>
+							<Txt style={s.infoTitleTxt}>Edit Betslip: </Txt>
+							<Txt style={s.txt}>${remaining} to bet</Txt>
+						</View>
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -105,18 +106,29 @@ const s = StyleSheet.create({
 	},
 	infoContainer: {
 		paddingVertical: 4,
+		// backgroundColor: 'green'
 	},
 
 	infoUnitContainer: {
 		flexDirection: "row",
 		gap: 4,
 		alignItems: "center",
+		// flex: 1,
+		// backgroundColor: 'red'
 	},
 
 	infoTitleTxt: {
 		// color: "#061826",
 		fontFamily: "Saira_600SemiBold",
 		fontSize: 14,
+	},
+	betslipButton: {
+		backgroundColor: "#1D394E",
+		borderRadius: 6,
+		// justifyContent: 'space-between',
+		paddingHorizontal: 8,
+		gap: 6,
+		alignSelf: 'flex-start'
 	},
 
 	sectonHeadingTxt: {
