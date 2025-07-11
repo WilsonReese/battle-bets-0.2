@@ -23,8 +23,8 @@ export function BetSlipHeading({
 	betslipId,
 	battleId,
 	setDisableInteraction,
+	setSuppressLeaveModal
 }) {
-
 	const { saveBets, getMaxPayout } = useBetStore();
 
 	const hasUnsaved = useBetStore((s) => s.hasUnsavedChanges());
@@ -46,12 +46,19 @@ export function BetSlipHeading({
 			showSuccess,
 		});
 
-		if (result.status === "success") {
-			// setBetslipHasChanges(false);
-			// no more toRemove / snapshot is reset inside saveBets
-			// closeAllBetSelectors();
+		if (result.status === "locked") {
+			// battle is locked → bounce back to pool immediately
+			// setDisableInteraction(false);
+			// setIsSubmitting(false);
+			setSuppressLeaveModal();
+			router.replace(`/pools/${poolId}`);
+			return;
 		}
-		// handle locked or error as before…
+
+		if (result.status === "success") {
+			// already reset snapshots & betsToRemove inside saveBets
+			// …any other post‐save logic…
+		}
 
 		setDisableInteraction(false);
 		setIsSubmitting(false);
@@ -77,7 +84,6 @@ export function BetSlipHeading({
 
 			<View style={s.payoutContainer}>
 				<Txt style={s.payoutHeading}>Max Payout</Txt>
-				{/* <Txt style={s.payoutText}>${calculateTotalPayout()}</Txt> */}
 				<Txt style={s.payoutText}>${maxPayout}</Txt>
 			</View>
 		</View>

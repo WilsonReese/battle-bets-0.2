@@ -52,6 +52,7 @@ export const BetSlip = forwardRef(
 						betslipId={betslipId}
 						battleId={battleId}
 						setDisableInteraction={setDisableInteraction}
+						setSuppressLeaveModal={setSuppressLeaveModal}
 					/>
 					<BottomSheetScrollView contentContainerStyle={s.content} showsVerticalScrollIndicator={false}>
 						<BetSlipDetails />
