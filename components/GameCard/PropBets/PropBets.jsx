@@ -92,7 +92,7 @@ function _PropBets({ betOptions = [], game }) {
 			<BetTypeHeading heading="Prop Bets" />
 			<View style={s.container}>
 				{betOptions.map((opt) => (
-					<PropRow option={opt} game={game} />
+					<PropRow key={opt.id} option={opt} game={game} />
 				))}
 			</View>
 		</View>
