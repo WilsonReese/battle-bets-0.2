@@ -166,8 +166,8 @@ export function UserBetsForGame({ selectedGame }) {
 								<View style={s.amountTxtContainer}>
 									{isPending ? (
 										<BetAmount
-											betAmount={Math.round(bet.bet_amount)}
-											toWinAmount={Math.round(bet.to_win_amount)}
+											bet_amount={Math.round(bet.bet_amount)}
+											to_win_amount={Math.round(bet.to_win_amount)}
 										/>
 									) : (
 										<Txt

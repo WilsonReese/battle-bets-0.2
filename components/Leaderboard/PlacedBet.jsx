@@ -10,6 +10,8 @@ export function PlacedBet({ bet }) {
   const isFailed = bet.bet_option.success === false;
   const isSuccess = bet.bet_option.success === true;
 
+  console.log('Bet', bet)
+
   // Define colors based on outcome
   const betNameColor = isPending ? "#F8F8F8" : isFailed ? "#8E9AA4" : "#F8F8F8";
   const payoutColor = isPending ? "#F8F8F8" : isFailed ? "#8E9AA4" : "#54D18C";
@@ -25,7 +27,7 @@ export function PlacedBet({ bet }) {
           <BetDetails name={bet.bet_option.title} matchup={matchup} multiplier={bet.bet_option.payout} betNameColor={betNameColor} payoutColor={payoutColor}/>
         </View>
         <View style={s.betAmountContainer}>
-          {isPending && <BetAmount betAmount={Math.round(bet.bet_amount)} toWinAmount={Math.round(bet.to_win_amount)}/>}
+          {isPending && <BetAmount bet_amount={Math.round(bet.bet_amount)} to_win_amount={Math.round(bet.to_win_amount)}/>}
           {!isPending && (
             <Txt style={[s.txt, { color: textColor, fontFamily: textStyle }]}>
               Won ${Math.round(bet.amount_won)}
