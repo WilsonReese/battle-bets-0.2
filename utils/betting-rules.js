@@ -3,11 +3,11 @@ export const BETTING_RULES = {
 		minBet: 100,
 		maxBet: 1000,
 	},
-	overUnder: {
+	ou: {
 		minBet: 100,
 		maxBet: 1000,
 	},
-	moneyLine: {
+	money_line: {
 		minBet: 100,
 		maxBet: 500,
 	},

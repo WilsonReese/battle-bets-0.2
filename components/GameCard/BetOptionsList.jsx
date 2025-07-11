@@ -38,11 +38,11 @@ export function BetOptionsList({ game }) {
 						spreadOptions={spreadOptions}
 						game={game}
 					/>
-					{/* <OverUnder
+					<OverUnder
 						ouOptions={ouOptions}
 						game={game}
 					/>
-					<MoneyLine
+					{/* <MoneyLine
 						moneyLineOptions={moneyLineOptions}
 						game={game}
 						homeTeam={homeTeam}

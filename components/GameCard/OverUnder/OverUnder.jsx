@@ -1,111 +1,248 @@
+// import { Animated, StyleSheet, View } from "react-native";
+// import { BetTypeHeading } from "../BetTypeHeading";
+// // import { BetSelector } from "../BetSelector";
+// import { BetOption } from "../BetOption";
+// import { useBetLogic } from "../../../hooks/useBetLogic";
+// import { BETTING_RULES } from "../../../utils/betting-rules";
+// import { BetSelector } from "../BetSelector";
+
+// export function OverUnder({
+// 	ouOptions,
+// 	ou,
+// 	ouPayout,
+// 	homeTeam,
+// 	awayTeam,
+// 	game,
+// }) {
+// 	if (!ouOptions || ouOptions.length < 2) {
+// 		return null; // Ensure there are at least two options (home and away)
+// 	}
+
+//   console.log("🔄 OverUnder rendered for game", game.id);
+
+// 	const over = ouOptions[0];
+// 	const under = ouOptions[1];
+
+// 	const overLongTitle = over.long_title;
+// 	const overShortTitle = over.title;
+// 	const underLongTitle = under.long_title;
+// 	const underShortTitle = under.title;
+
+// 	const payouts = {
+// 		optionOne: over.payout,
+// 		optionTwo: under.payout,
+// 	};
+
+// 	const betOptionIDs = {
+// 		optionOne: over.id,
+// 		optionTwo: under.id,
+// 	};
+// 	const {
+// 		selection,
+// 		isEnabled,
+// 		animatedHeight,
+// 		toggleBet,
+// 		betType,
+// 		currentBetId,
+// 	} = useBetLogic(
+// 		"overUnder",
+// 		overLongTitle,
+// 		underLongTitle,
+// 		payouts,
+// 		betOptionIDs,
+// 		overShortTitle,
+// 		underShortTitle,
+// 		game
+// 	);
+// 	const { minBet, maxBet } = BETTING_RULES[betType];
+
+// 	return (
+// 		<View>
+// 			<BetTypeHeading heading={"Over/Under"} />
+// 			<View style={s.optionsContainer}>
+// 				<BetOption
+// 					title={over.title}
+// 					payout={over.payout}
+// 					isSelected={selection.optionOne}
+// 					isEnabled={isEnabled}
+// 					onPress={() => toggleBet("optionOne")}
+// 				/>
+// 				<BetOption
+// 					title={under.title}
+// 					payout={under.payout}
+// 					isSelected={selection.optionTwo}
+// 					isEnabled={isEnabled}
+// 					onPress={() => toggleBet("optionTwo")}
+// 				/>
+// 			</View>
+// 			<Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
+// 				{selection.optionOne && (
+// 					<BetSelector
+// 						option="optionOne"
+// 						closeSelection={() => toggleBet("optionOne")}
+// 						minBet={minBet}
+// 						maxBet={maxBet}
+// 						payout={over.payout}
+// 						betId={currentBetId}
+// 					/>
+// 				)}
+// 				{selection.optionTwo && (
+// 					<BetSelector
+// 						option="optionTwo"
+// 						closeSelection={() => toggleBet("optionTwo")}
+// 						minBet={minBet}
+// 						maxBet={maxBet}
+// 						payout={under.payout}
+// 						betId={currentBetId}
+// 					/>
+// 				)}
+// 			</Animated.View>
+// 		</View>
+// 	);
+// }
+
+// const s = StyleSheet.create({
+// 	optionsContainer: {
+// 		flexDirection: "row",
+// 		gap: 4,
+//     justifyContent: 'space-between',
+//     flex: 1,
+// 	},
+// });
+
+import React, { useState, useEffect, useRef } from "react";
 import { Animated, StyleSheet, View } from "react-native";
 import { BetTypeHeading } from "../BetTypeHeading";
-// import { BetSelector } from "../BetSelector";
 import { BetOption } from "../BetOption";
-import { useBetLogic } from "../../../hooks/useBetLogic";
-import { BETTING_RULES } from "../../../utils/betting-rules";
 import { BetSelector } from "../BetSelector";
+import { useBetStore } from "../../../state/useBetStore";
+import { BETTING_RULES } from "../../../utils/betting-rules";
+// import { BETTING_RULES } from "../../../utils/betting-rules";
 
-export function OverUnder({
-	ouOptions,
-	ou,
-	ouPayout,
-	homeTeam,
-	awayTeam,
-	game,
-}) {
-	if (!ouOptions || ouOptions.length < 2) {
-		return null; // Ensure there are at least two options (home and away)
-	}
+function _OverUnder({ ouOptions, game }) {
+  // if there aren’t exactly two OU options, bail
+  if (!ouOptions || ouOptions.length < 2) {
+    return null;
+  }
 
-  console.log("🔄 OverUnder rendered for game", game.id);
+  // 1) Which options?
+  const overOpt = ouOptions[0];
+  const underOpt = ouOptions[1];
 
-	const over = ouOptions[0];
-	const under = ouOptions[1];
+  // 2) Local open/closed + animation
+  const [isOpen, setIsOpen] = useState(false);
+  const animatedHeight = useRef(new Animated.Value(0)).current;
 
-	const overLongTitle = over.long_title;
-	const overShortTitle = over.title;
-	const underLongTitle = under.long_title;
-	const underShortTitle = under.title;
+  // 3) Shared spread/OU budget
+  const isBudgetMaxed = useBetStore((s) => s.budgetStatus.spreadOU);
 
-	const payouts = {
-		optionOne: over.payout,
-		optionTwo: under.payout,
-	};
+  // 4) Min/max from our rules
+  const { minBet, maxBet } = BETTING_RULES["ou"];
 
-	const betOptionIDs = {
-		optionOne: over.id,
-		optionTwo: under.id,
-	};
-	const {
-		selection,
-		isEnabled,
-		animatedHeight,
-		toggleBet,
-		betType,
-		currentBetId,
-	} = useBetLogic(
-		"overUnder",
-		overLongTitle,
-		underLongTitle,
-		payouts,
-		betOptionIDs,
-		overShortTitle,
-		underShortTitle,
-		game
-	);
-	const { minBet, maxBet } = BETTING_RULES[betType];
+  // 5) Subscribe to just these two bets
+  const overBet = useBetStore((s) =>
+    s.bets.find((b) => b.bet_option_id === overOpt.id)
+  );
+  const underBet = useBetStore((s) =>
+    s.bets.find((b) => b.bet_option_id === underOpt.id)
+  );
 
-	return (
-		<View>
-			<BetTypeHeading heading={"Over/Under"} />
-			<View style={s.optionsContainer}>
-				<BetOption
-					title={over.title}
-					payout={over.payout}
-					isSelected={selection.optionOne}
-					isEnabled={isEnabled}
-					onPress={() => toggleBet("optionOne")}
-				/>
-				<BetOption
-					title={under.title}
-					payout={under.payout}
-					isSelected={selection.optionTwo}
-					isEnabled={isEnabled}
-					onPress={() => toggleBet("optionTwo")}
-				/>
-			</View>
-			<Animated.View style={{ height: animatedHeight, overflow: "hidden" }}>
-				{selection.optionOne && (
-					<BetSelector
-						option="optionOne"
-						closeSelection={() => toggleBet("optionOne")}
-						minBet={minBet}
-						maxBet={maxBet}
-						payout={over.payout}
-						betId={currentBetId}
-					/>
-				)}
-				{selection.optionTwo && (
-					<BetSelector
-						option="optionTwo"
-						closeSelection={() => toggleBet("optionTwo")}
-						minBet={minBet}
-						maxBet={maxBet}
-						payout={under.payout}
-						betId={currentBetId}
-					/>
-				)}
-			</Animated.View>
-		</View>
-	);
-}
+  // 6) Open when either exists
+  useEffect(() => {
+    setIsOpen(!!overBet || !!underBet);
+  }, [overBet, underBet]);
+
+  // 7) Animate height
+  useEffect(() => {
+    Animated.timing(animatedHeight, {
+      toValue: isOpen ? 54 : 0,
+      duration: 100,
+      useNativeDriver: false,
+    }).start();
+  }, [isOpen]);
+
+  // 8) Which option is currently selected?
+  const selectedId = overBet
+    ? overOpt.id
+    : underBet
+    ? underOpt.id
+    : null;
+
+  // 9) Toggling logic
+  const store = useBetStore.getState();
+  const toggle = (opt) => {
+    if (selectedId === opt.id) {
+      // close
+      store.removeBet(opt.id);
+    } else {
+      // remove the old if it exists, then add new
+      if (selectedId) store.removeBet(selectedId);
+      store.addBet({
+        bet_amount: minBet,
+        to_win_amount: Math.round(minBet * opt.payout),
+        bet_option_id: opt.id,
+        category: "ou",
+        title: opt.title,
+        payout: opt.payout,
+        game,
+        addedAt: Date.now(),
+        isNew: true,
+      });
+    }
+  };
+
+  return (
+    <View>
+      <BetTypeHeading heading="Over/Under" />
+      <View style={s.optionsContainer}>
+        <BetOption
+          title={overOpt.title}
+          payout={overOpt.payout}
+          isEnabled={!isBudgetMaxed}
+          isSelected={selectedId === overOpt.id}
+          onPress={() => toggle(overOpt)}
+        />
+        <BetOption
+          title={underOpt.title}
+          payout={underOpt.payout}
+          isEnabled={!isBudgetMaxed}
+          isSelected={selectedId === underOpt.id}
+          onPress={() => toggle(underOpt)}
+        />
+      </View>
+
+      <Animated.View
+        style={[
+          s.selectorWrapper,
+          {
+            height: animatedHeight,
+            opacity: animatedHeight.interpolate({
+              inputRange: [0, 54],
+              outputRange: [0, 1],
+            }),
+          },
+        ]}
+      >
+        {selectedId && (
+          <BetSelector
+            betOptionId={selectedId}
+            closeSelection={() => store.removeBet(selectedId)}
+          />
+        )}
+      </Animated.View>
+    </View>
+  );
+};
+
+export const OverUnder = React.memo(_OverUnder);
 
 const s = StyleSheet.create({
-	optionsContainer: {
-		flexDirection: "row",
-		gap: 4,
-    justifyContent: 'space-between',
-    flex: 1,
-	},
+  optionsContainer: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    gap: 4,
+  },
+  selectorWrapper: {
+    overflow: "hidden",
+  },
 });

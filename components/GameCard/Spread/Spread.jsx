@@ -13,15 +13,21 @@ function _Spread({ spreadOptions, game }) {
 		return null; // Ensure there are at least two options (home and away)
 	}
 
-	const [isOpen, setIsOpen] = useState(false);
-	const animatedHeight = useRef(new Animated.Value(0)).current;
-	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
-
+	// 1) Which options?
 	const awaySpread = spreadOptions[0]; // Assuming the first option is for the away team
 	const homeSpread = spreadOptions[1]; // Assuming the second option is for the home team
+
+	// 2) Local open/closed + animation
+	const [isOpen, setIsOpen] = useState(false);
+	const animatedHeight = useRef(new Animated.Value(0)).current;
+
+	// 3) Shared spread/OU budget
+	const isBudgetMaxed = useBetStore((state) => state.budgetStatus.spreadOU);
+
+	// 4) Min/max from our rules
 	const { minBet, maxBet } = BETTING_RULES["spread"];
 
-	// Look up each option by its bet_option_id
+	// 5) Subscribe to just these two bets
   const awayBet = useBetStore((s) =>
     s.bets.find((b) => b.bet_option_id === awaySpread.id)
   );
@@ -29,12 +35,12 @@ function _Spread({ spreadOptions, game }) {
     s.bets.find((b) => b.bet_option_id === homeSpread.id)
   );
 
-  // If either exists, we’re “open”
+  // 6) Open when either exists
   useEffect(() => {
     setIsOpen(!!awayBet || !!homeBet);
   }, [awayBet, homeBet]);
 
-	// 3) Animate the height when isOpen changes
+	// 7) Animate height
 	useEffect(() => {
 		Animated.timing(animatedHeight, {
 			toValue: isOpen ? 54 : 0,
@@ -43,8 +49,10 @@ function _Spread({ spreadOptions, game }) {
 		}).start();
 	}, [isOpen]);
 
+	// 8) Which option is currently selected?
 	const selectedBetOptionId = awayBet ? awaySpread.id : homeBet ? homeSpread.id : null;
 
+	// 9) Toggling logic
 	const store = useBetStore.getState();
   const toggle = (opt) => {
     if (selectedBetOptionId === opt.id) {
@@ -121,6 +129,5 @@ const s = StyleSheet.create({
 	},
 	selectorWrapper: {
     overflow: "hidden",
-    // marginTop: 4,
   },
 });

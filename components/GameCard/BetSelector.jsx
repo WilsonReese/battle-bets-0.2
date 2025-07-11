@@ -22,6 +22,8 @@ function BetSelectorComponent({
   const bet = useBetStore((s) =>
     s.bets.find((b) => b.bet_option_id === betOptionId)
   );
+
+	console.log(bet.category)
   
 	// 2) Derive your rules straight from bet.category
   const { minBet, maxBet } = BETTING_RULES[bet.category] || {};
