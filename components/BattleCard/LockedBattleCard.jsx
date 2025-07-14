@@ -18,7 +18,7 @@ export function LockedBattleCard({
 	poolId,
 	refreshVersion,
 	handleViewLeaderboard,
-	handleViewUserBetslip
+	handleViewUserBetslip,
 }) {
 	const { loading, betslips } = useBattleLeaderboard(
 		poolId,
@@ -81,7 +81,10 @@ export function LockedBattleCard({
 	return (
 		<View style={s.container}>
 			{/* Leaderboard section */}
-			<TouchableOpacity style={s.leaderboardContainer} onPress={() => handleViewLeaderboard()}>
+			<TouchableOpacity
+				style={s.leaderboardContainer}
+				onPress={() => handleViewLeaderboard()}
+			>
 				<View style={s.cardSectionHeading}>
 					<Txt style={s.headingTxt}>Leaderboard</Txt>
 					<View style={s.actionButton}>
@@ -124,15 +127,19 @@ export function LockedBattleCard({
 			</TouchableOpacity>
 
 			{/* Betslip Section */}
-			<View style={s.betslipContainer}>
-								<View style={s.cardSectionHeading}>
+			<TouchableOpacity style={s.betslipContainer} onPress={() => handleViewUserBetslip()}>
+				<View style={s.cardSectionHeading}>
 					<Txt style={s.headingTxt}>Betslip</Txt>
 					<View style={s.actionButton}>
 						<Txt style={{ fontSize: 11, color: "#C7CDD1" }}></Txt>
-						<FontAwesome6 name="circle-chevron-right" size={10} color="#54D18C" />
+						<FontAwesome6
+							name="circle-chevron-right"
+							size={10}
+							color="#54D18C"
+						/>
 					</View>
 				</View>
-				
+
 				<View style={s.bottomSection}>
 					<View>
 						<View style={s.seasonScoreContainer}>
@@ -183,7 +190,7 @@ export function LockedBattleCard({
 						</>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		</View>
 	);
 }

@@ -74,7 +74,7 @@ export function BattleUnlockedPoolCard({
 				<View style={s.infoContainer}>
 					<View style={s.infoUnitContainer}>
 						<Txt style={s.infoTitleTxt}>League Participation:</Txt>
-						<Txt style={s.txt}>{participationRate.toFixed(1)}%</Txt>
+						<Txt style={s.txt}>{participationRate.toFixed(0)}%</Txt>
 					</View>
 					<TouchableOpacity
 						style={[s.infoUnitContainer, s.betslipButton]}

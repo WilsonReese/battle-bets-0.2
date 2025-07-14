@@ -61,7 +61,22 @@ export function BattleCard({
 		});
 	};
 
-	const handleViewUserBetslip = () => {};
+	const handleViewUserBetslip = () => {
+		if (!userBetslip) {
+			Alert.alert("No betslip found", "Please refresh or try again.");
+			return;
+		}
+		router.push({
+			pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
+			params: {
+				leagueSeasonId: season.id,
+				poolName,
+				battleWeek: battle.week,
+				battleStatus: battle.status,
+				openUserBetslipId: userBetslip.id, // ← pass the ID
+			},
+		});
+	};
 
 	if (battle.status === "not_started") {
 		return null; // Do not render anything

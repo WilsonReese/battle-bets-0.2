@@ -24,6 +24,7 @@ export default function BattleLeaderboard() {
 		poolName,
 		battleWeek,
 		battleStatus,
+		openUserBetslipId,
 	} = useLocalSearchParams();
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.54;
@@ -43,6 +44,20 @@ export default function BattleLeaderboard() {
 		leagueSeasonId,
 		battleId
 	);
+
+	// once betslips are back, if openUserBetslipId is set, pick & open
+	useEffect(() => {
+		if (!betslips.length || !openUserBetslipId) return;
+
+		const me = betslips.find((b) => String(b.id) === String(openUserBetslipId));
+		if (me) {
+			setSelectedBetslip(me);
+			// wait a tick then snap open:
+			requestAnimationFrame(() => {
+				sheetRef.current?.snapToIndex(0);
+			});
+		}
+	}, [betslips, openUserBetslipId]);
 
 	const onRefresh = async () => {
 		setRefreshing(true);

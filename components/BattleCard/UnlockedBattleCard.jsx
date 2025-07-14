@@ -59,7 +59,7 @@ export function UnlockedBattleCard({
 
 	return (
 		<View style={s.container}>
-			<View>
+			<View style={{paddingVertical: 1}}>
 				<Txt style={[s.headingTxt, s.countdownTitle]}>Bets close</Txt>
 				<CountdownTimer targetDate={battleEndDateTime} version="small" />
 			</View>
@@ -77,13 +77,13 @@ export function UnlockedBattleCard({
 							<Txt style={s.betInfoLabel}>To Bet:</Txt>
 							<Txt style={s.betInfoTxt}>${remaining}</Txt>
 						</View>
-						<View style={[s.betslipElement, { marginTop: -4 }]}>
+						<View style={[s.betslipElement, { marginTop: -2 }]}>
 							<Txt style={s.betInfoLabel}>Max:</Txt>
 							<Txt style={s.betInfoTxt}>
 								${userBetslip.max_payout_remaining}
 							</Txt>
 						</View>
-						<View style={[s.betslipElement, { marginTop: -4 }]}>
+						<View style={[s.betslipElement, { marginTop: -2 }]}>
 							<Txt style={s.betInfoLabel}>Bets Placed:</Txt>
 							<Txt style={s.betInfoTxt}>{userBetslip.bets.length}</Txt>
 						</View>
@@ -118,7 +118,7 @@ const s = StyleSheet.create({
 	},
 	betslipInfoContainer: {
 		alignItems: "flex-start",
-		paddingVertical: 4,
+		paddingVertical: 6,
 		paddingHorizontal: 8,
 		backgroundColor: "#1D394E",
 		borderRadius: 8,
