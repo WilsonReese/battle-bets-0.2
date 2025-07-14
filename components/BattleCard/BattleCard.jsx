@@ -154,10 +154,10 @@ const s = StyleSheet.create({
 		// borderWidth: 1,
 		// borderColor: "#3A454D",
 		borderRadius: 8,
-		paddingTop: 8,
+		// paddingTop: 8,
 		paddingBottom: 8,
-		paddingHorizontal: 12,
-		backgroundColor: "#0F2638",
+		paddingHorizontal: 4,
+		// backgroundColor: "#0F2638",
 		flex: 1,
 	},
 	btnContainer: {

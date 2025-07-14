@@ -120,7 +120,7 @@ const s = StyleSheet.create({
 		alignItems: "flex-start",
 		paddingVertical: 6,
 		paddingHorizontal: 8,
-		backgroundColor: "#1D394E",
+		backgroundColor: "#0F2638",
 		borderRadius: 8,
 		marginHorizontal: -6,
 	},

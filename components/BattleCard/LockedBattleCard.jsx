@@ -215,7 +215,7 @@ const s = StyleSheet.create({
 		paddingVertical: 4,
 		paddingHorizontal: 8,
 		marginHorizontal: -6,
-		backgroundColor: "#1D394E",
+		backgroundColor: "#0F2638",
 		borderRadius: 8,
 	},
 	cardSectionHeading: {
@@ -266,7 +266,7 @@ const s = StyleSheet.create({
 		paddingVertical: 4,
 		paddingHorizontal: 8,
 		marginHorizontal: -6,
-		backgroundColor: "#1D394E",
+		backgroundColor: "#0F2638",
 		borderRadius: 8,
 	},
 	bottomSection: {
