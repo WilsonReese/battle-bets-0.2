@@ -64,6 +64,7 @@ export default function BattleDetails() {
 	const [suppressLeaveModal, setSuppressLeaveModal] = useState(false);
 	const suppressLeaveModalRef = useRef(false);
 	const [disableInteraction, setDisableInteraction] = useState(false);
+	const [poolName, setPoolName] = useState("");
 
 	const scrollViewRef = useRef(null);
 	const sheetRef = useRef(null);
@@ -85,19 +86,21 @@ export default function BattleDetails() {
 			setLoading(true);
 
 			try {
-				const [gamesRes, battleRes] = await Promise.all([
+				const [gamesRes, poolsRes, battleRes] = await Promise.all([
 					api.get(`/games`, {
 						params: {
 							week: currentSeason.current_week,
 							season_year: currentSeason.year,
 						},
 					}),
+					api.get(`/pools/${poolId}`),
 					api.get(
 						`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}`
 					),
 				]);
 
 				const battle = battleRes.data;
+				// console.log('Battle Response:', battle)
 				// const betslip = betslipRes.data;
 
 				if (battle.locked) {
@@ -107,6 +110,7 @@ export default function BattleDetails() {
 				}
 
 				setGames(gamesRes.data);
+				setPoolName(poolsRes.data.name ?? "");
 				await loadBets({
 					poolId,
 					leagueSeasonId,
@@ -209,6 +213,7 @@ export default function BattleDetails() {
 						<BetSlip
 							ref={sheetRef}
 							poolId={poolId}
+							poolName={poolName}
 							isBetSlipShown={isBetSlipShown}
 							setIsBetSlipShown={setIsBetSlipShown}
 							scrollViewRef={scrollViewRef}

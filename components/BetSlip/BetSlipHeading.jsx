@@ -19,6 +19,7 @@ import { useBetStore } from "../../state/useBetStore";
 
 export function BetSlipHeading({
 	poolId,
+	poolName,
 	leagueSeasonId,
 	betslipId,
 	battleId,
@@ -74,6 +75,7 @@ export function BetSlipHeading({
 			<View style={s.headingContainer}>
 				<View style={s.titleContainer}>
 					<Txt style={s.title}>Betslip</Txt>
+					<Txt style={s.poolName}>{poolName}</Txt>
 				</View>
 				<View style={s.btnContainer}>
 					<Btn
@@ -119,6 +121,12 @@ const s = StyleSheet.create({
 		// color: "#061826",
 		fontFamily: "Saira_600SemiBold",
 		paddingRight: 8,
+	},
+	poolName: {
+		backgroundColor: '#425C70',
+		paddingHorizontal: 8,
+		borderRadius: 4,
+		fontSize: 14,
 	},
 	btn: {
 		paddingVertical: 4,

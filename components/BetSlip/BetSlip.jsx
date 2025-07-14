@@ -17,6 +17,7 @@ export const BetSlip = forwardRef(
 	(
 		{
 			poolId,
+			poolName,
 			isBetSlipShown,
 			setIsBetSlipShown,
 			scrollViewRef,
@@ -48,6 +49,7 @@ export const BetSlip = forwardRef(
 				<>
 					<BetSlipHeading
 						poolId={poolId}
+						poolName={poolName}
 						leagueSeasonId={leagueSeasonId}
 						betslipId={betslipId}
 						battleId={battleId}
