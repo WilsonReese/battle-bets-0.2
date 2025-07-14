@@ -58,11 +58,12 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
                 poolName: pool.name,
                 battleWeek: battle.week,
                 battleStatus: battle.status,
+                openUserBetslipId: userRankedBetslip.id,
               },
             })
           }
         >
-          <View style={s.infoContainer}>
+          <View style={[s.infoContainer, s.betslipButton]}>
             <View style={s.infoUnitContainer}>
               {/* <Txt style={s.txt}>Rank: {userRankedBetslip?.rank ?? "—"}</Txt> */}
               <Txt style={s.txt}>
@@ -76,11 +77,17 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
                   ""
                 )}
               </Txt>
+              {/* <View>
+                <Txt></Txt>
+              </View> */}
               {/* <MaterialCommunityIcons name="podium" size={14} color="#54D18C" /> */}
             </View>
             <View style={[s.infoUnitContainer, s.betslipAmounts]}>
               <Txt style={s.txt}>Won: ${userBetslip.earnings}</Txt>
               <Txt style={s.txt}>Max: ${userBetslip.max_payout_remaining}</Txt>
+            </View>
+            <View style={s.listIcon}>
+              <FontAwesome6 name="list" size={12} color="#54D18C" />
             </View>
           </View>
           {/* <FontAwesome6 name="circle-chevron-right" size={14} color="#54D18C" /> */}
@@ -105,11 +112,15 @@ const s = StyleSheet.create({
   infoContainer: {
     paddingVertical: 4,
   },
-
   infoUnitContainer: {
     flexDirection: "row",
     gap: 4,
     alignItems: "center",
+  },
+  betslipButton: {
+    backgroundColor: '#1D394E',
+    paddingHorizontal: 8,
+    borderRadius: 8,
   },
 
   infoTitleTxt: {
@@ -136,6 +147,11 @@ const s = StyleSheet.create({
   },
   betslipAmounts: {
     gap: 8,
+  },
+  listIcon: {
+    position: 'absolute',
+    right: 8,
+    top: 8,
   },
   seasonScoreTxt: {
     fontSize: "12",
