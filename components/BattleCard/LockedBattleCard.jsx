@@ -5,6 +5,7 @@ import { Btn } from "../general/Buttons/Btn";
 import { CountdownTimer } from "./CountdownTimer";
 import { StatusIcon } from "../general/StatusIcon";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import FontAwesome from "@expo/vector-icons/FontAwesome";
 import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
 import { getOrdinalSuffix } from "../../utils/formatting";
 import { SkeletonBattleCard } from "./SkeletonBattleCard";
@@ -12,11 +13,12 @@ import { TeamLogo } from "../GameCard/Matchup/TeamLogo";
 
 export function LockedBattleCard({
 	battle,
-	handleEditBets,
 	battleEndDateTime,
 	userBetslip,
 	poolId,
 	refreshVersion,
+	handleViewLeaderboard,
+	handleViewUserBetslip
 }) {
 	const { loading, betslips } = useBattleLeaderboard(
 		poolId,
@@ -79,8 +81,14 @@ export function LockedBattleCard({
 	return (
 		<View style={s.container}>
 			{/* Leaderboard section */}
-			<View style={s.leaderboardContainer}>
-				<Txt style={s.headingTxt}>Leaderboard</Txt>
+			<TouchableOpacity style={s.leaderboardContainer} onPress={() => handleViewLeaderboard()}>
+				<View style={s.cardSectionHeading}>
+					<Txt style={s.headingTxt}>Leaderboard</Txt>
+					<View style={s.actionButton}>
+						<Txt style={{ fontSize: 11, color: "#C7CDD1" }}></Txt>
+						<FontAwesome6 name="list" size={10} color="#54D18C" />
+					</View>
+				</View>
 				<View style={s.leaderboardHeaderRow}>
 					<Txt style={[s.headerRowTxt, s.placeColumn]}> </Txt>
 					<Txt style={[s.headerRowTxt, s.playerColumn]}>Player</Txt>
@@ -113,11 +121,18 @@ export function LockedBattleCard({
 						</View>
 					);
 				})}
-			</View>
+			</TouchableOpacity>
 
 			{/* Betslip Section */}
 			<View style={s.betslipContainer}>
-				<Txt style={s.headingTxt}>Betslip</Txt>
+								<View style={s.cardSectionHeading}>
+					<Txt style={s.headingTxt}>Betslip</Txt>
+					<View style={s.actionButton}>
+						<Txt style={{ fontSize: 11, color: "#C7CDD1" }}></Txt>
+						<FontAwesome6 name="circle-chevron-right" size={10} color="#54D18C" />
+					</View>
+				</View>
+				
 				<View style={s.bottomSection}>
 					<View>
 						<View style={s.seasonScoreContainer}>
@@ -154,7 +169,7 @@ export function LockedBattleCard({
 						</Txt>
 					</View>
 					<View style={s.topGameSection}>
-						<Txt style={s.betInfoTxt}>Top Game:</Txt>
+						<Txt style={[s.betInfoTxt, s.topGameTxt]}>Top Game:</Txt>
 						<>
 							{topGame ? (
 								<View style={s.topGame}>
@@ -176,8 +191,8 @@ export function LockedBattleCard({
 const s = StyleSheet.create({
 	container: {
 		justifyContent: "space-between",
-		paddingTop: 8,
-		gap: 10,
+		paddingTop: 4,
+		gap: 4,
 	},
 	headingTxt: {
 		letterSpacing: 2,
@@ -189,7 +204,21 @@ const s = StyleSheet.create({
 
 	// Leaderboard Table Styling
 	leaderboardContainer: {
-		flex: 3,
+		// flex: 3,
+		paddingVertical: 4,
+		paddingHorizontal: 8,
+		marginHorizontal: -6,
+		backgroundColor: "#1D394E",
+		borderRadius: 8,
+	},
+	cardSectionHeading: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+	},
+	actionButton: {
+		flexDirection: "row",
+		gap: 4,
+		alignItems: "center",
 	},
 	leaderboardHeaderRow: {
 		flexDirection: "row",
@@ -226,7 +255,12 @@ const s = StyleSheet.create({
 
 	// Betslip Styling
 	betslipContainer: {
-		flex: 1.1,
+		// flex: 1.1,
+		paddingVertical: 4,
+		paddingHorizontal: 8,
+		marginHorizontal: -6,
+		backgroundColor: "#1D394E",
+		borderRadius: 8,
 	},
 	bottomSection: {
 		flexDirection: "row",
@@ -247,6 +281,9 @@ const s = StyleSheet.create({
 		flexDirection: "row",
 		alignItems: "center",
 		gap: 4,
+	},
+	topGameTxt: {
+		maxWidth: 60,
 	},
 
 	// Completed Betslip
