@@ -21,6 +21,7 @@ import { Btn } from "../../../components/general/Buttons/Btn";
 import { formatFullDate } from "../../../utils/dateUtils";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TeamsByConference } from "./TeamsByConference";
 
 export default function Profile() {
 	const { logout, token } = useContext(AuthContext);
@@ -290,6 +291,9 @@ export default function Profile() {
 								color="#E06777"
 							/>
 						</TouchableOpacity>
+
+						<TeamsByConference/>
+
 					</View>
 				</ScrollView>
 			</KeyboardAvoidingView>
