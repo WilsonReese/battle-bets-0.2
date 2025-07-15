@@ -112,13 +112,13 @@ export function UserBetsForGame({ selectedGame }) {
 			const payoutColor = isPending
 				? "#F8F8F8"
 				: isFailed
-				? "#8E9AA4"
+				? "#E06777"
 				: "#54D18C";
 
 			const textColor = isPending
 				? "#F8F8F8"
 				: isFailed
-				? "#8E9AA4"
+				? "#E06777"
 				: "#54D18C";
 
 			const textStyle = isPending
@@ -144,6 +144,7 @@ export function UserBetsForGame({ selectedGame }) {
 								payoutColor={payoutColor}
 								textColor={textColor}
 								textStyle={textStyle}
+								strikeThrough={isFailed}
 							/>
 						</View>
 

@@ -21,6 +21,8 @@ export function LeagueBetsForGame({
 	const [leagueBets, setLeagueBets] = useState([]);
 	const [loading, setLoading] = useState(true);
 
+	// {textDecorationLine: 'line-through'}
+
 	// const [pools, setPools] = useState([]);
 	// const [selectedPool, setSelectedPool] = useState(null);
 
@@ -114,13 +116,13 @@ export function LeagueBetsForGame({
 									const payoutColor = isPending
 										? "#F8F8F8"
 										: isFailed
-										? "#8E9AA4"
+										? "#E06777"
 										: "#54D18C";
 
 									const textColor = isPending
 										? "#F8F8F8"
 										: isFailed
-										? "#8E9AA4"
+										? "#E06777"
 										: "#54D18C";
 
 									const textStyle = isPending
@@ -140,6 +142,7 @@ export function LeagueBetsForGame({
 													payoutColor={payoutColor}
 													textColor={textColor}
 													textStyle={textStyle}
+													strikeThrough={isFailed}
 												/>
 											</View>
 											<View style={s.betStatsContainer}>

@@ -2,7 +2,7 @@ import React from "react";
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 
-export function BetDetails({ name, matchup, time, multiplier, betNameColor, payoutColor}) {
+export function BetDetails({ name, matchup, time, multiplier, betNameColor, payoutColor, strikeThrough}) {
   return (
 		<View style={s.container}>
 			<View style={s.betDetailsContainer}>
@@ -10,7 +10,7 @@ export function BetDetails({ name, matchup, time, multiplier, betNameColor, payo
 					<Txt style={[s.smallTxt, { color: betNameColor || s.betNameTxt.color }]}>{matchup}</Txt>
 				</View>
 				<View>
-					<Txt style={[s.betNameTxt, { color: betNameColor || s.betNameTxt.color }]}>{name}</Txt>
+					<Txt style={[s.betNameTxt, { color: betNameColor }, strikeThrough && {textDecorationLine: 'line-through'}]}>{name}</Txt>
 				</View>
 			</View>
 			<View style={[s.betPayoutContainer, { backgroundColor: payoutColor || s.betPayoutContainer.backgroundColor }]}>
