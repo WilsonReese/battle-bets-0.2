@@ -22,9 +22,12 @@ import { UserBetsForGame } from "../../../components/BoxScore/UserBetsForGame";
 import { LeagueBetsForGame } from "../../../components/BoxScore/LeagueBetsForGame";
 import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import api from "../../../utils/axiosConfig";
+import { Matchup } from "../../../components/GameCard/Matchup/Matchup";
+import { PregameCardDetails } from "../../../components/GameCard/Scoreboard/PregameCardDetails";
 
 export default function GameDetails() {
 	const {
+		gameStatus,
 		selectedGame,
 		selectedGameData,
 		selectedHomeTeamStats,
@@ -90,132 +93,135 @@ export default function GameDetails() {
 
 	return (
 		// Macro Game Data
-		<View style={s.container}>
-			<View style={s.macroGameCard}>
-				<ScoreboardGameCard
-					game={selectedGame}
-					sampleGameData={selectedGameData}
-					status={"inProgress"}
-				/>
-			</View>
-
-			{/* Box Score or Bets Toggle */}
-			<View>
-				<BoxScoreOrBetsToggle selected={infoMode} onSelect={setInfoMode} />
-			</View>
-
-			<ScrollView
-				style={s.scrollView}
-				showsVerticalScrollIndicator={false}
-				refreshControl={
-					<RefreshControl refreshing={refreshing} onRefresh={onRefresh} tintColor="#C7CDD1"/>
-				}
-			>
-				<View style={s.detailsCard}>
-					{infoMode === "boxScore" && (
-						<>
-							<View style={{ alignItems: "center" }}>
-								<DataToggle
-									optionLeft={awayTeam.name}
-									optionRight={homeTeam.name}
-									selected={selectedTeam}
-									onSelect={setSelectedTeam}
-								/>
-							</View>
-
-							{/* Team Stats */}
-							<TeamData
-								awayStats={selectedAwayTeamStats.statistics}
-								homeStats={selectedHomeTeamStats.statistics}
-								selectedTeam={selectedTeam}
-								awayTeamName={awayTeam.name}
-								homeTeamName={homeTeam.name}
-							/>
-
-							{/* Player Stats */}
-							{selectedTeam === awayTeam.name && (
-								<PlayerData stats={selectedAwayPlayerStats.groups} />
-							)}
-							{selectedTeam === homeTeam.name && (
-								<PlayerData stats={selectedHomePlayerStats.groups} />
-							)}
-						</>
-					)}
-
-					{infoMode === "bets" && (
-						<>
-							<View style={{ alignItems: "center" }}>
-								<DataToggle
-									optionLeft={"Your Bets"}
-									optionRight={"League Bets"}
-									selected={selectedBetGroup}
-									onSelect={setSelectedBetGroup}
-								/>
-							</View>
-
-							{/* User Bets */}
-							{selectedBetGroup === "Your Bets" && (
-								// <>
-								// 	{isSinglePool
-								// 		? gameBets.map((bet) => (
-								// 				<PlacedBet key={bet.id} bet={bet} />
-								// 		  ))
-								//       : renderGroupedUserBets()}
-								// </>
-								<UserBetsForGame
-									// userBets={userBetsByGame}
-									// userPoolCount={userPoolCountByGame}
-									selectedGame={selectedGame}
-								/>
-							)}
-
-							{/* League Bets */}
-							{selectedBetGroup === "League Bets" && (
-								<LeagueBetsForGame
-									gameId={selectedGame.id}
-									pools={pools}
-									selectedPool={selectedPool}
-									onToggleSheet={() => {
-										if (sheetOpen) {
-											bottomSheetRef.current?.close();
-										} else {
-											bottomSheetRef.current?.expand();
-										}
-									}}
-								/>
-							)}
-						</>
-					)}
+		<>
+			<View style={s.container}>
+				<View style={[s.macroGameCard]}>
+					<ScoreboardGameCard
+						game={selectedGame}
+						sampleGameData={selectedGameData}
+					/>
 				</View>
-			</ScrollView>
-			<BottomSheet
-				ref={bottomSheetRef}
-				index={-1}
-				enablePanDownToClose
-				snapPoints={[bottomSheetHeight]}
-				enableDynamicSizing={false}
-				onChange={(index) => setSheetOpen(index >= 0)}
-				backgroundStyle={s.sheetBackground}
-				handleIndicatorStyle={s.handle}
-			>
-				<BottomSheetScrollView style={s.sheetContainer}>
-					{pools.map((pool) => (
-						<TouchableOpacity
-							key={pool.id}
-							style={s.radioItem}
-							onPress={() => handleSelectPool(pool)}
-						>
-							<View style={s.radioCircle}>
-								{selectedPool?.id === pool.id && (
-									<View style={s.radioSelected} />
+
+				{/* Box Score or Bets Toggle */}
+				<View>
+					<BoxScoreOrBetsToggle selected={infoMode} onSelect={setInfoMode} />
+				</View>
+
+				<ScrollView
+					style={s.scrollView}
+					showsVerticalScrollIndicator={false}
+					refreshControl={
+						<RefreshControl
+							refreshing={refreshing}
+							onRefresh={onRefresh}
+							tintColor="#C7CDD1"
+						/>
+					}
+				>
+					<View style={s.detailsCard}>
+						{infoMode === "boxScore" && (
+							<>
+								<View style={{ alignItems: "center" }}>
+									<DataToggle
+										optionLeft={awayTeam.name}
+										optionRight={homeTeam.name}
+										selected={selectedTeam}
+										onSelect={setSelectedTeam}
+									/>
+								</View>
+
+								{/* Team Stats */}
+								{gameStatus !== "pregame" ? (
+									<>
+										<TeamData
+											awayStats={selectedAwayTeamStats.statistics}
+											homeStats={selectedHomeTeamStats.statistics}
+											selectedTeam={selectedTeam}
+											awayTeamName={awayTeam.name}
+											homeTeamName={homeTeam.name}
+										/>
+
+										{/* Player Stats */}
+										{selectedTeam === awayTeam.name && (
+											<PlayerData stats={selectedAwayPlayerStats.groups} />
+										)}
+										{selectedTeam === homeTeam.name && (
+											<PlayerData stats={selectedHomePlayerStats.groups} />
+										)}
+									</>
+								) : (
+									<Txt style={{ alignSelf: "center", paddingTop: 16 }}>
+										Check back when the game starts!
+									</Txt>
 								)}
-							</View>
-							<Txt style={s.radioLabel}>{pool.name}</Txt>
-						</TouchableOpacity>
-					))}
-				</BottomSheetScrollView>
-			</BottomSheet>
-		</View>
+							</>
+						)}
+
+						{infoMode === "bets" && (
+							<>
+								<View style={{ alignItems: "center" }}>
+									<DataToggle
+										optionLeft={"Your Bets"}
+										optionRight={"League Bets"}
+										selected={selectedBetGroup}
+										onSelect={setSelectedBetGroup}
+									/>
+								</View>
+
+								{/* User Bets */}
+								{selectedBetGroup === "Your Bets" && (
+									<UserBetsForGame selectedGame={selectedGame} />
+								)}
+
+								{/* League Bets */}
+								{selectedBetGroup === "League Bets" && (
+									<LeagueBetsForGame
+										gameId={selectedGame.id}
+										pools={pools}
+										selectedPool={selectedPool}
+										battlesLocked={selectedGame.battles_locked}
+										onToggleSheet={() => {
+											if (sheetOpen) {
+												bottomSheetRef.current?.close();
+											} else {
+												bottomSheetRef.current?.expand();
+											}
+										}}
+									/>
+								)}
+							</>
+						)}
+					</View>
+				</ScrollView>
+				<BottomSheet
+					ref={bottomSheetRef}
+					index={-1}
+					enablePanDownToClose
+					snapPoints={[bottomSheetHeight]}
+					enableDynamicSizing={false}
+					onChange={(index) => setSheetOpen(index >= 0)}
+					backgroundStyle={s.sheetBackground}
+					handleIndicatorStyle={s.handle}
+				>
+					<BottomSheetScrollView style={s.sheetContainer}>
+						{pools.map((pool) => (
+							<TouchableOpacity
+								key={pool.id}
+								style={s.radioItem}
+								onPress={() => handleSelectPool(pool)}
+							>
+								<View style={s.radioCircle}>
+									{selectedPool?.id === pool.id && (
+										<View style={s.radioSelected} />
+									)}
+								</View>
+								<Txt style={s.radioLabel}>{pool.name}</Txt>
+							</TouchableOpacity>
+						))}
+					</BottomSheetScrollView>
+				</BottomSheet>
+			</View>
+		</>
 	);
 }
 
@@ -226,13 +232,25 @@ const s = StyleSheet.create({
 		padding: 8,
 		// alignItems: 'center'
 	},
-	macroGameCard: {
+	pregameCard: {
+		// paddingBottom: 4,
+		height: 84,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		// paddingRight: 4,
 		backgroundColor: "#0F2638",
-		marginVertical: 4,
+		marginVertical: 6,
 		borderRadius: 8,
 		paddingHorizontal: 8,
-		paddingTop: 8,
-		paddingBottom: 4,
+		paddingVertical: 8,
+	},
+	macroGameCard: {
+		backgroundColor: "#0F2638",
+		marginBottoml: 4,
+		borderRadius: 8,
+		// paddingHorizontal: 8,
+		// paddingTop: 8,
+		// paddingBottom: 4,
 	},
 	detailsCard: {
 		// backgroundColor: "#0F2638",

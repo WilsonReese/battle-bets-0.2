@@ -12,7 +12,7 @@ export function ScoreboardGameCard({ game, sampleGameData, userBetCount, onPress
 		<TouchableOpacity
 			style={s.card}
 			onPress={() => onPress(game)}
-			disabled={gameStatus === "pregame" ? true : false}
+			// disabled={gameStatus === "pregame" ? true : false}
 		>
 			{/* <View style={{ height: 4 }} /> */}
 			<View>
@@ -60,17 +60,24 @@ export function ScoreboardGameCard({ game, sampleGameData, userBetCount, onPress
 }
 
 const s = StyleSheet.create({
+	card: {
+  	width: "100%",
+  	alignSelf: "stretch",
+	},
 	container: {
 		// paddingBottom: 4,
 		flexDirection: "row",
 		justifyContent: "space-between",
 		// paddingRight: 4,
-
     backgroundColor: "#0F2638",
 		marginVertical: 6,
 		borderRadius: 8,
 		paddingHorizontal: 8,
 		paddingVertical: 8,
+		height: 84,
+	},
+	pregameCard: {
+		flex: 1,
 	},
 	userBetCount: {
 		position: "absolute",
