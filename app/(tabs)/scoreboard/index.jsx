@@ -82,10 +82,14 @@ export default function Scoreboard() {
 			// 2️⃣  Show the list-header spinner only on user pull
 			if (showRefreshControl) setRefreshing(true);
 
+			const week = currentSeason.current_week === 0 ? 1 : currentSeason.current_week
+
+			console.log('Season and Week Passed:', currentSeason.year, week)
+
 			try {
 				const res = await api.get("/games", {
 					params: {
-						week: currentSeason.current_week,
+						week: week,
 						season_year: currentSeason.year,
 					},
 				});

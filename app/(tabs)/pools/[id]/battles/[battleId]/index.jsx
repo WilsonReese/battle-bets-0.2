@@ -87,7 +87,7 @@ export default function BattleDetails() {
 
 			try {
 				const [gamesRes, poolsRes, battleRes] = await Promise.all([
-					api.get(`/games`, {
+					api.get('/games', {
 						params: {
 							week: currentSeason.current_week,
 							season_year: currentSeason.year,
