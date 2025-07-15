@@ -5,12 +5,19 @@ import { BetOption } from "../BetOption";
 import { BetSelector } from "../BetSelector";
 import { useBetStore } from "../../../state/useBetStore";
 import { BETTING_RULES } from "../../../utils/betting-rules";
+import { Txt } from "../../general/Txt";
+import { LinesUnavailable } from "../LinesUnavailable";
 // import { BETTING_RULES } from "../../../utils/betting-rules";
 
 function _OverUnder({ ouOptions, game }) {
   // if there aren’t exactly two OU options, bail
   if (!ouOptions || ouOptions.length < 2) {
-    return null;
+    return (
+      <>
+        <BetTypeHeading heading={"Over/Under"} />
+        <LinesUnavailable/>
+      </>
+    )
   }
 
   // 1) Which options?

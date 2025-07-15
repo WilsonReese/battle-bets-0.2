@@ -7,10 +7,17 @@ import React, { useEffect, useRef, useState } from "react";
 import { useBetSelection } from "../../contexts/BetSelectionContext";
 import { addBetToContext } from "../../../utils/betDispatcher";
 import { useBetStore } from "../../../state/useBetStore";
+import { Txt } from "../../general/Txt";
+import { LinesUnavailable } from "../LinesUnavailable";
 
 function _Spread({ spreadOptions, game }) {
 	if (!spreadOptions || spreadOptions.length < 2) {
-		return null; // Ensure there are at least two options (home and away)
+		return (
+			<>
+				<BetTypeHeading heading={"SPREAD"} />
+				<LinesUnavailable/>
+			</>
+    )
 	}
 
 	// 1) Which options?

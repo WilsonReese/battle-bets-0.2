@@ -5,13 +5,20 @@ import { BETTING_RULES } from "../../utils/betting-rules";
 import { BetTypeHeading } from "./BetTypeHeading";
 import { BetOption } from "./BetOption";
 import { BetSelector } from "./BetSelector";
+import { Txt } from "../general/Txt";
+import { LinesUnavailable } from "./LinesUnavailable";
 // import { BetTypeHeading } from "../BetTypeHeading";
 // import { BetOption } from "../BetOption";
 // import { BetSelector } from "../BetSelector";
 
 function _MoneyLine({ moneyLineOptions = [], game }) {
   if (moneyLineOptions.length < 2) {
-    return null;
+    return (
+      <>
+        <BetTypeHeading heading={"Money Line"} />
+        <LinesUnavailable/>
+      </>
+    )
   }
 
   const [isOpen, setIsOpen] = useState(false);
