@@ -43,7 +43,7 @@ export function BattleCard({
 		router.push({
 			pathname: `/pools/${poolId}/battles/${battle.id}`,
 			params: {
-				betslipId: userBetslip.id,
+				// betslipId: userBetslip.id,
 				leagueSeasonId: battle.league_season_id,
 			},
 		});

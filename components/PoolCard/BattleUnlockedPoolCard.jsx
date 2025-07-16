@@ -45,10 +45,15 @@ export function BattleUnlockedPoolCard({
 		router.push({
 			pathname: `/pools/${pool.id}/battles/${currentBattle.id}`,
 			params: {
-				betslipId: userBetslip.id,
+				// betslipId: userBetslip.id,
 				leagueSeasonId: selectedSeason.id,
 			},
 		});
+		// router.push(
+		// 	`/pools/${pool.id}/battles/${currentBattle.id}` +
+		// 		`?leagueSeasonId=${selectedSeason.id}` +
+		// 		`&betslipId=${userBetslip.id}`
+		// );
 	};
 
 	console.log("Current Battle: ", currentBattle);
@@ -81,7 +86,7 @@ export function BattleUnlockedPoolCard({
 						onPress={handleMyBetslip}
 					>
 						<FontAwesome6 name="pen-to-square" size={14} color="#54D18C" />
-						<View style={{flexDirection: 'row'}}>
+						<View style={{ flexDirection: "row" }}>
 							<Txt style={s.infoTitleTxt}>Edit Betslip: </Txt>
 							<Txt style={s.txt}>${remaining} to bet</Txt>
 						</View>
@@ -128,7 +133,7 @@ const s = StyleSheet.create({
 		// justifyContent: 'space-between',
 		paddingHorizontal: 8,
 		gap: 6,
-		alignSelf: 'flex-start'
+		alignSelf: "flex-start",
 	},
 
 	sectonHeadingTxt: {

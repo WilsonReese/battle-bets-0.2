@@ -45,7 +45,7 @@ export default function BattleDetails() {
 		id: poolId,
 		leagueSeasonId,
 		battleId,
-		betslipId,
+		// betslipId,
 	} = useLocalSearchParams();
 	const {
 		selectedConferences,
@@ -54,6 +54,8 @@ export default function BattleDetails() {
 		filterGames,
 		FILTER_CONFERENCES,
 	} = useConferences();
+
+	// console.log("Battle Details Betslip:", betslipId);
 
 	const { showError, showSuccess } = useToastMessage();
 	const { currentSeason, loading: seasonLoading } = useSeason();
@@ -65,6 +67,7 @@ export default function BattleDetails() {
 	const suppressLeaveModalRef = useRef(false);
 	const [disableInteraction, setDisableInteraction] = useState(false);
 	const [poolName, setPoolName] = useState("");
+	const [betslipId, setBetslipId] = useState("");
 
 	const scrollViewRef = useRef(null);
 	const sheetRef = useRef(null);
@@ -87,7 +90,7 @@ export default function BattleDetails() {
 
 			try {
 				const [gamesRes, poolsRes, battleRes] = await Promise.all([
-					api.get('/games', {
+					api.get("/games", {
 						params: {
 							week: currentSeason.current_week,
 							season_year: currentSeason.year,
@@ -111,11 +114,22 @@ export default function BattleDetails() {
 
 				setGames(gamesRes.data);
 				setPoolName(poolsRes.data.name ?? "");
+
+				const betslipRes = await api.get(
+					`/pools/${poolId}/league_seasons/${leagueSeasonId}/battles/${battleId}/betslips`,
+					{ params: { user_only: true } }
+				);
+				const slip = betslipRes.data;
+				if (!slip || !slip.id) {
+					throw new Error("No betslip found for current user.");
+				}
+				setBetslipId(slip.id);
+
 				await loadBets({
 					poolId,
 					leagueSeasonId,
 					battleId,
-					betslipId,
+					betslipId: slip.id,
 					showError,
 					forceBackend: false, // set to true if you always want fresh
 				});
