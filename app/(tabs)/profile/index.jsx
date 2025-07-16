@@ -9,6 +9,8 @@ import {
 	Keyboard,
 	Platform,
 	TouchableOpacity,
+	ScrollView,
+	RefreshControl,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import api from "../../../utils/axiosConfig";
@@ -19,11 +21,13 @@ import { Btn } from "../../../components/general/Buttons/Btn";
 import { formatFullDate } from "../../../utils/dateUtils";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { TeamsByConference } from "./TeamsByConference";
 
 export default function Profile() {
 	const { logout, token } = useContext(AuthContext);
 	const router = useRouter();
 	const { showError, showSuccess } = useToastMessage();
+	const [refreshing, setRefreshing] = useState(false);
 
 	const [user, setUser] = useState(null);
 	const [form, setForm] = useState({
@@ -35,24 +39,30 @@ export default function Profile() {
 	const [isEditing, setIsEditing] = useState(false);
 	const hasFocusedOnce = useRef(false);
 
-	useEffect(() => {
-		const fetchCurrentUser = async () => {
-			try {
-				const res = await api.get("/current_user");
-				setUser(res.data);
-				setForm({
-					first_name: res.data.first_name,
-					last_name: res.data.last_name,
-					username: res.data.username,
-				});
-			} catch (err) {
-				console.error("Error fetching user:", err.message);
-				showError("Failed to load user profile.");
-			}
-		};
+	const fetchCurrentUser = async () => {
+		try {
+			const res = await api.get("/current_user");
+			setUser(res.data);
+			setForm({
+				first_name: res.data.first_name,
+				last_name: res.data.last_name,
+				username: res.data.username,
+			});
+		} catch (err) {
+			console.error("Error fetching user:", err.message);
+			showError("Failed to load user profile.");
+		}
+	};
 
+	useEffect(() => {
 		fetchCurrentUser();
 	}, []);
+
+	const onRefresh = async () => {
+		setRefreshing(true);
+		await fetchCurrentUser();
+		setRefreshing(false);
+	};
 
 	const validateForm = () => {
 		const usernameRegex = /^[a-zA-Z_][a-zA-Z0-9_]{2,19}$/;
@@ -151,7 +161,16 @@ export default function Profile() {
 				behavior={Platform.OS === "ios" ? "padding" : undefined}
 				style={{ flex: 1 }}
 			>
-				<View style={s.container}>
+				<ScrollView
+					style={s.container}
+					refreshControl={
+						<RefreshControl
+							refreshing={refreshing}
+							onRefresh={onRefresh}
+							tintColor="#C7CDD1"
+						/>
+					}
+				>
 					<View style={s.titleContainer}>
 						<Txt style={s.titleTxt}>Profile</Txt>
 						<Btn
@@ -272,8 +291,11 @@ export default function Profile() {
 								color="#E06777"
 							/>
 						</TouchableOpacity>
+
+						<TeamsByConference/>
+
 					</View>
-				</View>
+				</ScrollView>
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	);

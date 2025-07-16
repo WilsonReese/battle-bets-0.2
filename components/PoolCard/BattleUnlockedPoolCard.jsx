@@ -31,13 +31,29 @@ export function BattleUnlockedPoolCard({
 			return;
 		}
 
+		// // If this battle is locked, send them back to the pool screen instead
+		// if (currentBattle.locked) {
+		// 	Alert.alert(
+		// 		"Betslip Locked",
+		// 		"This battle is now locked. Redirecting back to your pool."
+		// 	);
+		// 	// replace so they can’t navigate “back” into the locked battle
+		// 	router.replace(`/pools/${pool.id}`);
+		// 	return;
+		// }
+
 		router.push({
 			pathname: `/pools/${pool.id}/battles/${currentBattle.id}`,
 			params: {
-				betslipId: userBetslip.id,
+				// betslipId: userBetslip.id,
 				leagueSeasonId: selectedSeason.id,
 			},
 		});
+		// router.push(
+		// 	`/pools/${pool.id}/battles/${currentBattle.id}` +
+		// 		`?leagueSeasonId=${selectedSeason.id}` +
+		// 		`&betslipId=${userBetslip.id}`
+		// );
 	};
 
 	console.log("Current Battle: ", currentBattle);
@@ -53,7 +69,7 @@ export function BattleUnlockedPoolCard({
 					</View>
 					<View style={s.infoUnitContainer}>
 						<Txt style={s.infoTitleTxt}>Points:</Txt>
-						<Txt style={s.txt}>{userEntry?.total_points || "N/A"}</Txt>
+						<Txt style={s.txt}>{userEntry?.total_points || "0"}</Txt>
 					</View>
 				</View>
 			</View>
@@ -63,16 +79,17 @@ export function BattleUnlockedPoolCard({
 				<View style={s.infoContainer}>
 					<View style={s.infoUnitContainer}>
 						<Txt style={s.infoTitleTxt}>League Participation:</Txt>
-						<Txt style={s.txt}>{participationRate.toFixed(1)}%</Txt>
+						<Txt style={s.txt}>{participationRate.toFixed(0)}%</Txt>
 					</View>
 					<TouchableOpacity
-						style={s.infoUnitContainer}
+						style={[s.infoUnitContainer, s.betslipButton]}
 						onPress={handleMyBetslip}
 					>
-						<Txt style={s.infoTitleTxt}>My Betslip:</Txt>
-						<Txt style={s.txt}>${remaining} to bet</Txt>
-
 						<FontAwesome6 name="pen-to-square" size={14} color="#54D18C" />
+						<View style={{ flexDirection: "row" }}>
+							<Txt style={s.infoTitleTxt}>Edit Betslip: </Txt>
+							<Txt style={s.txt}>${remaining} to bet</Txt>
+						</View>
 					</TouchableOpacity>
 				</View>
 			</View>
@@ -94,18 +111,29 @@ const s = StyleSheet.create({
 	},
 	infoContainer: {
 		paddingVertical: 4,
+		// backgroundColor: 'green'
 	},
 
 	infoUnitContainer: {
 		flexDirection: "row",
 		gap: 4,
 		alignItems: "center",
+		// flex: 1,
+		// backgroundColor: 'red'
 	},
 
 	infoTitleTxt: {
 		// color: "#061826",
 		fontFamily: "Saira_600SemiBold",
 		fontSize: 14,
+	},
+	betslipButton: {
+		backgroundColor: "#1D394E",
+		borderRadius: 6,
+		// justifyContent: 'space-between',
+		paddingHorizontal: 8,
+		gap: 6,
+		alignSelf: "flex-start",
 	},
 
 	sectonHeadingTxt: {

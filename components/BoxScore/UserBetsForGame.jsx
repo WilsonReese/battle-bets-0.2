@@ -10,7 +10,7 @@ import { BetDetails } from "../BetSlip/BetDetails";
 import { BetAmount } from "../BetSlip/BetAmount";
 import { PlacedBet } from "../Leaderboard/PlacedBet";
 
-export function UserBetsForGame({ selectedGame }) {
+export function UserBetsForGame({ selectedGame, refreshKey }) {
 	/* ────────────────────────────────────────────────────────────
      LOCAL STATE & FETCH LOGIC
      ──────────────────────────────────────────────────────────── */
@@ -49,7 +49,7 @@ export function UserBetsForGame({ selectedGame }) {
 		return () => {
 			cancelled = true;
 		};
-	}, [selectedGame?.id, getUserBetsByGame]);
+	}, [selectedGame?.id, getUserBetsByGame, refreshKey]);
 
 	/* ────────────────────────────────────────────────────────────
      DERIVED VALUES
@@ -112,13 +112,13 @@ export function UserBetsForGame({ selectedGame }) {
 			const payoutColor = isPending
 				? "#F8F8F8"
 				: isFailed
-				? "#8E9AA4"
+				? "#E06777"
 				: "#54D18C";
 
 			const textColor = isPending
 				? "#F8F8F8"
 				: isFailed
-				? "#8E9AA4"
+				? "#E06777"
 				: "#54D18C";
 
 			const textStyle = isPending
@@ -144,6 +144,7 @@ export function UserBetsForGame({ selectedGame }) {
 								payoutColor={payoutColor}
 								textColor={textColor}
 								textStyle={textStyle}
+								strikeThrough={isFailed}
 							/>
 						</View>
 
@@ -166,8 +167,8 @@ export function UserBetsForGame({ selectedGame }) {
 								<View style={s.amountTxtContainer}>
 									{isPending ? (
 										<BetAmount
-											betAmount={Math.round(bet.bet_amount)}
-											toWinAmount={Math.round(bet.to_win_amount)}
+											bet_amount={Math.round(bet.bet_amount)}
+											to_win_amount={Math.round(bet.to_win_amount)}
 										/>
 									) : (
 										<Txt

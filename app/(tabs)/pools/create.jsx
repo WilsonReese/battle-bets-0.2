@@ -24,20 +24,20 @@ import { router, useLocalSearchParams } from "expo-router";
 import { useToastMessage } from "../../../hooks/useToastMessage";
 
 const WEEKS = [
-	{ label: "Week 1", value: 1 },
-	{ label: "Week 2", value: 2 },
-	{ label: "Week 3", value: 3 },
-	{ label: "Week 4", value: 4 },
-	{ label: "Week 5", value: 5 },
-	{ label: "Week 6", value: 6 },
-	{ label: "Week 7", value: 7 },
-	{ label: "Week 8", value: 8 },
-	{ label: "Week 9", value: 9 },
-	{ label: "Week 10", value: 10 },
-	{ label: "Week 11", value: 11 },
-	{ label: "Week 12", value: 12 },
-	{ label: "Week 13", value: 13 },
-	{ label: "Week 14", value: 14 },
+	{ label: "Week 1  (Aug 25 - Aug 31)", value: 1 },
+	{ label: "Week 2  (Sept 1 - Sept 7)", value: 2 },
+	{ label: "Week 3  (Sept 8 - Sept 14)", value: 3 },
+	{ label: "Week 4  (Sept 15 - Sept 21)", value: 4 },
+	{ label: "Week 5  (Sept 22 - Sept 28)", value: 5 },
+	{ label: "Week 6  (Sept 29 - Oct 5)", value: 6 },
+	{ label: "Week 7  (Oct 6 - Oct 12)", value: 7 },
+	{ label: "Week 8  (Oct 13 - Oct 19)", value: 8 },
+	{ label: "Week 9  (Oct 20 - Oct 26)", value: 9 },
+	{ label: "Week 10  (Oct 27 - Nov 2)", value: 10 },
+	{ label: "Week 11  (Nov 3 - Nov 9)", value: 11 },
+	{ label: "Week 12  (Nov 10 - Nov 16)", value: 12 },
+	{ label: "Week 13  (Nov 17 - Nov 23)", value: 13 },
+	{ label: "Week 14  (Nov 24 - Nov 30)", value: 14 },
 ];
 
 export default function CreatePool() {

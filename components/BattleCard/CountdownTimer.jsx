@@ -113,8 +113,8 @@ const s = StyleSheet.create({
     // paddingHorizontal: 24,
     // backgroundColor: 'orange',
     // alignItems: 'flex-start'
-    // justifyContent: 'flex-start',
-    gap: 20,
+    justifyContent: 'center',
+    gap: 30,
   },
   countdownElementSmall: {
     // flex: 1,
@@ -122,7 +122,7 @@ const s = StyleSheet.create({
   },
   countdownTxtSmall: {
     fontFamily: "Saira_600SemiBold",
-    fontSize: 16,
+    fontSize: 20,
     marginBottom: -4,
   },
   timeUnitTxtSmall: {

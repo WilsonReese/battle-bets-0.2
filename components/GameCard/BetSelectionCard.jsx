@@ -2,10 +2,13 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Matchup } from './Matchup/Matchup';
 import { BetOptions } from './BetOptions';
+import { BetOptionsList } from './BetOptionsList';
 // import { Matchup } from './Matchup';
 // import { BetOptions } from './BetOptions';
 
 function _BetSelectionCard({ game }) {
+// console.log("🔄 Bet Selection Card", game.id);
+
   return (
     <View style={s.card}>
       <View style={{ height: 4 }} />
@@ -13,7 +16,8 @@ function _BetSelectionCard({ game }) {
         homeTeam={game.home_team.name}
         awayTeam={game.away_team.name}
       />
-      <BetOptions game={game} />
+      {/* <BetOptions game={game} /> */}
+			<BetOptionsList game={game} />
     </View>
   );
 }

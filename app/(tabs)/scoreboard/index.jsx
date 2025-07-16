@@ -14,7 +14,6 @@ import { ConferenceFilter } from "../../../components/GameCard/ConferenceFilter"
 import { useSeason } from "../../../components/contexts/SeasonContext";
 import { useConferences } from "../../../hooks/useConferences";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
-import { useBetOps } from "../../../components/contexts/BetContext";
 import api from "../../../utils/axiosConfig";
 import { ScoreboardGameCard } from "../../../components/GameCard/Scoreboard/ScoreboardGameCard";
 import sampleGame from "@/utils/sampleGame.json";
@@ -83,10 +82,14 @@ export default function Scoreboard() {
 			// 2️⃣  Show the list-header spinner only on user pull
 			if (showRefreshControl) setRefreshing(true);
 
+			const week = currentSeason.current_week === 0 ? 1 : currentSeason.current_week
+
+			console.log('Season and Week Passed:', currentSeason.year, week)
+
 			try {
 				const res = await api.get("/games", {
 					params: {
-						week: currentSeason.current_week,
+						week: week,
 						season_year: currentSeason.year,
 					},
 				});

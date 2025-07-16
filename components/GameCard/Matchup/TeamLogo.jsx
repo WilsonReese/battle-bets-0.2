@@ -10,7 +10,7 @@ export function TeamLogo({ teamName, size = 22 }) {
   return (
     <Image
       source={source}
-      style={{ width: size, height: size }}
+      style={{ width: size + 2, height: size }}
       resizeMode="contain"
     />
   );

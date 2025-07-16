@@ -6,7 +6,7 @@ export function PreseasonBattleCard({ leagueStartDateTime }) {
 	return (
 		<View style={s.container}>
 			<View style={s.countdownContainer}>
-				<Txt style={s.countdownHeadingTxt}>Season Starts</Txt>
+				<Txt style={s.countdownHeadingTxt}>Bets Open</Txt>
 				<CountdownTimer targetDate={leagueStartDateTime} version="large" />
 			</View>
 		</View>

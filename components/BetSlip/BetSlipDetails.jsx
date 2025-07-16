@@ -5,25 +5,29 @@ import { BetTypeSection } from "./BetTypeSection";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBets } from "../contexts/BetContext";
+import { useBetStore } from "../../state/useBetStore";
 
 export function BetSlipDetails({ toggleBetSlip }) {
-  const {
-    bets,
-    setBetOptionType,
-    spreadOUBudget,
-    moneyLineBudget,
-    propBetBudget,
-  } = useBets();
+  // const {
+  //   bets,
+  //   setBetOptionType,
+  //   spreadOUBudget,
+  //   moneyLineBudget,
+  //   propBetBudget,
+  // } = useBets();
 
 
-  function calculateTotalPayout() {
-    return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
-  }
+  // function calculateTotalPayout() {
+  //   return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
+  // }
 
-  function hasBetsOfType(betTypes) {
-    return bets.some((bet) => betTypes.includes(bet.betType));
-  }
+  // function hasBetsOfType(betTypes) {
+  //   return bets.some((bet) => betTypes.includes(bet.betType));
+  // }
+
+  const hasSpreadOU = useBetStore((state) => state.hasBetsInCategory(["spread", "ou"]));
+  const hasMoneyLine = useBetStore((state) => state.hasBetsInCategory(["money_line"]));
+  const hasProps = useBetStore((state) => state.hasBetsInCategory(["prop"]));
 
   return (
     <View>
@@ -31,13 +35,13 @@ export function BetSlipDetails({ toggleBetSlip }) {
         <View style={s.container}>
           <BetSlipBudget
             betSectionTitle={"Spread and Over/Under"}
-            budget={spreadOUBudget}
-            betOptionType={"spreadOU"}
+            // budget={spreadOUBudget}
+            budgetCategory={"spreadOU"}
           />
           {/* Checks if it has bets of this type and renders either the right component or empty section */}
-          {hasBetsOfType(["spread", "overUnder"]) ? (
+          {hasSpreadOU ? (
             <BetTypeSection
-              betTypes={["spread", "overUnder"]}
+              betTypes={["spread", "ou"]}
               toggleBetSlip={toggleBetSlip}
             />
           ) : (
@@ -47,12 +51,12 @@ export function BetSlipDetails({ toggleBetSlip }) {
           )}
           <BetSlipBudget
             betSectionTitle={"Money Line"}
-            budget={moneyLineBudget}
-            betOptionType={"moneyLine"}
+            // budget={moneyLineBudget}
+            budgetCategory={"moneyLine"}
           />
-          {hasBetsOfType(["moneyLine"]) ? (
+          {hasMoneyLine ? (
             <BetTypeSection
-              betTypes={["moneyLine"]}
+              betTypes={["money_line"]}
               toggleBetSlip={toggleBetSlip}
             />
           ) : (
@@ -62,10 +66,10 @@ export function BetSlipDetails({ toggleBetSlip }) {
           )}
           <BetSlipBudget
             betSectionTitle={"Prop Bets"}
-            budget={propBetBudget}
-            betOptionType={"prop"}
+            // budget={propBetBudget}
+            budgetCategory={"prop"}
           />
-          {hasBetsOfType(["prop"]) ? (
+          {hasProps ? (
             <BetTypeSection betTypes={["prop"]} toggleBetSlip={toggleBetSlip} />
           ) : (
             <View style={s.emptySectionContainer}>

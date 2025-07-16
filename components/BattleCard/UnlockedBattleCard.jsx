@@ -59,30 +59,38 @@ export function UnlockedBattleCard({
 
 	return (
 		<View style={s.container}>
-			<View>
-				<Txt style={s.headingTxt}>Bets close</Txt>
-				<CountdownTimer targetDate={battleEndDateTime} version="large" />
+			<View style={{paddingVertical: 1}}>
+				<Txt style={[s.headingTxt, s.countdownTitle]}>Bets close</Txt>
+				<CountdownTimer targetDate={battleEndDateTime} version="small" />
 			</View>
-			<View style={s.betslipInfoContainer}>
-				<Txt style={s.headingTxt}>Betslip</Txt>
+			<TouchableOpacity style={s.betslipInfoContainer} onPress={() => handleEditBets()}>
+				<View style={s.betslipTitleContainer}>
+					<Txt style={s.headingTxt}>Betslip</Txt>
+					<View style={s.editContainer}>
+						<Txt style={{fontSize: 12, color: '#C7CDD1'}}>Edit</Txt>
+						<FontAwesome6 name="pen-to-square" size={12} color="#54D18C" />
+					</View>
+				</View>
 				<View style={s.betslipStats}>
 					<View style={s.betslipLeft}>
 						<View style={s.betslipElement}>
 							<Txt style={s.betInfoLabel}>To Bet:</Txt>
 							<Txt style={s.betInfoTxt}>${remaining}</Txt>
 						</View>
-						<View style={[s.betslipElement, { marginTop: -4 }]}>
+						<View style={[s.betslipElement, { marginTop: -2 }]}>
 							<Txt style={s.betInfoLabel}>Max:</Txt>
-							<Txt style={s.betInfoTxt}>${userBetslip.max_payout_remaining}</Txt>
+							<Txt style={s.betInfoTxt}>
+								${userBetslip.max_payout_remaining}
+							</Txt>
 						</View>
-						<View style={[s.betslipElement, { marginTop: -4 }]}>
+						<View style={[s.betslipElement, { marginTop: -2 }]}>
 							<Txt style={s.betInfoLabel}>Bets Placed:</Txt>
 							<Txt style={s.betInfoTxt}>{userBetslip.bets.length}</Txt>
 						</View>
 					</View>
 					<View style={s.betslipRight}>
 						<View>
-							<Txt style={s.betInfoLabel}>Top Game:</Txt>
+							<Txt style={s.betInfoLabel}>Your Top Game:</Txt>
 							<>
 								{topGame ? (
 									<View style={s.topGame}>
@@ -97,7 +105,7 @@ export function UnlockedBattleCard({
 						</View>
 					</View>
 				</View>
-			</View>
+			</TouchableOpacity>
 		</View>
 	);
 }
@@ -106,11 +114,15 @@ const s = StyleSheet.create({
 	container: {
 		justifyContent: "space-between",
 		paddingTop: 8,
-		gap: 6,
+		gap: 12,
 	},
 	betslipInfoContainer: {
 		alignItems: "flex-start",
-		paddingTop: 4,
+		paddingVertical: 6,
+		paddingHorizontal: 8,
+		backgroundColor: "#0F2638",
+		borderRadius: 8,
+		marginHorizontal: -6,
 	},
 	betslipStats: {
 		flexDirection: "row",
@@ -126,7 +138,21 @@ const s = StyleSheet.create({
 		letterSpacing: 2,
 		fontSize: 10,
 		textTransform: "uppercase",
-		color: "#B8C3CC",
+		color: "#C7CDD1",
+	},
+	countdownTitle: {
+		alignSelf: "center",
+	},
+	betslipTitleContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		justifyContent: "space-between",
+		alignSelf: "stretch",
+	},
+	editContainer: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
 	},
 	betInfoLabel: {
 		fontFamily: "Saira_600SemiBold",

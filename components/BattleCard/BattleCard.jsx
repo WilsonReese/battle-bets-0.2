@@ -43,8 +43,37 @@ export function BattleCard({
 		router.push({
 			pathname: `/pools/${poolId}/battles/${battle.id}`,
 			params: {
-				betslipId: userBetslip.id,
+				// betslipId: userBetslip.id,
 				leagueSeasonId: battle.league_season_id,
+			},
+		});
+	};
+
+	const handleViewLeaderboard = () => {
+		router.push({
+			pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
+			params: {
+				leagueSeasonId: season.id,
+				poolName,
+				battleWeek: battle.week,
+				battleStatus: battle.status,
+			},
+		});
+	};
+
+	const handleViewUserBetslip = () => {
+		if (!userBetslip) {
+			Alert.alert("No betslip found", "Please refresh or try again.");
+			return;
+		}
+		router.push({
+			pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
+			params: {
+				leagueSeasonId: season.id,
+				poolName,
+				battleWeek: battle.week,
+				battleStatus: battle.status,
+				openUserBetslipId: userBetslip.id, // ← pass the ID
 			},
 		});
 	};
@@ -56,22 +85,7 @@ export function BattleCard({
 	return (
 		// OnPress will need to be adjusted to account for when we aren't editing bets anymore
 
-		<TouchableOpacity
-			style={s.container}
-			onPress={() =>
-				battle.locked
-					? router.push({
-							pathname: `/pools/${poolId}/battles/${battle.id}/battleLeaderboard`,
-							params: {
-								leagueSeasonId: season.id,
-								poolName: poolName,
-								battleWeek: battle.week,
-								battleStatus: battle.status,
-							},
-					  })
-					: handleEditBets()
-			}
-		>
+		<View style={s.container}>
 			<View style={s.headingContainer}>
 				<Txt style={s.headingTxt}>Week {battle.week}</Txt>
 				<Txt style={s.txt}>
@@ -107,6 +121,8 @@ export function BattleCard({
 							battle={battle}
 							poolId={poolId}
 							refreshVersion={refreshVersion}
+							handleViewLeaderboard={handleViewLeaderboard}
+							handleViewUserBetslip={handleViewUserBetslip}
 						/>
 					)}
 				</>
@@ -121,10 +137,12 @@ export function BattleCard({
 						battle={battle}
 						poolId={poolId}
 						refreshVersion={refreshVersion}
+						handleViewLeaderboard={handleViewLeaderboard}
+						handleViewUserBetslip={handleViewUserBetslip}
 					/>
 				</View>
 			)}
-		</TouchableOpacity>
+		</View>
 	);
 }
 
@@ -136,10 +154,10 @@ const s = StyleSheet.create({
 		// borderWidth: 1,
 		// borderColor: "#3A454D",
 		borderRadius: 8,
-		paddingTop: 8,
-		paddingBottom: 12,
-		paddingHorizontal: 12,
-		backgroundColor: "#0F2638",
+		// paddingTop: 8,
+		paddingBottom: 8,
+		paddingHorizontal: 4,
+		// backgroundColor: "#0F2638",
 		flex: 1,
 	},
 	btnContainer: {
@@ -167,7 +185,7 @@ const s = StyleSheet.create({
 	txt: {
 		// fontFamily: "Saira_300Light",
 		// color: "#061826",
-		fontSize: 14,
+		fontSize: 12,
 	},
 	txtItalic: {
 		fontFamily: "Saira_400Regular_Italic",

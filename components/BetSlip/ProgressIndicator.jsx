@@ -2,78 +2,63 @@ import React from "react";
 import { StyleSheet, View, Animated, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBetOps, useBets } from "../contexts/BetContext";
+import { useBetStore } from "../../state/useBetStore";
 
 export function ProgressIndicator({
-  betOptionTypeProp,
-  isBetSlipShown,
-  scrollViewRef,
-  closeBetSlip,
+	budgetCategory,
+	isBetSlipShown,
+	scrollViewRef,
+	closeBetSlip,
 }) {
-const { betOptionType } = useBets();   // ← state
-const {
-  setBetOptionType,
-  getBetOptionLongTitle,
-  getTotalBetAmount,
-  getBudget,
-} = useBetOps();                       // ← actions/helpers
 
-  const title = getBetOptionLongTitle(betOptionTypeProp);
-  const totalBetAmount = getTotalBetAmount(betOptionTypeProp);
-  const budget = getBudget(betOptionTypeProp);
-  const isSelected = betOptionType === betOptionTypeProp;
+	const remainingBudget = useBetStore((state) =>
+		state.getRemainingBudget(budgetCategory)
+	);
 
-  const handlePress = () => {
-    if (!isSelected && isBetSlipShown) {
-      closeBetSlip(); // Collapse the sheet if switching category
-    }
-    setBetOptionType(betOptionTypeProp);
-    scrollViewRef.current?.scrollToOffset({ offset: 0, animated: true });
-  };
+	const isBudgetMaxed = useBetStore((state) => state.budgetStatus[budgetCategory]);
 
-  return (
-    <TouchableOpacity
-      style={[s.container, isSelected && s.selectedIndicator]}
-      onPress={handlePress}
-    >
-      <View style={s.progressIndicator}>
-        <Txt style={[s.title, isSelected && s.selectedText]}>{title}</Txt>
-        <Txt style={[s.amount, isSelected && s.selectedText]}>{`$${
-          budget - totalBetAmount
-        } left`}</Txt>
-      </View>
-    </TouchableOpacity>
-  );
+	const betCategoryNames = {
+		spreadOU: "Spread and Over/Under",
+		moneyLine: "Money Line",
+		prop: "Prop Bets",
+	};
+
+	const title = betCategoryNames[budgetCategory];
+
+	return (
+		<View style={[s.container]}>
+			<View style={s.progressIndicator}>
+				<Txt style={[s.title, isBudgetMaxed && s.budgetMaxed]}>{title}</Txt>
+				<Txt style={[s.amount, isBudgetMaxed && s.budgetMaxed]}>{`$${remainingBudget} left`}</Txt>
+			</View>
+		</View>
+	);
 }
 
 const s = StyleSheet.create({
-  container: {
-    paddingVertical: 2,
-    paddingHorizontal: 12,
-    // flex: 1,
-    // backgroundColor: 'green'
-  },
-  progressIndicator: {
-    alignItems: "center",
-    borderBottomWidth: 4,
-    borderColor: "transparent", // Default border color
-  },
-  selectedIndicator: {
-    borderBottomWidth: 4,
-    borderColor: "#54D18C", // Highlight color for the selected state
-    // backgroundColor: '#DAE1E5',
-  },
-  title: {
-    // fontFamily: "Saira_600SemiBold",
-    color: "#DAE1E5",
-    fontSize: 14,
-  },
-  amount: {
-    color: "#DAE1E5",
-    fontSize: 14,
-  },
-  selectedText: {
-    color: "#F8F8F8",
-    fontFamily: "Saira_600SemiBold",
-  },
+	container: {
+		// paddingVertical: 2,
+		paddingHorizontal: 12,
+		// flex: 1,
+		// backgroundColor: 'green'
+	},
+	progressIndicator: {
+		alignItems: "center",
+		// borderBottomWidth: 4,
+		// borderColor: "transparent", // Default border color
+	},
+	title: {
+		// fontFamily: "Saira_600SemiBold",
+		color: "#E4E6E7",
+		fontSize: 12,
+		marginBottom: -4
+	},
+	amount: {
+		color: "#E4E6E7",
+		fontSize: 12,
+		fontFamily: "Saira_600SemiBold",
+	},
+	budgetMaxed: {
+		color: "#6B8294",
+	},
 });

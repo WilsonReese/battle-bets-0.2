@@ -1,45 +1,55 @@
+import React, { memo, useEffect, useState } from "react";
 import { Pressable, StyleSheet, View } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
 import { IncrementBtn } from "../general/Buttons/IncrementBtn";
-import { useBetOps, useBets } from "../contexts/BetContext";
-import { useState, useEffect } from "react";
+import { LoadingIndicator } from "../general/LoadingIndicator";
+import { useBetStore } from "../../state/useBetStore";
+import { BETTING_RULES, categoryToBudgetKey } from "../../utils/betting-rules";
 
-export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
-	const { bets } = useBets();
-	const { updateBet, getBetOptionType, getBudget, getTotalBetAmount } =
-		useBetOps();
-	const bet = bets.find((b) => b.id === betId);
+function BetSelectorComponent({
+	betOptionId,
+	closeSelection,
+}) {
+  // 1) Always read the *live* bet from Zustand
+  const bet = useBetStore((s) =>
+    s.bets.find((b) => b.bet_option_id === betOptionId)
+  );
 
-	const budget = bet ? getBudget(getBetOptionType(bet.betType)) : 0;
-	const totalBetAmount = bet
-		? getTotalBetAmount(getBetOptionType(bet.betType))
-		: 0;
+	console.log(bet.category)
+  
+	// 2) Derive your rules straight from bet.category
+  const { minBet, maxBet } = BETTING_RULES[bet.category] || {};
+  const { payout } = bet;
+  const [betAmount, setBetAmount] = useState(bet.bet_amount);
 
-	const [betAmount, setBetAmount] = useState(bet ? bet.betAmount : minBet);
+	const budgetKey = categoryToBudgetKey(bet.category);
 
-	// update bet amount
-	useEffect(() => {
-		if (bet) {
-			setBetAmount(bet.betAmount);
-		}
-	}, [bet]);
+  // 3) Sync local when the store changes
+  useEffect(() => {
+    setBetAmount(bet.bet_amount);
+  }, [bet.bet_amount]);
 
 	const increment = 100;
+	const isBudgetMaxed = useBetStore((s) =>
+    budgetKey ? s.budgetStatus[budgetKey] : false
+  );
+
+	// Sync state with bet if it updates externally
 
 	const incrementBet = () => {
-		if (betAmount < maxBet && totalBetAmount + increment <= budget) {
-			const newBetAmount = betAmount + increment;
-			setBetAmount(newBetAmount);
-			updateBet(betId, newBetAmount, payout);
+		if (betAmount < maxBet) {
+			const newAmount = betAmount + increment;
+			setBetAmount(newAmount);
+			useBetStore.getState().updateBet(bet.bet_option_id, newAmount);
 		}
 	};
 
 	const decrementBet = () => {
 		if (betAmount > minBet) {
-			const newBetAmount = betAmount - increment;
-			setBetAmount(newBetAmount);
-			updateBet(betId, newBetAmount, payout);
+			const newAmount = betAmount - increment;
+			setBetAmount(newAmount);
+			useBetStore.getState().updateBet(bet.bet_option_id, newAmount);
 		}
 	};
 
@@ -49,6 +59,8 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
 		<FontAwesome6 name="circle-xmark" size={24} color="#F8F8F8" />
 	);
 
+	if (!bet) return null;
+
 	return (
 		<View style={s.container}>
 			<Pressable
@@ -57,7 +69,8 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
 			>
 				<Txt style={s.text}>{closeIcon}</Txt>
 			</Pressable>
-			<View icon={minusSign} style={s.betAdjuster}>
+
+			<View style={s.betAdjuster}>
 				<IncrementBtn
 					icon={minusSign}
 					isEnabled={betAmount > minBet}
@@ -68,17 +81,20 @@ export function BetSelector({ betId, closeSelection, minBet, maxBet, payout }) {
 				</View>
 				<IncrementBtn
 					icon={plusSign}
-					isEnabled={betAmount < maxBet && totalBetAmount + increment <= budget}
+					isEnabled={betAmount < maxBet && !isBudgetMaxed}
 					onPress={incrementBet}
 				/>
 			</View>
+
 			<View style={s.toWin}>
 				<Txt style={[s.text, s.toWinText]}>To Win:</Txt>
-				<Txt style={[s.text]}>${Math.round(betAmount * payout)}</Txt>
+				<Txt style={s.text}>${Math.round(betAmount * payout)}</Txt>
 			</View>
 		</View>
 	);
 }
+
+export const BetSelector = memo(BetSelectorComponent);
 
 const s = StyleSheet.create({
 	container: {
@@ -87,17 +103,13 @@ const s = StyleSheet.create({
 		justifyContent: "space-between",
 		backgroundColor: "#425C70",
 		marginHorizontal: 8,
-		// borderTopRightRadius:
 		borderBottomLeftRadius: 8,
 		borderBottomRightRadius: 8,
 		paddingHorizontal: 12,
 		paddingVertical: 6,
-		// marginBottom: 4,
-		// borderWidth: .5,
 		borderColor: "#54D18C",
 	},
 	text: {
-		// color: "#061826",
 		fontSize: 14,
 	},
 	closeIcon: {

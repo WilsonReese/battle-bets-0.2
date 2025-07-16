@@ -15,10 +15,14 @@ export function LeagueBetsForGame({
 	pools,
 	selectedPool,
 	onToggleSheet,
+	battlesLocked,
+	refreshKey
 }) {
 	// if (!selectedPool) return null;
 	const [leagueBets, setLeagueBets] = useState([]);
 	const [loading, setLoading] = useState(true);
+
+	// {textDecorationLine: 'line-through'}
 
 	// const [pools, setPools] = useState([]);
 	// const [selectedPool, setSelectedPool] = useState(null);
@@ -34,9 +38,9 @@ export function LeagueBetsForGame({
 			.then((res) => setLeagueBets(res.data))
 			.catch((err) => console.error("Failed to load league bets:", err))
 			.finally(() => setLoading(false));
-	}, [gameId, selectedPool]);
+	}, [gameId, selectedPool, refreshKey]);
 
-	console.log("Selected Pool ", selectedPool);
+	// Need to get a battle to check if it is locked to display the league bets or not
 
 	const groupBetsByOption = (bets) => {
 		const grouped = {};
@@ -79,132 +83,141 @@ export function LeagueBetsForGame({
 				<Txt style={s.poolNameTxt}>{selectedPool?.name ?? "Select League"}</Txt>
 				<FontAwesome6 name="caret-down" size={16} color="#54D18C" />
 			</TouchableOpacity>
-			{groupedBets.length === 0 && (
-				<Txt style={{ textAlign: "center", marginTop: 12 }}>
-					No league bets yet.
-				</Txt>
-			)}
-			{groupedBets.length > 0 && (
-				<View>
-					{groupedBets.map(({ bet_option, bets, totalAmount, totalWon }) => {
-						const betCount = bets.length;
-						const avgPerBet = Math.round(totalAmount / betCount);
-						const avgWon = Math.round(totalWon / betCount);
-						const betRate = (
-							(betCount / selectedPool.membership_count) *
-							100
-						).toFixed(1);
+			{!battlesLocked ? (
+				<Txt style={{paddingTop: 8, alignSelf: 'center'}}>League bets stay hidden until battles start.</Txt>
+			) : (
+				<>
+					{groupedBets.length === 0 && (
+						<Txt style={{ textAlign: "center", marginTop: 12 }}>
+							No league bets yet.
+						</Txt>
+					)}
+					{groupedBets.length > 0 && (
+						<View>
+							{groupedBets.map(
+								({ bet_option, bets, totalAmount, totalWon }) => {
+									const betCount = bets.length;
+									const avgPerBet = Math.round(totalAmount / betCount);
+									const avgWon = Math.round(totalWon / betCount);
+									const betRate = (
+										(betCount / selectedPool.membership_count) *
+										100
+									).toFixed(1);
 
-						const isPending = bet_option.success === null;
-						const isFailed = bet_option.success === false;
-						const isSuccess = bet_option.success === true;
+									const isPending = bet_option.success === null;
+									const isFailed = bet_option.success === false;
+									const isSuccess = bet_option.success === true;
 
-						const betNameColor = isPending
-							? "#F8F8F8"
-							: isFailed
-							? "#8E9AA4"
-							: "#F8F8F8";
+									const betNameColor = isPending
+										? "#F8F8F8"
+										: isFailed
+										? "#8E9AA4"
+										: "#F8F8F8";
 
-						const payoutColor = isPending
-							? "#F8F8F8"
-							: isFailed
-							? "#8E9AA4"
-							: "#54D18C";
+									const payoutColor = isPending
+										? "#F8F8F8"
+										: isFailed
+										? "#E06777"
+										: "#54D18C";
 
-						const textColor = isPending
-							? "#F8F8F8"
-							: isFailed
-							? "#8E9AA4"
-							: "#54D18C";
+									const textColor = isPending
+										? "#F8F8F8"
+										: isFailed
+										? "#E06777"
+										: "#54D18C";
 
-						const textStyle = isPending
-							? "Saira_400Regular"
-							: isFailed
-							? "Saira_400Regular"
-							: "Saira_600SemiBold";
+									const textStyle = isPending
+										? "Saira_400Regular"
+										: isFailed
+										? "Saira_400Regular"
+										: "Saira_600SemiBold";
 
-						return (
-							<View key={bet_option.id} style={s.container}>
-								<View style={s.betDetailsContainer}>
-									<BetDetails
-										name={bet_option.title}
-										matchup={`${bet_option.game.away_team.name} at ${bet_option.game.home_team.name}`}
-										multiplier={bet_option.payout}
-										betNameColor={betNameColor}
-										payoutColor={payoutColor}
-										textColor={textColor}
-										textStyle={textStyle}
-									/>
-								</View>
-								<View style={s.betStatsContainer}>
-									<View style={s.stat}>
-										<View style={s.stat}>
-											{isPending ? (
-												<Txt style={[s.leagueStats, s.statLabel]}>
-													Placed By:{" "}
-												</Txt>
-											) : (
-												<Txt
-													style={[
-														s.leagueStats,
-														{ fontFamily: textStyle, color: textColor },
-													]}
-												>
-													Placed By:{" "}
-												</Txt>
-											)}
-											<Txt
-												style={[
-													s.leagueStats,
-													{ fontFamily: textStyle, color: textColor },
-												]}
-											>
-												{betRate}%
-											</Txt>
-										</View>
-									</View>
-									<View style={s.stat}>
-										{isPending && (
-											<View style={s.stat}>
-												<Txt style={[s.leagueStats, s.statLabel]}>
-													Avg Bet:{" "}
-												</Txt>
-												<Txt style={s.leagueStats}>${avgPerBet}</Txt>
+									return (
+										<View key={bet_option.id} style={s.container}>
+											<View style={s.betDetailsContainer}>
+												<BetDetails
+													name={bet_option.title}
+													matchup={`${bet_option.game.away_team.name} at ${bet_option.game.home_team.name}`}
+													multiplier={bet_option.payout}
+													betNameColor={betNameColor}
+													payoutColor={payoutColor}
+													textColor={textColor}
+													textStyle={textStyle}
+													strikeThrough={isFailed}
+												/>
 											</View>
-										)}
-										{!isPending && (
-											<View style={s.stat}>
-												<Txt
-													style={[
-														s.leagueStats,
-														{ fontFamily: textStyle, color: textColor },
-													]}
-												>
-													Avg Won:{" "}
-												</Txt>
-												<Txt
-													style={[
-														s.leagueStats,
-														{ fontFamily: textStyle, color: textColor },
-													]}
-												>
-													${avgWon}
-												</Txt>
-											</View>
-										)}
-										{/* <Txt style={[s.leagueStats, s.statLabel, { color: textColor }]}>
+											<View style={s.betStatsContainer}>
+												<View style={s.stat}>
+													<View style={s.stat}>
+														{isPending ? (
+															<Txt style={[s.leagueStats, s.statLabel]}>
+																Placed By:{" "}
+															</Txt>
+														) : (
+															<Txt
+																style={[
+																	s.leagueStats,
+																	{ fontFamily: textStyle, color: textColor },
+																]}
+															>
+																Placed By:{" "}
+															</Txt>
+														)}
+														<Txt
+															style={[
+																s.leagueStats,
+																{ fontFamily: textStyle, color: textColor },
+															]}
+														>
+															{betRate}%
+														</Txt>
+													</View>
+												</View>
+												<View style={s.stat}>
+													{isPending && (
+														<View style={s.stat}>
+															<Txt style={[s.leagueStats, s.statLabel]}>
+																Avg Bet:{" "}
+															</Txt>
+															<Txt style={s.leagueStats}>${avgPerBet}</Txt>
+														</View>
+													)}
+													{!isPending && (
+														<View style={s.stat}>
+															<Txt
+																style={[
+																	s.leagueStats,
+																	{ fontFamily: textStyle, color: textColor },
+																]}
+															>
+																Avg Won:{" "}
+															</Txt>
+															<Txt
+																style={[
+																	s.leagueStats,
+																	{ fontFamily: textStyle, color: textColor },
+																]}
+															>
+																${avgWon}
+															</Txt>
+														</View>
+													)}
+													{/* <Txt style={[s.leagueStats, s.statLabel, { color: textColor }]}>
 												{isPending ? "Avg Bet:" : "Avg Won:"}{" "}
 											</Txt>
 											<Txt style={[s.leagueStats, { color: textColor }]}>
 												${isPending ? avgPerBet : avgWon}
 											</Txt>
 										</View> */}
-									</View>
-								</View>
-							</View>
-						);
-					})}
-				</View>
+												</View>
+											</View>
+										</View>
+									);
+								}
+							)}
+						</View>
+					)}
+				</>
 			)}
 		</>
 	);

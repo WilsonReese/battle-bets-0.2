@@ -64,6 +64,9 @@ export const AuthProvider = ({ children }) => {
 
 	const logout = async () => {
 		const keys = await AsyncStorage.getAllKeys();
+
+		const betKeys = keys.filter((k) => k.startsWith("bets-"));
+  	await AsyncStorage.multiRemove(betKeys);
 		console.log("🧩 All AsyncStorage keys before clearing:", keys);
 
 		await AsyncStorage.removeItem("pendingJoin");

@@ -247,6 +247,10 @@ export default function PasswordReset() {
                 style={s.input}
                 onChangeText={setEmail}
                 autoCapitalize="none"
+                autoCorrect={false}
+                autoComplete="email"
+                textContentType="username"
+                spellCheck={false}
                 keyboardType="email-address"
               />
               <Btn

@@ -8,91 +8,82 @@ import {
 } from "react-native";
 import { Txt } from "../general/Txt";
 import { FontAwesome6 } from "@expo/vector-icons";
-import { useBetOps, useBets } from "../contexts/BetContext";
 import { ProgressIndicator } from "./ProgressIndicator";
 import { SmallBtn } from "../general/Buttons/SmallBtn";
 import { Btn } from "../general/Buttons/Btn";
 import api from "../../utils/axiosConfig";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { router } from "expo-router";
-import isEqual from "lodash.isequal";
 import { useToastMessage } from "../../hooks/useToastMessage";
+import { useBetStore } from "../../state/useBetStore";
 
 export function BetSlipHeading({
 	poolId,
-	isBetSlipShown,
-	toggleBetSlip,
-	scrollViewRef,
+	poolName,
 	leagueSeasonId,
 	betslipId,
 	battleId,
-	betslipHasChanges,
-	setBetslipHasChanges,
-	setSuppressLeaveModal,
 	setDisableInteraction,
+	setSuppressLeaveModal
 }) {
-	const { bets, betsToRemove, initialBetsSnapshot } = useBets();
-	const { closeAllBetSelectors, saveBets } = useBetOps();
+	const { saveBets, getMaxPayout, resetSelectors } = useBetStore();
 
-	const [isSubmitting, setIsSubmitting] = useState(false);
+	const hasUnsaved = useBetStore((s) => s.hasUnsavedChanges());
+	const maxPayout = getMaxPayout();
+
+	const [isSubmitting, setIsSubmitting] = useState(false); // isSubmitting is not currently being used
 	const { showError, showSuccess } = useToastMessage();
-	// const [disableInteraction, setDisableInteraction] = useState(false);
 
-	useEffect(() => {
-		// Whenever bets or betsToRemove change, re-evaluate if Save should be enabled
-		const betsChanged = !isEqual(bets, initialBetsSnapshot);
-		const hasRemovals = betsToRemove.length > 0;
-		setBetslipHasChanges(betsChanged || hasRemovals);
-	}, [bets, betsToRemove, initialBetsSnapshot]);
+  const handleSaveBets = async () => {
+    setIsSubmitting(true);
+    setDisableInteraction(true);
 
-	function calculateTotalPayout() {
-		return bets.reduce((totalPayout, bet) => totalPayout + bet.toWinAmount, 0);
-	}
+    try {
+      const result = await saveBets({
+        poolId,
+        leagueSeasonId,
+        battleId,
+        betslipId,
+        showError,
+        showSuccess,
+      });
 
-	const handleSaveBets = async () => {
-		if (isSubmitting) return;
-		setIsSubmitting(true);
-		setDisableInteraction(true); // ⛔ Block interaction immediately
+      if (result.status === "locked") {
+        // Stop the leave-confirmation modal
+        setSuppressLeaveModal();
+        // Close any open selectors on the betslip
+        // Immediately nav away
+        router.replace(`/pools/${poolId}`);
+        return;
+      }
 
-		try {
-			const result = await saveBets({
-				poolId,
-				leagueSeasonId,
-				battleId,
-				betslipId,
-				showError,
-				showSuccess,
-			});
-
-			if (result.status === "locked") {
-				setSuppressLeaveModal(true);
-				router.replace(`/pools/${poolId}`);
-			} else if (result.status === "success") {
-				setBetslipHasChanges(false);
-				closeAllBetSelectors(); // this is already a microtask
-			}
-		} catch (err) {
-			showError("Something went wrong while saving your bets.");
-			console.error("Save failed:", err);
-		} finally {
-			// ✅ Always re-enable interaction after the operation completes
-			setDisableInteraction(false);
-			setIsSubmitting(false);
-		}
-	};
+      if (result.status === "success") {
+        // Close any open selectors on the betslip
+        // (You can do other post-success work here)
+      }
+      // For "error", you could optionally showError already happened inside saveBets
+    } finally {
+      // ALWAYS re-enable UI
+			resetSelectors();
+      setDisableInteraction(false);
+      setIsSubmitting(false);
+    }
+  };
 
 	return (
 		<View style={s.container}>
 			<View style={s.headingContainer}>
 				<View style={s.titleContainer}>
 					<Txt style={s.title}>Betslip</Txt>
+					<Txt style={s.poolName}>{poolName}</Txt>
 				</View>
 				<View style={s.btnContainer}>
 					<Btn
 						btnText={"Save"}
 						fontSize={14}
 						style={s.btn}
-						isEnabled={betslipHasChanges && !isSubmitting}
+						isEnabled={hasUnsaved && !isSubmitting}
+						// isEnabled={true}
 						onPress={handleSaveBets} // Call the handleSubmitBets function when pressed
 					/>
 				</View>
@@ -100,7 +91,7 @@ export function BetSlipHeading({
 
 			<View style={s.payoutContainer}>
 				<Txt style={s.payoutHeading}>Max Payout</Txt>
-				<Txt style={s.payoutText}>${calculateTotalPayout()}</Txt>
+				<Txt style={s.payoutText}>${maxPayout}</Txt>
 			</View>
 		</View>
 	);
@@ -130,6 +121,12 @@ const s = StyleSheet.create({
 		// color: "#061826",
 		fontFamily: "Saira_600SemiBold",
 		paddingRight: 8,
+	},
+	poolName: {
+		backgroundColor: '#425C70',
+		paddingHorizontal: 8,
+		borderRadius: 4,
+		fontSize: 14,
 	},
 	btn: {
 		paddingVertical: 4,
