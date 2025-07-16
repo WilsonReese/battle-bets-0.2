@@ -117,21 +117,28 @@ export default function Profile() {
 	};
 
 	const handleLogout = async () => {
+		let serverOk = false;
+
 		try {
 			const res = await api.delete("/logout", {
 				headers: { Authorization: `Bearer ${token}` },
 			});
-
-			if (res.status === 200) {
-				await logout();
-				showSuccess("Logged out successfully.");
-				router.replace("/login");
-			} else {
-				showError("Logout failed. Try again.");
+			serverOk = res.status === 200;
+			if (!serverOk) {
+				console.warn("Logout endpoint returned non‑200:", res.status);
 			}
 		} catch (err) {
-			console.error("Logout error:", err.message);
-			showError("An error occurred.");
+			console.warn("Logout API error, clearing locally anyway:", err);
+		} finally {
+			// **always** clear local session
+			await logout();
+			router.replace("/login");
+
+			if (serverOk) {
+				showSuccess("Logged out successfully.");
+			} else {
+				showError("Logout failed on server, but session cleared locally.");
+			}
 		}
 	};
 
