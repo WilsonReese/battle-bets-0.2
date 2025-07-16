@@ -42,6 +42,7 @@ export default function GameDetails() {
 	const bottomSheetRef = useRef(null);
 	const [sheetOpen, setSheetOpen] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
+	const [refreshKey, setRefreshKey] = useState(0);
 
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.4;
@@ -67,6 +68,7 @@ export default function GameDetails() {
 			if (!selectedPool && res.data.length > 0) {
 				setPool(res.data[0]); // reset to default if needed
 			}
+			 setRefreshKey((k) => k + 1);
 		} catch (err) {
 			console.error("Error refreshing pools:", err);
 		} finally {
@@ -170,7 +172,7 @@ export default function GameDetails() {
 
 								{/* User Bets */}
 								{selectedBetGroup === "Your Bets" && (
-									<UserBetsForGame selectedGame={selectedGame} />
+									<UserBetsForGame selectedGame={selectedGame} refreshKey={refreshKey}/>
 								)}
 
 								{/* League Bets */}
@@ -180,6 +182,7 @@ export default function GameDetails() {
 										pools={pools}
 										selectedPool={selectedPool}
 										battlesLocked={selectedGame.battles_locked}
+										refreshKey={refreshKey}
 										onToggleSheet={() => {
 											if (sheetOpen) {
 												bottomSheetRef.current?.close();

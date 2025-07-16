@@ -16,6 +16,7 @@ export function LeagueBetsForGame({
 	selectedPool,
 	onToggleSheet,
 	battlesLocked,
+	refreshKey
 }) {
 	// if (!selectedPool) return null;
 	const [leagueBets, setLeagueBets] = useState([]);
@@ -37,7 +38,7 @@ export function LeagueBetsForGame({
 			.then((res) => setLeagueBets(res.data))
 			.catch((err) => console.error("Failed to load league bets:", err))
 			.finally(() => setLoading(false));
-	}, [gameId, selectedPool]);
+	}, [gameId, selectedPool, refreshKey]);
 
 	// Need to get a battle to check if it is locked to display the league bets or not
 

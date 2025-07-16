@@ -10,7 +10,7 @@ import { BetDetails } from "../BetSlip/BetDetails";
 import { BetAmount } from "../BetSlip/BetAmount";
 import { PlacedBet } from "../Leaderboard/PlacedBet";
 
-export function UserBetsForGame({ selectedGame }) {
+export function UserBetsForGame({ selectedGame, refreshKey }) {
 	/* ────────────────────────────────────────────────────────────
      LOCAL STATE & FETCH LOGIC
      ──────────────────────────────────────────────────────────── */
@@ -49,7 +49,7 @@ export function UserBetsForGame({ selectedGame }) {
 		return () => {
 			cancelled = true;
 		};
-	}, [selectedGame?.id, getUserBetsByGame]);
+	}, [selectedGame?.id, getUserBetsByGame, refreshKey]);
 
 	/* ────────────────────────────────────────────────────────────
      DERIVED VALUES
