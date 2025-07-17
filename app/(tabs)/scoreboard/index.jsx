@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import {
 	View,
 	ScrollView,
@@ -23,9 +23,12 @@ import axios from "axios";
 
 export default function Scoreboard() {
 	const [refreshing, setRefreshing] = useState(false);
+	const [games, setGames] = useState([]);
+	const [loadingGames, setLoadingGames] = useState(true);
+	const router = useRouter();
 	// const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 
-	const { currentSeason, loading: seasonLoading } = useSeason();
+	const { currentSeason, loading: seasonLoading, refresh: refreshSeason } = useSeason();
 	const {
 		selectedConferences,
 		toggleConference,
@@ -33,12 +36,6 @@ export default function Scoreboard() {
 		filterGames,
 		FILTER_CONFERENCES,
 	} = useConferences();
-
-	const sampleGameData = sampleGame.response[0];
-	const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
-	const sampleAwayTeamStats = sampleTeamStats.response[1];
-	const sampleHomePlayerStats = samplePlayerStats.response[0];
-	const sampleAwayPlayerStats = samplePlayerStats.response[1];
 
 	const {
 		setSelectedGame,
@@ -51,16 +48,15 @@ export default function Scoreboard() {
 		gameStatus,
 	} = useScoreboard();
 
-	const router = useRouter();
+	console.log('Current Season:', currentSeason)
 
-	const [games, setGames] = useState([]);
-	const [loadingGames, setLoadingGames] = useState(true);
+	const sampleGameData = sampleGame.response[0];
+	const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
+	const sampleAwayTeamStats = sampleTeamStats.response[1];
+	const sampleHomePlayerStats = samplePlayerStats.response[0];
+	const sampleAwayPlayerStats = samplePlayerStats.response[1];
 
-	const filteredGames = React.useMemo(
-		() => filterGames(games),
-		[games, selectedConferences]
-	);
-
+	
 	const handlePress = (game) => {
 		setSelectedGame(game);
 		setSelectedGameData(sampleGameData);
@@ -70,22 +66,18 @@ export default function Scoreboard() {
 		setSelectedAwayPlayerStats(sampleAwayPlayerStats);
 		router.push(`/scoreboard/${game.id}`);
 	};
-
+	
 	// Refetch logic now abstracted and shared
 	const fetchGames = useCallback(
 		async ({ showRefreshControl = false } = {}) => {
 			if (!currentSeason) return;
-
-			// 1️⃣  Show full-screen spinner only the *first* time
-			// if (!hasLoadedOnce) setLoadingGames(true);
-
-			// 2️⃣  Show the list-header spinner only on user pull
+			
 			if (showRefreshControl) setRefreshing(true);
-
+			
 			const week = currentSeason.current_week === 0 ? 1 : currentSeason.current_week
-
+			
 			console.log('Season and Week Passed:', currentSeason.year, week)
-
+			
 			try {
 				const res = await api.get("/games", {
 					params: {
@@ -105,27 +97,49 @@ export default function Scoreboard() {
 		// [api, currentSeason, hasLoadedOnce]
 		[api, currentSeason]
 	);
-
+	
+	const fetchGamesRef = useRef(fetchGames);
+  useEffect(() => {
+		fetchGamesRef.current = fetchGames;
+  }, [fetchGames]);
+	
 	// Refresh on focus
-	useFocusEffect(
-		useCallback(() => {
-			fetchGames(); // default showRefreshControl = false
-		}, [fetchGames])
-	);
-
+  useFocusEffect(
+		React.useCallback(() => {
+			let isActive = true;
+      (async () => {
+				await refreshSeason({ silent: true });
+        if (!isActive) return;
+        await fetchGamesRef.current();
+      })();
+      return () => {
+				isActive = false;
+      };
+    }, []) // <<–– empty deps so we only re‑register on mount
+  );
+	
 	// Refresh on pull gesture
-	const onRefresh = () => {
-		fetchGames({ showRefreshControl: true });
-	};
-
-	console.log("Games:", games);
-
+  const onRefresh = async () => {
+		setRefreshing(true);
+    // 1️⃣ reload season (so you pick up a new week if it rolled)
+    await refreshSeason({ silent: true });
+    // 2️⃣ then reload games for whatever the new currentSeason.current_week is
+    await fetchGames({ showRefreshControl: true });
+    setRefreshing(false);
+  };
+	
+	const filteredGames = React.useMemo(
+		() => filterGames(games),
+		[games, selectedConferences]
+	);
+	// console.log("Games:", games);
+	
 	const renderGame = useCallback(
 		({ item: game }) => (
 			<ScoreboardGameCard
-				game={game}
-				status={gameStatus}
-				sampleGameData={sampleGameData}
+			game={game}
+			status={gameStatus}
+			sampleGameData={sampleGameData}
 				userBetCount={game.user_bet_count}
 				onPress={() => handlePress(game)}
 			/>
