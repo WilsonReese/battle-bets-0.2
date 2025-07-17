@@ -58,7 +58,7 @@ export default function BattleDetails() {
 	// console.log("Battle Details Betslip:", betslipId);
 
 	const { showError, showSuccess } = useToastMessage();
-	const { currentSeason, loading: seasonLoading } = useSeason();
+	const { refresh: refreshSeason, loading: seasonLoading } = useSeason();
 	const [games, setGames] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const [isBetSlipShown, setIsBetSlipShown] = useState(true);
@@ -89,11 +89,16 @@ export default function BattleDetails() {
 			setLoading(true);
 
 			try {
+				const season = await refreshSeason({ silent: true });
+        if (!season) throw new Error("Failed to load season");
+
+        const week = season.current_week
+
 				const [gamesRes, poolsRes, battleRes] = await Promise.all([
 					api.get("/games", {
 						params: {
-							week: currentSeason.current_week,
-							season_year: currentSeason.year,
+							week: week,
+							season_year: season.year,
 						},
 					}),
 					api.get(`/pools/${poolId}`),
@@ -141,7 +146,7 @@ export default function BattleDetails() {
 		};
 
 		initializeBattleData();
-	}, [currentSeason, battleId]);
+	}, [battleId, refreshSeason]);
 
 	// useFocusEffect(
 	// 	React.useCallback(() => {
