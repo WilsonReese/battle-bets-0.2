@@ -156,7 +156,7 @@ const s = StyleSheet.create({
 		borderRadius: 8,
 		// paddingTop: 8,
 		paddingBottom: 8,
-		paddingHorizontal: 4,
+		paddingHorizontal: 6,
 		// backgroundColor: "#0F2638",
 		flex: 1,
 	},
