@@ -10,6 +10,7 @@ import { useBattleLeaderboard } from "../../hooks/useBattleLeaderboard";
 import { getOrdinalSuffix } from "../../utils/formatting";
 import { SkeletonBattleCard } from "./SkeletonBattleCard";
 import { TeamLogo } from "../GameCard/Matchup/TeamLogo";
+import { PlacedBet } from "../Leaderboard/PlacedBet";
 
 export function LockedBattleCard({
 	battle,
@@ -32,6 +33,37 @@ export function LockedBattleCard({
 	// const remaining = getBudgetForBattle(battle.id);
 	const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
 	const battleCompleted = battle.status === "completed";
+
+	function getTopBet(bets) {
+		if (!Array.isArray(bets) || bets.length === 0) return null;
+
+		// 1) If any bets have a positive amount_won, pick the largest
+		const winningBets = bets
+			.map((b) => ({ ...b, amount_won: Number(b.amount_won) }))
+			.filter((b) => !isNaN(b.amount_won) && b.amount_won > 0);
+
+		if (winningBets.length) {
+			return winningBets.reduce((best, b) =>
+				b.amount_won > best.amount_won ? b : best
+			);
+		}
+
+		// 2) Otherwise look at the pending bets and pick by to_win_amount
+		const pending = bets
+			.map((b) => ({ ...b, to_win_amount: Number(b.to_win_amount) }))
+			.filter((b) => isNaN(b.amount_won) || b.amount_won == null);
+
+		if (pending.length) {
+			return pending.reduce((best, b) =>
+				b.to_win_amount > best.to_win_amount ? b : best
+			);
+		}
+
+		// 3) No winners, no pendings
+		return null;
+	}
+
+	const topBet = getTopBet(userBetslip.bets);
 
 	const topGame = getTopGameMatchup(userBetslip.bets);
 	// console.log("UserBetslip Games:", userBetslip.bets[0].bet_option);
@@ -127,7 +159,10 @@ export function LockedBattleCard({
 			</TouchableOpacity>
 
 			{/* Betslip Section */}
-			<TouchableOpacity style={s.betslipContainer} onPress={() => handleViewUserBetslip()}>
+			<TouchableOpacity
+				style={s.betslipContainer}
+				onPress={() => handleViewUserBetslip()}
+			>
 				<View style={s.cardSectionHeading}>
 					<Txt style={s.headingTxt}>Betslip</Txt>
 					<View style={s.actionButton}>
@@ -139,8 +174,59 @@ export function LockedBattleCard({
 						/>
 					</View>
 				</View>
+				<View style={s.betslipValues}>
+					<View style={[s.betslipElement]}>
+						<Txt style={s.betInfoLabel}>Won:</Txt>
+						<Txt style={s.betInfoTxt}>
+							{" "}
+							{userRankedBetslip?.earnings != null
+								? `$${userRankedBetslip.earnings}`
+								: "—"}
+						</Txt>
+					</View>
+					<View style={[s.betslipElement]}>
+						<Txt style={s.betInfoLabel}>Max:</Txt>
+						<Txt style={s.betInfoTxt}>
+							{" "}
+							{userRankedBetslip?.max_payout_remaining != null
+								? `$${userRankedBetslip.max_payout_remaining}`
+								: "—"}
+						</Txt>
+					</View>
+					<View style={[s.betslipElement]}>
+						<Txt style={s.betInfoLabel}>Hit Rate:</Txt>
+						<Txt style={s.betInfoTxt}>
+							{" "}
+							{userRankedBetslip?.hitRate != null
+								? `${userRankedBetslip.hitRate}%`
+								: "—"}
+						</Txt>
+					</View>
+				</View>
+				<View style={s.keyBetSection}>
+					<Txt style={s.betInfoLabel}>Key Bet:</Txt>
+					{userBetslip.bets.length === 0 && (
+						<View style={s.placedBetAlt}>
+							<Txt style={s.noBetsTxt}>
+								No bets currently placed for this battle.
+							</Txt>
+						</View>
+					)}
+					{userBetslip.bets.length !== 0 &&
+						(topBet ? (
+							<TouchableOpacity onPress={() => handleViewUserBetslip()}>
+								<PlacedBet bet={topBet} backgroundColor={"#1D394E"} />
+							</TouchableOpacity>
+						) : (
+							<View style={s.placedBetAlt}>
+								<Txt style={s.noBetsTxt}>
+									Well... looks like none of your bets hit.
+								</Txt>
+							</View>
+						))}
+				</View>
 
-				<View style={s.bottomSection}>
+				{/* <View style={s.bottomSection}>
 					<View>
 						<View style={s.seasonScoreContainer}>
 							<Txt style={s.betInfoTxt}>
@@ -189,7 +275,7 @@ export function LockedBattleCard({
 							)}
 						</>
 					</View>
-				</View>
+				</View> */}
 			</TouchableOpacity>
 		</View>
 	);
@@ -280,9 +366,25 @@ const s = StyleSheet.create({
 		alignItems: "center",
 		gap: 4,
 	},
-	betInfoTxt: {
-		// fontFamily: "Saira_600SemiBold",
+
+	// Betslip Section
+	betslipValues: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		flex: 1,
+	},
+
+	betInfoLabel: {
+		fontFamily: "Saira_600SemiBold",
 		fontSize: 12,
+	},
+	betInfoTxt: {
+		fontSize: 12,
+	},
+	betslipElement: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 4,
 	},
 	topGame: {
 		flexDirection: "row",

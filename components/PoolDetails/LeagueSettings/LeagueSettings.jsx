@@ -75,6 +75,8 @@ const s = StyleSheet.create({
   titleText: {
     color: "#F8F8F8",
     fontSize: 20,
+    fontFamily: "Saira_600SemiBold",
+    marginBottom: 8,
   },
   settingTitleContainer: {
     flexDirection: "row",

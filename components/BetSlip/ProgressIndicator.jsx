@@ -6,9 +6,6 @@ import { useBetStore } from "../../state/useBetStore";
 
 export function ProgressIndicator({
 	budgetCategory,
-	isBetSlipShown,
-	scrollViewRef,
-	closeBetSlip,
 }) {
 
 	const remainingBudget = useBetStore((state) =>

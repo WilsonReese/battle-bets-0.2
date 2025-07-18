@@ -45,6 +45,7 @@ export default function BattleDetails() {
 		id: poolId,
 		leagueSeasonId,
 		battleId,
+		openBetslip,
 		// betslipId,
 	} = useLocalSearchParams();
 	const {
@@ -61,15 +62,13 @@ export default function BattleDetails() {
 	const { refresh: refreshSeason, loading: seasonLoading } = useSeason();
 	const [games, setGames] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [isBetSlipShown, setIsBetSlipShown] = useState(true);
 	const [showLeaveModal, setShowLeaveModal] = useState(false);
-	const [suppressLeaveModal, setSuppressLeaveModal] = useState(false);
 	const suppressLeaveModalRef = useRef(false);
 	const [disableInteraction, setDisableInteraction] = useState(false);
 	const [poolName, setPoolName] = useState("");
 	const [betslipId, setBetslipId] = useState("");
+	const [sheetIndex, setSheetIndex] = useState(openBetslip === "true" ? 1 : 0);
 
-	const scrollViewRef = useRef(null);
 	const sheetRef = useRef(null);
 	const pendingNavEvent = useRef(null);
 	const navigation = useNavigation();
@@ -78,11 +77,6 @@ export default function BattleDetails() {
 
 	const loadBets = useBetStore((state) => state.loadBets);
 
-	const closeBetSlip = () => {
-		sheetRef.current?.collapse(); // or .close() if you want to hide it completely
-		setIsBetSlipShown(false);
-	};
-
 	// useEffect to trigger fetching games and loading bets on mount
 	useEffect(() => {
 		const initializeBattleData = async () => {
@@ -90,9 +84,9 @@ export default function BattleDetails() {
 
 			try {
 				const season = await refreshSeason({ silent: true });
-        if (!season) throw new Error("Failed to load season");
+				if (!season) throw new Error("Failed to load season");
 
-        const week = season.current_week
+				const week = season.current_week;
 
 				const [gamesRes, poolsRes, battleRes] = await Promise.all([
 					api.get("/games", {
@@ -148,22 +142,11 @@ export default function BattleDetails() {
 		initializeBattleData();
 	}, [battleId, refreshSeason]);
 
-	// useFocusEffect(
-	// 	React.useCallback(() => {
-	// 		suppressLeaveModalRef.current = false; // ✅ reset on screen focus
-
-	// 		const beforeRemove = (e) => {
-	// 			if (suppressLeaveModalRef.current || !betslipHasChanges) return;
-
-	// 			e.preventDefault();
-	// 			pendingNavEvent.current = e; // Store the navigation event
-	// 			setShowLeaveModal(true); // Show custom modal
-	// 		};
-
-	// 		const unsubscribe = navigation.addListener("beforeRemove", beforeRemove);
-	// 		return () => unsubscribe();
-	// 	}, [betslipHasChanges, navigation])
-	// );
+	useEffect(() => {
+		if (!loading && !seasonLoading && openBetslip === "true") {
+			sheetRef.current?.snapToIndex(1);
+		}
+	}, [loading, seasonLoading, openBetslip]);
 
 	// confirm-on-leave when there are unsaved changes
 	useFocusEffect(
@@ -205,11 +188,7 @@ export default function BattleDetails() {
 				) : (
 					<>
 						<View style={s.body}>
-							<BudgetRow
-								isBetSlipShown={isBetSlipShown}
-								scrollViewRef={scrollViewRef}
-								closeBetSlip={closeBetSlip}
-							></BudgetRow>
+							<BudgetRow />
 							<View style={s.conferenceFilterContainer}>
 								<ConferenceFilter
 									selected={selectedConferences}
@@ -231,11 +210,9 @@ export default function BattleDetails() {
 						</View>
 						<BetSlip
 							ref={sheetRef}
+							initialIndex={openBetslip === "true" ? 2 : 0}
 							poolId={poolId}
 							poolName={poolName}
-							isBetSlipShown={isBetSlipShown}
-							setIsBetSlipShown={setIsBetSlipShown}
-							scrollViewRef={scrollViewRef}
 							leagueSeasonId={leagueSeasonId}
 							betslipId={betslipId}
 							battleId={battleId}

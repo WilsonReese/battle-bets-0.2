@@ -4,13 +4,13 @@ import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { BetDetails } from "../BetSlip/BetDetails";
 import { BetAmount } from "../BetSlip/BetAmount";
 
-export function PlacedBet({ bet }) {
+export function PlacedBet({ bet, backgroundColor = '#0F2638' }) {
   // Define outcome variables based on bet status
   const isPending = bet.bet_option.success === null;
   const isFailed = bet.bet_option.success === false;
   const isSuccess = bet.bet_option.success === true;
 
-  console.log('Bet', bet)
+  // console.log('Bet', bet)
 
   // Define colors based on outcome
   const betNameColor = isPending ? "#F8F8F8" : isFailed ? "#8E9AA4" : "#F8F8F8";
@@ -22,7 +22,7 @@ export function PlacedBet({ bet }) {
 
   return (
     <View style={s.container}>
-      <View style={[s.betContainer]}>
+      <View style={[s.betContainer, {backgroundColor: backgroundColor}]}>
         <View style={s.betNameContainer}>
           <BetDetails name={bet.bet_option.title} matchup={matchup} multiplier={bet.bet_option.payout} betNameColor={betNameColor} payoutColor={payoutColor} strikeThrough={isFailed}/>
         </View>
@@ -44,9 +44,8 @@ export function PlacedBet({ bet }) {
 
 const s = StyleSheet.create({
   container: {
-    paddingHorizontal: 8,
+    // paddingHorizontal: 8,
     paddingVertical: 4,
-    
   },
   betContainer: {
     paddingHorizontal: 8,
@@ -55,7 +54,7 @@ const s = StyleSheet.create({
     flexDirection: "row",
     // justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: '#0F2638'
+    // backgroundColor: '#0F2638'
   },
   betNameContainer: {
     flex: 3,

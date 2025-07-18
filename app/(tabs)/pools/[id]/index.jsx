@@ -153,6 +153,7 @@ export default function PoolDetails() {
 
 					{selectedSeason?.hasStarted && battles.length > 0 ? (
 						<View style={s.section}>
+							<Txt style={s.sectionTitle}>Battles</Txt>
 							<PaginatedFlatList
 								data={battles.filter((b) => b.status !== "not_started")}
 								itemsPerPage={1}
@@ -264,7 +265,13 @@ const s = StyleSheet.create({
 		fontSize: 24,
 	},
 	section: {
-		paddingBottom: 36,
+		paddingBottom: 40,
+	},
+	sectionTitle: {
+		fontSize: 20,
+		color: "#F8F8F8",
+		marginBottom: 8,
+		fontFamily: 'Saira_600SemiBold'
 	},
 	betslipContainer: {
 		// flex: 1,

@@ -16,33 +16,27 @@ import BottomSheet, {
 export const BetSlip = forwardRef(
 	(
 		{
+			initialIndex,
 			poolId,
 			poolName,
-			isBetSlipShown,
-			setIsBetSlipShown,
-			scrollViewRef,
 			leagueSeasonId,
 			betslipId,
 			battleId,
-			betslipHasChanges,
-			setBetslipHasChanges,
 			setSuppressLeaveModal,
 			setDisableInteraction,
 		},
 		ref
 	) => {
 		// const sheetRef = useRef(null);
-		const snapPoints = useMemo(() => ["15.5%", "45%", "75%"], []);
+		const snapPoints = useMemo(() => ["15.5%", "70%"], []);
 		const screenHeight = Dimensions.get("window").height;
 
 		return (
 			<BottomSheet
 				ref={ref}
-				index={0} // Start partially open
+				index={initialIndex}
 				snapPoints={snapPoints}
 				maxDynamicContentSize={screenHeight * 0.4}
-				onClose={() => setIsBetSlipShown(false)}
-				onChange={(index) => setIsBetSlipShown(index !== -1)}
 				backgroundStyle={s.sheetBackground}
 				handleIndicatorStyle={s.handle}
 			>

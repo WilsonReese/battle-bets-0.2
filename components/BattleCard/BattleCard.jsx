@@ -45,6 +45,21 @@ export function BattleCard({
 			params: {
 				// betslipId: userBetslip.id,
 				leagueSeasonId: battle.league_season_id,
+				openBetslip: "false"
+			},
+		});
+	};
+
+	const handleEditOpenBetslip = () => {
+		if (!userBetslip) {
+			return Alert.alert("No betslip found", "Please refresh or try again.");
+		}
+
+		router.push({
+			pathname: `/pools/${poolId}/battles/${battle.id}`,
+			params: {
+				leagueSeasonId: battle.league_season_id,
+				openBetslip: "true", // ← tell the detail screen to pop open the sheet
 			},
 		});
 	};
@@ -109,6 +124,7 @@ export function BattleCard({
 						<UnlockedBattleCard
 							battle={battle}
 							handleEditBets={handleEditBets}
+							handleEditOpenBetslip={handleEditOpenBetslip}
 							battleEndDateTime={battleEndDateTime}
 							userBetslip={userBetslip}
 						/>
@@ -177,9 +193,9 @@ const s = StyleSheet.create({
 	},
 	headingTxt: {
 		// color: "#061826",
-		fontFamily: "Saira_600SemiBold",
+		// fontFamily: "Saira_600SemiBold",
 		// letterSpacing: "2%",
-		fontSize: 20,
+		fontSize: 18,
 		// textTransform: "uppercase"
 	},
 	txt: {
@@ -192,14 +208,5 @@ const s = StyleSheet.create({
 		// color: "#061826",
 		fontSize: 14,
 		// textAlign: "center",
-	},
-	notSubmittedIndicatorContainer: {
-		flexDirection: "row",
-		alignItems: "center",
-		alignSelf: "center",
-		paddingTop: 4,
-	},
-	submitBetsNoticeContainer: {
-		alignItems: "center",
 	},
 });

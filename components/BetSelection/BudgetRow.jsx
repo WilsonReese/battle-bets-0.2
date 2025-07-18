@@ -3,28 +3,13 @@ import { StyleSheet, View, TouchableOpacity } from "react-native";
 import { Txt } from "../general/Txt";
 import { ProgressIndicator } from "../BetSlip/ProgressIndicator";
 
-export function BudgetRow({ isBetSlipShown, scrollViewRef, closeBetSlip }) {
+export function BudgetRow({}) {
 	return (
 		<View style={s.container}>
 			<View style={s.progressIndicatorsContainer}>
-				<ProgressIndicator
-					budgetCategory={"spreadOU"}
-					isBetSlipShown={isBetSlipShown}
-					closeBetSlip={closeBetSlip}
-					scrollViewRef={scrollViewRef}
-				/>
-				<ProgressIndicator
-					budgetCategory={"moneyLine"}
-					isBetSlipShown={isBetSlipShown}
-					closeBetSlip={closeBetSlip}
-					scrollViewRef={scrollViewRef}
-				/>
-				<ProgressIndicator
-					budgetCategory={"prop"}
-					isBetSlipShown={isBetSlipShown}
-					closeBetSlip={closeBetSlip}
-					scrollViewRef={scrollViewRef}
-				/>
+				<ProgressIndicator budgetCategory={"spreadOU"} />
+				<ProgressIndicator budgetCategory={"moneyLine"} />
+				<ProgressIndicator budgetCategory={"prop"} />
 			</View>
 			<View style={s.separatorLine} />
 		</View>

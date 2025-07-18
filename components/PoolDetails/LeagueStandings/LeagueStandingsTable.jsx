@@ -68,6 +68,7 @@ const s = StyleSheet.create({
 		fontSize: 20,
 		color: "#F8F8F8",
 		marginBottom: 8,
+		fontFamily: 'Saira_600SemiBold'
 	},
 	infoButton: {
 		paddingVertical: 2,
