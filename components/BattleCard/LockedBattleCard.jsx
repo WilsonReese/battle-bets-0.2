@@ -164,14 +164,18 @@ export function LockedBattleCard({
 				onPress={() => handleViewUserBetslip()}
 			>
 				<View style={s.cardSectionHeading}>
-					<Txt style={s.headingTxt}>Betslip</Txt>
-					<View style={s.actionButton}>
-						<Txt style={{ fontSize: 11, color: "#C7CDD1" }}></Txt>
-						<FontAwesome6
-							name="circle-chevron-right"
-							size={10}
-							color="#54D18C"
-						/>
+					<View style={s.betslipHeadingSection}>
+						<Txt style={s.headingTxt}>Betslip</Txt>
+					</View>
+					<View style={s.seasonScoreContainer}>
+						<Txt style={s.betInfoTxt}>
+							{getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
+						</Txt>
+						{battleCompleted ? (
+							<Txt style={s.seasonScoreTxt}>(+{userBetslip.league_points})</Txt>
+						) : (
+							""
+						)}
 					</View>
 				</View>
 				<View style={s.betslipValues}>
@@ -204,23 +208,24 @@ export function LockedBattleCard({
 					</View>
 				</View>
 				<View style={s.keyBetSection}>
-					<Txt style={s.betInfoLabel}>Key Bet:</Txt>
+					{/* <Txt style={s.betInfoLabel}>Key Bet:</Txt> */}
 					{userBetslip.bets.length === 0 && (
 						<View style={s.placedBetAlt}>
-							<Txt style={s.noBetsTxt}>
-								No bets currently placed for this battle.
-							</Txt>
+							<Txt style={s.noBetsTxt}>No bets placed for this battle.</Txt>
 						</View>
 					)}
 					{userBetslip.bets.length !== 0 &&
 						(topBet ? (
-							<TouchableOpacity onPress={() => handleViewUserBetslip()}>
+							<TouchableOpacity onPress={() => handleViewUserBetslip()} style={{paddingTop: 4}}>
 								<PlacedBet bet={topBet} backgroundColor={"#1D394E"} />
+								<View style={{position: 'absolute', right: -2, top: 4, backgroundColor: '#54D18C', paddingHorizontal: 4, borderRadius: 4,}}>
+									<Txt style={[s.betInfoLabel, {fontSize: 10}]}>Key Bet</Txt>
+								</View>
 							</TouchableOpacity>
 						) : (
 							<View style={s.placedBetAlt}>
 								<Txt style={s.noBetsTxt}>
-									Well... looks like none of your bets hit.
+									Well... looks like none of your bets hit. Yikes.
 								</Txt>
 							</View>
 						))}
@@ -240,40 +245,6 @@ export function LockedBattleCard({
 								""
 							)}
 						</View>
-						<Txt style={s.betInfoTxt}>
-							Hit Rate:{" "}
-							{userRankedBetslip?.hitRate != null
-								? `${userRankedBetslip.hitRate}%`
-								: "—"}
-						</Txt>
-					</View>
-					<View>
-						<Txt style={s.betInfoTxt}>
-							Won:{" "}
-							{userRankedBetslip?.earnings != null
-								? `$${userRankedBetslip.earnings}`
-								: "—"}
-						</Txt>
-						<Txt style={s.betInfoTxt}>
-							Max:{" "}
-							{userRankedBetslip?.max_payout_remaining != null
-								? `$${userRankedBetslip.max_payout_remaining}`
-								: "—"}
-						</Txt>
-					</View>
-					<View style={s.topGameSection}>
-						<Txt style={[s.betInfoTxt, s.topGameTxt]}>Top Game:</Txt>
-						<>
-							{topGame ? (
-								<View style={s.topGame}>
-									<TeamLogo teamName={topGame.awayTeam} size={32} />
-									<Txt style={s.betInfoTxt}>at</Txt>
-									<TeamLogo teamName={topGame.homeTeam} size={32} />
-								</View>
-							) : (
-								<Txt style={s.betInfoTxt}>TBD</Txt>
-							)}
-						</>
 					</View>
 				</View> */}
 			</TouchableOpacity>
@@ -355,25 +326,17 @@ const s = StyleSheet.create({
 		backgroundColor: "#0F2638",
 		borderRadius: 8,
 	},
-	bottomSection: {
+	betslipHeadingSection: {
 		flexDirection: "row",
-		justifyContent: "space-between",
-		flex: 1,
-	},
-	topGameSection: {
-		flexDirection: "row",
-		justifyContent: "space-between",
 		alignItems: "center",
-		gap: 4,
+		gap: 8,
 	},
-
 	// Betslip Section
 	betslipValues: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		flex: 1,
 	},
-
 	betInfoLabel: {
 		fontFamily: "Saira_600SemiBold",
 		fontSize: 12,
@@ -386,13 +349,19 @@ const s = StyleSheet.create({
 		alignItems: "center",
 		gap: 4,
 	},
-	topGame: {
+	placedBetAlt: {
+		paddingHorizontal: 8,
+		borderRadius: 8,
+		paddingVertical: 12,
 		flexDirection: "row",
-		alignItems: "center",
-		gap: 4,
+		backgroundColor: "#1D394E",
+		marginTop: 2,
+		justifyContent: "center",
+		marginBottom: 2,
 	},
-	topGameTxt: {
-		maxWidth: 60,
+	noBetsTxt: {
+		fontFamily: "Saira_400Regular_Italic",
+		fontSize: 14,
 	},
 
 	// Completed Betslip
@@ -403,5 +372,6 @@ const s = StyleSheet.create({
 	seasonScoreContainer: {
 		flexDirection: "row",
 		gap: 4,
+		paddingBottom: 2,
 	},
 });

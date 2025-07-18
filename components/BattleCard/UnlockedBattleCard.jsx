@@ -90,7 +90,7 @@ export function UnlockedBattleCard({
 						) : (
 							<View style={s.placedBetAlt}>
 								<Txt style={s.noBetsTxt}>
-									Well... looks like none of your bets hit.
+									Well... looks like none of your bets hit. Yikes.
 								</Txt>
 							</View>
 						))}
@@ -112,7 +112,9 @@ export function UnlockedBattleCard({
 					style={s.betActionBtn}
 					onPress={() => handleEditBets()}
 				>
-					<Txt style={s.btnTxt}>Place Bets</Txt>
+					<Txt style={s.btnTxt}>
+						{userBetslip.bets.length > 0 ? "Update Bets" : "Place Bets"}
+					</Txt>
 					<FontAwesome6 name="circle-chevron-right" size={14} color="#F8F8F8" />
 				</TouchableOpacity>
 			</View>
