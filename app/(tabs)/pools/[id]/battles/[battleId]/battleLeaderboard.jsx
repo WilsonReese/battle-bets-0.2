@@ -7,6 +7,7 @@ import {
 	TouchableOpacity,
 	Dimensions,
 	RefreshControl,
+	FlatList,
 } from "react-native";
 import { Txt } from "../../../../../../components/general/Txt";
 import { useBattleLeaderboard } from "../../../../../../hooks/useBattleLeaderboard";
@@ -83,95 +84,80 @@ export default function BattleLeaderboard() {
 				{poolName} - Week {battleWeek}
 			</Txt>
 			<Txt style={s.headingTxt}>Leaderboard</Txt>
-			<ScrollView
-				contentContainerStyle={{ paddingBottom: bottomSheetHeight }}
+			<FlatList
+				data={betslips}
+				keyExtractor={(b) => b.id.toString()}
+				// pull‑to‑refresh
+				refreshing={refreshing}
+				onRefresh={onRefresh}
 				showsVerticalScrollIndicator={false}
-				refreshControl={
-					<RefreshControl
-						refreshing={refreshing}
-						onRefresh={onRefresh}
-						tintColor="#54D18C"
-					/>
-				}
-			>
-				<View style={s.leaderboardContainer}>
-					<View style={s.leaderboardHeaderRow}>
-						<Txt style={[s.headerRowTxt, s.placeColumn]}> </Txt>
-						<Txt style={[s.headerRowTxt, s.playerColumn]}>Player</Txt>
-						<Txt style={[s.headerRowTxt, s.column]}>Won</Txt>
-						<Txt style={[s.headerRowTxt, s.column]}>Max</Txt>
-						<Txt style={[s.headerRowTxt, s.column]}>Hit</Txt>
-						<Txt style={[s.headerRowTxt, s.iconColumn]}></Txt>
+				// reserve space for your bottom sheet
+				contentContainerStyle={{ paddingBottom: bottomSheetHeight }}
+				// render the column headings once, at the top of the list
+				ListHeaderComponent={() => (
+					<View style={s.leaderboardContainer}>
+						<View style={s.leaderboardHeaderRow}>
+							<Txt style={[s.headerRowTxt, s.placeColumn]}>{/* empty */}</Txt>
+							<Txt style={[s.headerRowTxt, s.playerColumn]}>Player</Txt>
+							<Txt style={[s.headerRowTxt, s.column]}>Won</Txt>
+							<Txt style={[s.headerRowTxt, s.column]}>Max</Txt>
+							<Txt style={[s.headerRowTxt, s.column]}>Hit</Txt>
+							<Txt style={[s.headerRowTxt, s.iconColumn]} />
+						</View>
 					</View>
-					{betslips.map((b, index) => {
-						const prev = betslips[index - 1];
-						const shouldShowRank = !prev || b.rank !== prev.rank;
-
-						return (
-							<TouchableOpacity
-								key={b.id}
-								style={[
-									s.leaderboardRow,
-									selectedBetslip?.id === b.id && s.selectedRow,
-								]}
-								onPress={() => {
-									if (selectedBetslip?.id === b.id) {
-										// If tapping the currently selected betslip, toggle the sheet closed
-										setSelectedBetslip(null);
-										sheetRef.current?.close();
-									} else {
-										// If tapping a different betslip, set and open the sheet
-										setSelectedBetslip(b);
-										requestAnimationFrame(() => {
-											setTimeout(() => {
-												sheetRef.current?.snapToIndex(0);
-											}, 0);
-										});
-									}
-								}}
-							>
-								<Txt style={[s.placeTxt, s.placeColumn]}>
-									{shouldShowRank ? b.rank : ""}
+				)}
+				renderItem={({ item: b, index }) => {
+					const prev = betslips[index - 1];
+					const shouldShowRank = !prev || b.rank !== prev.rank;
+					const isMe = b.user_id == currentUserId;
+					return (
+						<TouchableOpacity
+							style={[
+								s.leaderboardRow,
+								selectedBetslip?.id === b.id && s.selectedRow,
+							]}
+							onPress={() => {
+								if (selectedBetslip?.id === b.id) {
+									setSelectedBetslip(null);
+									sheetRef.current?.close();
+								} else {
+									setSelectedBetslip(b);
+									requestAnimationFrame(() => sheetRef.current?.snapToIndex(0));
+								}
+							}}
+						>
+							<Txt style={[s.placeTxt, s.placeColumn]}>
+								{shouldShowRank ? b.rank : ""}
+							</Txt>
+							<View style={s.playerColumn}>
+								<Txt style={s.playerTxt}>
+									@{b.name}{" "}
+									{isMe && (
+										<FontAwesome6 name="user-large" size={10} color="#54D18C" />
+									)}
+									{battleCompleted && (
+										<Txt style={s.seasonScoreTxt}> (+{b.league_points})</Txt>
+									)}
 								</Txt>
-								<View style={[s.playerColumn]}>
-									<Txt style={s.playerTxt}>
-										@{b.name}
-										{b.user_id == currentUserId && (
-											<>
-												<Txt> </Txt>
-												<FontAwesome6
-													name="user-large"
-													size={10}
-													color="#54D18C"
-												/>
-											</>
-										)}
-										{battleCompleted ? (
-											<Txt style={s.seasonScoreTxt}> (+{b.league_points})</Txt>
-										) : (
-											""
-										)}
-									</Txt>
-								</View>
-								<Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
-								<Txt style={[s.placeTxt, s.column]}>
-									${b.max_payout_remaining}
-								</Txt>
-								<Txt style={[s.placeTxt, s.column]}>
-									{b?.hitRate != null ? `${b.hitRate}%` : "—"}
-								</Txt>
-								<View style={[s.iconColumn]}>
-									<FontAwesome6
-										name="circle-chevron-right"
-										size={14}
-										color="#54D18C"
-									/>
-								</View>
-							</TouchableOpacity>
-						);
-					})}
-				</View>
-			</ScrollView>
+							</View>
+							<Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
+							<Txt style={[s.placeTxt, s.column]}>
+								${b.max_payout_remaining}
+							</Txt>
+							<Txt style={[s.placeTxt, s.column]}>
+								{b.hitRate != null ? `${b.hitRate}%` : "—"}
+							</Txt>
+							<View style={s.iconColumn}>
+								<FontAwesome6
+									name="circle-chevron-right"
+									size={14}
+									color="#54D18C"
+								/>
+							</View>
+						</TouchableOpacity>
+					);
+				}}
+			/>
 			<LockedBetslip
 				sheetRef={sheetRef}
 				betslip={selectedBetslip}
@@ -234,7 +220,7 @@ const s = StyleSheet.create({
 		paddingRight: 4,
 	},
 	placeColumn: {
-		flex: 0.5,
+		flex: 1,
 		textAlign: "center",
 		// paddingRight: 20,
 	},

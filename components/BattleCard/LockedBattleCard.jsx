@@ -65,47 +65,6 @@ export function LockedBattleCard({
 
 	const topBet = getTopBet(userBetslip.bets);
 
-	const topGame = getTopGameMatchup(userBetslip.bets);
-	// console.log("UserBetslip Games:", userBetslip.bets[0].bet_option);
-
-	function getTopGameMatchup(bets) {
-		if (!Array.isArray(bets) || bets.length === 0) return null;
-
-		const gameCounts = {}; // key: gameKey, value: { count, gameData }
-
-		bets.forEach((bet) => {
-			const game = bet?.bet_option?.game;
-			const gameId = game?.id;
-			if (!game || !gameId) return;
-
-			if (!gameCounts[gameId]) {
-				gameCounts[gameId] = { count: 1, game };
-			} else {
-				gameCounts[gameId].count += 1;
-			}
-		});
-
-		// Find game with the highest count
-		let topGame = null;
-		let maxCount = 0;
-		Object.values(gameCounts).forEach(({ count, game }) => {
-			if (count > maxCount) {
-				topGame = game;
-				maxCount = count;
-			}
-		});
-
-		if (!topGame) return null;
-
-		return {
-			awayTeam: topGame.away_team?.name || "Away",
-			homeTeam: topGame.home_team?.name || "Home",
-			gameId: topGame.id,
-		};
-	}
-
-	// const totalPointsIncrease = 10;
-
 	if (loading) {
 		return <SkeletonBattleCard />;
 	}
@@ -218,7 +177,7 @@ export function LockedBattleCard({
 						(topBet ? (
 							<TouchableOpacity onPress={() => handleViewUserBetslip()} style={{paddingTop: 4}}>
 								<PlacedBet bet={topBet} backgroundColor={"#1D394E"} />
-								<View style={{position: 'absolute', right: -2, top: 4, backgroundColor: '#54D18C', paddingHorizontal: 4, borderRadius: 4,}}>
+								<View style={s.keyBetTag}>
 									<Txt style={[s.betInfoLabel, {fontSize: 10}]}>Key Bet</Txt>
 								</View>
 							</TouchableOpacity>
@@ -230,23 +189,6 @@ export function LockedBattleCard({
 							</View>
 						))}
 				</View>
-
-				{/* <View style={s.bottomSection}>
-					<View>
-						<View style={s.seasonScoreContainer}>
-							<Txt style={s.betInfoTxt}>
-								{getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
-							</Txt>
-							{battleCompleted ? (
-								<Txt style={s.seasonScoreTxt}>
-									(+{userBetslip.league_points})
-								</Txt>
-							) : (
-								""
-							)}
-						</View>
-					</View>
-				</View> */}
 			</TouchableOpacity>
 		</View>
 	);
@@ -362,6 +304,14 @@ const s = StyleSheet.create({
 	noBetsTxt: {
 		fontFamily: "Saira_400Regular_Italic",
 		fontSize: 14,
+	},
+	keyBetTag: {
+		position: 'absolute', 
+		right: -2, 
+		top: 4, 
+		backgroundColor: '#54D18C', 
+		paddingHorizontal: 4, 
+		borderRadius: 4,
 	},
 
 	// Completed Betslip
