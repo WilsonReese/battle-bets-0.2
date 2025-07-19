@@ -17,6 +17,9 @@ import { AuthContext } from "../../../../../../components/contexts/AuthContext";
 import { formatDate } from "date-fns";
 import api from "../../../../../../utils/axiosConfig";
 
+// Leaderboard Row Height
+const ITEM_HEIGHT = 40;
+
 export default function BattleLeaderboard() {
 	const {
 		id: poolId,
@@ -27,6 +30,7 @@ export default function BattleLeaderboard() {
 		battleStatus,
 		openUserBetslipId,
 	} = useLocalSearchParams();
+
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.54;
 	const [selectedBetslip, setSelectedBetslip] = useState(null);
@@ -38,6 +42,7 @@ export default function BattleLeaderboard() {
 	// const totalPointsIncrease = 10;
 
 	const sheetRef = useRef(null);
+	const flatListRef = useRef(null);
 	const snapPoints = useMemo(() => ["60%"], []);
 
 	const { betslips, refetch } = useBattleLeaderboard(
@@ -46,14 +51,23 @@ export default function BattleLeaderboard() {
 		battleId
 	);
 
+	console.log('Selected Betslip:', selectedBetslip)
+
 	// once betslips are back, if openUserBetslipId is set, pick & open
 	useEffect(() => {
 		if (!betslips.length || !openUserBetslipId) return;
 
-		const me = betslips.find((b) => String(b.id) === String(openUserBetslipId));
-		if (me) {
-			setSelectedBetslip(me);
-			// wait a tick then snap open:
+		const targetId = Number(openUserBetslipId);
+		const idx = betslips.findIndex((b) => b.id === targetId);
+		if (idx >= 0) {
+			// 1 - Select the betslip in state
+			setSelectedBetslip(betslips[idx]);
+			// 2 - scroll
+			flatListRef.current?.scrollToIndex({
+				index: idx,
+				viewPosition: 0, // put it at top
+			});
+			// 3 - open sheet
 			requestAnimationFrame(() => {
 				sheetRef.current?.snapToIndex(0);
 			});
@@ -86,13 +100,24 @@ export default function BattleLeaderboard() {
 			<Txt style={s.headingTxt}>Leaderboard</Txt>
 			<FlatList
 				data={betslips}
+				ref={flatListRef}
 				keyExtractor={(b) => b.id.toString()}
 				// pull‑to‑refresh
-				refreshing={refreshing}
-				onRefresh={onRefresh}
+				refreshControl={
+					<RefreshControl
+						refreshing={refreshing}
+						onRefresh={onRefresh}
+						tintColor="#54D18C"
+					/>
+				}
 				showsVerticalScrollIndicator={false}
 				// reserve space for your bottom sheet
 				contentContainerStyle={{ paddingBottom: bottomSheetHeight }}
+				getItemLayout={(_, index) => ({
+					length: ITEM_HEIGHT,
+					offset: ITEM_HEIGHT * index,
+					index,
+				})}
 				// render the column headings once, at the top of the list
 				ListHeaderComponent={() => (
 					<View style={s.leaderboardContainer}>
@@ -130,15 +155,21 @@ export default function BattleLeaderboard() {
 								{shouldShowRank ? b.rank : ""}
 							</Txt>
 							<View style={s.playerColumn}>
-								<Txt style={s.playerTxt}>
-									@{b.name}{" "}
+								<View style={s.playerNameContainer}>
+									<Txt
+										style={s.playerTxt}
+										numberOfLines={1}
+										ellipsizeMode="tail"
+									>
+										@{b.name}
+									</Txt>
 									{isMe && (
 										<FontAwesome6 name="user-large" size={10} color="#54D18C" />
 									)}
 									{battleCompleted && (
 										<Txt style={s.seasonScoreTxt}> (+{b.league_points})</Txt>
 									)}
-								</Txt>
+								</View>
 							</View>
 							<Txt style={[s.placeTxt, s.column]}>${b.earnings}</Txt>
 							<Txt style={[s.placeTxt, s.column]}>
@@ -226,18 +257,21 @@ const s = StyleSheet.create({
 	},
 	playerColumn: {
 		flex: 4.5,
-
-		// These show the correct user icon
+		// backgroundColor:'green',
+		// overflow: 'hidden'
+	},
+	playerNameContainer: {
 		flexDirection: "row",
 		alignItems: "center",
-		flexWrap: "wrap",
-		gap: 6,
+		gap: 2,
+		// flexShrink: 1,
 	},
 	leaderboardRow: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
-		paddingVertical: 8,
+		height: ITEM_HEIGHT,
+		// paddingVertical: 8,
 		// borderRightWidth: 0.5,
 		borderBottomWidth: 0.5,
 		borderColor: "#284357",
@@ -251,8 +285,10 @@ const s = StyleSheet.create({
 	},
 	playerTxt: {
 		// flex: 1,
-		fontSize: 14,
+		fontSize: 13,
 		fontFamily: "Saira_600SemiBold",
+		// lineHeight: 20,
+		flexShrink: 1,
 	},
 	seasonScoreTxt: {
 		fontSize: 12,
