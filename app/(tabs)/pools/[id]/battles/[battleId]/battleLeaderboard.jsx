@@ -44,6 +44,7 @@ export default function BattleLeaderboard() {
 	const sheetRef = useRef(null);
 	const flatListRef = useRef(null);
 	const snapPoints = useMemo(() => ["60%"], []);
+	const didAutoOpen = useRef(false)
 
 	const { betslips, refetch } = useBattleLeaderboard(
 		poolId,
@@ -54,25 +55,25 @@ export default function BattleLeaderboard() {
 	console.log('Selected Betslip:', selectedBetslip)
 
 	// once betslips are back, if openUserBetslipId is set, pick & open
-	useEffect(() => {
-		if (!betslips.length || !openUserBetslipId) return;
+  useEffect(() => {
+    if (
+      !didAutoOpen.current &&
+      betslips.length > 0 &&
+      openUserBetslipId
+    ) {
+      const targetId = Number(openUserBetslipId)
+      const idx = betslips.findIndex((b) => b.id === targetId)
+      if (idx >= 0) {
+        setSelectedBetslip(betslips[idx])
+        flatListRef.current?.scrollToIndex({ index: idx, viewPosition: 0 })
+        requestAnimationFrame(() => sheetRef.current?.snapToIndex(0))
 
-		const targetId = Number(openUserBetslipId);
-		const idx = betslips.findIndex((b) => b.id === targetId);
-		if (idx >= 0) {
-			// 1 - Select the betslip in state
-			setSelectedBetslip(betslips[idx]);
-			// 2 - scroll
-			flatListRef.current?.scrollToIndex({
-				index: idx,
-				viewPosition: 0, // put it at top
-			});
-			// 3 - open sheet
-			requestAnimationFrame(() => {
-				sheetRef.current?.snapToIndex(0);
-			});
-		}
-	}, [betslips, openUserBetslipId]);
+        // flip the flag so we never auto–open again
+        didAutoOpen.current = true
+      }
+    }
+  }, [betslips, openUserBetslipId])
+
 
 	const onRefresh = async () => {
 		setRefreshing(true);
