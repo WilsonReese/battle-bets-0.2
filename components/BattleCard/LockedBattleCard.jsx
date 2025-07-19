@@ -178,7 +178,7 @@ export function LockedBattleCard({
 							<TouchableOpacity onPress={() => handleViewUserBetslip()} style={{paddingTop: 4}}>
 								<PlacedBet bet={topBet} backgroundColor={"#1D394E"} />
 								<View style={s.keyBetTag}>
-									<Txt style={[s.betInfoLabel, {fontSize: 10}]}>Key Bet</Txt>
+									<Txt style={[s.betInfoLabel, {fontSize: 10, color: '#0F2638'}]}>Key Bet</Txt>
 								</View>
 							</TouchableOpacity>
 						) : (
