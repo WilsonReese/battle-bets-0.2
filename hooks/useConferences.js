@@ -48,6 +48,7 @@ export function useConferences() {
       clearConferences,
       filterGames,
       FILTER_CONFERENCES,
+      normalizeConf
     }),
     [
       selectedConferences,

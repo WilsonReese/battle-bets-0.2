@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useMemo, useRef, useState } from "react";
 import {
 	View,
 	TextInput,
@@ -19,6 +19,26 @@ import { SafeAreaProvider, SafeAreaView } from "react-native-safe-area-context";
 import { API_BASE_URL } from "../utils/api";
 import { AuthContext } from "../components/contexts/AuthContext";
 import { KeyboardAwareScrollView } from "react-native-keyboard-aware-scroll-view";
+import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
+import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { LoadingIndicator } from "../components/general/LoadingIndicator";
+import { TeamLogo } from "../components/GameCard/Matchup/TeamLogo";
+import { useConferences } from "../hooks/useConferences";
+import { ConferenceFilter } from "../components/GameCard/ConferenceFilter";
+
+const FBS_CONFERENCES = [
+	"American",
+	"ACC",
+	"Big 12",
+	"Big Ten",
+	"Conference USA",
+	"FBS Independents",
+	"Mid-American",
+	"Mountain West",
+	"Pac-12",
+	"SEC",
+	"Sun Belt",
+];
 
 export default function SignupScreen() {
 	const { login } = useContext(AuthContext);
@@ -32,8 +52,56 @@ export default function SignupScreen() {
 	});
 	const [fieldErrors, setFieldErrors] = useState({});
 	const [signupDisabled, setSignupDisabled] = useState(false);
+	const [favoriteTeamId, setFavoriteTeamId] = useState(null);
+	const [loading, setLoading] = useState(true);
 
 	const { showError, showSuccess } = useToastMessage();
+
+	const {
+		selectedConferences,
+		toggleConference,
+		clearConferences,
+		FILTER_CONFERENCES,
+		normalizeConf,
+	} = useConferences();
+
+	// Teams State
+	const [teams, setTeams] = useState([]);
+	const sheetRef = useRef(null);
+	const snapPoints = useMemo(() => ["50%"], []);
+	const openTeamSheet = () => sheetRef.current?.expand?.();
+	const closeTeamSheet = () => sheetRef.current?.close?.();
+
+	// fetch all teams once
+	useEffect(() => {
+		api
+			.get("/teams")
+			.then((res) => setTeams(res.data))
+			.catch((err) => console.error("Failed to fetch teams", err))
+			.finally(() => setLoading(false));
+	}, []);
+
+	// const fbsTeams = teams.filter((t) => FBS_CONFERENCES.includes(t.conference));
+
+	// const filteredTeams = fbsTeams.filter((t) => {
+	// 	const conf = normalizeConf(t.conference);
+	// 	return (
+	// 		// only show FBS conferences
+	// 		FILTER_CONFERENCES.includes(conf) &&
+	// 		// if none selected, show all; else only those selected
+	// 		(selectedConferences.length === 0 || selectedConferences.includes(conf))
+	// 	);
+	// });
+
+	const teamsByConference = useMemo(() => {
+		return FBS_CONFERENCES.map((conf) => {
+			const list = teams
+				.filter((t) => t.conference === conf)
+				.sort((a, b) => a.name.localeCompare(b.name));
+			return { conference: conf, teams: list };
+		}).filter((sec) => sec.teams.length > 0);
+	}, [teams]);
+
 	const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 	const handleChange = (key, value) => {
@@ -107,7 +175,12 @@ export default function SignupScreen() {
 		setTimeout(() => setSignupDisabled(false), 3000); // ✅ re-enable in 3 seconds
 
 		try {
-			await api.post("/signup", { user: form });
+			await api.post("/signup", {
+				user: {
+					...form,
+					favorite_team_id: favoriteTeamId,
+				},
+			});
 			showSuccess("Account created!");
 
 			await handleLogin(form.email, form.password);
@@ -155,6 +228,14 @@ export default function SignupScreen() {
 			showError("Login error. Please try again.");
 		}
 	};
+
+	if (loading) {
+		return (
+			<View style={s.container}>
+				<LoadingIndicator color="light" contentToLoad="teams" />
+			</View>
+		);
+	}
 
 	return (
 		<SafeAreaProvider>
@@ -274,6 +355,18 @@ export default function SignupScreen() {
 							</Txt>
 						)}
 
+						<Txt>Favorite Team</Txt>
+						<TouchableOpacity style={s.teamSelector} onPress={openTeamSheet}>
+							<View style={s.teamSelectorView}>
+								<Txt style={s.teamSelectorTxt}>
+									{favoriteTeamId
+										? teams.find((t) => t.id === favoriteTeamId)?.name
+										: "None"}
+								</Txt>
+								<FontAwesome6 name="chevron-down" size={16} color={"#F8F8F8"} />
+							</View>
+						</TouchableOpacity>
+
 						<Btn
 							btnText={signupDisabled ? "Processing..." : "Create Account"}
 							onPress={handleSignup}
@@ -287,6 +380,65 @@ export default function SignupScreen() {
 							<Txt style={s.loginTxt}>Back to Login</Txt>
 						</TouchableOpacity>
 					</KeyboardAwareScrollView>
+
+					<BottomSheet
+						ref={sheetRef}
+						index={-1}
+						maxDynamicContentSize={620}
+						enablePanDownToClose
+						onClose={closeTeamSheet}
+						backgroundStyle={s.sheetBackground}
+						handleIndicatorStyle={{ backgroundColor: "#F8F8F8" }}
+					>
+						<BottomSheetScrollView contentContainerStyle={s.sheetContent}>
+							{/* Render each non‑empty conference section in order */}
+							<Txt>Favorite Team?</Txt>
+							{teamsByConference.map(({ conference, teams }) => (
+								<View key={conference} style={s.confSection}>
+									{conference === teamsByConference[0].conference && (
+										<TouchableOpacity
+											style={[
+												s.teamItem,
+												favoriteTeamId === null && s.selectedTeamItem,
+											]}
+											onPress={() => {
+												setFavoriteTeamId(null);
+												closeTeamSheet();
+											}}
+										>
+											<Txt>None</Txt>
+										</TouchableOpacity>
+									)}
+									<Txt style={s.conferenceHeader}>{conference}</Txt>
+									<View style={s.teamGrid}>
+										{/* “None” only once, so you can render it before the first section if you like */}
+										{teams.map((team) => (
+											<TouchableOpacity
+												key={team.id}
+												style={[
+													s.teamItem,
+													favoriteTeamId === team.id && s.selectedTeamItem,
+												]}
+												onPress={() => {
+													setFavoriteTeamId(team.id);
+													closeTeamSheet();
+												}}
+											>
+												<TeamLogo teamName={team.name} size={30} />
+												<Txt
+													numberOfLines={1}
+													ellipsizeMode="tail"
+													style={s.teamName}
+												>
+													{team.name}
+												</Txt>
+											</TouchableOpacity>
+										))}
+									</View>
+								</View>
+							))}
+						</BottomSheetScrollView>
+					</BottomSheet>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</SafeAreaProvider>
@@ -335,6 +487,56 @@ const s = StyleSheet.create({
 		marginTop: -8,
 		marginBottom: 8,
 	},
+	teamSelector: {
+		// backgroundColor: "#DAE1E5",
+		borderWidth: 1,
+		borderColor: "#3A454D",
+		borderRadius: 8,
+		padding: 12,
+	},
+	teamSelectorTxt: {
+		fontFamily: "Saira_600SemiBold",
+		color: "#F8F8F8",
+		fontSize: 14,
+	},
+	teamSelectorView: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+	},
+
+	// Team Bottom Sheet
+	bottomSheetContainer: {
+		alignItems: "center",
+	},
+	teamGrid: {
+		flexDirection: "row",
+		flexWrap: "wrap",
+		// alignSelf: "center",
+	},
+	teamItem: {
+		// padding: 4,
+		height: 90,
+		width: 90,
+		alignItems: "center",
+		backgroundColor: "#1D394E",
+		borderRadius: 8,
+		justifyContent: "center",
+		margin: 2,
+	},
+	teamName: {
+		fontSize: 12,
+	},
+	selectedTeamItem: {
+		backgroundColor: "#54D18C",
+	},
+	conferenceHeader: {
+		fontFamily: "Saira_600SemiBold",
+		paddingTop: 8,
+		paddingHorizontal: 4,
+		fontSize: 16,
+	},
+
 	submitButton: {
 		marginTop: 16,
 		paddingVertical: 12,
@@ -345,5 +547,13 @@ const s = StyleSheet.create({
 	},
 	loginTxt: {
 		// color: "#B8C3CC",
+	},
+	sheetBackground: {
+		backgroundColor: "#0F2638",
+		// alignItems: 'center'
+	},
+	sheetContent: {
+		paddingHorizontal: 6,
+		paddingBottom: 40,
 	},
 });
