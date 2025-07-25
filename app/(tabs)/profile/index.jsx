@@ -52,14 +52,14 @@ export default function Profile() {
 	const hasFocusedOnce = useRef(false);
 
 	useEffect(() => {
-		if (!isEditing) return; // ← bail out on exit
+		// if (!isEditing) return; // ← bail out on exit
 		setLoadingTeams(true);
 		api
 			.get("/teams")
 			.then((res) => setTeams(res.data))
 			.catch((err) => console.error("Failed to fetch teams", err))
 			.finally(() => setLoadingTeams(false));
-	}, [isEditing]);
+	}, []);
 
 	const fetchCurrentUser = async () => {
 		// setLoading(true);
