@@ -21,7 +21,6 @@ import { Btn } from "../../../components/general/Buttons/Btn";
 import { formatFullDate } from "../../../utils/dateUtils";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { TeamsByConference } from "./TeamsByConference";
 
 export default function Profile() {
 	const { logout, token } = useContext(AuthContext);
@@ -271,6 +270,17 @@ export default function Profile() {
 								<Txt style={s.labelTxt}>Member Since:</Txt>
 								<Txt style={s.txt}>{formatFullDate(user.created_at)}</Txt>
 							</View>
+
+							{/* Favorite Team */}
+							<View style={s.detailsRow}>
+								<Txt style={s.labelTxt}>Favorite Team:</Txt>
+								{user.favorite_team ? (
+								<Txt style={s.txt}>{user.favorite_team.name}</Txt>
+								): (
+									<Txt style={s.txt}>None selected</Txt>
+								)}
+							</View>
+
 						</>
 					) : (
 						<Txt style={s.txt}>Loading user info...</Txt>
@@ -298,8 +308,6 @@ export default function Profile() {
 								color="#E06777"
 							/>
 						</TouchableOpacity>
-
-						<TeamsByConference/>
 
 					</View>
 				</ScrollView>
