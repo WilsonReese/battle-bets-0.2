@@ -25,6 +25,7 @@ import { LoadingIndicator } from "../components/general/LoadingIndicator";
 import { TeamLogo } from "../components/GameCard/Matchup/TeamLogo";
 import { useConferences } from "../hooks/useConferences";
 import { ConferenceFilter } from "../components/GameCard/ConferenceFilter";
+import { FaveTeamBottomSheet } from "../components/CreateAccount/FaveTeamBottomSheet";
 
 const FBS_CONFERENCES = [
 	"American",
@@ -57,19 +58,13 @@ export default function SignupScreen() {
 
 	const { showError, showSuccess } = useToastMessage();
 
-	const {
-		selectedConferences,
-		toggleConference,
-		clearConferences,
-		FILTER_CONFERENCES,
-		normalizeConf,
-	} = useConferences();
-
 	// Teams State
 	const [teams, setTeams] = useState([]);
 	const sheetRef = useRef(null);
-	const snapPoints = useMemo(() => ["50%"], []);
-	const openTeamSheet = () => sheetRef.current?.expand?.();
+	const openTeamSheet = () => {
+		Keyboard.dismiss();
+		sheetRef.current?.expand();
+	};
 	const closeTeamSheet = () => sheetRef.current?.close?.();
 
 	// fetch all teams once
@@ -80,27 +75,6 @@ export default function SignupScreen() {
 			.catch((err) => console.error("Failed to fetch teams", err))
 			.finally(() => setLoading(false));
 	}, []);
-
-	// const fbsTeams = teams.filter((t) => FBS_CONFERENCES.includes(t.conference));
-
-	// const filteredTeams = fbsTeams.filter((t) => {
-	// 	const conf = normalizeConf(t.conference);
-	// 	return (
-	// 		// only show FBS conferences
-	// 		FILTER_CONFERENCES.includes(conf) &&
-	// 		// if none selected, show all; else only those selected
-	// 		(selectedConferences.length === 0 || selectedConferences.includes(conf))
-	// 	);
-	// });
-
-	const teamsByConference = useMemo(() => {
-		return FBS_CONFERENCES.map((conf) => {
-			const list = teams
-				.filter((t) => t.conference === conf)
-				.sort((a, b) => a.name.localeCompare(b.name));
-			return { conference: conf, teams: list };
-		}).filter((sec) => sec.teams.length > 0);
-	}, [teams]);
 
 	const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
@@ -228,14 +202,6 @@ export default function SignupScreen() {
 			showError("Login error. Please try again.");
 		}
 	};
-
-	if (loading) {
-		return (
-			<View style={s.container}>
-				<LoadingIndicator color="light" contentToLoad="teams" />
-			</View>
-		);
-	}
 
 	return (
 		<SafeAreaProvider>
@@ -381,64 +347,14 @@ export default function SignupScreen() {
 						</TouchableOpacity>
 					</KeyboardAwareScrollView>
 
-					<BottomSheet
-						ref={sheetRef}
-						index={-1}
-						maxDynamicContentSize={620}
-						enablePanDownToClose
-						onClose={closeTeamSheet}
-						backgroundStyle={s.sheetBackground}
-						handleIndicatorStyle={{ backgroundColor: "#F8F8F8" }}
-					>
-						<BottomSheetScrollView contentContainerStyle={s.sheetContent}>
-							{/* Render each non‑empty conference section in order */}
-							<Txt>Favorite Team?</Txt>
-							{teamsByConference.map(({ conference, teams }) => (
-								<View key={conference} style={s.confSection}>
-									{conference === teamsByConference[0].conference && (
-										<TouchableOpacity
-											style={[
-												s.teamItem,
-												favoriteTeamId === null && s.selectedTeamItem,
-											]}
-											onPress={() => {
-												setFavoriteTeamId(null);
-												closeTeamSheet();
-											}}
-										>
-											<Txt>None</Txt>
-										</TouchableOpacity>
-									)}
-									<Txt style={s.conferenceHeader}>{conference}</Txt>
-									<View style={s.teamGrid}>
-										{/* “None” only once, so you can render it before the first section if you like */}
-										{teams.map((team) => (
-											<TouchableOpacity
-												key={team.id}
-												style={[
-													s.teamItem,
-													favoriteTeamId === team.id && s.selectedTeamItem,
-												]}
-												onPress={() => {
-													setFavoriteTeamId(team.id);
-													closeTeamSheet();
-												}}
-											>
-												<TeamLogo teamName={team.name} size={30} />
-												<Txt
-													numberOfLines={1}
-													ellipsizeMode="tail"
-													style={s.teamName}
-												>
-													{team.name}
-												</Txt>
-											</TouchableOpacity>
-										))}
-									</View>
-								</View>
-							))}
-						</BottomSheetScrollView>
-					</BottomSheet>
+					<FaveTeamBottomSheet
+						loading={loading}
+						teams={teams}
+						favoriteTeamId={favoriteTeamId}
+						setFavoriteTeamId={setFavoriteTeamId}
+						sheetRef={sheetRef}
+						closeTeamSheet={closeTeamSheet}
+					/>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</SafeAreaProvider>
@@ -505,38 +421,6 @@ const s = StyleSheet.create({
 		alignItems: "center",
 	},
 
-	// Team Bottom Sheet
-	bottomSheetContainer: {
-		alignItems: "center",
-	},
-	teamGrid: {
-		flexDirection: "row",
-		flexWrap: "wrap",
-		// alignSelf: "center",
-	},
-	teamItem: {
-		// padding: 4,
-		height: 90,
-		width: 90,
-		alignItems: "center",
-		backgroundColor: "#1D394E",
-		borderRadius: 8,
-		justifyContent: "center",
-		margin: 2,
-	},
-	teamName: {
-		fontSize: 12,
-	},
-	selectedTeamItem: {
-		backgroundColor: "#54D18C",
-	},
-	conferenceHeader: {
-		fontFamily: "Saira_600SemiBold",
-		paddingTop: 8,
-		paddingHorizontal: 4,
-		fontSize: 16,
-	},
-
 	submitButton: {
 		marginTop: 16,
 		paddingVertical: 12,
@@ -547,13 +431,5 @@ const s = StyleSheet.create({
 	},
 	loginTxt: {
 		// color: "#B8C3CC",
-	},
-	sheetBackground: {
-		backgroundColor: "#0F2638",
-		// alignItems: 'center'
-	},
-	sheetContent: {
-		paddingHorizontal: 6,
-		paddingBottom: 40,
 	},
 });
