@@ -22,6 +22,7 @@ import { formatFullDate } from "../../../utils/dateUtils";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { FaveTeamBottomSheet } from "../../../components/CreateAccount/FaveTeamBottomSheet";
+import { TeamLogo } from "../../../components/GameCard/Matchup/TeamLogo";
 
 export default function Profile() {
 	const { logout, token } = useContext(AuthContext);
@@ -330,7 +331,16 @@ export default function Profile() {
 										</View>
 									</TouchableOpacity>
 								) : (
-									<Txt style={s.txt}>{user.favorite_team?.name || "None"}</Txt>
+									<>
+									{user.favorite_team ? (
+										<View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
+											<TeamLogo teamName={user.favorite_team.name} size={30}/>
+											<Txt style={s.txt}>{user.favorite_team?.name}</Txt>
+										</View>
+									): (
+										<Txt style={s.txt}>None</Txt>
+									)}
+									</>
 								)}
 							</View>
 							{console.log(user.favorite_team)}
