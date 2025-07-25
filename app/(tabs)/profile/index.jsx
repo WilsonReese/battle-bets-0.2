@@ -21,6 +21,7 @@ import { Btn } from "../../../components/general/Buttons/Btn";
 import { formatFullDate } from "../../../utils/dateUtils";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { FaveTeamBottomSheet } from "../../../components/CreateAccount/FaveTeamBottomSheet";
 
 export default function Profile() {
 	const { logout, token } = useContext(AuthContext);
@@ -28,17 +29,39 @@ export default function Profile() {
 	const { showError, showSuccess } = useToastMessage();
 	const [refreshing, setRefreshing] = useState(false);
 
+	// Teams stuff
+	const [loadingTeams, setLoadingTeams] = useState(false);
+	const [teams, setTeams] = useState([]);
+	const sheetRef = useRef(null);
+	const openTeamSheet = () => {
+		Keyboard.dismiss();
+		sheetRef.current?.expand();
+	};
+	const closeTeamSheet = () => sheetRef.current?.close?.();
+
 	const [user, setUser] = useState(null);
 	const [form, setForm] = useState({
 		first_name: "",
 		last_name: "",
 		username: "",
 	});
+	const [favoriteTeamId, setFavoriteTeamId] = useState(null);
 	const [errors, setErrors] = useState({});
 	const [isEditing, setIsEditing] = useState(false);
 	const hasFocusedOnce = useRef(false);
 
+	useEffect(() => {
+		if (!isEditing) return; // ← bail out on exit
+		setLoadingTeams(true);
+		api
+			.get("/teams")
+			.then((res) => setTeams(res.data))
+			.catch((err) => console.error("Failed to fetch teams", err))
+			.finally(() => setLoadingTeams(false));
+	}, [isEditing]);
+
 	const fetchCurrentUser = async () => {
+		// setLoading(true);
 		try {
 			const res = await api.get("/current_user");
 			setUser(res.data);
@@ -47,9 +70,12 @@ export default function Profile() {
 				last_name: res.data.last_name,
 				username: res.data.username,
 			});
+			setFavoriteTeamId(res.data.favorite_team_id);
 		} catch (err) {
 			console.error("Error fetching user:", err.message);
 			showError("Failed to load user profile.");
+		} finally {
+			// setLoading(false);
 		}
 	};
 
@@ -58,6 +84,7 @@ export default function Profile() {
 	}, []);
 
 	const onRefresh = async () => {
+		// setLoading(false);
 		setRefreshing(true);
 		await fetchCurrentUser();
 		setRefreshing(false);
@@ -87,8 +114,15 @@ export default function Profile() {
 		}
 
 		try {
-			const res = await api.patch("/users/update_profile", form);
-			setUser(res.data);
+			const payload = {
+				...form,
+				favorite_team_id: favoriteTeamId,
+			};
+			const res = await api.patch("/users/update_profile", payload);
+			setUser((prev) => ({
+				...res.data,
+				favorite_team: teams.find((t) => t.id === favoriteTeamId) || null,
+			}));
 			showSuccess("Profile updated.");
 			setErrors({});
 			setIsEditing(false);
@@ -274,13 +308,32 @@ export default function Profile() {
 							{/* Favorite Team */}
 							<View style={s.detailsRow}>
 								<Txt style={s.labelTxt}>Favorite Team:</Txt>
-								{user.favorite_team ? (
-								<Txt style={s.txt}>{user.favorite_team.name}</Txt>
-								): (
-									<Txt style={s.txt}>None selected</Txt>
+								{isEditing ? (
+									<TouchableOpacity
+										style={s.teamSelector}
+										onPress={() => {
+											Keyboard.dismiss(); // hide keyboard
+											sheetRef.current?.expand();
+										}}
+									>
+										<View style={s.selectorView}>
+											<Txt style={s.txt}>
+												{favoriteTeamId
+													? teams.find((t) => t.id === favoriteTeamId)?.name
+													: "None"}
+											</Txt>
+											<FontAwesome6
+												name="chevron-down"
+												size={16}
+												color="#F8F8F8"
+											/>
+										</View>
+									</TouchableOpacity>
+								) : (
+									<Txt style={s.txt}>{user.favorite_team?.name || "None"}</Txt>
 								)}
 							</View>
-
+							{console.log(user.favorite_team)}
 						</>
 					) : (
 						<Txt style={s.txt}>Loading user info...</Txt>
@@ -308,9 +361,15 @@ export default function Profile() {
 								color="#E06777"
 							/>
 						</TouchableOpacity>
-
 					</View>
 				</ScrollView>
+				<FaveTeamBottomSheet
+					sheetRef={sheetRef}
+					teams={teams}
+					favoriteTeamId={favoriteTeamId}
+					setFavoriteTeamId={setFavoriteTeamId}
+					closeTeamSheet={closeTeamSheet}
+				/>
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
 	);
@@ -392,5 +451,19 @@ const s = StyleSheet.create({
 	},
 	logoutTxt: {
 		color: "#E06777",
+	},
+
+	selectorView: {
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+	},
+
+	teamSelector: {
+		flex: 1,
+		borderWidth: 1,
+		borderColor: "#3A454D",
+		borderRadius: 8,
+		padding: 8,
 	},
 });
