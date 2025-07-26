@@ -76,6 +76,39 @@ export default function SignupScreen() {
 			.finally(() => setLoading(false));
 	}, []);
 
+	// Ambassador Stuff
+	const [ambassadors, setAmbassadors] = useState([]);
+	const [loadingAmbassadors, setLoadingAmbassadors] = useState(false);
+	const [ambassadorError, setAmbassadorError] = useState(null);
+	const [referred, setReferred] = useState(null); // 'yes' | 'no' | null
+	const [selectedAmbassador, setSelectedAmbassador] = useState(null);
+
+	useEffect(() => {
+		setLoadingAmbassadors(true);
+		api
+			.get("/ambassadors")
+			.then((res) => {
+				setAmbassadors(res.data);
+			})
+			.catch((err) => {
+				console.error("Failed to fetch ambassadors", err);
+				setAmbassadorError("Could not load ambassador list");
+			})
+			.finally(() => setLoadingAmbassadors(false));
+	}, []);
+
+	// 3) bottom sheet ref
+	const ambassadorSheetRef = useRef(null);
+	const openAmbassadorSheet = () => {
+		Keyboard.dismiss();
+		ambassadorSheetRef.current?.expand();
+	};
+	const closeAmbassadorSheet = () => {
+		ambassadorSheetRef.current?.close();
+	};
+
+	console.log("Ambassadors:", ambassadors);
+
 	const capitalize = (s) => s.charAt(0).toUpperCase() + s.slice(1);
 
 	const handleChange = (key, value) => {
@@ -153,6 +186,10 @@ export default function SignupScreen() {
 				user: {
 					...form,
 					favorite_team_id: favoriteTeamId,
+					ambassador:
+						referred === "yes" && selectedAmbassador
+							? selectedAmbassador.value
+							: null,
 				},
 			});
 			showSuccess("Account created!");
@@ -322,9 +359,9 @@ export default function SignupScreen() {
 						)}
 
 						<Txt>Favorite Team</Txt>
-						<TouchableOpacity style={s.teamSelector} onPress={openTeamSheet}>
-							<View style={s.teamSelectorView}>
-								<Txt style={s.teamSelectorTxt}>
+						<TouchableOpacity style={s.selector} onPress={openTeamSheet}>
+							<View style={s.selectorView}>
+								<Txt style={s.selectorTxt}>
 									{favoriteTeamId
 										? teams.find((t) => t.id === favoriteTeamId)?.name
 										: "None"}
@@ -332,6 +369,76 @@ export default function SignupScreen() {
 								<FontAwesome6 name="chevron-down" size={16} color={"#F8F8F8"} />
 							</View>
 						</TouchableOpacity>
+
+						<Txt>Did a Battle Bets ambassador refer you?</Txt>
+						<View style={s.radioRow}>
+							<TouchableOpacity
+								onPress={() => {
+									setReferred("yes");
+								}}
+							>
+								<View style={s.radioOption}>
+									<View
+										style={[
+											s.radioCircle,
+											// referred === "no" && s.radioSelected,
+										]}
+									>
+										<View style={referred === "yes" && s.radioSelected} />
+									</View>
+									<Txt>Yes</Txt>
+								</View>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								onPress={() => {
+									setReferred("no");
+									setSelectedAmbassador(null);
+								}}
+							>
+								<View style={s.radioOption}>
+									<View
+										style={[
+											s.radioCircle,
+											// referred === "no" && s.radioSelected,
+										]}
+									>
+										<View style={referred === "no" && s.radioSelected} />
+									</View>
+									<Txt>No</Txt>
+								</View>
+							</TouchableOpacity>
+						</View>
+
+						{referred === "yes" && (
+							<>
+								{loadingAmbassadors ? (
+									<Txt>Loading ambassadors…</Txt>
+								) : ambassadorError ? (
+									<Txt style={{ color: "red" }}>{ambassadorError}</Txt>
+								) : (
+									<TouchableOpacity
+										style={s.selector}
+										onPress={openAmbassadorSheet}
+									>
+										<View style={s.selectorView}>
+											<Txt
+												style={s.selectorTxt}
+												numberOfLines={1}
+												ellipsizeMode="tail"
+											>
+												{selectedAmbassador?.label || "Select ambassador"}
+											</Txt>
+											<FontAwesome6
+												name="chevron-down"
+												size={16}
+												color="#F8F8F8"
+											/>
+										</View>
+									</TouchableOpacity>
+								)}
+							</>
+						)}
 
 						<Btn
 							btnText={signupDisabled ? "Processing..." : "Create Account"}
@@ -355,6 +462,34 @@ export default function SignupScreen() {
 						sheetRef={sheetRef}
 						closeTeamSheet={closeTeamSheet}
 					/>
+					<BottomSheet
+						ref={ambassadorSheetRef}
+						index={-1}
+						snapPoints={["50%"]}
+						enablePanDownToClose
+						onClose={closeAmbassadorSheet}
+						backgroundStyle={s.sheetBackground}
+						handleIndicatorStyle={s.handle}
+					>
+						<BottomSheetScrollView contentContainerStyle={s.sheetContent}>
+							{ambassadors.map((amb) => (
+								<TouchableOpacity
+									key={amb.value}
+									style={[
+										s.ambassadorItem,
+										selectedAmbassador?.value === amb.value &&
+											s.ambassadorSelected,
+									]}
+									onPress={() => {
+										setSelectedAmbassador(amb);
+										closeAmbassadorSheet();
+									}}
+								>
+									<Txt>{amb.label}</Txt>
+								</TouchableOpacity>
+							))}
+						</BottomSheetScrollView>
+					</BottomSheet>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
 		</SafeAreaProvider>
@@ -403,22 +538,73 @@ const s = StyleSheet.create({
 		marginTop: -8,
 		marginBottom: 8,
 	},
-	teamSelector: {
+	selector: {
 		// backgroundColor: "#DAE1E5",
 		borderWidth: 1,
 		borderColor: "#3A454D",
 		borderRadius: 8,
 		padding: 12,
+		marginBottom: 12,
 	},
-	teamSelectorTxt: {
+	selectorTxt: {
 		fontFamily: "Saira_600SemiBold",
 		color: "#F8F8F8",
 		fontSize: 14,
+		flexShrink: 1,
 	},
-	teamSelectorView: {
+	selectorView: {
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
+	},
+
+	// Referral Styles
+	radioRow: {
+		flexDirection: "row",
+		// marginBottom: 12,
+		gap: 48,
+	},
+	radioOption: {
+		flexDirection: "row",
+		alignItems: "center",
+		gap: 6,
+		paddingTop: 4,
+		paddingBottom: 12,
+	},
+	radioCircle: {
+		width: 20,
+		height: 20,
+		borderRadius: 20,
+		borderWidth: 1,
+		borderColor: "#F8F8F8",
+		alignItems: "center",
+		justifyContent: "center",
+	},
+	radioSelected: {
+		width: 10,
+		height: 10,
+		borderRadius: 20,
+		backgroundColor: "#F8F8F8",
+		// borderColor: "#54D18C",
+	},
+
+	// Referral Bottom Sheet
+	sheetBackground: { backgroundColor: "#0F2638" },
+  handle: { 
+		backgroundColor: "#F8F8F8" 
+	},
+  sheetContent: { 
+		padding: 16 
+	},
+  ambassadorItem: {
+    paddingVertical: 12,
+    paddingHorizontal: 8,
+    borderBottomWidth: 0.5,
+    borderColor: "#284357",
+  },
+  ambassadorSelected: { 
+		backgroundColor: "#1D394E", 
+		borderRadius: 8,
 	},
 
 	submitButton: {
