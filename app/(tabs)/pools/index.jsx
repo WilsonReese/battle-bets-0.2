@@ -15,6 +15,7 @@ import { Btn } from "../../../components/general/Buttons/Btn";
 import { PoolCard } from "../../../components/PoolCard/PoolCard";
 import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
 import api from "../../../utils/axiosConfig";
+import { AnnouncementsCard } from "../../../components/PoolCard/AnnouncementsCard";
 
 export default function Pools() {
 	// const api = useAxiosWithAuth();
@@ -22,6 +23,7 @@ export default function Pools() {
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 	const [autoRefreshing, setAutoRefreshing] = useState(false);
+	const [response, setResponse] = useState([]);
 	const autoRefreshTimer = useRef(null);
 
 	// 🆕 this counter bumps every time the screen gains focus
@@ -39,35 +41,35 @@ export default function Pools() {
 		}
 	};
 
+	const fetchAnnouncements = async () => {
+		try {
+			const res = await api.get("/announcements");
+			if (res.status === 200 && res.data?.id) {
+				setResponse(res.data);
+			} else {
+				setResponse(null);
+			}
+		} catch (err) {
+			console.warn("Error fetching announcements:", err);
+			setResponse(null);
+		}
+	};
+
 	// Initial
 	useFocusEffect(
 		useCallback(() => {
 			let isActive = true;
 			setIsScreenLoading(true);
-			fetchPools().finally(() => {
+
+			Promise.all([fetchAnnouncements(), fetchPools()]).finally(() => {
 				if (isActive) setIsScreenLoading(false);
 			});
+
 			return () => {
-				isActive = false; // cleanup to prevent setting state after unmount
+				isActive = false;
 			};
-		}, []) // remove [api] dependency to prevent refiring
+		}, [])
 	);
-
-	// Pull-to-refresh for Reload every time.
-	// const onRefresh = async () => {
-	// 	setRefreshing(true);
-	// 	await fetchPools();
-	// 	setRefreshing(false);
-	// 	// setFocusVersion(v => v + 1);      // ⬆️  force cards to refetch too
-	// };
-
-	// const resetAutoRefreshTimer = () => {
-	// 	if (autoRefreshTimer.current) clearInterval(autoRefreshTimer.current);
-	// 	autoRefreshTimer.current = setInterval(() => {
-	// 		console.log("⏱ Auto-refreshing pools...");
-	// 		onRefresh(true);
-	// 	}, 60000); // 60 seconds
-	// };
 
 	useFocusEffect(
 		useCallback(() => {
@@ -83,23 +85,6 @@ export default function Pools() {
 			};
 		}, [onRefresh])
 	);
-
-	// const onRefresh = useCallback(async (isAuto = false) => {
-	// 	if (isAuto) {
-	// 		setAutoRefreshing(true);
-	// 	} else {
-	// 		setRefreshing(true);
-	// 		resetAutoRefreshTimer(); // 💡 Reset timer only after manual refresh
-	// 	}
-
-	// 	await fetchPools();
-
-	// 	if (isAuto) {
-	// 		setAutoRefreshing(false);
-	// 	} else {
-	// 		setRefreshing(false);
-	// 	}
-	// }, []);
 
 	const onRefresh = useCallback(
 		async (isAuto = false) => {
@@ -117,8 +102,7 @@ export default function Pools() {
 					}, 60000); // after manually refreshing, timer is set back to 60 seconds
 				}
 			}
-
-			await fetchPools();
+			await Promise.all([fetchAnnouncements(), fetchPools()]);
 
 			if (isAuto) {
 				setAutoRefreshing(false);
@@ -128,11 +112,6 @@ export default function Pools() {
 		},
 		[api]
 	);
-
-	// useEffect(() => {
-	// 	resetAutoRefreshTimer(); // start the first timer on mount
-	// 	return () => clearInterval(autoRefreshTimer.current); // cleanup
-	// }, []);
 
 	if (isScreenLoading) {
 		return (
@@ -146,17 +125,8 @@ export default function Pools() {
 		<View style={s.container}>
 			<StatusBar style="light" />
 
-			<View style={s.titleContainer}>
-				<Txt style={s.titleText}>Leagues</Txt>
-				{autoRefreshing && (
-					<View style={{ paddingRight: 8 }}>
-						<ActivityIndicator size="small" hidesWhenStopped />
-					</View>
-				)}
-			</View>
-
 			{pools.length === 0 ? (
-				<NoLeagues />
+				<NoLeagues response={response} />
 			) : (
 				<FlatList
 					data={pools}
@@ -164,6 +134,20 @@ export default function Pools() {
 					// renderItem={({ item }) => (
 					// 	<PoolCard pool={item} focusVersion={focusVersion} />
 					// )}
+					ListHeaderComponent={
+						<View>
+							{response?.id && <AnnouncementsCard response={response} />}
+
+							<View style={s.titleContainer}>
+								<Txt style={s.titleText}>Leagues</Txt>
+								{autoRefreshing && (
+									<View style={{ paddingRight: 8 }}>
+										<ActivityIndicator size="small" hidesWhenStopped />
+									</View>
+								)}
+							</View>
+						</View>
+					}
 					renderItem={({ item }) => (
 						<PoolCard
 							pool={item}
