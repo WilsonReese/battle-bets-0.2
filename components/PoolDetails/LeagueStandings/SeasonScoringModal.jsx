@@ -31,6 +31,9 @@ export function SeasonScoringModal({
 					</TouchableWithoutFeedback>
 
 					<View style={[s.container, { maxHeight: maxModalHeight }]}>
+						<View>
+							<FontAwesome6 name="xmark" size={24} color="black" />
+						</View>
 						<ScrollView>
 							<Txt style={s.text}>
 								Here’s your scoring info for a league of {leagueSize} teams.

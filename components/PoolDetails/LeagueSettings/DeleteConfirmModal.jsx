@@ -17,7 +17,7 @@ export function DeleteConfirmModal({ modalVisible, onClose, onConfirm }) {
             </TouchableOpacity>
           </View>
 
-          <Txt style={s.body}>Are you sure you want to delete this league? This action is irreversible.</Txt>
+          <Txt style={s.body}>Are you sure you want to delete this league? All league data will be permanently deleted. This action is irreversible. </Txt>
           <View style={s.actions}>
             <Btn
               btnText="Yes, delete league"
@@ -32,7 +32,7 @@ export function DeleteConfirmModal({ modalVisible, onClose, onConfirm }) {
               onPress={onClose}
               isEnabled={true}
               style={s.cancelBtn}
-              fontColor="#184EAD"
+              fontColor="#061826"
               fontSize={14}
             />
           </View>
@@ -50,7 +50,7 @@ const s = StyleSheet.create({
     alignItems: "center",
   },
   modalContainer: {
-    backgroundColor: "#F8F8F8",
+    backgroundColor: "#061826",
     borderRadius: 10,
     // padding: 16,
     width: "80%",
@@ -60,11 +60,11 @@ const s = StyleSheet.create({
     borderTopLeftRadius: 8,
     borderTopRightRadius: 8,
     // paddingVertical: 8,
-    backgroundColor: "#184EAD",
+    backgroundColor: "#061826",
     flexDirection: "row",
     alignItems: "center",
     justifyContent: "space-between",
-    paddingHorizontal: 8,
+    paddingHorizontal: 12,
   },
   modalHeadingText: {
     fontFamily: "Saira_600SemiBold",
@@ -79,9 +79,9 @@ const s = StyleSheet.create({
   },
   body: {
     fontSize: 14,
-    color: "#061826",
+    color: "#F8F8F8",
     paddingTop: 12,
-    paddingHorizontal: 8,
+    paddingHorizontal: 12,
     // textAlign: "center",
   },
   actions: {
@@ -99,7 +99,7 @@ const s = StyleSheet.create({
   cancelBtn: {
     backgroundColor: "#F8F8F8",
     borderWidth: 1,
-    borderColor: "#184EAD",
+    borderColor: "#061826",
     paddingHorizontal: 12,
     paddingVertical: 6,
   },
