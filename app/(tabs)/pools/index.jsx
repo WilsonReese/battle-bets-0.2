@@ -1,12 +1,19 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+	useCallback,
+	useEffect,
+	useLayoutEffect,
+	useRef,
+	useState,
+} from "react";
 import {
 	View,
 	StyleSheet,
 	FlatList,
 	RefreshControl,
 	ActivityIndicator,
+	TouchableOpacity,
 } from "react-native";
-import { router, useFocusEffect } from "expo-router";
+import { router, useFocusEffect, useNavigation } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
 import { StatusBar } from "expo-status-bar";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
@@ -16,6 +23,7 @@ import { PoolCard } from "../../../components/PoolCard/PoolCard";
 import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
 import api from "../../../utils/axiosConfig";
 import { AnnouncementsCard } from "../../../components/PoolCard/AnnouncementsCard";
+import { HowToPlayModal } from "../../../components/PoolCard/HowToPlayModal";
 
 export default function Pools() {
 	// const api = useAxiosWithAuth();
@@ -24,10 +32,28 @@ export default function Pools() {
 	const [refreshing, setRefreshing] = useState(false);
 	const [autoRefreshing, setAutoRefreshing] = useState(false);
 	const [response, setResponse] = useState([]);
+	const [showHowToPlay, setShowHowToPlay] = useState(false);
+
+	const navigation = useNavigation();
+
 	const autoRefreshTimer = useRef(null);
 
 	// 🆕 this counter bumps every time the screen gains focus
 	// const [focusVersion, setFocusVersion] = useState(0);
+
+	// 1️⃣  Inject “How to Play” into the header
+	useLayoutEffect(() => {
+		navigation.setOptions({
+			headerRight: () => (
+				<TouchableOpacity
+					onPress={() => setShowHowToPlay(true)}
+					style={{ backgroundColor: "blue", paddingVertical: 8 }}
+				>
+					<Txt style={{ color: "#FFF", fontSize: 12 }}>How to Play</Txt>
+				</TouchableOpacity>
+			),
+		});
+	}, [navigation]);
 
 	// ─────────────────────────────────────────────
 	// Fetch list of pools
@@ -175,6 +201,8 @@ export default function Pools() {
 					onPress={() => router.push(`/pools/create/`)}
 				/>
 			</View>
+
+			<HowToPlayModal showHowToPlay={showHowToPlay} setShowHowToPlay={setShowHowToPlay}/>
 		</View>
 	);
 }
