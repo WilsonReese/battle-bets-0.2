@@ -30,7 +30,6 @@ export function PlacedBet({ bet, backgroundColor = '#0F2638' }) {
           {isPending && <BetAmount bet_amount={Math.round(bet.bet_amount)} to_win_amount={Math.round(bet.to_win_amount)}/>}
           {!isPending && (
             <View>
-            {/* <FontAwesome6 name="x" size={12} color="#E06777" /> */}
             <Txt style={[s.txt, { color: textColor, fontFamily: textStyle }]}>
               Won ${Math.round(bet.amount_won)}
             </Txt>

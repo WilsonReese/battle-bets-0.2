@@ -86,7 +86,7 @@ export function EditMemberModal({
 							<Txt style={s.modalHeadingText}>Edit Membership</Txt>
 							<TouchableOpacity onPress={resetAndClose}>
 								<View style={s.closeModalContainer}>
-									<FontAwesome6 name="x" size={18} color="#F8F8F8" />
+									<FontAwesome6 name="xmark" size={18} color="#F8F8F8" />
 								</View>
 							</TouchableOpacity>
 						</View>
@@ -224,15 +224,15 @@ export function EditMemberModal({
 								</Txt>
 								<View style={{paddingBottom: 12}}>
 									<View style={s.confirmationSubtextBullets}>
-										<FontAwesome6 name="x" size={12} color="#E06777" />
+										<FontAwesome6 name="xmark" size={12} color="#E06777" />
 										<Txt style={s.confirmationSubtext}>Bets</Txt>
 									</View>
 									<View style={s.confirmationSubtextBullets}>
-										<FontAwesome6 name="x" size={12} color="#E06777" />
+										<FontAwesome6 name="xmark" size={12} color="#E06777" />
 										<Txt style={s.confirmationSubtext}>Betslips</Txt>
 									</View>
 									<View style={s.confirmationSubtextBullets}>
-										<FontAwesome6 name="x" size={12} color="#E06777" />
+										<FontAwesome6 name="xmark" size={12} color="#E06777" />
 										<Txt style={s.confirmationSubtext}>League History</Txt>
 									</View>
 								</View>

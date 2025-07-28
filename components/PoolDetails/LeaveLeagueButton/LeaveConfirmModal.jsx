@@ -12,7 +12,7 @@ export function LeaveConfirmModal({ modalVisible, onClose, onConfirm }) {
             <Txt style={s.modalHeadingText}>Update Membership</Txt>
             <TouchableOpacity onPress={onClose}>
               <View style={s.closeModalContainer}>
-                <FontAwesome6 name="x" size={18} color="#F8F8F8" />
+                <FontAwesome6 name="xmark" size={18} color="#F8F8F8" />
               </View>
             </TouchableOpacity>
           </View>

@@ -32,7 +32,7 @@ export function PoolSelectionModal({
 							style={s.closeModalContainer}
 							onPress={() => setModalVisible(false)}
 						>
-							<FontAwesome6 name="x" size={18} color="#54D18C" />
+							<FontAwesome6 name="xmark" size={18} color="#54D18C" />
 						</TouchableOpacity>
 						<ScrollView style={s.poolsContainer}>
 							{userPools.map((pool) => (

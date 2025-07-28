@@ -12,7 +12,7 @@ export function DeleteConfirmModal({ modalVisible, onClose, onConfirm }) {
             <Txt style={s.modalHeadingText}>Delete League</Txt>
             <TouchableOpacity onPress={onClose}>
               <View style={s.closeModalContainer}>
-                <FontAwesome6 name="x" size={18} color="#F8F8F8" />
+                <FontAwesome6 name="xmark" size={18} color="#F8F8F8" />
               </View>
             </TouchableOpacity>
           </View>
