@@ -70,25 +70,149 @@ export function SeasonScoringModal({
 									Playoff
 								</Txt>
 							</View>
-							
+
 							<View style={{ paddingTop: 16 }}>
 								<Txt style={s.heading}>Playoffs</Txt>
 								<Txt style={[s.paragraph, { paddingBottom: 8 }]}>
 									The number of members who make the playoffs and play-in
 									depends on league size.
 								</Txt>
-								<View>
+
+								<View style={{ alignItems: "center" }}>
+									{/* Top Row */}
+									<View style={[s.element]}>
+										<Txt style={s.playoffTxt}>League Size</Txt>
+										<Txt style={s.playoffNumber}>{leagueSize}</Txt>
+									</View>
+									{/* Arrows */}
+									<View style={s.iconRow}>
+										<View
+											style={[
+												s.arrowIcon,
+												{ transform: [{ rotate: "225deg" }] },
+											]}
+										>
+											<FontAwesome6
+												name="arrow-up-long"
+												size={16}
+												color="#425C70"
+											/>
+										</View>
+										<View style={s.arrowIcon}>
+											<FontAwesome6
+												name="arrow-down-long"
+												size={16}
+												color="#425C70"
+											/>
+										</View>
+										<View
+											style={[
+												s.arrowIcon,
+												{ transform: [{ rotate: "135deg" }] },
+											]}
+										>
+											<FontAwesome6
+												name="arrow-up-long"
+												size={16}
+												color="#425C70"
+											/>
+										</View>
+									</View>
+
+									{/* Second Row */}
+									<View style={{ flexDirection: "row", gap: 4 }}>
+										<View style={[s.element, { alignSelf: "flex-start" }]}>
+											<Txt style={s.playoffTxt}>Playoffs</Txt>
+											<Txt style={s.playoffNumber}>{confirmed}</Txt>
+										</View>
+										<View style={s.element}>
+											<Txt style={s.playoffTxt}>Play‑In</Txt>
+											<Txt style={s.playoffNumber}>{playIn}</Txt>
+										</View>
+										<View style={s.element}>
+											<Txt style={s.playoffTxt}>Eliminated</Txt>
+											<Txt style={[s.playoffNumber, { color: "#E06777" }]}>
+												{leagueSize - confirmed - playIn}
+											</Txt>
+										</View>
+									</View>
+
+									{/* Arrows */}
+									<View style={s.iconRow}>
+										<View
+											style={[
+												s.arrowIcon,
+												{ transform: [{ rotate: "225deg" }] },
+											]}
+										>
+											<FontAwesome6
+												name="arrow-up-long"
+												size={16}
+												color="#425C70"
+											/>
+										</View>
+										<View
+											style={[
+												s.arrowIcon,
+												{ transform: [{ rotate: "135deg" }] },
+											]}
+										>
+											<FontAwesome6
+												name="arrow-up-long"
+												size={16}
+												color="#425C70"
+											/>
+										</View>
+									</View>
+
+									{/* Third Row */}
+									<View style={{ flexDirection: "row", gap: 4 }}>
+										<View style={s.element}>
+											<Txt style={s.playoffTxt}>Advancing</Txt>
+											<Txt style={s.playoffNumber}>{advance}</Txt>
+										</View>
+										<View style={s.element}>
+											<Txt style={s.playoffTxt}>Eliminated</Txt>
+											<Txt style={[s.playoffNumber, { color: "#E06777" }]}>
+												{playIn - advance}
+											</Txt>
+										</View>
+									</View>
+								</View>
+								<Txt style={[s.paragraph, { paddingVertical: 8 }]}>
+									Top regular season performers will receive increased playoff budgets.
+								</Txt>
+
+								{/* <View>
 									<View style={[s.element, { alignSelf: "center" }]}>
 										<Txt style={s.playoffTxt}>Total Playoff Spots</Txt>
 										<Txt style={s.playoffNumber}>{total}</Txt>
 									</View>
 
 									<View style={s.rotatedIconRow}>
-										<View style={[s.arrowIcon, {transform: [{ rotate: "45deg" }]} ]}>
-											<FontAwesome6 name="arrow-up-long"size={16} color="#425C70" />
+										<View
+											style={[
+												s.arrowIcon,
+												{ transform: [{ rotate: "45deg" }] },
+											]}
+										>
+											<FontAwesome6
+												name="arrow-up-long"
+												size={16}
+												color="#425C70"
+											/>
 										</View>
-										<View style={[s.arrowIcon, {transform: [{ rotate: "315deg" }]} ]} >
-											<FontAwesome6 name="arrow-up-long" size={16} color="#425C70" />
+										<View
+											style={[
+												s.arrowIcon,
+												{ transform: [{ rotate: "315deg" }] },
+											]}
+										>
+											<FontAwesome6
+												name="arrow-up-long"
+												size={16}
+												color="#425C70"
+											/>
 										</View>
 									</View>
 
@@ -99,10 +223,9 @@ export function SeasonScoringModal({
 											gap: 4,
 										}}
 									>
-										<View style={[s.element, {alignSelf: 'flex-start'}]}>
+										<View style={[s.element, { alignSelf: "flex-start" }]}>
 											<Txt style={s.playoffTxt}>Confirmed Spots</Txt>
 											<Txt style={s.playoffNumber}>{confirmed}</Txt>
-											<View></View>
 										</View>
 										<View>
 											<View style={s.element}>
@@ -122,9 +245,15 @@ export function SeasonScoringModal({
 												<Txt style={s.playoffTxt}>Play‑In Spots</Txt>
 												<Txt style={s.playoffNumber}>{playIn}</Txt>
 											</View>
+											<View style={s.element}>
+												<Txt style={s.playoffTxt}>Eliminated</Txt>
+												<Txt style={s.playoffNumber}>
+													{leagueSize - confirmed - playIn}
+												</Txt>
+											</View>
 										</View>
 									</View>
-								</View>
+								</View> */}
 							</View>
 						</ScrollView>
 						<TouchableOpacity
@@ -195,7 +324,7 @@ const s = StyleSheet.create({
 		paddingHorizontal: 4,
 		paddingVertical: 8,
 		borderRadius: 8,
-		width: 125,
+		width: 90,
 	},
 	playoffTxt: {
 		marginBottom: -2,
@@ -209,9 +338,9 @@ const s = StyleSheet.create({
 		// lineHeight: 16,
 		marginBottom: -6,
 	},
-	rotatedIconRow: {
-		flexDirection: "row", 
-		gap: 32, 
+	iconRow: {
+		flexDirection: "row",
+		gap: 40,
 		alignSelf: "center",
 	},
 	arrowIcon: {
