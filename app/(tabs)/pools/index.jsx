@@ -23,7 +23,7 @@ import { PoolCard } from "../../../components/PoolCard/PoolCard";
 import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
 import api from "../../../utils/axiosConfig";
 import { AnnouncementsCard } from "../../../components/PoolCard/AnnouncementsCard";
-import { HowToPlayModal } from "../../../components/PoolCard/HowToPlayModal";
+import { HowToPlayModal } from "../../../components/HowToPlay/HowToPlayModal";
 
 export default function Pools() {
 	// const api = useAxiosWithAuth();
@@ -47,7 +47,7 @@ export default function Pools() {
 			headerRight: () => (
 				<TouchableOpacity
 					onPress={() => setShowHowToPlay(true)}
-					style={{ backgroundColor: "blue", paddingVertical: 8 }}
+					style={{ paddingVertical: 8 }}
 				>
 					<Txt style={{ color: "#FFF", fontSize: 12 }}>How to Play</Txt>
 				</TouchableOpacity>
