@@ -27,6 +27,29 @@ export function InviteUsersButton({
 		showSuccess("Invitation link copied!");
 	};
 
+	return (
+		<>
+			<TouchableOpacity style={[s.button, style]} onPress={handleCopyLink}>
+				<Txt style={textStyle}>Copy League Invitation Link</Txt>
+				<FontAwesome6 name="link" size={16} color={iconColor} />
+			</TouchableOpacity>
+		</>
+	);
+}
+
+const s = StyleSheet.create({
+	button: {
+		// paddingHorizontal: 12,
+		paddingVertical: 8,
+		flexDirection: "row",
+		justifyContent: "center",
+		alignItems: "center",
+		gap: 8,
+		// backgroundColor: 'green'
+	},
+});
+
+
 	// const handleCopyLink = async () => {
 	// 	try {
 	// 		// 🧩 1. Define link data
@@ -60,25 +83,3 @@ export function InviteUsersButton({
 	// 		showError("Failed to generate link");
 	// 	}
 	// };
-
-	return (
-		<>
-			<TouchableOpacity style={[s.button, style]} onPress={handleCopyLink}>
-				<Txt style={textStyle}>Copy League Invitation Link</Txt>
-				<FontAwesome6 name="link" size={16} color={iconColor} />
-			</TouchableOpacity>
-		</>
-	);
-}
-
-const s = StyleSheet.create({
-	button: {
-		// paddingHorizontal: 12,
-		paddingVertical: 8,
-		flexDirection: "row",
-		justifyContent: "center",
-		alignItems: "center",
-		gap: 8,
-		// backgroundColor: 'green'
-	},
-});
