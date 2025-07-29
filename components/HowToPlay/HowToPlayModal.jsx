@@ -150,7 +150,7 @@ const s = StyleSheet.create({
 	title: {
 		fontSize: 20,
 		paddingBottom: 4,
-		paddingTop: 12,
+		paddingTop: 8,
 		paddingHorizontal: 8
 	},
 	heading: {
