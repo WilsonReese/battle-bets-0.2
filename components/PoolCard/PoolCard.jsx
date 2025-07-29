@@ -17,8 +17,9 @@ import { BattleLockedPoolCard } from "./BattleLockedPoolCard";
 import { SkeletonPoolCard } from "./SkeletonPoolCard";
 
 // export function PoolCard({ pool, focusVersion }) {
-export function PoolCard({ pool, refreshing, autoRefreshing }) {
-	const [localLoading, setLocalLoading] = useState(false);
+export function PoolCard({ pool, refreshing, autoRefreshing, focusVersion }) {
+	// const [localLoading, setLocalLoading] = useState(false);
+	const [cardLoading, setCardLoading] = useState(false);
 
 	// const [hasStarted, setHasStarted] = useState(null);
 	// const [loading, setLoading] = useState(false);
@@ -26,15 +27,14 @@ export function PoolCard({ pool, refreshing, autoRefreshing }) {
 		selectedSeason,
 		battles,
 		// userBetslip,
-    userBetslipByBattle, // ✅ ADD THIS
+		userBetslipByBattle, // ✅ ADD THIS
 		setUserBetslip,
 		userEntry,
 		fetchAllPoolData,
 		loading: poolLoading,
 	} = usePoolDetails(pool.id);
 
-
-  // ======= LOAD POOL CARDS EVERY TIME ========
+	// ======= LOAD POOL CARDS EVERY TIME ========
 	// ─────────────────────────────────────────────
 	// Fetch when:
 	//   • card first mounts   (version -1 → 0)
@@ -42,7 +42,6 @@ export function PoolCard({ pool, refreshing, autoRefreshing }) {
 	// ─────────────────────────────────────────────
 
 	// const lastHandledVersion = useRef(-1); // tracks last refresh we processed
-
 
 	// useEffect(() => {
 	// 	if (lastHandledVersion.current !== focusVersion) {
@@ -52,20 +51,33 @@ export function PoolCard({ pool, refreshing, autoRefreshing }) {
 	// 	}
 	// }, [focusVersion, pool.id]);
 
+	// ======= LOAD ON REFRESH ======
+	// useEffect(() => {
+	// 	if (refreshing || autoRefreshing) {
+	// 		fetchAllPoolData(pool.id, { skipLoading: true });
+	// 	}
+	// }, [refreshing, autoRefreshing]);
 
-  // ======= LOAD ON REFRESH ======
-  useEffect(() => {
-		if (refreshing || autoRefreshing) {
+	useEffect(() => {
+		if (refreshing) {
 			fetchAllPoolData(pool.id, { skipLoading: true });
 		}
-	}, [refreshing, autoRefreshing]);
+	}, [refreshing]);
 
-  if (poolLoading) return <SkeletonPoolCard />;
+	useEffect(() => {
+		setCardLoading(true);
+		fetchAllPoolData(pool.id, { skipLoading: true }).finally(() =>
+			setCardLoading(false)
+		);
+	}, [focusVersion, pool.id]);
+
+	if (poolLoading) return <SkeletonPoolCard />;
 
 	const currentBattle =
 		battles.find((b) => b.current === true) || battles[0] || null;
 
-	console.log("Selected Season: ", selectedSeason);
+	// console.log("Selected Season: ", selectedSeason);
+	console.log("Pool ID", pool.id);
 
 	return (
 		<TouchableOpacity
@@ -104,6 +116,22 @@ export function PoolCard({ pool, refreshing, autoRefreshing }) {
 					userEntry={userEntry}
 					userBetslip={userBetslipByBattle?.[currentBattle?.id] ?? null}
 				/>
+			)}
+			{cardLoading && (
+				<View
+					style={{
+						// ...StyleSheet.absoluteFillObject,
+						position: 'absolute',
+						bottom: 8,
+						right: 8,
+						// backgroundColor: "rgba(0,0,0,0.3)",
+						// justifyContent: "center",
+						// alignItems: "center",
+						// borderRadius: 8, // match your card corners
+					}}
+				>
+					<ActivityIndicator size="small" color="#425C70" />
+				</View>
 			)}
 		</TouchableOpacity>
 	);

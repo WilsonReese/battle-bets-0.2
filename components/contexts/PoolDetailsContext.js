@@ -47,52 +47,6 @@ export const PoolDetailsProvider = ({ children }) => {
 		}
 	};
 
-	// const fetchSeasonsAndBattles = async (poolId, seasonYear = 2025) => {
-	// 	try {
-	// 		const seasonRes = await api.get(`/pools/${poolId}/league_seasons`);
-	// 		const selectedSeason = seasonRes.data.find(
-	// 			(ls) => ls.season.year === seasonYear
-	// 		);
-
-	// 		if (!selectedSeason) return;
-
-	// 		const battlesRes = await api.get(
-	// 			`/pools/${poolId}/league_seasons/${selectedSeason.id}/battles`
-	// 		);
-
-	// 		// const latestBattle = battlesRes.data?.[0];
-	// 		const currentBattle = battlesRes.data?.find((b) => b.current === true);
-
-	// 		if (!currentBattle) {
-	// 			console.warn("⚠️ No current battle found");
-	// 			// You might want to show an error or fallback here
-	// 		}
-
-	// 		let userBetslip = null;
-	// 		if (currentBattle) {
-	// 			const betslipRes = await api.get(
-	// 				`/pools/${poolId}/league_seasons/${selectedSeason.id}/battles/${currentBattle.id}/betslips?user_only=true`
-	// 			);
-	// 			userBetslip = betslipRes.data;
-	// 		}
-
-	// 		setPoolDetailsMap((prev) => ({
-	// 			...prev,
-	// 			[poolId]: {
-	// 				...prev[poolId],
-	// 				selectedSeason: {
-	// 					...selectedSeason,
-	// 					hasStarted: selectedSeason["has_started?"],
-	// 				},
-	// 				battles: battlesRes.data,
-	// 				userBetslip,
-	// 			},
-	// 		}));
-	// 	} catch (err) {
-	// 		console.error("Error fetching seasons/battles/betslip:", err);
-	// 	}
-	// };
-
 	const fetchSeasonsAndBattles = async (poolId, seasonYear = 2025) => {
 		try {
 			const seasonRes = await api.get(`/pools/${poolId}/league_seasons`);

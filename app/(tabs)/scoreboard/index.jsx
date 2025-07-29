@@ -6,6 +6,7 @@ import {
 	StyleSheet,
 	FlatList,
 	RefreshControl,
+	AppState,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import { Txt } from "../../../components/general/Txt";
@@ -27,8 +28,13 @@ export default function Scoreboard() {
 	const [loadingGames, setLoadingGames] = useState(true);
 	const router = useRouter();
 	// const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
+	const appState = useRef(AppState.currentState);
 
-	const { currentSeason, loading: seasonLoading, refresh: refreshSeason } = useSeason();
+	const {
+		currentSeason,
+		loading: seasonLoading,
+		refresh: refreshSeason,
+	} = useSeason();
 	const {
 		selectedConferences,
 		toggleConference,
@@ -48,7 +54,7 @@ export default function Scoreboard() {
 		gameStatus,
 	} = useScoreboard();
 
-	console.log('Current Season:', currentSeason)
+	console.log("Current Season:", currentSeason);
 
 	const sampleGameData = sampleGame.response[0];
 	const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
@@ -56,7 +62,6 @@ export default function Scoreboard() {
 	const sampleHomePlayerStats = samplePlayerStats.response[0];
 	const sampleAwayPlayerStats = samplePlayerStats.response[1];
 
-	
 	const handlePress = (game) => {
 		setSelectedGame(game);
 		setSelectedGameData(sampleGameData);
@@ -66,18 +71,19 @@ export default function Scoreboard() {
 		setSelectedAwayPlayerStats(sampleAwayPlayerStats);
 		router.push(`/scoreboard/${game.id}`);
 	};
-	
+
 	// Refetch logic now abstracted and shared
 	const fetchGames = useCallback(
 		async ({ showRefreshControl = false } = {}) => {
 			if (!currentSeason) return;
-			
+
 			if (showRefreshControl) setRefreshing(true);
-			
-			const week = currentSeason.current_week === 0 ? 1 : currentSeason.current_week
-			
-			console.log('Season and Week Passed:', currentSeason.year, week)
-			
+
+			const week =
+				currentSeason.current_week === 0 ? 1 : currentSeason.current_week;
+
+			console.log("Season and Week Passed:", currentSeason.year, week);
+
 			try {
 				const res = await api.get("/games", {
 					params: {
@@ -97,49 +103,65 @@ export default function Scoreboard() {
 		// [api, currentSeason, hasLoadedOnce]
 		[api, currentSeason]
 	);
-	
+
 	const fetchGamesRef = useRef(fetchGames);
-  useEffect(() => {
+	useEffect(() => {
 		fetchGamesRef.current = fetchGames;
-  }, [fetchGames]);
-	
+	}, [fetchGames]);
+
 	// Refresh on focus
-  useFocusEffect(
+	useFocusEffect(
 		React.useCallback(() => {
 			let isActive = true;
-      (async () => {
+			(async () => {
 				await refreshSeason({ silent: true });
-        if (!isActive) return;
-        await fetchGamesRef.current();
-      })();
-      return () => {
+				if (!isActive) return;
+				await fetchGamesRef.current();
+			})();
+			return () => {
 				isActive = false;
-      };
-    }, []) // <<–– empty deps so we only re‑register on mount
-  );
-	
+			};
+		}, []) // <<–– empty deps so we only re‑register on mount
+	);
+
 	// Refresh on pull gesture
-  const onRefresh = async () => {
+	const onRefresh = async () => {
 		setRefreshing(true);
-    // 1️⃣ reload season (so you pick up a new week if it rolled)
-    await refreshSeason({ silent: true });
-    // 2️⃣ then reload games for whatever the new currentSeason.current_week is
-    await fetchGames({ showRefreshControl: true });
-    setRefreshing(false);
-  };
-	
+		// 1️⃣ reload season (so you pick up a new week if it rolled)
+		await refreshSeason({ silent: true });
+		// 2️⃣ then reload games for whatever the new currentSeason.current_week is
+		await fetchGames({ showRefreshControl: true });
+		setRefreshing(false);
+	};
+
+	useFocusEffect(
+		useCallback(() => {
+			const sub = AppState.addEventListener("change", (nextAppState) => {
+				if (
+					appState.current.match(/inactive|background/) &&
+					nextAppState === "active"
+				) {
+					// Pools is focused AND app just came foreground → refresh
+					onRefresh();
+				}
+				appState.current = nextAppState;
+			});
+			return () => sub.remove();
+		}, [onRefresh])
+	);
+
 	const filteredGames = React.useMemo(
 		() => filterGames(games),
 		[games, selectedConferences]
 	);
 	// console.log("Games:", games);
-	
+
 	const renderGame = useCallback(
 		({ item: game }) => (
 			<ScoreboardGameCard
-			game={game}
-			status={gameStatus}
-			sampleGameData={sampleGameData}
+				game={game}
+				status={gameStatus}
+				sampleGameData={sampleGameData}
 				userBetCount={game.user_bet_count}
 				onPress={() => handlePress(game)}
 			/>
@@ -181,7 +203,11 @@ export default function Scoreboard() {
 						tintColor="#C7CDD1"
 					/>
 				}
-				ListEmptyComponent={<Txt style={{textAlign: 'center', paddingTop: 8,}}>No games found for this week.</Txt>}
+				ListEmptyComponent={
+					<Txt style={{ textAlign: "center", paddingTop: 8 }}>
+						No games found for this week.
+					</Txt>
+				}
 			/>
 		</View>
 	);

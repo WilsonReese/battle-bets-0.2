@@ -56,7 +56,7 @@ export function BattleUnlockedPoolCard({
 		// );
 	};
 
-	console.log("Current Battle: ", currentBattle);
+	// console.log("Current Battle: ", currentBattle);
 
 	return (
 		<View style={s.detailsContainer}>

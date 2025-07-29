@@ -9,7 +9,7 @@ const DISMISS_KEY = "dismissedAnnouncementId";
 export function AnnouncementsCard({ response }) {
 	const { id, title, paragraph, link } = response;
 
-  console.log(response)
+  // console.log(response)
 
 	const hasLink = Boolean(response.link);
 
