@@ -25,24 +25,25 @@ import { NoLeagues } from "../../../components/PoolCard/NoLeagues";
 import api from "../../../utils/axiosConfig";
 import { AnnouncementsCard } from "../../../components/PoolCard/AnnouncementsCard";
 import { HowToPlayModal } from "../../../components/HowToPlay/HowToPlayModal";
+import { usePoolStore } from "../../../state/poolStore";
 
 export default function Pools() {
 	// const api = useAxiosWithAuth();
 	const [pools, setPools] = useState([]);
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
+	// const [hasLoaded, setHasLoaded] = useState(false);
+	const firstLoadRef = useRef(true);
 	const [response, setResponse] = useState([]);
 	const [showHowToPlay, setShowHowToPlay] = useState(false);
 	const [focusVersion, setFocusVersion] = useState(0);
 
 	const navigation = useNavigation();
 	const appState = useRef(AppState.currentState);
-
-	// 🆕 this counter bumps every time the screen gains focus
-	// const [focusVersion, setFocusVersion] = useState(0);
+	const fetchAllPoolData = usePoolStore((state) => state.fetchAllPoolData);
 
 	// 1️⃣  Inject “How to Play” into the header
-	useLayoutEffect(() => {
+	React.useLayoutEffect(() => {
 		navigation.setOptions({
 			headerRight: () => (
 				<TouchableOpacity
@@ -55,76 +56,75 @@ export default function Pools() {
 		});
 	}, [navigation]);
 
-	// ─────────────────────────────────────────────
-	// Fetch list of pools
-	// ─────────────────────────────────────────────
-	const fetchPools = async () => {
-		try {
-			const res = await api.get("/pools");
-			setPools(res.data);
-		} catch (err) {
-			console.error("Error fetching pools:", err);
-		}
-	};
-
-	const fetchAnnouncements = async () => {
-		try {
-			const res = await api.get("/announcements");
-			if (res.status === 200 && res.data?.id) {
-				setResponse(res.data);
-			} else {
-				setResponse(null);
+	useFocusEffect(
+		useCallback(() => {
+			let active = true;
+			// 1️⃣ start the spinner
+			if (firstLoadRef.current) {
+				setIsScreenLoading(true);
 			}
-		} catch (err) {
-			console.warn("Error fetching announcements:", err);
-			setResponse(null);
-		}
-	};
 
-	// Initial
-  useFocusEffect(
-    useCallback(() => {
-      let isActive = true
-      // setRefreshing(true)
-      Promise.all([fetchAnnouncements(), fetchPools()]).finally(() => {
-        if (isActive) {
-          setRefreshing(false)
-          setIsScreenLoading(false)
-        }
-      })
-      return () => {
-        isActive = false
-      }
-    }, [])
-  )
+			async function loadAll() {
+				try {
+					// 2a) fetch pools
+					const { data: fetchedPools } = await api.get("/pools");
+					if (!active) return;
+					setPools(fetchedPools);
 
-  useFocusEffect(
-    useCallback(() => {
-      const sub = AppState.addEventListener("change", (nextAppState) => {
-        if (
-          appState.current.match(/inactive|background/) &&
-          nextAppState === "active"
-        ) {
-          // Pools is focused AND app just came foreground → refresh
-          onRefresh();
-        }
-        appState.current = nextAppState;
-      });
-      return () => sub.remove();
-    }, [onRefresh])
-  );
+					// 2b) fetch announcements
+					const { data: ann } = await api.get("/announcements");
+					if (!active) return;
+					setResponse(ann.id ? ann : null);
+
+					// 2c) fetch each pool’s details in parallel
+					await Promise.all(
+						fetchedPools.map((p) =>
+							fetchAllPoolData(p.id, { skipLoading: firstLoadRef.current })
+						)
+					);
+				} catch (err) {
+					console.error("Error loading pools + announcements:", err);
+				} finally {
+					// 3️⃣ always stop the spinner (if we’re still mounted)
+					if (active) setIsScreenLoading(false);
+					firstLoadRef.current = false;
+				}
+			}
+
+			loadAll();
+			return () => {
+				active = false;
+			};
+		}, [fetchAllPoolData])
+	);
 
 	useFocusEffect(
-    useCallback(() => {
-      setFocusVersion((v) => v + 1);
-    }, [])
-  );
+		useCallback(() => {
+			const subscription = AppState.addEventListener(
+				"change",
+				(nextAppState) => {
+					// only fire your onRefresh if you’re actually coming back *into* the app
+					if (
+						appState.current.match(/inactive|background/) &&
+						nextAppState === "active"
+					) {
+						console.log('Re-Opened App')
+						onRefresh();
+					}
+					appState.current = nextAppState;
+				}
+			);
+			return () => {
+				subscription.remove();
+			};
+		}, [onRefresh])
+	);
 
 	const onRefresh = useCallback(async () => {
-		setRefreshing(true);
-		await Promise.all([fetchPools(), fetchAnnouncements()]);
-		setRefreshing(false);
-	}, []);
+		await Promise.all(
+			pools.map((p) => fetchAllPoolData(p.id, { skipLoading: false }))
+		);
+	}, [pools, fetchAllPoolData]);
 
 	if (isScreenLoading) {
 		return (
@@ -136,7 +136,7 @@ export default function Pools() {
 
 	return (
 		<View style={s.container}>
-			<StatusBar style="light" />
+			{/* <StatusBar style="light" /> */}
 
 			{pools.length === 0 ? (
 				<NoLeagues response={response} />

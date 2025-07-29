@@ -7,71 +7,86 @@ import {
 import { Txt } from "../general/Txt";
 import { Btn } from "../general/Buttons/Btn";
 import { router, useFocusEffect } from "expo-router";
-import { useCallback, useEffect, useRef, useState } from "react";
+import React, { useCallback, useEffect, useRef, useState } from "react";
 import api from "../../utils/axiosConfig";
 import { PreseasonPoolCard } from "./PreseasonPoolCard";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { BattleUnlockedPoolCard } from "./BattleUnlockedPoolCard";
-import { usePoolDetails } from "../contexts/PoolDetailsContext";
+// import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { BattleLockedPoolCard } from "./BattleLockedPoolCard";
 import { SkeletonPoolCard } from "./SkeletonPoolCard";
+import { usePoolStore } from "../../state/poolStore";
+import shallow from 'zustand/shallow';
+
+const EMPTY_POOL = {
+  loading: true,
+  details:  null,
+  battles:  [],
+  userBetslipByBattle: {},
+  userEntry: null,
+};
 
 // export function PoolCard({ pool, focusVersion }) {
-export function PoolCard({ pool, refreshing, autoRefreshing, focusVersion }) {
+export const PoolCard = React.memo(function PoolCard({ pool, refreshing }) {
 	// const [localLoading, setLocalLoading] = useState(false);
-	const [cardLoading, setCardLoading] = useState(false);
+	// const [cardLoading, setCardLoading] = useState(false);
+
+	const fetchAllPoolData = usePoolStore((s) => s.fetchAllPoolData);
+
+  // const { loading, details, battles, userBetslipByBattle, userEntry } =
+  //   usePoolStore(
+  //     (s) => s.pools[pool.id] || {
+  //       loading: true,
+  //       details: null,
+  //       battles: [],
+  //       userBetslipByBattle: {},
+  //       userEntry: null,
+  //     },
+  //     // shallow compare so we only rerender if one of these actually changes
+  //     (a, b) =>
+  //       a.loading === b.loading &&
+  //       a.details === b.details &&
+  //       a.battles === b.battles &&
+  //       a.userEntry === b.userEntry
+  //   );
+
+	  const {
+    loading,
+    details,
+    battles,
+    userBetslipByBattle,
+    userEntry
+  } = usePoolStore(
+    state => state.pools[pool.id] ?? EMPTY_POOL,
+    shallow
+  );
+
+  useEffect(() => {
+    if (!details) {
+      fetchAllPoolData(pool.id, { skipLoading: true });
+    }
+  }, [details, pool.id, fetchAllPoolData]);
+
+	useEffect(() => {
+    if (refreshing) {
+      fetchAllPoolData(pool.id, { skipLoading: false });
+    }
+  }, [refreshing, pool.id, fetchAllPoolData]);
 
 	// const [hasStarted, setHasStarted] = useState(null);
 	// const [loading, setLoading] = useState(false);
-	const {
-		selectedSeason,
-		battles,
-		// userBetslip,
-		userBetslipByBattle, // ✅ ADD THIS
-		setUserBetslip,
-		userEntry,
-		fetchAllPoolData,
-		loading: poolLoading,
-	} = usePoolDetails(pool.id);
+	// const {
+	// 	selectedSeason,
+	// 	// battles,
+	// 	// userBetslip,
+	// 	userBetslipByBattle, // ✅ ADD THIS
+	// 	setUserBetslip,
+	// 	userEntry,
+	// 	// fetchAllPoolData,
+	// 	// loading: poolLoading,
+	// } = usePoolDetails(pool.id);
 
-	// ======= LOAD POOL CARDS EVERY TIME ========
-	// ─────────────────────────────────────────────
-	// Fetch when:
-	//   • card first mounts   (version -1 → 0)
-	//   • Pools screen bumps focusVersion
-	// ─────────────────────────────────────────────
-
-	// const lastHandledVersion = useRef(-1); // tracks last refresh we processed
-
-	// useEffect(() => {
-	// 	if (lastHandledVersion.current !== focusVersion) {
-	// 		const skip = lastHandledVersion.current !== -1; // true after first load
-	// 		lastHandledVersion.current = focusVersion;
-	// 		fetchAllPoolData(pool.id, { skipLoading: skip });
-	// 	}
-	// }, [focusVersion, pool.id]);
-
-	// ======= LOAD ON REFRESH ======
-	// useEffect(() => {
-	// 	if (refreshing || autoRefreshing) {
-	// 		fetchAllPoolData(pool.id, { skipLoading: true });
-	// 	}
-	// }, [refreshing, autoRefreshing]);
-
-	useEffect(() => {
-		if (refreshing) {
-			fetchAllPoolData(pool.id, { skipLoading: true });
-		}
-	}, [refreshing]);
-
-	useEffect(() => {
-		setCardLoading(true);
-		fetchAllPoolData(pool.id, { skipLoading: true }).finally(() =>
-			setCardLoading(false)
-		);
-	}, [focusVersion, pool.id]);
-
-	if (poolLoading) return <SkeletonPoolCard />;
+	if (!details) return <SkeletonPoolCard />;
 
 	const currentBattle =
 		battles.find((b) => b.current === true) || battles[0] || null;
@@ -101,7 +116,7 @@ export function PoolCard({ pool, refreshing, autoRefreshing, focusVersion }) {
 					pool={pool}
 					userEntry={userEntry}
 					currentBattle={currentBattle}
-					selectedSeason={selectedSeason}
+					selectedSeason={details.selectedSeason}
 					userBetslip={userBetslipByBattle?.[currentBattle?.id] ?? null}
 					// setUserBetslip={setUserBetslip}
 					// setLoading={setLoading}
@@ -117,7 +132,7 @@ export function PoolCard({ pool, refreshing, autoRefreshing, focusVersion }) {
 					userBetslip={userBetslipByBattle?.[currentBattle?.id] ?? null}
 				/>
 			)}
-			{cardLoading && (
+			{loading && (
 				<View
 					style={{
 						// ...StyleSheet.absoluteFillObject,
@@ -135,7 +150,7 @@ export function PoolCard({ pool, refreshing, autoRefreshing, focusVersion }) {
 			)}
 		</TouchableOpacity>
 	);
-}
+})
 
 const s = StyleSheet.create({
 	card: {

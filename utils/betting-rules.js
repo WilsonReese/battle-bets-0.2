@@ -99,7 +99,7 @@ export function getPlayoffRules(n) {
     confirmed    = n <= 2 ? n : 2;
     playIn    = 0;
     advance   = 0;
-		total = locked + advance
+		total = confirmed + advance
   } else {
     // 6+ : 
     //  • locked = floor(40% of n)

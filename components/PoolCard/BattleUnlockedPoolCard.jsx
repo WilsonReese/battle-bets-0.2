@@ -2,17 +2,31 @@ import { StyleSheet, View, TouchableOpacity, Alert } from "react-native";
 import { Txt } from "../general/Txt";
 import { router } from "expo-router";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
-import { usePoolDetails } from "../contexts/PoolDetailsContext";
+// import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { DEFAULT_BUDGETS } from "../../utils/betting-rules";
+import { usePoolStore } from "../../state/poolStore";
 
 export function BattleUnlockedPoolCard({
 	pool,
 	userEntry,
-	selectedSeason,
+	// selectedSeason,
 	currentBattle,
 	userBetslip,
 }) {
-	const { memberships } = usePoolDetails(pool.id);
+	// const { memberships } = usePoolDetails(pool.id);
+
+	const {
+		selectedSeason,
+		memberships,
+	} = usePoolStore(
+		(s) =>
+			s.pools[pool.id] || {
+				selectedSeason: null,
+				memberships: [],
+			}
+	);
+
+	// console.log(selectedSeason)
 
 	const totalBudget =
 		DEFAULT_BUDGETS.spreadOU + DEFAULT_BUDGETS.moneyLine + DEFAULT_BUDGETS.prop;
@@ -30,33 +44,13 @@ export function BattleUnlockedPoolCard({
 			Alert.alert("No betslip found", "Please refresh or try again later.");
 			return;
 		}
-
-		// // If this battle is locked, send them back to the pool screen instead
-		// if (currentBattle.locked) {
-		// 	Alert.alert(
-		// 		"Betslip Locked",
-		// 		"This battle is now locked. Redirecting back to your pool."
-		// 	);
-		// 	// replace so they can’t navigate “back” into the locked battle
-		// 	router.replace(`/pools/${pool.id}`);
-		// 	return;
-		// }
-
 		router.push({
 			pathname: `/pools/${pool.id}/battles/${currentBattle.id}`,
 			params: {
-				// betslipId: userBetslip.id,
-				leagueSeasonId: selectedSeason.id,
+				leagueSeasonId: selectedSeason.id, // NOW defined!
 			},
 		});
-		// router.push(
-		// 	`/pools/${pool.id}/battles/${currentBattle.id}` +
-		// 		`?leagueSeasonId=${selectedSeason.id}` +
-		// 		`&betslipId=${userBetslip.id}`
-		// );
 	};
-
-	// console.log("Current Battle: ", currentBattle);
 
 	return (
 		<View style={s.detailsContainer}>
