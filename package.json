@@ -41,7 +41,7 @@
     "react": "19.0.0",
     "react-dom": "19.0.0",
     "react-native": "^0.79.5",
-    "react-native-branch": "^6.7.1",
+    "react-native-branch": "^6.8.0",
     "react-native-email-link": "^1.16.1",
     "react-native-gesture-handler": "~2.24.0",
     "react-native-keyboard-aware-scroll-view": "^0.9.5",
