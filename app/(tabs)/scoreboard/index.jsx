@@ -62,6 +62,29 @@ export default function Scoreboard() {
 	const sampleHomePlayerStats = samplePlayerStats.response[0];
 	const sampleAwayPlayerStats = samplePlayerStats.response[1];
 
+	const fetchGameData = useCallback(
+    async (opts = {}) => {
+      const { 
+        league = 2, 
+        season = currentSeason.year, 
+        date, 
+        page 
+      } = opts;
+
+      try {
+        const res = await api.get("/api/v1/api_sports/games", {
+          params: { league, season, date, page },
+        });
+        console.log("🔍 API‑Sports IO data:", res.data);
+      } catch (err) {
+        console.error("❌ Failed to fetch API‑Sports IO data:", err);
+      }
+    },
+    [api, currentSeason]
+  );
+
+
+
 	const handlePress = (game) => {
 		setSelectedGame(game);
 		setSelectedGameData(sampleGameData);
@@ -104,6 +127,8 @@ export default function Scoreboard() {
 		[api, currentSeason]
 	);
 
+	// console.log('Games:', games)
+
 	const fetchGamesRef = useRef(fetchGames);
 	useEffect(() => {
 		fetchGamesRef.current = fetchGames;
@@ -134,6 +159,7 @@ export default function Scoreboard() {
 		setRefreshing(false);
 	};
 
+	// Reload screen when opening app
 	useFocusEffect(
 		useCallback(() => {
 			const sub = AppState.addEventListener("change", (nextAppState) => {
@@ -150,11 +176,16 @@ export default function Scoreboard() {
 		}, [onRefresh])
 	);
 
+	// 	useEffect(() => {
+  //   if (currentSeason) {
+  //     fetchGameData();
+  //   }
+  // }, []);
+
 	const filteredGames = React.useMemo(
 		() => filterGames(games),
 		[games, selectedConferences]
 	);
-	// console.log("Games:", games);
 
 	const renderGame = useCallback(
 		({ item: game }) => (
