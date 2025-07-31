@@ -177,36 +177,12 @@ export default function Scoreboard() {
 		[games, selectedConferences]
 	);
 
-	// useEffect(() => {
-	// 	if (apiGames.length) {
-	// 		console.log(
-	// 			"🗺 apiGames contains IDs:",
-	// 			apiGames.map((g) => g.game.id)
-	// 		);
-	// 	}
-	// }, [apiGames]);
-
-	// console.log(games)
-
-	// const renderGame = useCallback(
-	// 	({ item: game }) => (
-	// 		<ScoreboardGameCard
-	// 			game={game}
-	// 			status={gameStatus}
-	// 			gameData={sampleGameData}
-	// 			userBetCount={game.user_bet_count}
-	// 			onPress={() => handlePress(game)}
-	// 		/>
-	// 	),
-	// 	[gameStatus, sampleGameData]
-	// );
-
 	const renderGame = useCallback(
 		({ item: game }) => {
 			// look up the API-Sports IO record
 			const apiGame = apiGameMap.get(game.api_sports_io_game_id) || {};
 			// NEED TO DO: Determine if I need the fallback of "NS"
-			const statusShort = apiGame.game?.status?.short ?? "PST";
+			const statusShort = apiGame.game?.status?.short
 
 			return (
 				<ScoreboardGameCard

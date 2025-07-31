@@ -51,7 +51,6 @@ export default function GameDetails() {
 	const [sheetOpen, setSheetOpen] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
-	// const [teamStats, setTeamStats] = useState([]);
 	const [awayTeamStats, setAwayTeamStats] = useState([]);
 	const [homeTeamStats, setHomeTeamStats] = useState([]);
 	const [awayPlayerStats, setAwayPlayerStats] = useState([]);
@@ -124,34 +123,6 @@ export default function GameDetails() {
 		[fetchStats, gameId]
 	);
 
-	// 1️⃣ on mount
-	// useEffect(() => {
-	// 	console.log('on mount')
-	// 	updateStats();
-	// }, [updateStats]);
-
-	// 2️⃣ on screen focus
-	// useFocusEffect(
-	// 	useCallback(() => {
-	// 		console.log("on screen focus");
-	// 		updateStats({ pull: hasLoadedOnce.current });
-	// 	}, [updateStats])
-	// );
-
-	// useFocusEffect(
-	//   useCallback(() => {
-	//     const now = Date.now();
-	//     // if we ran <500ms ago, skip
-	//     if (now - lastFocus.current < 500) {
-	//       return;
-	//     }
-	//     lastFocus.current = now;
-
-	//     console.log("on screen focus (debounced)");
-	//     updateStats({ pull: hasLoadedOnce.current });
-	//   }, [updateStats])
-	// );
-
 	useFocusEffect(
 		useCallback(() => {
 			const now = Date.now();
@@ -197,14 +168,6 @@ export default function GameDetails() {
 		}
 	}, [updateStats]);
 
-	// if (loading) {
-	// 	return (
-	// 		<View style={s.loadingContainer}>
-	// 			<LoadingIndicator color="light" contentToLoad="stats" />
-	// 		</View>
-	// 	);
-	// }
-
 	/* ---------- POOLS ---------- */
 	const [pools, setPools] = useState([]);
 	const [selectedPool, setPool] = useState(null);
@@ -216,23 +179,6 @@ export default function GameDetails() {
 			setPool(res.data[0]); // default
 		});
 	}, []);
-
-	// const onRefresh = async () => {
-	// 	setRefreshing(true);
-
-	// 	try {
-	// 		const res = await api.get("/pools");
-	// 		setPools(res.data);
-	// 		if (!selectedPool && res.data.length > 0) {
-	// 			setPool(res.data[0]); // reset to default if needed
-	// 		}
-	// 		setRefreshKey((k) => k + 1);
-	// 	} catch (err) {
-	// 		console.error("Error refreshing pools:", err);
-	// 	} finally {
-	// 		setRefreshing(false);
-	// 	}
-	// };
 
 	/* ---------- handlers passed down ---------- */
 	const handleSelectPool = (pool) => {
@@ -424,9 +370,6 @@ const s = StyleSheet.create({
 		backgroundColor: "#0F2638",
 		marginBottoml: 4,
 		borderRadius: 8,
-		// paddingHorizontal: 8,
-		// paddingTop: 8,
-		// paddingBottom: 4,
 	},
 	detailsCard: {
 		// backgroundColor: "#0F2638",

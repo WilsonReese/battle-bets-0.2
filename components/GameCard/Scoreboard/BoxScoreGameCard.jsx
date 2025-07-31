@@ -2,21 +2,20 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { TeamLogo } from "../Matchup/TeamLogo";
-import { formatQuarter, isFinished, isInProgress } from "../../../utils/gameStatus";
+import {
+	formatQuarter,
+	isFinished,
+	isInProgress,
+} from "../../../utils/gameStatus";
 
 export function BoxScoreGameCard({ game, gameData, status }) {
-	// const status = "AOT";
-
-  // Placeholder data for the in progress game data
+	// Placeholder data for the in progress game data
 	const quarterDisplay = formatQuarter(status);
-	const timeRemaining = gameData.game.status.timer ?? '--:--'
-
-	// I already have this passed as status
-	// const statusAPI = gameData.game.status.long;
+	const timeRemaining = gameData.game.status.timer ?? "--:--";
 
 	const homeScore = gameData.scores.home.total;
 	const awayScore = gameData.scores.away.total;
-	const isFinal = isFinished(status)
+	const isFinal = isFinished(status);
 
 	const homeWon = homeScore > awayScore;
 	const awayWon = awayScore > homeScore;
@@ -37,24 +36,27 @@ export function BoxScoreGameCard({ game, gameData, status }) {
 		<View style={s.container}>
 			{/* Away Team */}
 			<View style={[s.teamContainer, s.awayTeam]}>
-        {/* <View style={{alignItems: 'center'}}> */}
-				{/* <Txt style={getScoreStyle(awayWon)}>{awayScore}</Txt> */}
-        <Txt style={[getScoreStyle(awayWon), {paddingRight: 30}]}>{awayScore}</Txt>
+				<Txt style={[getScoreStyle(awayWon), { paddingRight: 30 }]}>
+					{awayScore}
+				</Txt>
 				<View style={s.teamNameAndLogo}>
 					<Txt style={getTeamTxtStyle(awayWon)}>{game.away_team.name}</Txt>
 					<TeamLogo teamName={game.away_team.name} size={24} />
 				</View>
-        {/* </View> */}
 			</View>
 
 			{/* Game Status */}
 			{/* In Progress */}
-			<View style={{ flex: 1, justifyContent: 'center', paddingBottom: 8 }}>
+			<View style={{ flex: 1, justifyContent: "center", paddingBottom: 8 }}>
 				{isInProgress(status) && (
 					<View style={s.inProgressContainer}>
 						<View style={s.quarterAndTime}>
-							<Txt style={[s.detailsTxt, { marginBottom: -4 }]}>{quarterDisplay}</Txt>
-							{!(status === 'HT') && <Txt style={s.detailsTxt}>{timeRemaining}</Txt>}
+							<Txt style={[s.detailsTxt, { marginBottom: -4 }]}>
+								{quarterDisplay}
+							</Txt>
+							{!(status === "HT") && (
+								<Txt style={s.detailsTxt}>{timeRemaining}</Txt>
+							)}
 						</View>
 					</View>
 				)}
@@ -70,7 +72,7 @@ export function BoxScoreGameCard({ game, gameData, status }) {
 						</View>
 
 						{status === "FT" && <Txt style={s.statusTxt}>Final</Txt>}
-            {status === "AOT" && <Txt style={s.statusTxt}>Final/OT</Txt>}
+						{status === "AOT" && <Txt style={s.statusTxt}>Final/OT</Txt>}
 
 						<View style={s.iconWrapper}>
 							{homeWon ? (
@@ -85,13 +87,13 @@ export function BoxScoreGameCard({ game, gameData, status }) {
 
 			{/* Home Team */}
 			<View style={[s.teamContainer, s.homeTeam]}>
-				{/* <View style={{alignItems: 'center'}}> */}
-					<Txt style={[getScoreStyle(homeWon), {paddingLeft: 30}]}>{homeScore}</Txt>
-					<View style={s.teamNameAndLogo}>
-						<TeamLogo teamName={game.home_team.name} size={24} />
-						<Txt style={getTeamTxtStyle(homeWon)}>{game.home_team.name}</Txt>
-					</View>
-				{/* </View> */}
+				<Txt style={[getScoreStyle(homeWon), { paddingLeft: 30 }]}>
+					{homeScore}
+				</Txt>
+				<View style={s.teamNameAndLogo}>
+					<TeamLogo teamName={game.home_team.name} size={24} />
+					<Txt style={getTeamTxtStyle(homeWon)}>{game.home_team.name}</Txt>
+				</View>
 			</View>
 		</View>
 	);
@@ -101,15 +103,11 @@ const s = StyleSheet.create({
 	container: {
 		flex: 1,
 		flexDirection: "row",
-		// paddingBottom: 4,
-    // marginBottom:
 	},
 
 	// Team Styles
 	teamContainer: {
 		flex: 1.75,
-		// alignItems: "center",
-		// backgroundColor: "green",
 	},
 	awayTeam: {
 		alignItems: "flex-end",
@@ -145,7 +143,7 @@ const s = StyleSheet.create({
 		zIndex: 1,
 		flexDirection: "row",
 		alignItems: "center",
-    justifyContent: 'center',
+		justifyContent: "center",
 		gap: 4,
 		// backgroundColor: "red",
 	},
@@ -161,7 +159,7 @@ const s = StyleSheet.create({
 	iconPlaceholder: {
 		width: 12,
 		height: 12,
-    // backgroundColor: 'green'
+		// backgroundColor: 'green'
 	},
 
 	inProgressContainer: {
@@ -180,20 +178,4 @@ const s = StyleSheet.create({
 		fontSize: 12,
 		fontFamily: "Saira_600SemiBold",
 	},
-	// downAndDistance: {
-	// 	flexDirection: "row",
-	// 	alignItems: "center",
-	// 	gap: 4,
-	// },
-	// downAndDistanceTxt: {
-	// 	fontSize: 11,
-	// 	color: "#C7CDD1",
-	// },
-	// fieldPositionContainer: {
-	// 	alignItems: "center",
-	// },
-	// yardLineTxt: {
-	// 	fontSize: 11,
-	// 	color: "#C7CDD1",
-	// },
 });
