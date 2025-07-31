@@ -5,6 +5,7 @@ import {
 	TouchableOpacity,
 	Dimensions,
 	RefreshControl,
+	AppState,
 } from "react-native";
 import { Txt } from "../../../components/general/Txt";
 import { useScoreboard } from "../../../components/contexts/ScoreboardContext";
@@ -25,6 +26,7 @@ import api from "../../../utils/axiosConfig";
 import { Matchup } from "../../../components/GameCard/Matchup/Matchup";
 import { PregameCardDetails } from "../../../components/GameCard/Scoreboard/PregameCardDetails";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
+import { useFocusEffect } from "expo-router";
 
 export default function GameDetails() {
 	const {
@@ -39,6 +41,7 @@ export default function GameDetails() {
 		// userPoolCountByGame
 	} = useScoreboard();
 
+	const gameId = selectedGameData?.game?.id;
 	const awayTeam = selectedGame.away_team;
 	const homeTeam = selectedGame.home_team;
 	const bottomSheetRef = useRef(null);
@@ -51,52 +54,122 @@ export default function GameDetails() {
 	const [awayPlayerStats, setAwayPlayerStats] = useState([]);
 	const [homePlayerStats, setHomePlayerStats] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const appState = useRef(AppState.currentState);
 
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.4;
 
-	console.log("Selected Game Data:", selectedGameData);
+	// console.log("Selected Game Data:", selectedGameData);
 
 	const fetchStats = useCallback(
-    async (gameId) => {
-      setLoading(true);
-      try {
-        // kick off both requests in parallel
-        const [teamRes, playerRes] = await Promise.all([
-				// const [playerRes] = await Promise.all([
-          api.get("/api/v1/api_sports/game_statistics/teams", { params: { id: gameId }}),
-          api.get("/api/v1/api_sports/game_statistics/players", { params: { id: gameId }})
-        ]);
+		async (gameId) => {
+			setLoading(true);
+			try {
+				// kick off both requests in parallel
+				const [teamRes, playerRes] = await Promise.all([
+					// const [playerRes] = await Promise.all([
+					api.get("/api/v1/api_sports/game_statistics/teams", {
+						params: { id: gameId },
+					}),
+					api.get("/api/v1/api_sports/game_statistics/players", {
+						params: { id: gameId },
+					}),
+				]);
 
-        // teamRes.data is an array [ homeTeamObj, awayTeamObj ]
-        const [homeTeamObj, awayTeamObj] = teamRes.data;
-        setHomeTeamStats(homeTeamObj);
-        setAwayTeamStats(awayTeamObj);
-				console.log('✅ Set Team Stats')
+				// teamRes.data is an array [ homeTeamObj, awayTeamObj ]
+				const [homeTeamObj, awayTeamObj] = teamRes.data;
+				setHomeTeamStats(homeTeamObj);
+				setAwayTeamStats(awayTeamObj);
+				console.log("✅ Set Team Stats");
 
-        // playerRes.data is an array of { team: { id,… }, statistics: […] } for every player
-        const allPlayers = playerRes.data;
-        // split players by the matching team.id
-        const homePla = allPlayers.filter(p => p.team.id === selectedGameData.teams.home.id);
-        const awayPla = allPlayers.filter(p => p.team.id === selectedGameData.teams.away.id);
-        setHomePlayerStats(homePla[0]);
-        setAwayPlayerStats(awayPla[0]);
-				console.log('✅ Set Player Stats')
+				// playerRes.data is an array of { team: { id,… }, statistics: […] } for every player
+				const allPlayers = playerRes.data;
+				// split players by the matching team.id
+				const homePla = allPlayers.filter(
+					(p) => p.team.id === selectedGameData.teams.home.id
+				);
+				const awayPla = allPlayers.filter(
+					(p) => p.team.id === selectedGameData.teams.away.id
+				);
+				setHomePlayerStats(homePla[0]);
+				setAwayPlayerStats(awayPla[0]);
+				console.log("✅ Set Player Stats");
+			} catch (err) {
+				console.error("❌ Failed to fetch combined stats:", err);
+			} finally {
+				setLoading(false);
+			}
+		},
+		[api]
+	);
 
-      } catch (err) {
-        console.error("❌ Failed to fetch combined stats:", err);
-      } finally {
-        setLoading(false);
-      }
-    },
-    [api]
-  );
+	const updateStats = useCallback(
+		async ({ pull = false } = {}) => {
+			if (pull) setRefreshing(true);
+			else setLoading(true);
 
-	// Fetch Stats on load
+			await fetchStats(gameId);
+
+			if (pull) setRefreshing(false);
+			else setLoading(false);
+		},
+		[fetchStats, gameId]
+	);
+
+	// 1️⃣ on mount
 	// useEffect(() => {
-	// 	fetchStats(selectedGameData.game.id);
-	// }, []);
+	// 	console.log('on mount')
+	// 	updateStats();
+	// }, [updateStats]);
 
+	// 2️⃣ on screen focus
+	useFocusEffect(
+		useCallback(() => {
+			console.log("on screen focus");
+			updateStats();
+		}, [updateStats])
+	);
+
+	// 3️⃣ on app background→foreground
+	useFocusEffect(
+		useCallback(() => {
+			const sub = AppState.addEventListener("change", (next) => {
+				if (
+					appState.current.match(/inactive|background/) &&
+					next === "active"
+				) {
+					console.log("on app state");
+					updateStats({ pull: true });
+				}
+				appState.current = next;
+			});
+			return () => sub.remove();
+		}, [updateStats])
+	);
+
+	// 4️⃣ pull-to-refresh
+	const onRefresh = useCallback(async () => {
+		console.log("on refresh");
+		await updateStats({ pull: true });
+		try {
+			const res = await api.get("/pools");
+			setPools(res.data);
+			if (!selectedPool && res.data.length > 0) {
+				setPool(res.data[0]); // reset to default if needed
+			}
+			setRefreshKey((k) => k + 1);
+		} catch (err) {
+			console.error("Error refreshing pools:", err);
+		}
+	}, [updateStats]);
+
+	// if (loading) {
+	// 	return (
+	// 		<View style={s.loadingContainer}>
+	// 			<LoadingIndicator color="light" contentToLoad="stats" />
+	// 		</View>
+	// 	);
+	// }
 
 	/* ---------- POOLS ---------- */
 	const [pools, setPools] = useState([]);
@@ -110,22 +183,22 @@ export default function GameDetails() {
 		});
 	}, []);
 
-	const onRefresh = async () => {
-		setRefreshing(true);
+	// const onRefresh = async () => {
+	// 	setRefreshing(true);
 
-		try {
-			const res = await api.get("/pools");
-			setPools(res.data);
-			if (!selectedPool && res.data.length > 0) {
-				setPool(res.data[0]); // reset to default if needed
-			}
-			setRefreshKey((k) => k + 1);
-		} catch (err) {
-			console.error("Error refreshing pools:", err);
-		} finally {
-			setRefreshing(false);
-		}
-	};
+	// 	try {
+	// 		const res = await api.get("/pools");
+	// 		setPools(res.data);
+	// 		if (!selectedPool && res.data.length > 0) {
+	// 			setPool(res.data[0]); // reset to default if needed
+	// 		}
+	// 		setRefreshKey((k) => k + 1);
+	// 	} catch (err) {
+	// 		console.error("Error refreshing pools:", err);
+	// 	} finally {
+	// 		setRefreshing(false);
+	// 	}
+	// };
 
 	/* ---------- handlers passed down ---------- */
 	const handleSelectPool = (pool) => {
