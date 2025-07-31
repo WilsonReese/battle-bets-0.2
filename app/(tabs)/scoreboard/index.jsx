@@ -276,7 +276,11 @@ export default function Scoreboard() {
 				data={filteredGames}
 				keyExtractor={(game) => game.id.toString()}
 				renderItem={renderGame}
-				initialNumToRender={10}
+				windowSize={5}
+				maxToRenderPerBatch={5}
+				updateCellsBatchingPeriod={50}
+				initialNumToRender={8}
+				removeClippedSubviews={true}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
 					paddingBottom: 16,
