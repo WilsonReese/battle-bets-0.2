@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 import {
 	View,
 	ScrollView,
@@ -52,7 +58,7 @@ export default function Scoreboard() {
 		setSelectedHomePlayerStats,
 		setSelectedAwayPlayerStats,
 		setUserBets,
-		gameStatus,
+		// gameStatus,
 	} = useScoreboard();
 
 	// console.log("Current Season:", currentSeason);
@@ -63,40 +69,41 @@ export default function Scoreboard() {
 	const sampleHomePlayerStats = samplePlayerStats.response[0];
 	const sampleAwayPlayerStats = samplePlayerStats.response[1];
 
+	const apiGameMap = useMemo(() => {
+		const m = new Map();
+		apiGames.forEach((g) => {
+			m.set(String(g.game.id), g);
+		});
+		return m;
+	}, [apiGames]);
+
 	const fetchGameData = useCallback(
-    async (opts = {}) => {
-      const { 
-        league = 2, 
-        season = currentSeason.year, 
-        date, 
-        page 
-      } = opts;
+		async (opts = {}) => {
+			const { league = 2, season = currentSeason.year, date, page } = opts;
 
-      try {
-        const res = await api.get("/api/v1/api_sports/games", {
-          params: { league, season, date, page },
-        });
-        console.log("🔍 Fetched API‑Sports IO data");
-				setApiGames(res.data)
+			try {
+				const res = await api.get("/api/v1/api_sports/games", {
+					params: { league, season, date, page },
+				});
+				console.log("🔍 Fetched API‑Sports IO data");
+				setApiGames(res.data);
 				// console.log("Api Sports IO Data:", apiGames);
-      } catch (err) {
-        console.error("❌ Failed to fetch API‑Sports IO data:", err);
-      }
-    },
-    [api, currentSeason]
-  );
+			} catch (err) {
+				console.error("❌ Failed to fetch API‑Sports IO data:", err);
+			}
+		},
+		[api, currentSeason]
+	);
 
-
-
-	const handlePress = (game) => {
-		setSelectedGame(game);
-		setSelectedGameData(sampleGameData);
-		setSelectedHomeTeamStats(sampleHomeTeamStats);
-		setSelectedAwayTeamStats(sampleAwayTeamStats);
-		setSelectedHomePlayerStats(sampleHomePlayerStats);
-		setSelectedAwayPlayerStats(sampleAwayPlayerStats);
-		router.push(`/scoreboard/${game.id}`);
-	};
+	// const handlePress = (game) => {
+	// 	setSelectedGame(game);
+	// 	setSelectedGameData(sampleGameData);
+	// 	setSelectedHomeTeamStats(sampleHomeTeamStats);
+	// 	setSelectedAwayTeamStats(sampleAwayTeamStats);
+	// 	setSelectedHomePlayerStats(sampleHomePlayerStats);
+	// 	setSelectedAwayPlayerStats(sampleAwayPlayerStats);
+	// 	router.push(`/scoreboard/${game.id}`);
+	// };
 
 	// Refetch logic now abstracted and shared
 	const fetchGames = useCallback(
@@ -119,13 +126,13 @@ export default function Scoreboard() {
 				});
 				setGames(res.data);
 				// setHasLoadedOnce(true);
-				console.log('Fetch games ran')
-				await fetchGameData()
+				console.log("Fetch games ran");
+				await fetchGameData();
 			} catch (err) {
 				console.error("Failed to load games:", err);
 			} finally {
 				setLoadingGames(false);
-				console.log('Finished fetch games')
+				console.log("Finished fetch games");
 				if (showRefreshControl) setRefreshing(false);
 			}
 		},
@@ -186,20 +193,65 @@ export default function Scoreboard() {
 		() => filterGames(games),
 		[games, selectedConferences]
 	);
-	
-	console.log(games)
+
+	// useEffect(() => {
+	// 	if (apiGames.length) {
+	// 		console.log(
+	// 			"🗺 apiGames contains IDs:",
+	// 			apiGames.map((g) => g.game.id)
+	// 		);
+	// 	}
+	// }, [apiGames]);
+
+	// console.log(games)
+
+	// const renderGame = useCallback(
+	// 	({ item: game }) => (
+	// 		<ScoreboardGameCard
+	// 			game={game}
+	// 			status={gameStatus}
+	// 			gameData={sampleGameData}
+	// 			userBetCount={game.user_bet_count}
+	// 			onPress={() => handlePress(game)}
+	// 		/>
+	// 	),
+	// 	[gameStatus, sampleGameData]
+	// );
 
 	const renderGame = useCallback(
-		({ item: game }) => (
-			<ScoreboardGameCard
-				game={game}
-				status={gameStatus}
-				gameData={sampleGameData}
-				userBetCount={game.user_bet_count}
-				onPress={() => handlePress(game)}
-			/>
-		),
-		[gameStatus, sampleGameData]
+		({ item: game }) => {
+			// look up the API-Sports IO record
+			const apiGame = apiGameMap.get(game.api_sports_io_game_id);
+			const statusLong = apiGame?.game?.status?.long ?? "Unknown";
+			// console.log("Game Status", statusLong);
+			// // console.log(game)
+			// console.log(
+			// 	"Trying to match api_sports_io_game_id:",
+			// 	game.api_sports_io_game_id
+			// );
+
+			return (
+				<ScoreboardGameCard
+					game={game}
+					gameStatus={statusLong}
+					gameData={apiGame}
+					userBetCount={game.user_bet_count}
+					onPress={() => {
+						// stash both in context
+						setSelectedGame(game);
+						setSelectedGameData(apiGame);
+						setSelectedHomeTeamStats(sampleHomeTeamStats);
+						setSelectedAwayTeamStats(sampleAwayTeamStats);
+						setSelectedHomePlayerStats(sampleHomePlayerStats);
+						setSelectedAwayPlayerStats(sampleAwayPlayerStats);
+						// setGameStatus(statusLong);
+						// …and your team/player stats next…
+						router.push(`/scoreboard/${game.id}`);
+					}}
+				/>
+			);
+		},
+		[apiGameMap]
 	);
 
 	if (seasonLoading || loadingGames) {

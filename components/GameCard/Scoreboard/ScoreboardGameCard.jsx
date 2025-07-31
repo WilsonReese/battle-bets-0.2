@@ -17,7 +17,7 @@ export function ScoreboardGameCard({ game, gameData, userBetCount, gameStatus, o
 			{/* <View style={{ height: 4 }} /> */}
 			<View>
 				{/* Show the details for the pre-game of the card */}
-				{gameStatus === "pregame" && (
+				{gameStatus === "Not Started" && (
 					<View style={s.container}>
 						<Matchup
 							homeTeam={game.home_team.name}
@@ -38,6 +38,7 @@ export function ScoreboardGameCard({ game, gameData, userBetCount, gameStatus, o
 					</View>
 				)}
 
+{/* {gameStatus === "Finished" && ( */}
 				{gameStatus === "postgame" && (
 					<View style={s.container}>
 						<BoxScoreGameCard
