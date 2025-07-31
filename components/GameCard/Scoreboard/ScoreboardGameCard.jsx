@@ -5,6 +5,8 @@ import { Matchup } from "../Matchup/Matchup";
 import { PregameCardDetails } from "./PregameCardDetails";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 
+// NEED TO DO - MAKE SURE GAME STATUS IS CORRECT
+
 function ScoreboardGameCardComponent({
   game,
   gameData,

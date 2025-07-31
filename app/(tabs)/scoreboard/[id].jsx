@@ -27,13 +27,13 @@ import { PregameCardDetails } from "../../../components/GameCard/Scoreboard/Preg
 
 export default function GameDetails() {
 	const {
-		gameStatus,
 		selectedGame,
 		selectedGameData,
 		selectedHomeTeamStats,
 		selectedAwayTeamStats,
 		selectedHomePlayerStats,
 		selectedAwayPlayerStats,
+		gameStatus,
 		// userBetsByGame,
 		// userPoolCountByGame
 	} = useScoreboard();
@@ -82,7 +82,7 @@ export default function GameDetails() {
 		bottomSheetRef.current?.close();
 	};
 
-	console.log("Selected Game:", selectedGame);
+	// console.log("Selected Game:", selectedGame);
 	// console.log("User Bets", userBets);
 
 	// Box Score or Bets Toggle
@@ -100,7 +100,8 @@ export default function GameDetails() {
 				<View style={[s.macroGameCard]}>
 					<ScoreboardGameCard
 						game={selectedGame}
-						sampleGameData={selectedGameData}
+						gameData={selectedGameData}
+						gameStatus={gameStatus}
 					/>
 				</View>
 
@@ -133,7 +134,8 @@ export default function GameDetails() {
 								</View>
 
 								{/* Team Stats */}
-								{gameStatus !== "pregame" ? (
+								{/* NEED TO DO: Get game status working */}
+								{gameStatus !== "Not Started" ? (
 									<>
 										<TeamData
 											awayStats={selectedAwayTeamStats.statistics}

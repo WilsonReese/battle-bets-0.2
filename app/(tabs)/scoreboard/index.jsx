@@ -57,6 +57,7 @@ export default function Scoreboard() {
 		setSelectedAwayTeamStats,
 		setSelectedHomePlayerStats,
 		setSelectedAwayPlayerStats,
+		setGameStatus,
 		setUserBets,
 		// gameStatus,
 	} = useScoreboard();
@@ -244,6 +245,7 @@ export default function Scoreboard() {
 						setSelectedAwayTeamStats(sampleAwayTeamStats);
 						setSelectedHomePlayerStats(sampleHomePlayerStats);
 						setSelectedAwayPlayerStats(sampleAwayPlayerStats);
+						setGameStatus(statusLong)
 						// setGameStatus(statusLong);
 						// …and your team/player stats next…
 						router.push(`/scoreboard/${game.id}`);
