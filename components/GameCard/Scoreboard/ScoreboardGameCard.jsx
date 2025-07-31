@@ -41,7 +41,7 @@ function ScoreboardGameCardComponent({
           </View>
         )}
 
-        {gameStatus === "postgame" && (
+        {gameStatus === "Finished" && (
           <View style={s.container}>
             <BoxScoreGameCard
               game={game}

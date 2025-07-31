@@ -13,6 +13,7 @@ export function BoxScoreGameCard({ game, gameData, status }) {
   const yardLine = 25;
   const yardLineTerritory = "KSU";
 
+  // I already have this passed as status
   const statusAPI = gameData.game.status.long;
 
   const homeScore = gameData.scores.home.total;

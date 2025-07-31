@@ -13,7 +13,7 @@ import {
 	BoxScoreModeToggle,
 	BoxScoreOrBetsToggle,
 } from "../../../components/BoxScore/BoxScoreOrBetsToggle";
-import { useEffect, useRef, useState } from "react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import { DataToggle } from "../../../components/BoxScore/DataToggle";
 import { TeamData } from "../../../components/BoxScore/TeamData";
 import { PlayerData } from "../../../components/BoxScore/PlayerData";
@@ -24,28 +24,79 @@ import BottomSheet, { BottomSheetScrollView } from "@gorhom/bottom-sheet";
 import api from "../../../utils/axiosConfig";
 import { Matchup } from "../../../components/GameCard/Matchup/Matchup";
 import { PregameCardDetails } from "../../../components/GameCard/Scoreboard/PregameCardDetails";
+import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 
 export default function GameDetails() {
 	const {
 		selectedGame,
 		selectedGameData,
-		selectedHomeTeamStats,
-		selectedAwayTeamStats,
-		selectedHomePlayerStats,
-		selectedAwayPlayerStats,
+		// selectedHomeTeamStats,
+		// selectedAwayTeamStats,
+		// selectedHomePlayerStats,
+		// selectedAwayPlayerStats,
 		gameStatus,
 		// userBetsByGame,
 		// userPoolCountByGame
 	} = useScoreboard();
+
 	const awayTeam = selectedGame.away_team;
 	const homeTeam = selectedGame.home_team;
 	const bottomSheetRef = useRef(null);
 	const [sheetOpen, setSheetOpen] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
+	// const [teamStats, setTeamStats] = useState([]);
+	const [awayTeamStats, setAwayTeamStats] = useState([]);
+	const [homeTeamStats, setHomeTeamStats] = useState([]);
+	const [awayPlayerStats, setAwayPlayerStats] = useState([]);
+	const [homePlayerStats, setHomePlayerStats] = useState([]);
+	const [loading, setLoading] = useState(true);
 
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.4;
+
+	console.log("Selected Game Data:", selectedGameData);
+
+	const fetchStats = useCallback(
+    async (gameId) => {
+      setLoading(true);
+      try {
+        // kick off both requests in parallel
+        const [teamRes, playerRes] = await Promise.all([
+				// const [playerRes] = await Promise.all([
+          api.get("/api/v1/api_sports/game_statistics/teams", { params: { id: gameId }}),
+          api.get("/api/v1/api_sports/game_statistics/players", { params: { id: gameId }})
+        ]);
+
+        // teamRes.data is an array [ homeTeamObj, awayTeamObj ]
+        const [homeTeamObj, awayTeamObj] = teamRes.data;
+        setHomeTeamStats(homeTeamObj);
+        setAwayTeamStats(awayTeamObj);
+				console.log('✅ Set Team Stats')
+
+        // playerRes.data is an array of { team: { id,… }, statistics: […] } for every player
+        const allPlayers = playerRes.data;
+        // split players by the matching team.id
+        const homePla = allPlayers.filter(p => p.team.id === selectedGameData.teams.home.id);
+        const awayPla = allPlayers.filter(p => p.team.id === selectedGameData.teams.away.id);
+        setHomePlayerStats(homePla[0]);
+        setAwayPlayerStats(awayPla[0]);
+				console.log('✅ Set Player Stats')
+
+      } catch (err) {
+        console.error("❌ Failed to fetch combined stats:", err);
+      } finally {
+        setLoading(false);
+      }
+    },
+    [api]
+  );
+
+	// Fetch Stats on load
+	// useEffect(() => {
+	// 	fetchStats(selectedGameData.game.id);
+	// }, []);
+
 
 	/* ---------- POOLS ---------- */
 	const [pools, setPools] = useState([]);
@@ -68,7 +119,7 @@ export default function GameDetails() {
 			if (!selectedPool && res.data.length > 0) {
 				setPool(res.data[0]); // reset to default if needed
 			}
-			 setRefreshKey((k) => k + 1);
+			setRefreshKey((k) => k + 1);
 		} catch (err) {
 			console.error("Error refreshing pools:", err);
 		} finally {
@@ -82,9 +133,6 @@ export default function GameDetails() {
 		bottomSheetRef.current?.close();
 	};
 
-	// console.log("Selected Game:", selectedGame);
-	// console.log("User Bets", userBets);
-
 	// Box Score or Bets Toggle
 	const [infoMode, setInfoMode] = useState("boxScore");
 
@@ -92,6 +140,14 @@ export default function GameDetails() {
 	const [selectedTeam, setSelectedTeam] = useState(awayTeam.name); // makes it default to the away team being selected
 
 	const [selectedBetGroup, setSelectedBetGroup] = useState("Your Bets");
+
+	if (loading) {
+		return (
+			<View style={s.loadingContainer}>
+				<LoadingIndicator color="light" contentToLoad="stats" />
+			</View>
+		);
+	}
 
 	return (
 		// Macro Game Data
@@ -138,8 +194,8 @@ export default function GameDetails() {
 								{gameStatus !== "Not Started" ? (
 									<>
 										<TeamData
-											awayStats={selectedAwayTeamStats.statistics}
-											homeStats={selectedHomeTeamStats.statistics}
+											awayStats={awayTeamStats.statistics}
+											homeStats={homeTeamStats.statistics}
 											selectedTeam={selectedTeam}
 											awayTeamName={awayTeam.name}
 											homeTeamName={homeTeam.name}
@@ -147,10 +203,10 @@ export default function GameDetails() {
 
 										{/* Player Stats */}
 										{selectedTeam === awayTeam.name && (
-											<PlayerData stats={selectedAwayPlayerStats.groups} />
+											<PlayerData stats={awayPlayerStats.groups} />
 										)}
 										{selectedTeam === homeTeam.name && (
-											<PlayerData stats={selectedHomePlayerStats.groups} />
+											<PlayerData stats={homePlayerStats.groups} />
 										)}
 									</>
 								) : (
@@ -174,7 +230,10 @@ export default function GameDetails() {
 
 								{/* User Bets */}
 								{selectedBetGroup === "Your Bets" && (
-									<UserBetsForGame selectedGame={selectedGame} refreshKey={refreshKey}/>
+									<UserBetsForGame
+										selectedGame={selectedGame}
+										refreshKey={refreshKey}
+									/>
 								)}
 
 								{/* League Bets */}
@@ -296,5 +355,11 @@ const s = StyleSheet.create({
 	radioLabel: {
 		fontSize: 16,
 		color: "#F8F8F8",
+	},
+	loadingContainer: {
+		flex: 1,
+		justifyContent: "center",
+		alignItems: "center",
+		backgroundColor: "#061826",
 	},
 });
