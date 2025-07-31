@@ -72,7 +72,7 @@ export default function Scoreboard() {
 		async (opts = {}) => {
 			// NEED TO DO: Fix this
 			// const { league = 2, season = currentSeason.year, date, page } = opts;
-			const { league = 2, season = 2024, date, page } = opts;
+			const { league = 1, season = currentSeason.year, date, page } = opts;
 
 			try {
 				const res = await api.get("/api/v1/api_sports/games", {
