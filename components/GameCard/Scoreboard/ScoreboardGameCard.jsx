@@ -5,11 +5,15 @@ import { Matchup } from "../Matchup/Matchup";
 import { PregameCardDetails } from "./PregameCardDetails";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 import { RescheduledGameDetails } from "./RescheduledGameDetails";
-// import {
-//   categorizeStatus,
-//   isInProgress,
-//   StatusGroup,
-// } from "../utils/gameStatus";
+import {
+	categorizeStatus,
+	isCancelled,
+	isFinished,
+	isInProgress,
+	isNotStarted,
+	isPostponed,
+	StatusGroup,
+} from "../../../utils/gameStatus";
 
 // NEED TO DO - MAKE SURE GAME STATUS IS CORRECT
 
@@ -20,12 +24,11 @@ function ScoreboardGameCardComponent({
 	gameStatus,
 	onPress = () => {},
 }) {
-	// const gameStatus = "Finished"
 
 	return (
 		<TouchableOpacity style={s.card} onPress={() => onPress(game)}>
 			<View>
-				{gameStatus === "Not Started" && (
+				{isNotStarted(gameStatus) && (
 					<View style={s.container}>
 						<Matchup
 							homeTeam={game.home_team.name}
@@ -36,34 +39,33 @@ function ScoreboardGameCardComponent({
 					</View>
 				)}
 
-				{(gameStatus === "Cancelled" || gameStatus === "Postponed") && (
+				{(isCancelled(gameStatus) || isPostponed(gameStatus)) && (
 					<View style={s.container}>
 						<Matchup
 							homeTeam={game.home_team.name}
 							awayTeam={game.away_team.name}
 							format="scoreboard"
 						/>
-						<RescheduledGameDetails game={game} gameStatus={gameStatus} />
+						<RescheduledGameDetails gameStatus={gameStatus}/>
 					</View>
 				)}
 
-				{/* {gameStatus === "inProgress" && ( */}
-				{gameStatus === "inProgress" && (
+				{isInProgress(gameStatus) && (
 					<View style={s.container}>
 						<BoxScoreGameCard
 							game={game}
 							gameData={gameData}
-							status="inProgress"
+							status={gameStatus}
 						/>
 					</View>
 				)}
 
-				{gameStatus === "Finished" && (
+				{isFinished(gameStatus) && (
 					<View style={s.container}>
 						<BoxScoreGameCard
 							game={game}
 							gameData={gameData}
-							status={gameData.game.status.long}
+							status={gameStatus}
 						/>
 					</View>
 				)}

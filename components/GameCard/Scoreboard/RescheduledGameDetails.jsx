@@ -1,11 +1,18 @@
 import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import { format } from "date-fns";
+import { isCancelled, isPostponed } from "../../../utils/gameStatus";
 
-export function RescheduledGameDetails({ game, gameStatus }) {
+export function RescheduledGameDetails({ gameStatus }) {
+  console.log(gameStatus)
 	return (
 		<View style={s.container}>
-			<Txt style={s.txt}>{gameStatus}</Txt>
+			{isCancelled(gameStatus) && (
+        <Txt style={s.txt}>Cancelled</Txt>
+      )}
+      {isPostponed(gameStatus) && (
+        <Txt style={s.txt}>Postponed</Txt>
+      )}
 		</View>
 	);
 }

@@ -9,7 +9,6 @@ export const ScoreboardProvider = ({ children }) => {
   const [gameStatus, setGameStatus] = useState(null);
 
   const [userBets, setUserBets] = useState(null);
-  // const gameStatus = 'postgame'
 
   return (
     <ScoreboardContext.Provider

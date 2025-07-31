@@ -27,6 +27,13 @@ import { Matchup } from "../../../components/GameCard/Matchup/Matchup";
 import { PregameCardDetails } from "../../../components/GameCard/Scoreboard/PregameCardDetails";
 import { LoadingIndicator } from "../../../components/general/LoadingIndicator";
 import { useFocusEffect } from "expo-router";
+import {
+	isCancelled,
+	isFinished,
+	isInProgress,
+	isNotStarted,
+	isPostponed,
+} from "../../../utils/gameStatus";
 
 export default function GameDetails() {
 	const {
@@ -53,7 +60,6 @@ export default function GameDetails() {
 	const appState = useRef(AppState.currentState);
 	const hasLoadedOnce = useRef(false);
 	const lastFocus = useRef(0);
-
 
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.4;
@@ -111,9 +117,9 @@ export default function GameDetails() {
 
 			if (pull) setRefreshing(false);
 			else {
-        setLoading(false);
-        hasLoadedOnce.current = true;      // now mark that we’ve loaded at least once
-      }
+				setLoading(false);
+				hasLoadedOnce.current = true; // now mark that we’ve loaded at least once
+			}
 		},
 		[fetchStats, gameId]
 	);
@@ -133,30 +139,30 @@ export default function GameDetails() {
 	// );
 
 	// useFocusEffect(
-  //   useCallback(() => {
-  //     const now = Date.now();
-  //     // if we ran <500ms ago, skip
-  //     if (now - lastFocus.current < 500) {
-  //       return;
-  //     }
-  //     lastFocus.current = now;
+	//   useCallback(() => {
+	//     const now = Date.now();
+	//     // if we ran <500ms ago, skip
+	//     if (now - lastFocus.current < 500) {
+	//       return;
+	//     }
+	//     lastFocus.current = now;
 
-  //     console.log("on screen focus (debounced)");
-  //     updateStats({ pull: hasLoadedOnce.current });
-  //   }, [updateStats])
-  // );
+	//     console.log("on screen focus (debounced)");
+	//     updateStats({ pull: hasLoadedOnce.current });
+	//   }, [updateStats])
+	// );
 
 	useFocusEffect(
-  useCallback(() => {
-    const now = Date.now()
-    if (now - lastFocus.current < 500) return
-    lastFocus.current = now
+		useCallback(() => {
+			const now = Date.now();
+			if (now - lastFocus.current < 500) return;
+			lastFocus.current = now;
 
-    console.log("on screen focus (silent)")
-    // directly fetch without touching refreshing/loading flags:
-    fetchStats(gameId)
-  }, [fetchStats, gameId])
-)
+			console.log("on screen focus (silent)");
+			// directly fetch without touching refreshing/loading flags:
+			fetchStats(gameId);
+		}, [fetchStats, gameId])
+	);
 
 	// 3️⃣ on app background→foreground
 	useFocusEffect(
@@ -292,7 +298,7 @@ export default function GameDetails() {
 
 								{/* Team Stats */}
 								{/* NEED TO DO: Get game status working */}
-								{gameStatus !== "Not Started" ? (
+								{isInProgress(gameStatus) || isFinished(gameStatus) ? (
 									<>
 										<TeamData
 											awayStats={awayTeamStats.statistics}
@@ -312,7 +318,12 @@ export default function GameDetails() {
 									</>
 								) : (
 									<Txt style={{ alignSelf: "center", paddingTop: 16 }}>
-										Check back when the game starts!
+										{isNotStarted(gameStatus) &&
+											"Check back when the game starts!"}
+										{isPostponed(gameStatus) &&
+											"This game has been postponed."}
+										{isCancelled(gameStatus) &&
+											"This game has been canceled. Any bets placed on this game will be void."}
 									</Txt>
 								)}
 							</>

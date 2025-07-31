@@ -2,34 +2,35 @@ import { StyleSheet, View } from "react-native";
 import { Txt } from "../../general/Txt";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { TeamLogo } from "../Matchup/TeamLogo";
+import { formatQuarter, isFinished, isInProgress } from "../../../utils/gameStatus";
 
 export function BoxScoreGameCard({ game, gameData, status }) {
-	// const status = "Finished";
+	// const status = "AOT";
 
-	// Placeholder data for the in progress game data
-	const quarter = "4th";
-	const timeRemaining = "9:32";
+  // Placeholder data for the in progress game data
+	const quarterDisplay = formatQuarter(status);
+	const timeRemaining = gameData.game.status.timer ?? '--:--'
 
 	// I already have this passed as status
 	// const statusAPI = gameData.game.status.long;
 
 	const homeScore = gameData.scores.home.total;
 	const awayScore = gameData.scores.away.total;
-	const isFinal = status === "Finished";
+	const isFinal = isFinished(status)
 
 	const homeWon = homeScore > awayScore;
 	const awayWon = awayScore > homeScore;
 
 	const getScoreStyle = (won) => [
 		s.scoreElement,
-		isFinal && won && status === "Finished" && s.winningScoreTxt,
-		isFinal && !won && status === "Finished" && s.losingTxt,
+		isFinal && won && s.winningScoreTxt,
+		isFinal && !won && s.losingTxt,
 	];
 
 	const getTeamTxtStyle = (won) => [
 		s.teamTxt,
-		isFinal && won && status === "Finished" && s.winningTeamTxt,
-		isFinal && !won && status === "Finished" && s.losingTxt,
+		isFinal && won && s.winningTeamTxt,
+		isFinal && !won && s.losingTxt,
 	];
 
 	return (
@@ -49,16 +50,16 @@ export function BoxScoreGameCard({ game, gameData, status }) {
 			{/* Game Status */}
 			{/* In Progress */}
 			<View style={{ flex: 1, justifyContent: 'center', paddingBottom: 8 }}>
-				{status === "inProgress" && (
+				{isInProgress(status) && (
 					<View style={s.inProgressContainer}>
 						<View style={s.quarterAndTime}>
-							<Txt style={[s.detailsTxt, { marginBottom: -4 }]}>{quarter}</Txt>
-							<Txt style={s.detailsTxt}>{timeRemaining}</Txt>
+							<Txt style={[s.detailsTxt, { marginBottom: -4 }]}>{quarterDisplay}</Txt>
+							{!(status === 'HT') && <Txt style={s.detailsTxt}>{timeRemaining}</Txt>}
 						</View>
 					</View>
 				)}
 
-				{status === "Finished" && (
+				{isFinished(status) && (
 					<View style={s.statusContainer}>
 						<View style={s.iconWrapper}>
 							{awayWon ? (
@@ -68,7 +69,8 @@ export function BoxScoreGameCard({ game, gameData, status }) {
 							)}
 						</View>
 
-						{status === "Finished" && <Txt style={s.statusTxt}>Final</Txt>}
+						{status === "FT" && <Txt style={s.statusTxt}>Final</Txt>}
+            {status === "AOT" && <Txt style={s.statusTxt}>Final/OT</Txt>}
 
 						<View style={s.iconWrapper}>
 							{homeWon ? (

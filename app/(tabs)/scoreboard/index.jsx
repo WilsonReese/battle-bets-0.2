@@ -204,22 +204,20 @@ export default function Scoreboard() {
 	const renderGame = useCallback(
 		({ item: game }) => {
 			// look up the API-Sports IO record
-			const apiGame = apiGameMap.get(game.api_sports_io_game_id);
-			const statusLong = apiGame?.game?.status?.long ?? "Unknown";
+			const apiGame = apiGameMap.get(game.api_sports_io_game_id) || {};
+			// NEED TO DO: Determine if I need the fallback of "NS"
+			const statusShort = apiGame.game?.status?.short ?? "PST";
 
 			return (
 				<ScoreboardGameCard
 					game={game}
-					gameStatus={statusLong}
 					gameData={apiGame}
+					gameStatus={statusShort}
 					userBetCount={game.user_bet_count}
 					onPress={() => {
-						// stash both in context
 						setSelectedGame(game);
 						setSelectedGameData(apiGame);
-						setGameStatus(statusLong);
-						// setGameStatus(statusLong);
-						// …and your team/player stats next…
+						setGameStatus(statusShort);
 						router.push(`/scoreboard/${game.id}`);
 					}}
 				/>

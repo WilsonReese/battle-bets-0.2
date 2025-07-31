@@ -23,13 +23,26 @@ const RAW = {
   PST:  "PST",
 };
 
+const QUARTER_MAP = {
+  Q1: "1st",
+  Q2: "2nd",
+  Q3: "3rd",
+  Q4: "4th",
+  OT: "OT",
+  HT: "Half",
+};
+
+export function formatQuarter(code) {
+  return QUARTER_MAP[code] || code;
+}
+
 // which codes map into which group
 const GROUP_MAP = {
-  [StatusGroup.NOT_STARTED]:   new Set([ RAW.NS ]),
-  [StatusGroup.IN_PROGRESS]:   new Set([ RAW.Q1, RAW.Q2, RAW.Q3, RAW.Q4, RAW.OT, RAW.HT ]),
-  [StatusGroup.FINISHED]:      new Set([ RAW.FT, RAW.AOT ]),
-  [StatusGroup.CANCELLED]:     new Set([ RAW.CANC ]),
-  [StatusGroup.POSTPONED]:     new Set([ RAW.PST ]),
+  [StatusGroup.NOT_STARTED]: new Set(["NS"]),
+  [StatusGroup.IN_PROGRESS]: new Set(["Q1","Q2","Q3","Q4","OT","HT"]),
+  [StatusGroup.FINISHED]:    new Set(["FT","AOT"]),
+  [StatusGroup.CANCELLED]:   new Set(["CANC"]),
+  [StatusGroup.POSTPONED]:   new Set(["PST"]),
 };
 
 /**
@@ -38,10 +51,8 @@ const GROUP_MAP = {
  * If it doesn’t match any known code, returns null.
  */
 export function categorizeStatus(code) {
-  for (const [group, setOfCodes] of Object.entries(GROUP_MAP)) {
-    if (setOfCodes.has(code)) {
-      return group;
-    }
+  for (let [group, codes] of Object.entries(GROUP_MAP)) {
+    if (codes.has(code)) return group;
   }
   return null;
 }
