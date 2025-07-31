@@ -11,11 +11,11 @@ export function BoxScoreGameCard({ game, gameData, status }) {
 	const timeRemaining = "9:32";
 
 	// I already have this passed as status
-	const statusAPI = gameData.game.status.long;
+	// const statusAPI = gameData.game.status.long;
 
 	const homeScore = gameData.scores.home.total;
 	const awayScore = gameData.scores.away.total;
-	const isFinal = statusAPI === "Finished";
+	const isFinal = status === "Finished";
 
 	const homeWon = homeScore > awayScore;
 	const awayWon = awayScore > homeScore;

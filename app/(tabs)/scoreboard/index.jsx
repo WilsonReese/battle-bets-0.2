@@ -206,12 +206,6 @@ export default function Scoreboard() {
 			// look up the API-Sports IO record
 			const apiGame = apiGameMap.get(game.api_sports_io_game_id);
 			const statusLong = apiGame?.game?.status?.long ?? "Unknown";
-			// console.log("Game Status", statusLong);
-			// // console.log(game)
-			// console.log(
-			// 	"Trying to match api_sports_io_game_id:",
-			// 	game.api_sports_io_game_id
-			// );
 
 			return (
 				<ScoreboardGameCard
@@ -223,7 +217,7 @@ export default function Scoreboard() {
 						// stash both in context
 						setSelectedGame(game);
 						setSelectedGameData(apiGame);
-						setGameStatus(statusLong)
+						setGameStatus(statusLong);
 						// setGameStatus(statusLong);
 						// …and your team/player stats next…
 						router.push(`/scoreboard/${game.id}`);
