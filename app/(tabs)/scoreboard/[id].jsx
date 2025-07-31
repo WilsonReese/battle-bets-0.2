@@ -55,6 +55,9 @@ export default function GameDetails() {
 	const [homePlayerStats, setHomePlayerStats] = useState([]);
 	const [loading, setLoading] = useState(true);
 	const appState = useRef(AppState.currentState);
+	const hasLoadedOnce = useRef(false);
+	const lastFocus = useRef(0);
+
 
 	const screenHeight = Dimensions.get("window").height;
 	const bottomSheetHeight = screenHeight * 0.4;
@@ -63,7 +66,7 @@ export default function GameDetails() {
 
 	const fetchStats = useCallback(
 		async (gameId) => {
-			setLoading(true);
+			// setLoading(true);
 			try {
 				// kick off both requests in parallel
 				const [teamRes, playerRes] = await Promise.all([
@@ -111,7 +114,10 @@ export default function GameDetails() {
 			await fetchStats(gameId);
 
 			if (pull) setRefreshing(false);
-			else setLoading(false);
+			else {
+        setLoading(false);
+        hasLoadedOnce.current = true;      // now mark that we’ve loaded at least once
+      }
 		},
 		[fetchStats, gameId]
 	);
@@ -123,12 +129,38 @@ export default function GameDetails() {
 	// }, [updateStats]);
 
 	// 2️⃣ on screen focus
+	// useFocusEffect(
+	// 	useCallback(() => {
+	// 		console.log("on screen focus");
+	// 		updateStats({ pull: hasLoadedOnce.current });
+	// 	}, [updateStats])
+	// );
+
+	// useFocusEffect(
+  //   useCallback(() => {
+  //     const now = Date.now();
+  //     // if we ran <500ms ago, skip
+  //     if (now - lastFocus.current < 500) {
+  //       return;
+  //     }
+  //     lastFocus.current = now;
+
+  //     console.log("on screen focus (debounced)");
+  //     updateStats({ pull: hasLoadedOnce.current });
+  //   }, [updateStats])
+  // );
+
 	useFocusEffect(
-		useCallback(() => {
-			console.log("on screen focus");
-			updateStats();
-		}, [updateStats])
-	);
+  useCallback(() => {
+    const now = Date.now()
+    if (now - lastFocus.current < 500) return
+    lastFocus.current = now
+
+    console.log("on screen focus (silent)")
+    // directly fetch without touching refreshing/loading flags:
+    fetchStats(gameId)
+  }, [fetchStats, gameId])
+)
 
 	// 3️⃣ on app background→foreground
 	useFocusEffect(
