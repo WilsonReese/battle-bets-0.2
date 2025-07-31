@@ -5,8 +5,8 @@ import { PregameCardDetails } from "./PregameCardDetails";
 import { BoxScoreGameCard } from "./BoxScoreGameCard";
 import { useScoreboard } from "../../contexts/ScoreboardContext";
 
-export function ScoreboardGameCard({ game, sampleGameData, userBetCount, onPress  = () => {} }) {
-	const { gameStatus } = useScoreboard();
+export function ScoreboardGameCard({ game, gameData, userBetCount, gameStatus, onPress  = () => {} }) {
+	// const { gameStatus } = useScoreboard();
 
 	return (
 		<TouchableOpacity
@@ -32,7 +32,7 @@ export function ScoreboardGameCard({ game, sampleGameData, userBetCount, onPress
 					<View style={s.container}>
 						<BoxScoreGameCard
 							game={game}
-							sampleGameData={sampleGameData}
+							gameData={gameData}
 							status={"inProgress"}
 						/>
 					</View>
@@ -42,8 +42,8 @@ export function ScoreboardGameCard({ game, sampleGameData, userBetCount, onPress
 					<View style={s.container}>
 						<BoxScoreGameCard
 							game={game}
-							sampleGameData={sampleGameData}
-							status={sampleGameData.game.status.long}
+							gameData={gameData}
+							status={gameData.game.status.long}
 						/>
 					</View>
 				)}

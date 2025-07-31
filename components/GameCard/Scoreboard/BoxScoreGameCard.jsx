@@ -3,7 +3,7 @@ import { Txt } from "../../general/Txt";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import { TeamLogo } from "../Matchup/TeamLogo";
 
-export function BoxScoreGameCard({ game, sampleGameData, status }) {
+export function BoxScoreGameCard({ game, gameData, status }) {
   // Placeholder data for the in progress game data
   const quarter = "4th";
   const timeRemaining = "9:32";
@@ -13,12 +13,10 @@ export function BoxScoreGameCard({ game, sampleGameData, status }) {
   const yardLine = 25;
   const yardLineTerritory = "KSU";
 
-  // const homeAPI = sampleGameData.full_box.home_team;
-  // const awayAPI = sampleGameData.full_box.away_team;
-  const statusAPI = sampleGameData.game.status.long;
+  const statusAPI = gameData.game.status.long;
 
-  const homeScore = sampleGameData.scores.home.total;
-  const awayScore = sampleGameData.scores.away.total;
+  const homeScore = gameData.scores.home.total;
+  const awayScore = gameData.scores.away.total;
   const isFinal = statusAPI === "Finished";
 
   const homeWon = homeScore > awayScore;

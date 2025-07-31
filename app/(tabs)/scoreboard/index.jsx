@@ -26,6 +26,7 @@ export default function Scoreboard() {
 	const [refreshing, setRefreshing] = useState(false);
 	const [games, setGames] = useState([]);
 	const [loadingGames, setLoadingGames] = useState(true);
+	const [apiGames, setApiGames] = useState([]);
 	const router = useRouter();
 	// const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 	const appState = useRef(AppState.currentState);
@@ -54,7 +55,7 @@ export default function Scoreboard() {
 		gameStatus,
 	} = useScoreboard();
 
-	console.log("Current Season:", currentSeason);
+	// console.log("Current Season:", currentSeason);
 
 	const sampleGameData = sampleGame.response[0];
 	const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
@@ -75,7 +76,9 @@ export default function Scoreboard() {
         const res = await api.get("/api/v1/api_sports/games", {
           params: { league, season, date, page },
         });
-        console.log("🔍 API‑Sports IO data:", res.data);
+        console.log("🔍 Fetched API‑Sports IO data");
+				setApiGames(res.data)
+				// console.log("Api Sports IO Data:", apiGames);
       } catch (err) {
         console.error("❌ Failed to fetch API‑Sports IO data:", err);
       }
@@ -116,10 +119,13 @@ export default function Scoreboard() {
 				});
 				setGames(res.data);
 				// setHasLoadedOnce(true);
+				console.log('Fetch games ran')
+				await fetchGameData()
 			} catch (err) {
 				console.error("Failed to load games:", err);
 			} finally {
 				setLoadingGames(false);
+				console.log('Finished fetch games')
 				if (showRefreshControl) setRefreshing(false);
 			}
 		},
@@ -176,23 +182,19 @@ export default function Scoreboard() {
 		}, [onRefresh])
 	);
 
-	// 	useEffect(() => {
-  //   if (currentSeason) {
-  //     fetchGameData();
-  //   }
-  // }, []);
-
 	const filteredGames = React.useMemo(
 		() => filterGames(games),
 		[games, selectedConferences]
 	);
+	
+	console.log(games)
 
 	const renderGame = useCallback(
 		({ item: game }) => (
 			<ScoreboardGameCard
 				game={game}
 				status={gameStatus}
-				sampleGameData={sampleGameData}
+				gameData={sampleGameData}
 				userBetCount={game.user_bet_count}
 				onPress={() => handlePress(game)}
 			/>
