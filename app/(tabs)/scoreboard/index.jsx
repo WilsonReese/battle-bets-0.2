@@ -1,4 +1,10 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {
+	useCallback,
+	useEffect,
+	useMemo,
+	useRef,
+	useState,
+} from "react";
 import {
 	View,
 	ScrollView,
@@ -26,6 +32,7 @@ export default function Scoreboard() {
 	const [refreshing, setRefreshing] = useState(false);
 	const [games, setGames] = useState([]);
 	const [loadingGames, setLoadingGames] = useState(true);
+	const [apiGames, setApiGames] = useState([]);
 	const router = useRouter();
 	// const [hasLoadedOnce, setHasLoadedOnce] = useState(false);
 	const appState = useRef(AppState.currentState);
@@ -46,31 +53,40 @@ export default function Scoreboard() {
 	const {
 		setSelectedGame,
 		setSelectedGameData,
-		setSelectedHomeTeamStats,
-		setSelectedAwayTeamStats,
-		setSelectedHomePlayerStats,
-		setSelectedAwayPlayerStats,
+		setGameStatus,
 		setUserBets,
-		gameStatus,
+		// gameStatus,
 	} = useScoreboard();
 
-	console.log("Current Season:", currentSeason);
+	// console.log("Current Season:", currentSeason);
 
-	const sampleGameData = sampleGame.response[0];
-	const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
-	const sampleAwayTeamStats = sampleTeamStats.response[1];
-	const sampleHomePlayerStats = samplePlayerStats.response[0];
-	const sampleAwayPlayerStats = samplePlayerStats.response[1];
+	const apiGameMap = useMemo(() => {
+		const m = new Map();
+		apiGames.forEach((g) => {
+			m.set(String(g.game.id), g);
+		});
+		return m;
+	}, [apiGames]);
 
-	const handlePress = (game) => {
-		setSelectedGame(game);
-		setSelectedGameData(sampleGameData);
-		setSelectedHomeTeamStats(sampleHomeTeamStats);
-		setSelectedAwayTeamStats(sampleAwayTeamStats);
-		setSelectedHomePlayerStats(sampleHomePlayerStats);
-		setSelectedAwayPlayerStats(sampleAwayPlayerStats);
-		router.push(`/scoreboard/${game.id}`);
-	};
+	const fetchGameData = useCallback(
+		async (opts = {}) => {
+			// NEED TO DO: Fix this
+			// const { league = 2, season = currentSeason.year, date, page } = opts;
+			const { league = 1, season = currentSeason.year, date, page } = opts;
+
+			try {
+				const res = await api.get("/api/v1/api_sports/games", {
+					params: { league, season, date, page },
+				});
+				console.log("🔍 Fetched API‑Sports IO data");
+				setApiGames(res.data);
+				// console.log("Api Sports IO Data:", apiGames);
+			} catch (err) {
+				console.error("❌ Failed to fetch API‑Sports IO data:", err);
+			}
+		},
+		[api, currentSeason]
+	);
 
 	// Refetch logic now abstracted and shared
 	const fetchGames = useCallback(
@@ -93,16 +109,21 @@ export default function Scoreboard() {
 				});
 				setGames(res.data);
 				// setHasLoadedOnce(true);
+				console.log("Fetch games ran");
+				await fetchGameData();
 			} catch (err) {
 				console.error("Failed to load games:", err);
 			} finally {
 				setLoadingGames(false);
+				console.log("Finished fetch games");
 				if (showRefreshControl) setRefreshing(false);
 			}
 		},
 		// [api, currentSeason, hasLoadedOnce]
 		[api, currentSeason]
 	);
+
+	// console.log('Games:', games)
 
 	const fetchGamesRef = useRef(fetchGames);
 	useEffect(() => {
@@ -134,6 +155,7 @@ export default function Scoreboard() {
 		setRefreshing(false);
 	};
 
+	// Reload screen when opening app
 	useFocusEffect(
 		useCallback(() => {
 			const sub = AppState.addEventListener("change", (nextAppState) => {
@@ -154,19 +176,30 @@ export default function Scoreboard() {
 		() => filterGames(games),
 		[games, selectedConferences]
 	);
-	// console.log("Games:", games);
 
 	const renderGame = useCallback(
-		({ item: game }) => (
-			<ScoreboardGameCard
-				game={game}
-				status={gameStatus}
-				sampleGameData={sampleGameData}
-				userBetCount={game.user_bet_count}
-				onPress={() => handlePress(game)}
-			/>
-		),
-		[gameStatus, sampleGameData]
+		({ item: game }) => {
+			// look up the API-Sports IO record
+			const apiGame = apiGameMap.get(game.api_sports_io_game_id) || {};
+			// NEED TO DO: Determine if I need the fallback of "NS"
+			const statusShort = apiGame.game?.status?.short
+
+			return (
+				<ScoreboardGameCard
+					game={game}
+					gameData={apiGame}
+					gameStatus={statusShort}
+					userBetCount={game.user_bet_count}
+					onPress={() => {
+						setSelectedGame(game);
+						setSelectedGameData(apiGame);
+						setGameStatus(statusShort);
+						router.push(`/scoreboard/${game.id}`);
+					}}
+				/>
+			);
+		},
+		[apiGameMap]
 	);
 
 	if (seasonLoading || loadingGames) {
@@ -191,7 +224,11 @@ export default function Scoreboard() {
 				data={filteredGames}
 				keyExtractor={(game) => game.id.toString()}
 				renderItem={renderGame}
-				initialNumToRender={10}
+				windowSize={5}
+				maxToRenderPerBatch={5}
+				updateCellsBatchingPeriod={50}
+				initialNumToRender={8}
+				removeClippedSubviews={true}
 				showsVerticalScrollIndicator={false}
 				contentContainerStyle={{
 					paddingBottom: 16,

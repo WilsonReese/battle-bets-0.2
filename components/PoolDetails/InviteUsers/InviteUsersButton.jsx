@@ -4,7 +4,6 @@ import { Txt } from "../../general/Txt";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import * as Clipboard from "expo-clipboard";
 import { useToastMessage } from "../../../hooks/useToastMessage";
-// import branch from "react-native-branch";
 
 export function InviteUsersButton({
 	poolId,
@@ -15,17 +14,28 @@ export function InviteUsersButton({
 }) {
 	const { showSuccess, showError } = useToastMessage();
 
-	const handleCopyLink = async () => {
-		const url = Linking.createURL("/join", {
-			queryParams: {
-				pool_id: poolId,
-				token: inviteToken,
-			},
-		});
+  const handleCopyLink = async () => {
+    try {
+      // let url: string;
 
-		await Clipboard.setStringAsync(url);
-		showSuccess("Invitation link copied!");
-	};
+      // if (__DEV__) {
+      //   // In dev / Expo Go: deep‑link into the JS bundle
+      //   url = Linking.createURL("/join", {
+      //     queryParams: { pool_id: poolId, token: inviteToken },
+      //   });
+      // } else {
+      //   // In a standalone build or web: hit your public Cloudflare Page
+      //   url = `https://join.battlebets.app/join?pool_id=${poolId}&token=${inviteToken}`;
+      // }
+
+			url = `https://join.battlebets.app/join?pool_id=${poolId}&token=${inviteToken}`;
+      await Clipboard.setStringAsync(url);
+      showSuccess("Invitation link copied!");
+    } catch (e) {
+      console.error(e);
+      showError("Failed to copy invitation link.");
+    }
+  };
 
 	return (
 		<>

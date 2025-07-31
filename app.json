@@ -31,7 +31,8 @@
         "ITSAppUsesNonExemptEncryption": false
       },
       "associatedDomains": [
-        "applinks:aasa.battlebets.app"
+        "applinks:aasa.battlebets.app",
+        "applinks:join.battlebets.app"
       ]
     },
     "android": {

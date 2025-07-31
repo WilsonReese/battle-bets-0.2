@@ -6,13 +6,9 @@ const ScoreboardContext = createContext();
 export const ScoreboardProvider = ({ children }) => {
   const [selectedGame, setSelectedGame] = useState(null);
   const [selectedGameData, setSelectedGameData] = useState(null);
-  const [selectedHomeTeamStats, setSelectedHomeTeamStats] = useState(null);
-  const [selectedAwayTeamStats, setSelectedAwayTeamStats] = useState(null);
-  const [selectedHomePlayerStats, setSelectedHomePlayerStats] = useState(null);
-  const [selectedAwayPlayerStats, setSelectedAwayPlayerStats] = useState(null);
+  const [gameStatus, setGameStatus] = useState(null);
 
   const [userBets, setUserBets] = useState(null);
-  const gameStatus = 'postgame'
 
   return (
     <ScoreboardContext.Provider
@@ -21,18 +17,12 @@ export const ScoreboardProvider = ({ children }) => {
         setSelectedGame,
         selectedGameData,
         setSelectedGameData,
-        selectedHomeTeamStats,
-        setSelectedHomeTeamStats,
-        selectedAwayTeamStats,
-        setSelectedAwayTeamStats,
-        selectedHomePlayerStats,
-        setSelectedHomePlayerStats,
-        selectedAwayPlayerStats,
-        setSelectedAwayPlayerStats,
+        
+        gameStatus,
+        setGameStatus,
 
         userBets, 
         setUserBets,
-        gameStatus
       }}
     >
       {children}
