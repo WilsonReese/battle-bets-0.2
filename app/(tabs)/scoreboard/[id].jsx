@@ -32,10 +32,6 @@ export default function GameDetails() {
 	const {
 		selectedGame,
 		selectedGameData,
-		// selectedHomeTeamStats,
-		// selectedAwayTeamStats,
-		// selectedHomePlayerStats,
-		// selectedAwayPlayerStats,
 		gameStatus,
 		// userBetsByGame,
 		// userPoolCountByGame

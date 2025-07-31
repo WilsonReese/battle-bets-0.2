@@ -53,22 +53,12 @@ export default function Scoreboard() {
 	const {
 		setSelectedGame,
 		setSelectedGameData,
-		setSelectedHomeTeamStats,
-		setSelectedAwayTeamStats,
-		setSelectedHomePlayerStats,
-		setSelectedAwayPlayerStats,
 		setGameStatus,
 		setUserBets,
 		// gameStatus,
 	} = useScoreboard();
 
 	// console.log("Current Season:", currentSeason);
-
-	const sampleGameData = sampleGame.response[0];
-	const sampleHomeTeamStats = sampleTeamStats.response[0]; // this is just one team's data, need to get both
-	const sampleAwayTeamStats = sampleTeamStats.response[1];
-	const sampleHomePlayerStats = samplePlayerStats.response[0];
-	const sampleAwayPlayerStats = samplePlayerStats.response[1];
 
 	const apiGameMap = useMemo(() => {
 		const m = new Map();
@@ -97,16 +87,6 @@ export default function Scoreboard() {
 		},
 		[api, currentSeason]
 	);
-
-	// const handlePress = (game) => {
-	// 	setSelectedGame(game);
-	// 	setSelectedGameData(sampleGameData);
-	// 	setSelectedHomeTeamStats(sampleHomeTeamStats);
-	// 	setSelectedAwayTeamStats(sampleAwayTeamStats);
-	// 	setSelectedHomePlayerStats(sampleHomePlayerStats);
-	// 	setSelectedAwayPlayerStats(sampleAwayPlayerStats);
-	// 	router.push(`/scoreboard/${game.id}`);
-	// };
 
 	// Refetch logic now abstracted and shared
 	const fetchGames = useCallback(
@@ -243,10 +223,6 @@ export default function Scoreboard() {
 						// stash both in context
 						setSelectedGame(game);
 						setSelectedGameData(apiGame);
-						setSelectedHomeTeamStats(sampleHomeTeamStats);
-						setSelectedAwayTeamStats(sampleAwayTeamStats);
-						setSelectedHomePlayerStats(sampleHomePlayerStats);
-						setSelectedAwayPlayerStats(sampleAwayPlayerStats);
 						setGameStatus(statusLong)
 						// setGameStatus(statusLong);
 						// …and your team/player stats next…
