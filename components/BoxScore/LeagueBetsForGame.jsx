@@ -21,6 +21,7 @@ export function LeagueBetsForGame({
 	// if (!selectedPool) return null;
 	const [leagueBets, setLeagueBets] = useState([]);
 	const [loading, setLoading] = useState(true);
+	const [isBattleLocked, setIsBattleLocked] = useState(battlesLocked)
 
 	// {textDecorationLine: 'line-through'}
 
@@ -35,7 +36,13 @@ export function LeagueBetsForGame({
 			.get(`/games/${gameId}/league_bets`, {
 				params: { pool_id: selectedPool.id },
 			})
-			.then((res) => setLeagueBets(res.data))
+			.then((res) => {
+      // the Rails action now sends { battle_locked, bets }
+      const { battle_locked, bets } = res.data;
+      setLeagueBets(bets);
+      // update local or context state so your UI sees the new locked flag
+      setIsBattleLocked(battle_locked);
+    })
 			.catch((err) => console.error("Failed to load league bets:", err))
 			.finally(() => setLoading(false));
 	}, [gameId, selectedPool, refreshKey]);
@@ -83,7 +90,7 @@ export function LeagueBetsForGame({
 				<Txt style={s.poolNameTxt}>{selectedPool?.name ?? "Select League"}</Txt>
 				<FontAwesome6 name="caret-down" size={16} color="#54D18C" />
 			</TouchableOpacity>
-			{!battlesLocked ? (
+			{!isBattleLocked ? (
 				<Txt style={{paddingTop: 8, alignSelf: 'center'}}>League bets stay hidden until battles start.</Txt>
 			) : (
 				<>
