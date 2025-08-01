@@ -20,10 +20,15 @@ import {
 function ScoreboardGameCardComponent({
 	game,
 	gameData,
+	gameTimer,
+	awayScore,
+	homeScore,
 	userBetCount,
 	gameStatus,
 	onPress = () => {},
 }) {
+
+	console.log('Game Data on Scoreboard Game Card:', gameData)
 
 	return (
 		<TouchableOpacity style={s.card} onPress={() => onPress(game)}>
@@ -56,6 +61,9 @@ function ScoreboardGameCardComponent({
 							game={game}
 							gameData={gameData}
 							status={gameStatus}
+							gameTimer={gameTimer}
+							homeScore={homeScore}
+							awayScore={awayScore}
 						/>
 					</View>
 				)}
@@ -66,6 +74,9 @@ function ScoreboardGameCardComponent({
 							game={game}
 							gameData={gameData}
 							status={gameStatus}
+							gameTimer={gameTimer}
+							homeScore={homeScore}
+							awayScore={awayScore}
 						/>
 					</View>
 				)}
@@ -83,17 +94,20 @@ function ScoreboardGameCardComponent({
 }
 
 // 2) Equality check
-const areEqual = (prev, next) =>
-	prev.game.id === next.game.id &&
-	prev.gameStatus === next.gameStatus &&
-	prev.userBetCount === next.userBetCount &&
-	(prev.gameData === next.gameData ||
-		prev.gameData?.game?.id === next.gameData?.game?.id);
+const areEqual = (prev, next) => {
+  return (
+    prev.game.id       === next.game.id     &&
+    prev.userBetCount  === next.userBetCount&&
+    prev.gameStatus    === next.gameStatus  &&
+    prev.homeScore     === next.homeScore   &&
+    prev.awayScore     === next.awayScore   &&
+    prev.gameTimer     === next.gameTimer
+  );
+};
 
-// 3) Wrap in React.memo **and still export as a named export**
 export const ScoreboardGameCard = React.memo(
-	ScoreboardGameCardComponent,
-	areEqual
+  ScoreboardGameCardComponent,
+  areEqual
 );
 
 const s = StyleSheet.create({

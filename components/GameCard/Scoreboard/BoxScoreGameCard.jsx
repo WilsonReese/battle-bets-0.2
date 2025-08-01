@@ -8,13 +8,15 @@ import {
 	isInProgress,
 } from "../../../utils/gameStatus";
 
-export function BoxScoreGameCard({ game, gameData, status }) {
+export function BoxScoreGameCard({ game, gameData, status, gameTimer, homeScore, awayScore }) {
 	// Placeholder data for the in progress game data
 	const quarterDisplay = formatQuarter(status);
-	const timeRemaining = gameData.game.status.timer ?? "--:--";
+	const timeRemaining = gameTimer ?? "--:--";
 
-	const homeScore = gameData.scores.home.total;
-	const awayScore = gameData.scores.away.total;
+  // console.log('Game Data on Box Score Game Card:', gameData)
+
+	// const homeScore = gameData.scores.home.total;
+	// const awayScore = gameData.scores.away.total;
 	const isFinal = isFinished(status);
 
 	const homeWon = homeScore > awayScore;

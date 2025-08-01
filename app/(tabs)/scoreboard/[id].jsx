@@ -40,6 +40,8 @@ export default function GameDetails() {
 		selectedGame,
 		selectedGameData,
 		gameStatus,
+		setSelectedGameData,
+		setGameStatus,
 		// userBetsByGame,
 		// userPoolCountByGame
 	} = useScoreboard();
@@ -51,6 +53,9 @@ export default function GameDetails() {
 	const [sheetOpen, setSheetOpen] = useState(false);
 	const [refreshing, setRefreshing] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
+
+	const [isolatedGameData, setIsolatedGameData] = useState(selectedGameData)
+
 	const [awayTeamStats, setAwayTeamStats] = useState([]);
 	const [homeTeamStats, setHomeTeamStats] = useState([]);
 	const [awayPlayerStats, setAwayPlayerStats] = useState([]);
@@ -70,7 +75,21 @@ export default function GameDetails() {
 			// setLoading(true);
 			try {
 				// kick off both requests in parallel
+				const res = await api.get("/api/v1/api_sports/games", {
+					params: { id: gameId },
+				});
+				const gameResponse = res.data[0];
+				if (!gameResponse) {
+					console.warn(`No game data for id=${gameId}`);
+					return;
+				}
+
 				const [teamRes, playerRes] = await Promise.all([
+					// score response - pseudo code:
+					// api.get("/api/v1/api_sports/game", {
+					// 	params: { id: gameId },
+					// }),
+
 					// const [playerRes] = await Promise.all([
 					api.get("/api/v1/api_sports/game_statistics/teams", {
 						params: { id: gameId },
@@ -79,6 +98,11 @@ export default function GameDetails() {
 						params: { id: gameId },
 					}),
 				]);
+
+				setIsolatedGameData(gameResponse);
+				setSelectedGameData(gameResponse);
+				setGameStatus(gameResponse.game.status.short);
+				console.log("✅ Set Selected Game Data:", gameResponse);
 
 				// teamRes.data is an array [ homeTeamObj, awayTeamObj ]
 				const [homeTeamObj, awayTeamObj] = teamRes.data;
@@ -90,10 +114,10 @@ export default function GameDetails() {
 				const allPlayers = playerRes.data;
 				// split players by the matching team.id
 				const homePla = allPlayers.filter(
-					(p) => p.team.id === selectedGameData.teams.home.id
+					(p) => p.team.id === gameResponse.teams.home.id
 				);
 				const awayPla = allPlayers.filter(
-					(p) => p.team.id === selectedGameData.teams.away.id
+					(p) => p.team.id === gameResponse.teams.away.id
 				);
 				setHomePlayerStats(homePla[0]);
 				setAwayPlayerStats(awayPla[0]);
@@ -202,6 +226,8 @@ export default function GameDetails() {
 		);
 	}
 
+	
+
 	return (
 		// Macro Game Data
 		<>
@@ -209,8 +235,11 @@ export default function GameDetails() {
 				<View style={[s.macroGameCard]}>
 					<ScoreboardGameCard
 						game={selectedGame}
-						gameData={selectedGameData}
-						gameStatus={gameStatus}
+						gameData={isolatedGameData}
+						gameStatus={isolatedGameData.game.status.short}
+						gameTimer={isolatedGameData.game.status.timer}
+						awayScore={isolatedGameData.scores.away.total}
+						homeScore={isolatedGameData.scores.home.total}
 					/>
 				</View>
 
@@ -266,8 +295,7 @@ export default function GameDetails() {
 									<Txt style={{ alignSelf: "center", paddingTop: 16 }}>
 										{isNotStarted(gameStatus) &&
 											"Check back when the game starts!"}
-										{isPostponed(gameStatus) &&
-											"This game has been postponed."}
+										{isPostponed(gameStatus) && "This game has been postponed."}
 										{isCancelled(gameStatus) &&
 											"This game has been canceled. Any bets placed on this game will be void."}
 									</Txt>

@@ -189,6 +189,9 @@ export default function Scoreboard() {
 					game={game}
 					gameData={apiGame}
 					gameStatus={statusShort}
+					gameTimer={apiGame.game.status.timer}
+					awayScore={apiGame.scores.away.total}
+					homeScore={apiGame.scores.home.total}
 					userBetCount={game.user_bet_count}
 					onPress={() => {
 						setSelectedGame(game);
