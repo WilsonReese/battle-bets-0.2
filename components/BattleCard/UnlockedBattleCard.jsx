@@ -17,7 +17,7 @@ export function UnlockedBattleCard({
 }) {
 	const totalBudget =
 		DEFAULT_BUDGETS.spreadOU + DEFAULT_BUDGETS.moneyLine + DEFAULT_BUDGETS.prop;
-	const spent = userBetslip.amount_bet || 0;
+	const spent = userBetslip?.amount_bet || 0;
 	const remaining = totalBudget - spent;
 
 	function getTopBet(bets) {
@@ -49,7 +49,7 @@ export function UnlockedBattleCard({
 		return null;
 	}
 
-	const topBet = getTopBet(userBetslip.bets);
+	const topBet = getTopBet(userBetslip?.bets);
 
 	return (
 		<View style={s.container}>
@@ -66,23 +66,23 @@ export function UnlockedBattleCard({
 					</View>
 					<View style={[s.betslipElement]}>
 						<Txt style={s.betInfoLabel}>Max:</Txt>
-						<Txt style={s.betInfoTxt}>${userBetslip.max_payout_remaining}</Txt>
+						<Txt style={s.betInfoTxt}>${userBetslip?.max_payout_remaining}</Txt>
 					</View>
 					<View style={[s.betslipElement]}>
 						<Txt style={s.betInfoLabel}>Bets Placed:</Txt>
-						<Txt style={s.betInfoTxt}>{userBetslip.bets.length}</Txt>
+						<Txt style={s.betInfoTxt}>{userBetslip?.bets.length}</Txt>
 					</View>
 				</View>
 				<View style={s.keyBetSection}>
 					<Txt style={s.betInfoLabel}>Key Bet:</Txt>
-					{userBetslip.bets.length === 0 && (
+					{userBetslip?.bets.length === 0 && (
 						<View style={s.placedBetAlt}>
 							<Txt style={s.noBetsTxt}>
 								No bets currently placed for this battle.
 							</Txt>
 						</View>
 					)}
-					{userBetslip.bets.length !== 0 &&
+					{userBetslip?.bets.length !== 0 &&
 						(topBet ? (
 							<TouchableOpacity onPress={() => handleEditOpenBetslip()}>
 								<PlacedBet bet={topBet} backgroundColor={"#1D394E"} />
@@ -109,11 +109,12 @@ export function UnlockedBattleCard({
 					<CountdownTimer targetDate={battleEndDateTime} version="small" />
 				</View>
 				<TouchableOpacity
-					style={s.betActionBtn}
+					style={[s.betActionBtn, battle.locked && s.disabled]}
 					onPress={() => handleEditBets()}
+					disabled={battle.locked}
 				>
 					<Txt style={s.btnTxt}>
-						{userBetslip.bets.length > 0 ? "Update Bets" : "Place Bets"}
+						{userBetslip?.bets.length > 0 ? "Update Bets" : "Place Bets"}
 					</Txt>
 					<FontAwesome6 name="circle-chevron-right" size={14} color="#F8F8F8" />
 				</TouchableOpacity>
@@ -218,4 +219,7 @@ const s = StyleSheet.create({
 		alignItems: "center",
 		gap: 4,
 	},
+	disabled: {
+		backgroundColor: "#C7CDD1"
+	}
 });

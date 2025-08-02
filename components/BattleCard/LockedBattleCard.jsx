@@ -31,7 +31,7 @@ export function LockedBattleCard({
 
 	// const { getBudgetForBattle } = useBets();
 	// const remaining = getBudgetForBattle(battle.id);
-	const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
+	const userRankedBetslip = betslips.find((b) => b.id === userBetslip?.id);
 	const battleCompleted = battle.status === "completed";
 
 	function getTopBet(bets) {
@@ -63,7 +63,7 @@ export function LockedBattleCard({
 		return null;
 	}
 
-	const topBet = getTopBet(userBetslip.bets);
+	const topBet = getTopBet(userBetslip?.bets);
 
 	if (loading) {
 		return <SkeletonBattleCard />;
@@ -131,7 +131,7 @@ export function LockedBattleCard({
 							{getOrdinalSuffix(userRankedBetslip?.rank ?? "—")} Place
 						</Txt>
 						{battleCompleted ? (
-							<Txt style={s.seasonScoreTxt}>(+{userBetslip.league_points})</Txt>
+							<Txt style={s.seasonScoreTxt}>(+{userBetslip?.league_points})</Txt>
 						) : (
 							""
 						)}
@@ -168,12 +168,12 @@ export function LockedBattleCard({
 				</View>
 				<View style={s.keyBetSection}>
 					{/* <Txt style={s.betInfoLabel}>Key Bet:</Txt> */}
-					{userBetslip.bets.length === 0 && (
+					{userBetslip?.bets.length === 0 && (
 						<View style={s.placedBetAlt}>
 							<Txt style={s.noBetsTxt}>No bets placed for this battle.</Txt>
 						</View>
 					)}
-					{userBetslip.bets.length !== 0 &&
+					{userBetslip?.bets.length !== 0 &&
 						(topBet ? (
 							<TouchableOpacity onPress={() => handleViewUserBetslip()} style={{paddingTop: 4}}>
 								<PlacedBet bet={topBet} backgroundColor={"#1D394E"} />

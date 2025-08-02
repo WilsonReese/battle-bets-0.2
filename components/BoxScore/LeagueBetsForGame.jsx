@@ -16,12 +16,12 @@ export function LeagueBetsForGame({
 	selectedPool,
 	onToggleSheet,
 	battlesLocked,
-	refreshKey
+	refreshKey,
 }) {
 	// if (!selectedPool) return null;
 	const [leagueBets, setLeagueBets] = useState([]);
 	const [loading, setLoading] = useState(true);
-	const [isBattleLocked, setIsBattleLocked] = useState(battlesLocked)
+	const [isBattleLocked, setIsBattleLocked] = useState(battlesLocked);
 
 	// {textDecorationLine: 'line-through'}
 
@@ -29,21 +29,37 @@ export function LeagueBetsForGame({
 	// const [selectedPool, setSelectedPool] = useState(null);
 
 	/* fetch bets whenever gameId or selectedPool changes */
+	// useEffect(() => {
+	// 	if (!selectedPool) return; // guard
+	// 	setLoading(true);
+	// 	api
+	// 		.get(`/games/${gameId}/league_bets`, {
+	// 			params: { pool_id: selectedPool.id },
+	// 		})
+	// 		.then((res) => {
+	//     // the Rails action now sends { battle_locked, bets }
+	//     const bets = res.data;
+	//     setLeagueBets(bets);
+	//     // update local or context state so your UI sees the new locked flag
+	// 		const thisGame = bets[0]?.bet_option?.game
+	//     setIsBattleLocked(thisGame?.battles_locked ?? false);
+	//   })
+	// 		.catch((err) => console.error("Failed to load league bets:", err))
+	// 		.finally(() => setLoading(false));
+	// }, [gameId, selectedPool, refreshKey]);
 	useEffect(() => {
-		if (!selectedPool) return; // guard
+		if (!selectedPool) return;
+
 		setLoading(true);
 		api
 			.get(`/games/${gameId}/league_bets`, {
 				params: { pool_id: selectedPool.id },
 			})
 			.then((res) => {
-      // the Rails action now sends { battle_locked, bets }
-      const bets = res.data;
-      setLeagueBets(bets);
-      // update local or context state so your UI sees the new locked flag
-			const thisGame = bets[0]?.bet_option?.game
-      setIsBattleLocked(thisGame?.battles_locked ?? false);
-    })
+				const { battle_locked, bets } = res.data;
+				setIsBattleLocked(battle_locked);
+				setLeagueBets(bets);
+			})
 			.catch((err) => console.error("Failed to load league bets:", err))
 			.finally(() => setLoading(false));
 	}, [gameId, selectedPool, refreshKey]);
@@ -83,6 +99,8 @@ export function LeagueBetsForGame({
 
 	const groupedBets = groupBetsByOption(leagueBets);
 
+	console.log(isBattleLocked);
+
 	return (
 		<>
 			<TouchableOpacity style={s.leagueSelector} onPress={onToggleSheet}>
@@ -90,7 +108,9 @@ export function LeagueBetsForGame({
 				<FontAwesome6 name="caret-down" size={16} color="#54D18C" />
 			</TouchableOpacity>
 			{!isBattleLocked ? (
-				<Txt style={{paddingTop: 8, alignSelf: 'center'}}>League bets stay hidden until battles start.</Txt>
+				<Txt style={{ paddingTop: 8, alignSelf: "center" }}>
+					League bets stay hidden until battles start.
+				</Txt>
 			) : (
 				<>
 					{groupedBets.length === 0 && (

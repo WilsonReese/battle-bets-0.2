@@ -11,6 +11,7 @@ import { usePoolDetails } from "../contexts/PoolDetailsContext";
 import { CountdownTimer } from "./CountdownTimer";
 import { UnlockedBattleCard } from "./UnlockedBattleCard";
 import { LockedBattleCard } from "./LockedBattleCard";
+import { useToastMessage } from "../../hooks/useToastMessage";
 
 export function BattleCard({
 	userBetslip,
@@ -23,6 +24,7 @@ export function BattleCard({
 	setLoading,
 	refreshVersion,
 }) {
+	const { showError, showSuccess } = useToastMessage();
 	const battleEndDate = format(new Date(battle.end_date), "MMMM d");
 	const battleEndDateTime = new Date(battle.end_date);
 	battleEndDateTime.setHours(10, 55, 0, 0); // Hard Coded: Set to 10:55 AM
@@ -36,7 +38,7 @@ export function BattleCard({
 
 	const handleEditBets = () => {
 		if (!userBetslip) {
-			Alert.alert("No betslip found", "Please refresh or try again.");
+			showError("No betslip found.")
 			return;
 		}
 
@@ -52,7 +54,8 @@ export function BattleCard({
 
 	const handleEditOpenBetslip = () => {
 		if (!userBetslip) {
-			return Alert.alert("No betslip found", "Please refresh or try again.");
+			showError("No betslip found.")
+			return
 		}
 
 		router.push({
@@ -78,7 +81,7 @@ export function BattleCard({
 
 	const handleViewUserBetslip = () => {
 		if (!userBetslip) {
-			Alert.alert("No betslip found", "Please refresh or try again.");
+			showError("No betslip found.")
 			return;
 		}
 		router.push({
@@ -115,12 +118,12 @@ export function BattleCard({
 					{/* Betslip has not been created */}
 					{!userBetslip && (
 						<View>
-							<Txt>No betslip</Txt>
+							<Txt>You do not have a betslip for this battle.</Txt>
 						</View>
 					)}
 
 					{/* Betslip has not been filled out yet and the battle isn't locked */}
-					{!userBetslip.locked && (
+					{!battle.locked && (
 						<UnlockedBattleCard
 							battle={battle}
 							handleEditBets={handleEditBets}
@@ -131,7 +134,7 @@ export function BattleCard({
 					)}
 
 					{/* Betslip locked */}
-					{userBetslip.locked && (
+					{battle.locked && (
 						<LockedBattleCard
 							userBetslip={userBetslip}
 							battle={battle}

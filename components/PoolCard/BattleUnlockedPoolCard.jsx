@@ -30,7 +30,7 @@ export function BattleUnlockedPoolCard({
 
 	const totalBudget =
 		DEFAULT_BUDGETS.spreadOU + DEFAULT_BUDGETS.moneyLine + DEFAULT_BUDGETS.prop;
-	const spent = userBetslip.amount_bet || 0;
+	const spent = userBetslip?.amount_bet || 0;
 	const remaining = totalBudget - spent;
 
 	// Information to get League Participation Rate

@@ -40,7 +40,7 @@ export const useDeepLinkHandler = () => {
 						invite_token,
 					});
 
-					router.replace(`/pools/${pool_id}`);
+					router.replace(`/pools/`);
 					showSuccess("Joined league successfully!");
 				} catch (error) {
 					router.replace("/pools/");

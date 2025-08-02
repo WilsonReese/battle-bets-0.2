@@ -36,7 +36,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
 		);
 	}
 
-	const userRankedBetslip = betslips.find((b) => b.id === userBetslip.id);
+	const userRankedBetslip = betslips.find((b) => b.id === userBetslip?.id);
 
 	return (
 		<View style={s.detailsContainer}>
@@ -66,7 +66,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
 								poolName: pool.name,
 								battleWeek: battle.week,
 								battleStatus: battle.status,
-								openUserBetslipId: userRankedBetslip.id,
+								openUserBetslipId: userRankedBetslip?.id,
 							},
 						})
 					}
@@ -79,7 +79,7 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
 								{battleCompleted ? (
 									<Txt style={s.seasonScoreTxt}>
 										{" "}
-										(+{userBetslip.league_points})
+										(+{userBetslip?.league_points})
 									</Txt>
 								) : (
 									""
@@ -91,8 +91,8 @@ export function BattleLockedPoolCard({ userEntry, userBetslip, pool, battle }) {
 							{/* <MaterialCommunityIcons name="podium" size={14} color="#54D18C" /> */}
 						</View>
 						<View style={[s.infoUnitContainer, s.betslipAmounts]}>
-							<Txt style={s.txt}>Won: ${userBetslip.earnings}</Txt>
-							<Txt style={s.txt}>Max: ${userBetslip.max_payout_remaining}</Txt>
+							<Txt style={s.txt}>Won: ${userBetslip?.earnings ?? '0'}</Txt>
+							<Txt style={s.txt}>Max: ${userBetslip?.max_payout_remaining ?? '0'}</Txt>
 						</View>
 						<View style={s.listIcon}>
 							<FontAwesome6 name="list" size={12} color="#54D18C" />
