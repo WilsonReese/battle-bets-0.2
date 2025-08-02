@@ -14,28 +14,50 @@ export function InviteUsersButton({
 }) {
 	const { showSuccess, showError } = useToastMessage();
 
-  const handleCopyLink = async () => {
-    try {
-      // let url: string;
+	// const handleCopyLink = async () => {
+	//   try {
+	//     // let url: string;
 
-      // if (__DEV__) {
-      //   // In dev / Expo Go: deep‑link into the JS bundle
-      //   url = Linking.createURL("/join", {
-      //     queryParams: { pool_id: poolId, token: inviteToken },
-      //   });
-      // } else {
-      //   // In a standalone build or web: hit your public Cloudflare Page
-      //   url = `https://join.battlebets.app/join?pool_id=${poolId}&token=${inviteToken}`;
-      // }
+	//     // if (__DEV__) {
+	//     //   // In dev / Expo Go: deep‑link into the JS bundle
+	//     //   url = Linking.createURL("/join", {
+	//     //     queryParams: { pool_id: poolId, token: inviteToken },
+	//     //   });
+	//     // } else {
+	//     //   // In a standalone build or web: hit your public Cloudflare Page
+	//     //   url = `https://join.battlebets.app/join?pool_id=${poolId}&token=${inviteToken}`;
+	//     // }
 
-			url = `https://join.battlebets.app/join?pool_id=${poolId}&token=${inviteToken}`;
-      await Clipboard.setStringAsync(url);
-      showSuccess("Invitation link copied!");
-    } catch (e) {
-      console.error(e);
-      showError("Failed to copy invitation link.");
-    }
-  };
+	// 		url = `https://join.battlebets.app/join?pool_id=${poolId}&token=${inviteToken}`;
+	//     await Clipboard.setStringAsync(url);
+	//     showSuccess("Invitation link copied!");
+	//   } catch (e) {
+	//     console.error(e);
+	//     showError("Failed to copy invitation link.");
+	//   }
+	// };
+
+	const handleCopyLink = async () => {
+		try {
+			let url;
+
+			if (__DEV__) {
+				// in Expo Go / local dev bundle, deep-link into your JS
+				url = Linking.createURL("/join", {
+					queryParams: { pool_id: poolId, token: inviteToken },
+				});
+			} else {
+				// in standalone / web builds, hit your published Cloudflare page
+				url = `https://join.battlebets.app/join?pool_id=${poolId}&token=${inviteToken}`;
+			}
+
+			await Clipboard.setStringAsync(url);
+			showSuccess("Invitation link copied!");
+		} catch (e) {
+			console.error(e);
+			showError("Failed to copy invitation link.");
+		}
+	};
 
 	return (
 		<>
@@ -58,38 +80,3 @@ const s = StyleSheet.create({
 		// backgroundColor: 'green'
 	},
 });
-
-
-	// const handleCopyLink = async () => {
-	// 	try {
-	// 		// 🧩 1. Define link data
-	// 		const branchUniversalObject = await branch.createBranchUniversalObject(
-	// 			`join/${poolId}`, // this is just an identifier, not the path
-	// 			{
-	// 				title: "Join my Battle Bets league!",
-	// 				contentDescription: "Tap to join my league on Battle Bets",
-	// 				contentMetadata: {
-	// 					customMetadata: {
-	// 						pool_id: poolId,
-	// 						token: inviteToken,
-	// 					},
-	// 					$deeplink_path: `join?pool_id=${poolId}&token=${inviteToken}`,
-	// 				},
-	// 			}
-	// 		);
-
-	// 		// 🔗 2. Generate the actual link
-	// 		const { url } = await branchUniversalObject.generateShortUrl({
-	// 			feature: "invite",
-	// 			campaign: "league-invitation",
-	// 			channel: "app",
-	// 		});
-
-	// 		// 📋 3. Copy to clipboard and show toast
-	// 		await Clipboard.setStringAsync(url);
-	// 		showSuccess("Invitation link copied!");
-	// 	} catch (err) {
-	// 		console.error("Branch link generation failed:", err);
-	// 		showError("Failed to generate link");
-	// 	}
-	// };

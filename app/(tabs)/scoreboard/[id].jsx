@@ -61,6 +61,11 @@ export default function GameDetails() {
 	const [awayPlayerStats, setAwayPlayerStats] = useState([]);
 	const [homePlayerStats, setHomePlayerStats] = useState([]);
 	const [loading, setLoading] = useState(true);
+	
+	/* ---------- POOLS ---------- */
+	const [pools, setPools] = useState([]);
+	const [selectedPool, setSelectedPool] = useState(null);
+
 	const appState = useRef(AppState.currentState);
 	const hasLoadedOnce = useRef(false);
 	const lastFocus = useRef(0);
@@ -184,7 +189,7 @@ export default function GameDetails() {
 			const res = await api.get("/pools");
 			setPools(res.data);
 			if (!selectedPool && res.data.length > 0) {
-				setPool(res.data[0]); // reset to default if needed
+				setSelectedPool(res.data[0]); // reset to default if needed
 			}
 			setRefreshKey((k) => k + 1);
 		} catch (err) {
@@ -192,21 +197,18 @@ export default function GameDetails() {
 		}
 	}, [updateStats]);
 
-	/* ---------- POOLS ---------- */
-	const [pools, setPools] = useState([]);
-	const [selectedPool, setPool] = useState(null);
 
 	// fetch pools ONCE
 	useEffect(() => {
 		api.get("/pools").then((res) => {
 			setPools(res.data);
-			setPool(res.data[0]); // default
+			setSelectedPool(res.data[0]); // default
 		});
 	}, []);
 
 	/* ---------- handlers passed down ---------- */
 	const handleSelectPool = (pool) => {
-		setPool(pool);
+		setSelectedPool(pool);
 		bottomSheetRef.current?.close();
 	};
 

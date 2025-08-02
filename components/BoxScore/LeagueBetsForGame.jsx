@@ -38,10 +38,11 @@ export function LeagueBetsForGame({
 			})
 			.then((res) => {
       // the Rails action now sends { battle_locked, bets }
-      const { battle_locked, bets } = res.data;
+      const bets = res.data;
       setLeagueBets(bets);
       // update local or context state so your UI sees the new locked flag
-      setIsBattleLocked(battle_locked);
+			const thisGame = bets[0]?.bet_option?.game
+      setIsBattleLocked(thisGame?.battles_locked ?? false);
     })
 			.catch((err) => console.error("Failed to load league bets:", err))
 			.finally(() => setLoading(false));
@@ -81,8 +82,6 @@ export function LeagueBetsForGame({
 	}
 
 	const groupedBets = groupBetsByOption(leagueBets);
-
-	console.log("Grouped Bets", groupedBets);
 
 	return (
 		<>

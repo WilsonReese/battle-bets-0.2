@@ -33,23 +33,6 @@ export const PoolCard = React.memo(function PoolCard({ pool, refreshing }) {
 
 	const fetchAllPoolData = usePoolStore((s) => s.fetchAllPoolData);
 
-  // const { loading, details, battles, userBetslipByBattle, userEntry } =
-  //   usePoolStore(
-  //     (s) => s.pools[pool.id] || {
-  //       loading: true,
-  //       details: null,
-  //       battles: [],
-  //       userBetslipByBattle: {},
-  //       userEntry: null,
-  //     },
-  //     // shallow compare so we only rerender if one of these actually changes
-  //     (a, b) =>
-  //       a.loading === b.loading &&
-  //       a.details === b.details &&
-  //       a.battles === b.battles &&
-  //       a.userEntry === b.userEntry
-  //   );
-
 	  const {
     loading,
     details,
@@ -72,19 +55,6 @@ export const PoolCard = React.memo(function PoolCard({ pool, refreshing }) {
       fetchAllPoolData(pool.id, { skipLoading: false });
     }
   }, [refreshing, pool.id, fetchAllPoolData]);
-
-	// const [hasStarted, setHasStarted] = useState(null);
-	// const [loading, setLoading] = useState(false);
-	// const {
-	// 	selectedSeason,
-	// 	// battles,
-	// 	// userBetslip,
-	// 	userBetslipByBattle, // ✅ ADD THIS
-	// 	setUserBetslip,
-	// 	userEntry,
-	// 	// fetchAllPoolData,
-	// 	// loading: poolLoading,
-	// } = usePoolDetails(pool.id);
 
 	if (!details) return <SkeletonPoolCard />;
 
