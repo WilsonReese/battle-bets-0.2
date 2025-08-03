@@ -162,7 +162,7 @@ const s = StyleSheet.create({
 		top: 8,
 	},
 	seasonScoreTxt: {
-		fontSize: "12",
+		fontSize: 12,
 		color: "#54D18C",
 	},
 });

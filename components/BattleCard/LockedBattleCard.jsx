@@ -316,7 +316,7 @@ const s = StyleSheet.create({
 
 	// Completed Betslip
 	seasonScoreTxt: {
-		fontSize: "12",
+		fontSize: 12,
 		color: "#54D18C",
 	},
 	seasonScoreContainer: {

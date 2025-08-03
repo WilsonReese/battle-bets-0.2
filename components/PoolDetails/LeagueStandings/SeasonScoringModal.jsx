@@ -306,7 +306,7 @@ const s = StyleSheet.create({
 		alignItems: "center",
 	},
 	placement: {
-		fontSize: "12",
+		fontSize: 12,
 		paddingBottom: 2,
 		fontFamily: "Saira_600SemiBold",
 	},
