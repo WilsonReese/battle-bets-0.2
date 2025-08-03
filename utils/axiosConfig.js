@@ -9,33 +9,4 @@ const api = axios.create({
     baseURL: API_BASE_URL
 });
 
-// Axios request interceptor to automatically add JWT token to requests
-// export const useAxiosWithAuth = () => {
-//   const { token } = useContext(AuthContext);
-
-//   useEffect(() => {
-//     // Add request interceptor
-//     const requestInterceptor = api.interceptors.request.use(
-//       (config) => {
-//         if (token) {
-//           config.headers.Authorization = `Bearer ${token}`; // Attach token to Authorization header
-//         } else {
-//           console.log("No token found, skipping Authorization header");
-//         }
-//         return config;
-//       },
-//       (error) => {
-//         return Promise.reject(error);
-//       }
-//     );
-
-//     // Cleanup the interceptor when the component using it unmounts
-//     return () => {
-//       api.interceptors.request.eject(requestInterceptor);
-//     };
-//   }, [token]);
-
-//   return api;
-// };
-
 export default api;

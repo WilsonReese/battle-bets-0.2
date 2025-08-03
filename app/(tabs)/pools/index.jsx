@@ -1,5 +1,6 @@
 import React, {
 	useCallback,
+	useContext,
 	useEffect,
 	useLayoutEffect,
 	useRef,
@@ -26,9 +27,11 @@ import api from "../../../utils/axiosConfig";
 import { AnnouncementsCard } from "../../../components/PoolCard/AnnouncementsCard";
 import { HowToPlayModal } from "../../../components/HowToPlay/HowToPlayModal";
 import { usePoolStore } from "../../../state/poolStore";
+import { AuthContext } from "../../../components/contexts/AuthContext";
 
 export default function Pools() {
 	// const api = useAxiosWithAuth();
+	const { isAuthLoading } = useContext(AuthContext);
 	const [pools, setPools] = useState([]);
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
@@ -58,6 +61,8 @@ export default function Pools() {
 
 	useFocusEffect(
 		useCallback(() => {
+			if (isAuthLoading) return;
+
 			let active = true;
 			// 1️⃣ start the spinner
 			if (firstLoadRef.current) {
@@ -95,7 +100,7 @@ export default function Pools() {
 			return () => {
 				active = false;
 			};
-		}, [fetchAllPoolData])
+		}, [isAuthLoading, fetchAllPoolData])
 	);
 
 	useFocusEffect(

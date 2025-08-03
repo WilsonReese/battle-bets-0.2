@@ -4,6 +4,7 @@ import { AuthContext } from "../components/contexts/AuthContext";
 
 const Index = () => {
   const { token, isConfirmed, isAuthLoading } = useContext(AuthContext);
+  console.log("🏷️ Auth state:", { token, isConfirmed, isAuthLoading });
 
   if (isAuthLoading) return null; // ⏳ Wait until rehydration finishes
 
