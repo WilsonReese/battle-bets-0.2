@@ -26,6 +26,7 @@ import { TeamLogo } from "../components/GameCard/Matchup/TeamLogo";
 import { useConferences } from "../hooks/useConferences";
 import { ConferenceFilter } from "../components/GameCard/ConferenceFilter";
 import { FaveTeamBottomSheet } from "../components/CreateAccount/FaveTeamBottomSheet";
+import { UserAgreement } from "../components/CreateAccount/userAgreement";
 
 const FBS_CONFERENCES = [
 	"American",
@@ -82,6 +83,10 @@ export default function SignupScreen() {
 	const [ambassadorError, setAmbassadorError] = useState(null);
 	const [referred, setReferred] = useState(null); // 'yes' | 'no' | null
 	const [selectedAmbassador, setSelectedAmbassador] = useState(null);
+
+	// User Agreement Stuff
+	const [privacyAccepted, setPrivacyAccepted] = useState(false);
+	const [termsAccepted, setTermsAccepted] = useState(false);
 
 	useEffect(() => {
 		setLoadingAmbassadors(true);
@@ -242,13 +247,13 @@ export default function SignupScreen() {
 
 	return (
 		<SafeAreaProvider>
-			<TouchableWithoutFeedback onPress={Keyboard.dismiss}>
 				<SafeAreaView style={s.container}>
 					<KeyboardAwareScrollView
 						contentContainerStyle={s.innerContainer}
 						extraScrollHeight={60} // tweak this if needed
 						enableOnAndroid={true}
 						keyboardShouldPersistTaps="handled"
+						keyboardDismissMode="on-drag" 
 					>
 						<Txt style={s.title}>Create Account</Txt>
 
@@ -440,10 +445,17 @@ export default function SignupScreen() {
 							</>
 						)}
 
+						<UserAgreement
+							privacyAccepted={privacyAccepted}
+							setPrivacyAccepted={setPrivacyAccepted}
+							termsAccepted={termsAccepted}
+							setTermsAccepted={setTermsAccepted}
+						/>
+
 						<Btn
 							btnText={signupDisabled ? "Processing..." : "Create Account"}
 							onPress={handleSignup}
-							isEnabled={!signupDisabled}
+							isEnabled={!signupDisabled && privacyAccepted && termsAccepted}
 							style={s.submitButton}
 						/>
 						<TouchableOpacity
@@ -491,7 +503,6 @@ export default function SignupScreen() {
 						</BottomSheetScrollView>
 					</BottomSheet>
 				</SafeAreaView>
-			</TouchableWithoutFeedback>
 		</SafeAreaProvider>
 	);
 }
@@ -590,20 +601,20 @@ const s = StyleSheet.create({
 
 	// Referral Bottom Sheet
 	sheetBackground: { backgroundColor: "#0F2638" },
-  handle: { 
-		backgroundColor: "#F8F8F8" 
+	handle: {
+		backgroundColor: "#F8F8F8",
 	},
-  sheetContent: { 
-		padding: 16 
+	sheetContent: {
+		padding: 16,
 	},
-  ambassadorItem: {
-    paddingVertical: 12,
-    paddingHorizontal: 8,
-    borderBottomWidth: 0.5,
-    borderColor: "#284357",
-  },
-  ambassadorSelected: { 
-		backgroundColor: "#1D394E", 
+	ambassadorItem: {
+		paddingVertical: 12,
+		paddingHorizontal: 8,
+		borderBottomWidth: 0.5,
+		borderColor: "#284357",
+	},
+	ambassadorSelected: {
+		backgroundColor: "#1D394E",
 		borderRadius: 8,
 	},
 
