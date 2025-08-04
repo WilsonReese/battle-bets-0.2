@@ -4,7 +4,7 @@
     "slug": "battle-bets",
     "version": "1.0.1",
     "orientation": "portrait",
-    "icon": "./assets/images/icon_v2.png",
+    "icon": "./assets/images/iOS-icon.png",
     "scheme": "battlebets",
     "deepLinking": true,
     "platforms": [
@@ -14,7 +14,7 @@
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
-      "image": "./assets/images/splash_v1.png",
+      "image": "./assets/images/splash-screen.png",
       "resizeMode": "contain",
       "backgroundColor": "#061826"
     },
@@ -22,11 +22,6 @@
       "supportsTablet": true,
       "bundleIdentifier": "com.battlebets.battlebets",
       "buildNumber": "4",
-      "config": {
-        "branch": {
-          "apiKey": "key_live_ewEeEIBfqKeuQ2na1H6xhmkiCqndcGhi"
-        }
-      },
       "infoPlist": {
         "ITSAppUsesNonExemptEncryption": false
       },
@@ -40,11 +35,19 @@
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
-      "config": {
-        "branch": {
-          "apiKey": "key_live_ewEeEIBfqKeuQ2na1H6xhmkiCqndcGhi"
+      "intentFilters": [
+        {
+          "action": "VIEW",
+          "data": [
+            {
+              "scheme": "https",
+              "host": "join.battlebets.app",
+              "pathPrefix": "/join"
+            }
+          ],
+          "category": ["BROWSABLE", "DEFAULT"]
         }
-      }
+      ]
     },
     "web": {
       "bundler": "metro",
