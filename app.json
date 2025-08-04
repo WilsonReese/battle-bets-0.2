@@ -1,6 +1,6 @@
 {
   "expo": {
-    "name": "battle-bets",
+    "name": "Battle Bets",
     "slug": "battle-bets",
     "version": "1.0.1",
     "orientation": "portrait",
@@ -31,6 +31,8 @@
       ]
     },
     "android": {
+      "package": "com.battlebets.battlebets",
+      "versionCode": 1,
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"

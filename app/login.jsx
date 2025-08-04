@@ -107,7 +107,7 @@ export default function Login() {
 					<View style={s.logoPlaceholder}>
 						<Image
 							style={s.image}
-							source={require("@/assets/images/logo_v1.png")}
+							source={require("@/assets/images/logo-dropshadow.png")}
 						/>
 					</View>
 					<View style={s.loginContainer}>
