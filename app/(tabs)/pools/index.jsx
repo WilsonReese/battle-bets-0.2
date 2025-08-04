@@ -28,12 +28,15 @@ import { AnnouncementsCard } from "../../../components/PoolCard/AnnouncementsCar
 import { HowToPlayModal } from "../../../components/HowToPlay/HowToPlayModal";
 import { usePoolStore } from "../../../state/poolStore";
 import { AuthContext } from "../../../components/contexts/AuthContext";
+import { CommunityLeague } from "../../../components/PoolCard/CommunityLeague";
 
 export default function Pools() {
 	// const api = useAxiosWithAuth();
 	const { isAuthLoading } = useContext(AuthContext);
 	const [pools, setPools] = useState([]);
 	const [isScreenLoading, setIsScreenLoading] = useState(true);
+	const [communityLeague, setCommunityLeague] = useState(null);
+	const [clLoading, setClLoading] = useState(true);
 	const [refreshing, setRefreshing] = useState(false);
 	// const [hasLoaded, setHasLoaded] = useState(false);
 	const firstLoadRef = useRef(true);
@@ -53,7 +56,7 @@ export default function Pools() {
 					onPress={() => setShowHowToPlay(true)}
 					style={{ paddingVertical: 8 }}
 				>
-					<Txt style={{ color: "#FFF", fontSize: 12 }}>How to Play</Txt>
+					<Txt style={{ color: "#F8F8F8", fontSize: 12 }}>How to Play</Txt>
 				</TouchableOpacity>
 			),
 		});
@@ -80,6 +83,8 @@ export default function Pools() {
 					const { data: ann } = await api.get("/announcements");
 					if (!active) return;
 					setResponse(ann.id ? ann : null);
+
+					await fetchCommunityLeague();
 
 					// 2c) fetch each pool’s details in parallel
 					await Promise.all(
@@ -146,12 +151,25 @@ export default function Pools() {
 			await Promise.all(
 				fetchedPools.map((p) => fetchAllPoolData(p.id, { skipLoading: false }))
 			);
+			await fetchCommunityLeague();
 		} catch (err) {
 			console.error("Error refreshing pools + announcements:", err);
 		} finally {
 			setRefreshing(false); // 2️⃣ hide the pull spinner
 		}
 	}, [fetchAllPoolData]);
+
+	const fetchCommunityLeague = useCallback(async () => {
+		setClLoading(true);
+		try {
+			const { data } = await api.get("/pools/community_league");
+			setCommunityLeague(data);
+		} catch (err) {
+			console.error("Failed to load community league:", err);
+		} finally {
+			setClLoading(false);
+		}
+	}, []);
 
 	if (isScreenLoading) {
 		return (
@@ -208,6 +226,21 @@ export default function Pools() {
 					}
 				/>
 			)}
+
+			<CommunityLeague
+				league={communityLeague}
+				loading={clLoading}
+				onJoinSuccess={() => {
+					// bump the count locally if you like:
+					setCommunityLeague((l) => ({
+						...l,
+						membership_count: l.membership_count + 1,
+					}));
+					// and navigate into it
+					router.push(`/pools/${communityLeague.id}`);
+				}}
+			/>
+
 			<View style={s.createLeagueContainer}>
 				<Btn
 					btnText="Create a League"
