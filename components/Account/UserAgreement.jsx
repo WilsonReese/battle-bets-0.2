@@ -13,16 +13,15 @@ import {
 import { Txt } from "../general/Txt";
 // import Checkbox from "expo-checkbox"; // or whichever checkbox component you prefer
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
+import { PolicyModal } from "./PolicyModal";
 
-export function UserAgreement({ privacyAccepted, setPrivacyAccepted, termsAccepted, setTermsAccepted }) {
-	const { height: screenHeight, width: screenWidth } = Dimensions.get("window");
-	const maxModalHeight = screenHeight * 0.8;
-	const maxModalWidth = screenWidth * 0.9;
-	// const [privacyAccepted, setPrivacyAccepted] = useState(false);
-	// const [termsAccepted, setTermsAccepted] = useState(false);
+export function UserAgreement({
+	privacyAccepted,
+	setPrivacyAccepted,
+	termsAccepted,
+	setTermsAccepted,
+}) {
 	const [modalContent, setModalContent] = useState(null); // "privacy" | "terms" | null
-
-	const canContinue = privacyAccepted && termsAccepted;
 
 	return (
 		<View style={s.container}>
@@ -35,7 +34,7 @@ export function UserAgreement({ privacyAccepted, setPrivacyAccepted, termsAccept
 					<View style={s.checkbox}>
 						{privacyAccepted && (
 							<FontAwesome6 name="check" size={16} color="#54D18C" />
-              // <View style={{height: 14, width: 14, backgroundColor: '#54D18C', borderRadius: 4,}}/>
+							// <View style={{height: 14, width: 14, backgroundColor: '#54D18C', borderRadius: 4,}}/>
 						)}
 					</View>
 				</TouchableOpacity>
@@ -69,58 +68,7 @@ export function UserAgreement({ privacyAccepted, setPrivacyAccepted, termsAccept
 				</Txt>
 			</View>
 
-			{/* Modal */}
-			<Modal
-				visible={modalContent !== null}
-				animationType="fade"
-				transparent={true}
-				onRequestClose={() => setModalContent(null)}
-			>
-				<View style={s.overlay}>
-					<TouchableWithoutFeedback onPress={() => setModalContent(null)}>
-						<View style={StyleSheet.absoluteFill} />
-					</TouchableWithoutFeedback>
-
-					<View
-						style={[
-							s.modalContainer,
-							{ maxHeight: maxModalHeight, width: maxModalWidth },
-						]}
-					>
-						<View style={s.modalHeader}>
-							<Txt style={s.modalTitle}>
-								{modalContent === "privacy"
-									? "Privacy Policy"
-									: "Terms & Conditions"}
-							</Txt>
-
-							<TouchableOpacity
-								style={s.closeModalContainer}
-								onPress={() => setModalContent(null)}
-							>
-								<FontAwesome6 name="xmark" size={20} color="#F8F8F8" />
-							</TouchableOpacity>
-						</View>
-						<ScrollView
-							style={s.modalBody}
-							contentContainerStyle={{ padding: 16 }}
-						>
-							{modalContent === "privacy" && (
-								<Txt>
-									{/* you can load this from a file, or paste your policy here */}
-									[Your full Privacy Policy text goes here…]
-								</Txt>
-							) }
-              {modalContent === "terms" && (
-								<Txt>
-									{/* likewise */}
-									[Your full Terms & Conditions text goes here…]
-								</Txt>
-							)}
-						</ScrollView>
-					</View>
-				</View>
-			</Modal>
+			<PolicyModal modalContent={modalContent} setModalContent={setModalContent}/>
 		</View>
 	);
 }
@@ -177,7 +125,7 @@ const s = StyleSheet.create({
 		paddingLeft: 16,
 	},
 	closeModalContainer: {
-		backgroundColor: 'green',
+		// backgroundColor: "green",
 		paddingVertical: 20,
 		paddingRight: 16,
 		paddingLeft: 16,

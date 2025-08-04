@@ -21,14 +21,18 @@ import { Btn } from "../../../components/general/Buttons/Btn";
 import { formatFullDate } from "../../../utils/dateUtils";
 import FontAwesome6 from "@expo/vector-icons/FontAwesome6";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import { FaveTeamBottomSheet } from "../../../components/CreateAccount/FaveTeamBottomSheet";
 import { TeamLogo } from "../../../components/GameCard/Matchup/TeamLogo";
+import { FaveTeamBottomSheet } from "../../../components/Account/FaveTeamBottomSheet";
+import { PolicyModal } from "../../../components/Account/PolicyModal";
+import { ConfirmAccountDeleteModal } from "../../../components/Account/ConfirmAccountDeleteModal";
 
 export default function Profile() {
 	const { logout, token } = useContext(AuthContext);
 	const router = useRouter();
 	const { showError, showSuccess } = useToastMessage();
 	const [refreshing, setRefreshing] = useState(false);
+	const [modalContent, setModalContent] = useState(null); // "privacy" | "terms" | null
+	const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
 	// Teams stuff
 	const [loadingTeams, setLoadingTeams] = useState(false);
@@ -176,6 +180,32 @@ export default function Profile() {
 		}
 	};
 
+
+  const handleDeleteAccount = async () => {
+    let serverOk = false;
+    try {
+      // DELETE /user
+      const res = await api.delete('/user', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      serverOk = res.status === 204 || res.status === 200;
+      if (!serverOk) {
+        console.warn('Account deletion returned status', res.status);
+      }
+    } catch (err) {
+      console.warn('Delete account API error, signing you out anyway', err);
+    } finally {
+      // always clear local session
+      await logout();
+      router.replace('/login');
+      if (serverOk) {
+        showSuccess('Your account has been deleted.');
+      } else {
+        showError('Failed to delete account server-side; you have been logged out.');
+      }
+    }
+  };
+
 	useFocusEffect(
 		React.useCallback(() => {
 			if (hasFocusedOnce.current) {
@@ -302,7 +332,7 @@ export default function Profile() {
 
 							{/* Member Since */}
 							<View style={s.detailsRow}>
-								<Txt style={s.labelTxt}>Member Since:</Txt>
+								<Txt style={s.labelTxt}>Account Created:</Txt>
 								<Txt style={s.txt}>{formatFullDate(user.created_at)}</Txt>
 							</View>
 
@@ -332,14 +362,23 @@ export default function Profile() {
 									</TouchableOpacity>
 								) : (
 									<>
-									{user.favorite_team ? (
-										<View style={{flexDirection: 'row', alignItems: 'center', gap: 8}}>
-											<TeamLogo teamName={user.favorite_team.name} size={30}/>
-											<Txt style={s.txt}>{user.favorite_team?.name}</Txt>
-										</View>
-									): (
-										<Txt style={s.txt}>None</Txt>
-									)}
+										{user.favorite_team ? (
+											<View
+												style={{
+													flexDirection: "row",
+													alignItems: "center",
+													gap: 8,
+												}}
+											>
+												<TeamLogo
+													teamName={user.favorite_team.name}
+													size={30}
+												/>
+												<Txt style={s.txt}>{user.favorite_team?.name}</Txt>
+											</View>
+										) : (
+											<Txt style={s.txt}>None</Txt>
+										)}
 									</>
 								)}
 							</View>
@@ -350,6 +389,8 @@ export default function Profile() {
 					)}
 
 					<View style={s.settingsContainer}>
+						<Txt style={s.titleTxt}>Account</Txt>
+
 						<TouchableOpacity
 							style={s.settingsButton}
 							onPress={() => router.push("/profile/updatePassword")}
@@ -371,6 +412,33 @@ export default function Profile() {
 								color="#E06777"
 							/>
 						</TouchableOpacity>
+						<View>
+							<TouchableOpacity
+								style={s.userAgreementsButton}
+								onPress={() => setModalContent("privacy")}
+							>
+								<Txt style={s.userAgreementsTxt}>Privacy Policy</Txt>
+							</TouchableOpacity>
+
+							<TouchableOpacity
+								style={s.userAgreementsButton}
+								onPress={() => setModalContent("terms")}
+							>
+								<Txt style={s.userAgreementsTxt}>Terms and Conditions</Txt>
+							</TouchableOpacity>
+						</View>
+						<TouchableOpacity
+							style={[s.settingsButton, { marginTop: 48 }]}
+							onPress={() => setDeleteModalVisible(true)}
+						>
+							<Txt style={s.logoutTxt}>Delete Account</Txt>
+							<FontAwesome6
+								name="trash-can"
+								size={18}
+								color="#E06777"
+								style={{ paddingRight: 4 }}
+							/>
+						</TouchableOpacity>
 					</View>
 				</ScrollView>
 				<FaveTeamBottomSheet
@@ -379,6 +447,15 @@ export default function Profile() {
 					favoriteTeamId={favoriteTeamId}
 					setFavoriteTeamId={setFavoriteTeamId}
 					closeTeamSheet={closeTeamSheet}
+				/>
+				<PolicyModal
+					modalContent={modalContent}
+					setModalContent={setModalContent}
+				/>
+				<ConfirmAccountDeleteModal
+					modalVisible={deleteModalVisible}
+					onClose={() => setDeleteModalVisible(false)}
+					onConfirm={handleDeleteAccount}
 				/>
 			</KeyboardAvoidingView>
 		</TouchableWithoutFeedback>
@@ -451,6 +528,7 @@ const s = StyleSheet.create({
 	},
 	settingsContainer: {
 		paddingTop: 24,
+		gap: 8,
 	},
 	settingsButton: {
 		paddingHorizontal: 8,
@@ -458,6 +536,24 @@ const s = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		alignItems: "center",
+		backgroundColor: "#0F2638",
+		borderRadius: 8,
+	},
+	userAgreementsButton: {
+		paddingHorizontal: 8,
+		paddingVertical: 8,
+		flexDirection: "row",
+		justifyContent: "space-between",
+		alignItems: "center",
+		// backgroundColor: "#0F2638",
+		borderRadius: 8,
+	},
+	userAgreementsTxt: {
+		flex: 1,
+		fontSize: 16,
+		color: "#C7CDD1",
+		lineHeight: 20,
+		fontFamily: "Saira_400Regular_Italic",
 	},
 	logoutTxt: {
 		color: "#E06777",

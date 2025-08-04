@@ -25,8 +25,9 @@ import { LoadingIndicator } from "../components/general/LoadingIndicator";
 import { TeamLogo } from "../components/GameCard/Matchup/TeamLogo";
 import { useConferences } from "../hooks/useConferences";
 import { ConferenceFilter } from "../components/GameCard/ConferenceFilter";
-import { FaveTeamBottomSheet } from "../components/CreateAccount/FaveTeamBottomSheet";
-import { UserAgreement } from "../components/CreateAccount/userAgreement";
+import { FaveTeamBottomSheet } from "../components/Account/FaveTeamBottomSheet";
+import { UserAgreement } from '../components/Account/UserAgreement';
+
 
 const FBS_CONFERENCES = [
 	"American",
