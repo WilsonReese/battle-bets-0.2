@@ -12,17 +12,14 @@
       }
     },
     "preview": {
+      "environment": "preview",
       "autoIncrement": true,
-      "distribution": "store",
-      "env": {
-        "ENV_FILE": ".env.preview"
-      }
+      "distribution": "store"
     },
     "production": {
+      "environment": "production",
       "autoIncrement": true,
-      "env": {
-        "ENV_FILE": ".env.production"
-      }
+      "distribution": "store"
     }
   },
   "submit": {

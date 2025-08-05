@@ -19,7 +19,7 @@
       "backgroundColor": "#061826"
     },
     "ios": {
-      "supportsTablet": true,
+      "supportsTablet": false,
       "bundleIdentifier": "com.battlebets.battlebets",
       "buildNumber": "4",
       "infoPlist": {
