@@ -9,6 +9,7 @@ import {
 	Pressable,
 	TouchableWithoutFeedback,
 	Dimensions,
+	Linking,
 } from "react-native";
 import { Txt } from "../general/Txt";
 // import Checkbox from "expo-checkbox"; // or whichever checkbox component you prefer
@@ -21,7 +22,7 @@ export function UserAgreement({
 	termsAccepted,
 	setTermsAccepted,
 }) {
-	const [modalContent, setModalContent] = useState(null); // "privacy" | "terms" | null
+	// const [modalContent, setModalContent] = useState(null); // "privacy" | "terms" | null
 
 	return (
 		<View style={s.container}>
@@ -40,7 +41,14 @@ export function UserAgreement({
 				</TouchableOpacity>
 				<Txt style={s.label}>
 					I hereby acknowledge that I have read and agree to the{" "}
-					<Txt style={s.link} onPress={() => setModalContent("privacy")}>
+					<Txt
+						style={s.link}
+						onPress={() =>
+							Linking.openURL(
+								"https://app.termly.io/policy-viewer/policy.html?policyUUID=c1e4b856-f261-4021-a0cc-a92a45dcf321"
+							)
+						}
+					>
 						Privacy Policy
 					</Txt>
 					.
@@ -61,14 +69,24 @@ export function UserAgreement({
 				</TouchableOpacity>
 				<Txt style={s.label}>
 					I hereby acknowledge that I have read and agree to the{" "}
-					<Txt style={s.link} onPress={() => setModalContent("terms")}>
+					<Txt
+						style={s.link}
+						onPress={() =>
+							Linking.openURL(
+								"https://app.termly.io/policy-viewer/policy.html?policyUUID=6c9398c9-63a7-4f2b-8a92-18a400f6294c"
+							)
+						}
+					>
 						Terms & Conditions
 					</Txt>
 					.
 				</Txt>
 			</View>
 
-			<PolicyModal modalContent={modalContent} setModalContent={setModalContent}/>
+			{/* <PolicyModal
+				modalContent={modalContent}
+				setModalContent={setModalContent}
+			/> */}
 		</View>
 	);
 }

@@ -51,7 +51,7 @@ export function CommunityLeague({ league, loading, onJoinSuccess }) {
 					imageStyle={s.imageCorners}
 				>
 					{loading ? (
-						<ActivityIndicator color="#FFF" />
+						<ActivityIndicator color="#E4E6E7" />
 					) : !league ? (
 						<Txt style={s.title}>Community League Unavailable</Txt>
 					) : (
@@ -59,7 +59,7 @@ export function CommunityLeague({ league, loading, onJoinSuccess }) {
 							<Txt style={s.title}>Join the Battle Bets Community League!</Txt>
 							<View style={s.callToAction}>
 								<Txt style={s.txt}>
-									Play with {league.membership_count} members
+									Play with {league.membership_count} {league.membership_count == 1 ? 'member' : 'members'}
 								</Txt>
 								<FontAwesome6
 									name="circle-chevron-right"

@@ -184,7 +184,25 @@ export default function Pools() {
 			{/* <StatusBar style="light" /> */}
 
 			{pools.length === 0 ? (
+				<>
 				<NoLeagues response={response} />
+										{communityLeague && !communityLeague.is_member ? (
+							<View style={{ marginTop: 4 /* optional spacing */ }}>
+								<CommunityLeague
+									league={communityLeague}
+									loading={clLoading}
+									onJoinSuccess={() => {
+										setCommunityLeague((l) => ({
+											...l,
+											membership_count: l.membership_count + 1,
+											is_member: true,
+										}));
+										router.push(`/pools/${communityLeague.id}`);
+									}}
+								/>
+							</View>
+						) : null}
+</>
 			) : (
 				<FlatList
 					data={pools}
@@ -214,6 +232,24 @@ export default function Pools() {
 							// autoRefreshing={autoRefreshing}
 						/>
 					)}
+					ListFooterComponent={() =>
+						communityLeague && !communityLeague.is_member ? (
+							<View style={{ marginTop: 4 /* optional spacing */ }}>
+								<CommunityLeague
+									league={communityLeague}
+									loading={clLoading}
+									onJoinSuccess={() => {
+										setCommunityLeague((l) => ({
+											...l,
+											membership_count: l.membership_count + 1,
+											is_member: true,
+										}));
+										router.push(`/pools/${communityLeague.id}`);
+									}}
+								/>
+							</View>
+						) : null
+					}
 					showsVerticalScrollIndicator={false}
 					initialNumToRender={5}
 					contentContainerStyle={{ paddingBottom: 16 }}
@@ -226,20 +262,6 @@ export default function Pools() {
 					}
 				/>
 			)}
-
-			<CommunityLeague
-				league={communityLeague}
-				loading={clLoading}
-				onJoinSuccess={() => {
-					// bump the count locally if you like:
-					setCommunityLeague((l) => ({
-						...l,
-						membership_count: l.membership_count + 1,
-					}));
-					// and navigate into it
-					router.push(`/pools/${communityLeague.id}`);
-				}}
-			/>
 
 			<View style={s.createLeagueContainer}>
 				<Btn

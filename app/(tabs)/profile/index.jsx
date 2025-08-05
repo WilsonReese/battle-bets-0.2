@@ -11,6 +11,7 @@ import {
 	TouchableOpacity,
 	ScrollView,
 	RefreshControl,
+	Linking,
 } from "react-native";
 import { useFocusEffect, useRouter } from "expo-router";
 import api from "../../../utils/axiosConfig";
@@ -31,7 +32,7 @@ export default function Profile() {
 	const router = useRouter();
 	const { showError, showSuccess } = useToastMessage();
 	const [refreshing, setRefreshing] = useState(false);
-	const [modalContent, setModalContent] = useState(null); // "privacy" | "terms" | null
+	// const [modalContent, setModalContent] = useState(null); // "privacy" | "terms" | null
 	const [deleteModalVisible, setDeleteModalVisible] = useState(false);
 
 	// Teams stuff
@@ -180,31 +181,32 @@ export default function Profile() {
 		}
 	};
 
-
-  const handleDeleteAccount = async () => {
-    let serverOk = false;
-    try {
-      // DELETE /user
-      const res = await api.delete('/user', {
-        headers: { Authorization: `Bearer ${token}` },
-      });
-      serverOk = res.status === 204 || res.status === 200;
-      if (!serverOk) {
-        console.warn('Account deletion returned status', res.status);
-      }
-    } catch (err) {
-      console.warn('Delete account API error, signing you out anyway', err);
-    } finally {
-      // always clear local session
-      await logout();
-      router.replace('/login');
-      if (serverOk) {
-        showSuccess('Your account has been deleted.');
-      } else {
-        showError('Failed to delete account server-side; you have been logged out.');
-      }
-    }
-  };
+	const handleDeleteAccount = async () => {
+		let serverOk = false;
+		try {
+			// DELETE /user
+			const res = await api.delete("/user", {
+				headers: { Authorization: `Bearer ${token}` },
+			});
+			serverOk = res.status === 204 || res.status === 200;
+			if (!serverOk) {
+				console.warn("Account deletion returned status", res.status);
+			}
+		} catch (err) {
+			console.warn("Delete account API error, signing you out anyway", err);
+		} finally {
+			// always clear local session
+			await logout();
+			router.replace("/login");
+			if (serverOk) {
+				showSuccess("Your account has been deleted.");
+			} else {
+				showError(
+					"Failed to delete account server-side; you have been logged out."
+				);
+			}
+		}
+	};
 
 	useFocusEffect(
 		React.useCallback(() => {
@@ -415,14 +417,24 @@ export default function Profile() {
 						<View>
 							<TouchableOpacity
 								style={s.userAgreementsButton}
-								onPress={() => setModalContent("privacy")}
+								// onPress={() => setModalContent("privacy")}
+								onPress={() =>
+									Linking.openURL(
+										"https://app.termly.io/policy-viewer/policy.html?policyUUID=c1e4b856-f261-4021-a0cc-a92a45dcf321"
+									)
+								}
 							>
 								<Txt style={s.userAgreementsTxt}>Privacy Policy</Txt>
 							</TouchableOpacity>
 
 							<TouchableOpacity
 								style={s.userAgreementsButton}
-								onPress={() => setModalContent("terms")}
+								// onPress={() => setModalContent("terms")}
+								onPress={() =>
+									Linking.openURL(
+										"https://app.termly.io/policy-viewer/policy.html?policyUUID=6c9398c9-63a7-4f2b-8a92-18a400f6294c"
+									)
+								}
 							>
 								<Txt style={s.userAgreementsTxt}>Terms and Conditions</Txt>
 							</TouchableOpacity>
@@ -448,10 +460,10 @@ export default function Profile() {
 					setFavoriteTeamId={setFavoriteTeamId}
 					closeTeamSheet={closeTeamSheet}
 				/>
-				<PolicyModal
+				{/* <PolicyModal
 					modalContent={modalContent}
 					setModalContent={setModalContent}
-				/>
+				/> */}
 				<ConfirmAccountDeleteModal
 					modalVisible={deleteModalVisible}
 					onClose={() => setDeleteModalVisible(false)}
