@@ -28,7 +28,17 @@ function ScoreboardGameCardComponent({
 	onPress = () => {},
 }) {
 
-	console.log('Game Data on Scoreboard Game Card:', gameData)
+	// const gameStatus = "Q1"
+	// const awayScore = 10
+	// const homeScore = 17
+
+	// console.log('Game Data on Scoreboard Game Card:', gameData)
+	// console.log('Game', game)
+
+	const isIdEqual = (a, b) => a != null && b != null && String(a) === String(b);
+	const homeIdsMatch = isIdEqual(game.home_team.api_sports_io_id, gameData.teams.home.id)
+	const awayIdsMatch = isIdEqual(game.away_team.api_sports_io_id, gameData.teams.away.id)
+
 
 	return (
 		<TouchableOpacity style={s.card} onPress={() => onPress(game)}>
@@ -62,8 +72,9 @@ function ScoreboardGameCardComponent({
 							gameData={gameData}
 							status={gameStatus}
 							gameTimer={gameTimer}
-							homeScore={homeScore}
-							awayScore={awayScore}
+							// need to verify that the score is associated with the right team
+							homeScore = {homeIdsMatch ? homeScore : awayScore}
+							awayScore={awayIdsMatch ? awayScore : homeScore}
 						/>
 					</View>
 				)}

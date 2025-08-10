@@ -46,6 +46,9 @@ export default function GameDetails() {
 		// userPoolCountByGame
 	} = useScoreboard();
 
+	// const gameStatus = "Q1";
+	const isIdEqual = (a, b) => a != null && b != null && String(a) === String(b);
+
 	const gameId = selectedGameData?.game?.id;
 	const awayTeam = selectedGame.away_team;
 	const homeTeam = selectedGame.home_team;
@@ -54,14 +57,14 @@ export default function GameDetails() {
 	const [refreshing, setRefreshing] = useState(false);
 	const [refreshKey, setRefreshKey] = useState(0);
 
-	const [isolatedGameData, setIsolatedGameData] = useState(selectedGameData)
+	const [isolatedGameData, setIsolatedGameData] = useState(selectedGameData);
 
 	const [awayTeamStats, setAwayTeamStats] = useState([]);
 	const [homeTeamStats, setHomeTeamStats] = useState([]);
 	const [awayPlayerStats, setAwayPlayerStats] = useState([]);
 	const [homePlayerStats, setHomePlayerStats] = useState([]);
 	const [loading, setLoading] = useState(true);
-	
+
 	/* ---------- POOLS ---------- */
 	const [pools, setPools] = useState([]);
 	const [selectedPool, setSelectedPool] = useState(null);
@@ -197,7 +200,6 @@ export default function GameDetails() {
 		}
 	}, [updateStats]);
 
-
 	// fetch pools ONCE
 	useEffect(() => {
 		api.get("/pools").then((res) => {
@@ -227,8 +229,6 @@ export default function GameDetails() {
 			</View>
 		);
 	}
-
-	
 
 	return (
 		// Macro Game Data
@@ -278,8 +278,22 @@ export default function GameDetails() {
 								{isInProgress(gameStatus) || isFinished(gameStatus) ? (
 									<>
 										<TeamData
-											awayStats={awayTeamStats.statistics}
-											homeStats={homeTeamStats.statistics}
+											awayStats={
+												isIdEqual(
+													awayTeam?.api_sports_io_id,
+													awayTeamStats?.team?.id
+												)
+													? awayTeamStats?.statistics
+													: homeTeamStats?.statistics
+											}
+											homeStats={
+												isIdEqual(
+													homeTeam?.api_sports_io_id,
+													homeTeamStats?.team?.id
+												)
+													? homeTeamStats?.statistics
+													: awayTeamStats?.statistics
+											}
 											selectedTeam={selectedTeam}
 											awayTeamName={awayTeam.name}
 											homeTeamName={homeTeam.name}
@@ -287,10 +301,30 @@ export default function GameDetails() {
 
 										{/* Player Stats */}
 										{selectedTeam === awayTeam.name && (
-											<PlayerData stats={awayPlayerStats.groups} />
+											// <PlayerData stats={awayPlayerStats.groups} />
+											<PlayerData
+												stats={
+													isIdEqual(
+														awayTeam?.api_sports_io_id,
+														awayTeamStats?.team?.id
+													)
+														? awayPlayerStats.groups
+														: homePlayerStats.groups
+												}
+											/>
 										)}
 										{selectedTeam === homeTeam.name && (
-											<PlayerData stats={homePlayerStats.groups} />
+											// <PlayerData stats={homePlayerStats.groups} />
+											<PlayerData
+												stats={
+													isIdEqual(
+														homeTeam?.api_sports_io_id,
+														homeTeamStats?.team?.id
+													)
+														? homePlayerStats.groups
+														: awayPlayerStats.groups
+												}
+											/>
 										)}
 									</>
 								) : (

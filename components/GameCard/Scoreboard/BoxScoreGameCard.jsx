@@ -9,7 +9,11 @@ import {
 } from "../../../utils/gameStatus";
 
 export function BoxScoreGameCard({ game, gameData, status, gameTimer, homeScore, awayScore }) {
+// export function BoxScoreGameCard({ game, gameData, gameTimer, homeScore, awayScore }) {
 	// Placeholder data for the in progress game data
+
+	// const status = "Q1"
+	
 	const quarterDisplay = formatQuarter(status);
 	const timeRemaining = gameTimer ?? "--:--";
 
