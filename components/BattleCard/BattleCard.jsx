@@ -171,7 +171,6 @@ const s = StyleSheet.create({
 		// alignItems: "center",
 		// alignSelf: "stretch",
 		// borderWidth: 1,
-		// borderColor: "#3A454D",
 		borderRadius: 8,
 		// paddingTop: 8,
 		paddingBottom: 8,

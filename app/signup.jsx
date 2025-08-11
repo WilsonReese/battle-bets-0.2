@@ -263,7 +263,7 @@ export default function SignupScreen() {
 								<Txt>First Name</Txt>
 								<TextInput
 									placeholder="First Name"
-									placeholderTextColor="#B8C3CC"
+									placeholderTextColor="#C7CDD1"
 									autoCapitalize="words"
 									style={s.input}
 									value={form.first_name}
@@ -282,7 +282,7 @@ export default function SignupScreen() {
 								<Txt style={s.formTxt}>Last Name</Txt>
 								<TextInput
 									placeholder="Last Name"
-									placeholderTextColor="#B8C3CC"
+									placeholderTextColor="#C7CDD1"
 									autoCapitalize="words"
 									style={s.input}
 									value={form.last_name}
@@ -301,7 +301,7 @@ export default function SignupScreen() {
 						<Txt>Username</Txt>
 						<TextInput
 							placeholder="Username"
-							placeholderTextColor="#B8C3CC"
+							placeholderTextColor="#C7CDD1"
 							style={s.input}
 							value={form.username}
 							onChangeText={(val) => handleChange("username", val)}
@@ -318,7 +318,7 @@ export default function SignupScreen() {
 						<Txt>Email</Txt>
 						<TextInput
 							placeholder="Email"
-							placeholderTextColor="#B8C3CC"
+							placeholderTextColor="#C7CDD1"
 							style={s.input}
 							value={form.email}
 							onChangeText={(val) => handleChange("email", val)}
@@ -336,7 +336,7 @@ export default function SignupScreen() {
 						<Txt>Password</Txt>
 						<TextInput
 							placeholder="Password"
-							placeholderTextColor="#B8C3CC"
+							placeholderTextColor="#C7CDD1"
 							style={s.input}
 							secureTextEntry
 							value={form.password}
@@ -351,7 +351,7 @@ export default function SignupScreen() {
 						<Txt>Confirm Password</Txt>
 						<TextInput
 							placeholder="Confirm Password"
-							placeholderTextColor="#B8C3CC"
+							placeholderTextColor="#C7CDD1"
 							style={s.input}
 							secureTextEntry
 							value={form.password_confirmation}
@@ -535,7 +535,7 @@ const s = StyleSheet.create({
 		fontFamily: "Saira_600SemiBold",
 		height: 48,
 		// backgroundColor: "#F8F8F8",
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderWidth: 1,
 		borderRadius: 8,
 		paddingHorizontal: 12,
@@ -553,7 +553,7 @@ const s = StyleSheet.create({
 	selector: {
 		// backgroundColor: "#DAE1E5",
 		borderWidth: 1,
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderRadius: 8,
 		padding: 12,
 		marginBottom: 12,
@@ -628,6 +628,6 @@ const s = StyleSheet.create({
 		alignItems: "center",
 	},
 	loginTxt: {
-		// color: "#B8C3CC",
+
 	},
 });

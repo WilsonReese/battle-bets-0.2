@@ -217,7 +217,7 @@ const s = StyleSheet.create({
 		letterSpacing: 2,
 		fontSize: 14,
 		textTransform: "uppercase",
-		color: "#B8C3CC",
+		color: "#C7CDD1",
 		paddingBottom: 8,
 		// paddingTop: 8,
 		// alignSelf: "center",

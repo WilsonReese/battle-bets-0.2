@@ -79,7 +79,7 @@ const s = StyleSheet.create({
     fontSize: 14,
   },
   unselectedTxt: {
-    color: "#B8C3CC",
+    color: "#C7CDD1",
     fontSize: 14,
   },
 });

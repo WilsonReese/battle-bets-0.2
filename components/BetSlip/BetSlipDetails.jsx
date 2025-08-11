@@ -102,7 +102,6 @@ const s = StyleSheet.create({
 		paddingHorizontal: 8,
 		paddingVertical: 4,
 		// borderTopWidth: 1,
-		// borderColor: "#B8C3CC",
 		marginHorizontal: 8,
 	},
 	payoutHeading: {

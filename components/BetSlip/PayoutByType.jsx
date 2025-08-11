@@ -21,7 +21,7 @@ const s = StyleSheet.create({
     // paddingVertical: 4,
     marginHorizontal: 8,
     // borderTopWidth: 1,
-    borderColor: '#B8C3CC',
+    borderColor: '#C7CDD1',
     // backgroundColor: 'green'
   },
   text: {

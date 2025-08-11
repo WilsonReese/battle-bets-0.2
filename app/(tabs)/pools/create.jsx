@@ -146,7 +146,7 @@ export default function CreatePool() {
 							<TextInput
 								style={s.inputText}
 								placeholder="Enter League Name"
-								placeholderTextColor="#B8C3CC"
+								placeholderTextColor="#C7CDD1"
 								value={leagueName}
 								onChangeText={setLeagueName}
 								autoCapitalize="words"
@@ -162,7 +162,7 @@ export default function CreatePool() {
 							<View style={s.labelWithIcon}>
 								<Txt style={s.formText}>Start Week</Txt>
 								{isStartWeekLocked && (
-									<FontAwesome6 name="lock" size={14} color="#B8C3CC" />
+									<FontAwesome6 name="lock" size={14} color="#C7CDD1" />
 								)}
 							</View>
 
@@ -178,7 +178,7 @@ export default function CreatePool() {
 									<Txt
 										style={[
 											s.responseTxt,
-											isStartWeekLocked && { color: "#6E7880" }, // gray text
+											isStartWeekLocked && { color: "#6B8294" }, // gray text
 										]}
 									>
 										{selectedWeek.label}
@@ -186,7 +186,7 @@ export default function CreatePool() {
 									<FontAwesome6
 										name="chevron-down"
 										size={16}
-										color={isStartWeekLocked ? "#6E7880" : "#F8F8F8"} // gray icon
+										color={isStartWeekLocked ? "#6B8294" : "#F8F8F8"} // gray icon
 									/>
 								</View>
 							</TouchableOpacity>
@@ -245,7 +245,7 @@ const s = StyleSheet.create({
 	},
 	inputText: {
 		fontFamily: "Saira_600SemiBold",
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderWidth: 1,
 		borderRadius: 8,
 		height: 48,
@@ -265,7 +265,7 @@ const s = StyleSheet.create({
 	weekSelector: {
 		// backgroundColor: "#DAE1E5",
 		borderWidth: 1,
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderRadius: 8,
 		padding: 12,
 		marginTop: 8,

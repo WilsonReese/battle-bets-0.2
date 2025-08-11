@@ -78,7 +78,7 @@ const s = StyleSheet.create({
 		flexDirection: "row",
 		justifyContent: "space-between",
 		borderBottomWidth: 0.5,
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 	},
 	rankHeader: {
 		width: 60,

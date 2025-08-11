@@ -143,7 +143,7 @@ const s = StyleSheet.create({
 		letterSpacing: 2,
 		fontSize: 12,
 		textTransform: "uppercase",
-		color: "#B8C3CC",
+		color: "#C7CDD1",
 	},
 	txt: {
 		fontSize: 14,

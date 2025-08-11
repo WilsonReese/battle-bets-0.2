@@ -96,7 +96,7 @@ const s = StyleSheet.create({
   },
   withBottomBorder: {
     borderBottomWidth: 0.5,
-    borderBottomColor: "#3A454D",
+    borderBottomColor: "#1D394E",
   },
   txt: {
     color: "#F8F8F8",
@@ -106,7 +106,7 @@ const s = StyleSheet.create({
     marginTop: -4,
   },
   detailsTxt: {
-    color: "#B8C3CC",
+    color: "#C7CDD1",
     fontSize: 11,
     fontFamily: "Saira_400Regular_Italic",
     marginTop: -4,

@@ -204,7 +204,7 @@ const s = StyleSheet.create({
 		letterSpacing: 2,
 		fontSize: 10,
 		textTransform: "uppercase",
-		color: "#B8C3CC",
+		color: "#C7CDD1",
 		paddingBottom: 2,
 	},
 

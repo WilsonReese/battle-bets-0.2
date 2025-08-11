@@ -70,7 +70,7 @@ export default function UpdatePassword() {
 			<Txt>New Password</Txt>
 			<TextInput
 				placeholder="New Password"
-				placeholderTextColor="#B8C3CC"
+				placeholderTextColor="#C7CDD1"
 				style={s.input}
 				secureTextEntry
 				textContentType="newPassword" // ✅ Tells iOS this is a new password
@@ -87,7 +87,7 @@ export default function UpdatePassword() {
 			<Txt>Confirm Password</Txt>
 			<TextInput
 				placeholder="Confirm Password"
-				placeholderTextColor="#B8C3CC"
+				placeholderTextColor="#C7CDD1"
 				style={s.input}
 				secureTextEntry
 				onChangeText={(val) => {
@@ -132,7 +132,7 @@ const s = StyleSheet.create({
 		fontFamily: "Saira_600SemiBold",
 		height: 48,
 		// backgroundColor: "#F8F8F8",
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderWidth: 1,
 		borderRadius: 8,
 		paddingHorizontal: 12,

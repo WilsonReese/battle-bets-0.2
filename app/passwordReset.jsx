@@ -194,7 +194,7 @@ export default function PasswordReset() {
               <TextInput
                 key="new-password"
                 placeholder="New Password"
-                placeholderTextColor="#B8C3CC"
+                placeholderTextColor="#C7CDD1"
                 style={s.input}
                 secureTextEntry
                 onChangeText={(val) => {
@@ -211,7 +211,7 @@ export default function PasswordReset() {
               <TextInput
                 key="confirm-password"
                 placeholder="Confirm Password"
-                placeholderTextColor="#B8C3CC"
+                placeholderTextColor="#C7CDD1"
                 style={s.input}
                 secureTextEntry
                 onChangeText={(val) => {
@@ -243,7 +243,7 @@ export default function PasswordReset() {
               <TextInput
                 key="email"
                 placeholder="Email"
-                placeholderTextColor="#B8C3CC"
+                placeholderTextColor="#C7CDD1"
                 style={s.input}
                 onChangeText={setEmail}
                 autoCapitalize="none"
@@ -295,7 +295,7 @@ const s = StyleSheet.create({
     fontFamily: "Saira_600SemiBold",
     height: 48,
     // backgroundColor: "#F8F8F8",
-    borderColor: "#3A454D",
+    borderColor: "#1D394E",
     borderWidth: 1,
     borderRadius: 8,
     paddingHorizontal: 12,

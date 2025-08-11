@@ -33,7 +33,7 @@ const s = StyleSheet.create({
     color: '#184EAD'
   },
   disabled: {
-    backgroundColor: "#B8C3CC",
+    backgroundColor: "#C7CDD1",
   },
   enabled: {
     backgroundColor: "#2271FA",

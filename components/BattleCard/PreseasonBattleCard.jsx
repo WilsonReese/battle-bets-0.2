@@ -19,7 +19,6 @@ const s = StyleSheet.create({
 		// alignItems: "center",
 		// alignSelf: "stretch",
 		// borderWidth: 1,
-		// borderColor: "#3A454D",
 		borderRadius: 8,
 		paddingTop: 8,
 		paddingBottom: 12,
@@ -37,7 +36,7 @@ const s = StyleSheet.create({
 		letterSpacing: 2,
 		fontSize: 12,
 		textTransform: "uppercase",
-		color: "#B8C3CC",
+		color: "#C7CDD1",
 		paddingTop: 8,
 		alignSelf: "center",
     // backgroundColor: 'green'

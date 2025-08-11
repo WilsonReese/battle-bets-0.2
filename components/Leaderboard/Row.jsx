@@ -67,7 +67,6 @@ const s = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     // borderLeftWidth: 1,
-    // borderColor: '#B8C3CC'
   },
   txt: {
     color: "#061826",

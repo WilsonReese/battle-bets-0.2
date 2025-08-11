@@ -267,7 +267,7 @@ export default function Profile() {
 												style={s.input}
 												value={form.first_name}
 												placeholder="First Name"
-												placeholderTextColor="#B8C3CC"
+												placeholderTextColor="#C7CDD1"
 												onChangeText={(text) =>
 													setForm((prev) => ({ ...prev, first_name: text }))
 												}
@@ -278,7 +278,7 @@ export default function Profile() {
 												style={s.input}
 												value={form.last_name}
 												placeholder="Last Name"
-												placeholderTextColor="#B8C3CC"
+												placeholderTextColor="#C7CDD1"
 												onChangeText={(text) =>
 													setForm((prev) => ({ ...prev, last_name: text }))
 												}
@@ -306,7 +306,7 @@ export default function Profile() {
 												style={s.input}
 												value={form.username}
 												placeholder="Username"
-												placeholderTextColor="#B8C3CC"
+												placeholderTextColor="#C7CDD1"
 												autoCorrect={false} // 🚫 Disable autocorrect
 												spellCheck={false}
 												autoCapitalize="none"
@@ -502,7 +502,7 @@ const s = StyleSheet.create({
 	labelTxt: {
 		fontFamily: "Saira_400Regular_Italic",
 		fontSize: 14,
-		color: "#B8C3CC",
+		color: "#C7CDD1",
 		width: 100,
 	},
 	txt: {
@@ -513,7 +513,7 @@ const s = StyleSheet.create({
 	input: {
 		fontFamily: "Saira_600SemiBold",
 		height: 40,
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderWidth: 1,
 		borderRadius: 8,
 		paddingHorizontal: 8,
@@ -580,7 +580,7 @@ const s = StyleSheet.create({
 	teamSelector: {
 		flex: 1,
 		borderWidth: 1,
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderRadius: 8,
 		padding: 8,
 	},

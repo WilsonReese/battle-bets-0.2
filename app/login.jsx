@@ -116,7 +116,7 @@ export default function Login() {
 							<TextInput
 								style={s.inputText}
 								placeholder="Email"
-								placeholderTextColor="#B8C3CC"
+								placeholderTextColor="#C7CDD1"
 								value={email}
 								onChangeText={setEmail}
 								keyboardType="email-address"
@@ -131,7 +131,7 @@ export default function Login() {
 							<TextInput
 								placeholder="Password"
 								style={s.inputText}
-								placeholderTextColor="#B8C3CC"
+								placeholderTextColor="#C7CDD1"
 								value={password}
 								onChangeText={setPassword}
 								secureTextEntry
@@ -212,7 +212,7 @@ const s = StyleSheet.create({
 	},
 	inputText: {
 		fontFamily: "Saira_600SemiBold",
-		borderColor: "#3A454D",
+		borderColor: "#1D394E",
 		borderWidth: 1,
 		borderRadius: 8,
 		height: 48,
@@ -233,14 +233,12 @@ const s = StyleSheet.create({
 	forgotPasswordTxt: {
 		fontFamily: "Saira_400Regular_Italic",
 		fontSize: 14,
-		// color: '#B8C3CC'
 	},
 	signUpContainer: {
 		paddingVertical: 20,
 		alignItems: "center",
 	},
 	signUpTxt: {
-		// color: '#B8C3CC'
 	},
 	contactUsContainer: {
 		alignItems: 'center'

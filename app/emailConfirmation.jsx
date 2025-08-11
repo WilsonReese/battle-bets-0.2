@@ -268,6 +268,6 @@ const s = StyleSheet.create({
     textAlign: "center",
   },
   disabled: {
-    color: "#6E7880",
+    color: "#6B8294",
   },
 });

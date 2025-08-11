@@ -59,7 +59,7 @@ const s = StyleSheet.create({
 	},
 	withBottomBorder: {
 		borderBottomWidth: 0.5,
-		borderBottomColor: "#3A454D",
+		borderBottomColor: "#1D394E",
 	},
 	playerName: {
 		fontFamily: "Saira_400Regular_Italic",

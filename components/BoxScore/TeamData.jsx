@@ -190,7 +190,7 @@ const s = StyleSheet.create({
     backgroundColor: "#54D18C",
   },
   unselectedPortion: {
-    backgroundColor: "#B8C3CC",
+    backgroundColor: "#C7CDD1",
   },
   statValuesRow: {
     flexDirection: "row",
