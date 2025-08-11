@@ -111,6 +111,7 @@ export default function Login() {
 						/>
 					</View>
 					<View style={s.loginContainer}>
+						<View>
 						<View style={s.textInputContainer}>
 							<TextInput
 								style={s.inputText}
@@ -165,6 +166,15 @@ export default function Login() {
             >
               <Txt style={s.loginTxt}>Email Confirmation Page</Txt>
             </TouchableOpacity> */}
+						</View>
+						<View style={s.contactUsContainer}>
+							<Txt style={[s.forgotPasswordTxt, s.contactUsTxt]}>
+								Trouble signing in?
+							</Txt>
+							<Txt style={s.contactUsTxt}>
+								support@battlebets.app
+							</Txt>
+						</View>
 					</View>
 				</SafeAreaView>
 			</TouchableWithoutFeedback>
@@ -194,6 +204,8 @@ const s = StyleSheet.create({
 	},
 	loginContainer: {
 		flex: 3,
+		// backgroundColor: 'green',
+		justifyContent: 'space-between'
 	},
 	textInputContainer: {
 		paddingVertical: 4,
@@ -229,5 +241,11 @@ const s = StyleSheet.create({
 	},
 	signUpTxt: {
 		// color: '#B8C3CC'
+	},
+	contactUsContainer: {
+		alignItems: 'center'
+	},
+	contactUsTxt: {
+		color: '#8E9AA4'
 	},
 });

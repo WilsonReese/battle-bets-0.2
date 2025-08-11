@@ -46,7 +46,7 @@ const s = StyleSheet.create({
     justifyContent: "center",
   },
   disabled: {
-    backgroundColor: "#B8C3CC",
+    backgroundColor: "#8E9AA4",
   },
   enabled: {
     backgroundColor: "#54D18C",
